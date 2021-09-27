@@ -56,7 +56,7 @@
       </nav><!-- .nav-menu -->
       
       <a href="login" class="btn btn-outline-primary">ログイン</a>
-      <a href="register" class="get-started-btn">新規登録</a>
+      <a href="select-plan" class="get-started-btn">新規登録</a>
 
     </div>
   </header><!-- End Header -->

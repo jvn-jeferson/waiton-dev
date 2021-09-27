@@ -23,6 +23,9 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="{{asset('css/auth_style.css')}}">
+
+    <!-- Pricing CSS -->
+    <link rel="stylesheet" href="{{asset('css/pricing.css')}}">
 </head>
 <body>
     <div id="app">

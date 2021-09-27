@@ -23,7 +23,16 @@ class MainController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
     public function index() {
         return View::make('main/landing_page');
+    }
+
+    public function select_plan() {
+        return View::make('main/select_plan');
+    }
+
+    public function confirm_payment() {
+        return View::make('main/payment_window');
     }
 }
