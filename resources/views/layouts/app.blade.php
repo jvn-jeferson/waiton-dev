@@ -16,6 +16,9 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <!-- Stripe JS -->
+
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -26,6 +29,11 @@
 
     <!-- Pricing CSS -->
     <link rel="stylesheet" href="{{asset('css/pricing.css')}}">
+
+    <!-- Stripe CSS -->
+    <link rel="stylesheet" href="{{asset('css/stripe.css')}}">
+
+    @yield('extras')
 </head>
 <body>
     <div id="app">
@@ -56,7 +64,7 @@
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">登録</a>
+                                    <a class="nav-link" href="{{ route('select-plan') }}">登録</a>
                                 </li>
                             @endif
                         @else
@@ -87,5 +95,6 @@
             @yield('content')
         </main>
     </div>
+    @yield('extra-js')
 </body>
 </html>

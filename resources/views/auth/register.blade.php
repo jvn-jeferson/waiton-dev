@@ -4,56 +4,68 @@
 <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
-                        <h2 class="form-title">新規申込（会計事務所）</h2>
-                        <form method="POST" action="{{ route('register') }}">
+                        <h2 class="form-title">登録を完了します</h2>
+                        <form method="POST" action="{{ route('checkout') }}">
                             @csrf
                             <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-face material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" class="@error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="事務所名"/>
+                                <label for="name"><i class="zmdi zmdi-home material-icons-name"></i></label>
+                                <input type="text" name="name" id="name" class="@error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" autocomplete="name" placeholder="事務所名"/>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
+                            <input type="hidden" name="subscription_plan" id="subscription_plan" value="{{$data['subscription_plan']}}" >
                             <div class="form-group">
                                 <label for="representative"><i class="zmdi zmdi-account"></i></label>
-                                <input type="text" name="representative" id="representative" placeholder="代表者"/>
+                                <input type="text" class="@error('representative') is-invalid @enderror" name="representative" id="representative"  value="{{ old('representative') }}" autocomplete="representative" placeholder="代表者"/>
+                                @error('representative')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                
                             </div>
                             <div class="form-group">
                                 <label for="address"><i class="zmdi zmdi-nature-people"></i></label>
-                                <input type="text" name="address" id="address" placeholder="所在地"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="tel_number"><i class="zmdi zmdi-local-phone"></i></label>
-                                <input type="number" name="tel_number" id="tel_number" placeholder="電話番号"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="メールアドレス">
-
-                                @error('email')
+                                <input type="text" class="@error('address') is-invalid @enderror" name="address" id="address" value="{{ old('address') }}" autocomplete="address"  placeholder="所在地"/>
+                                @error('address')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                             <div class="form-group">
-                            <label for="password"><i class="zmdi zmdi-key"></i></label>
-                            <input id="password" type="password" placeholder="パスワード" class="@error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
+                                <label for="telephone"><i class="zmdi zmdi-local-phone"></i></label>
+                                <input type="number" class="@error('telephone') is-invalid @enderror" name="telephone" id="telephone" value="{{ old('telephone') }}" autocomplete="telephone" placeholder="電話番号"/>
+                                @error('telephone')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-                                <label for="agree-term" class="label-agree-term"><span><span></span></span>私はのすべての声明に同意します <a href="#" class="term-service">利用規約</a></label>
+                                <label for="contact_email"><i class="zmdi zmdi-email"></i></label>
+                                <input id="contact_email" type="email" class="@error('contact_email') is-invalid @enderror" name="contact_email" value="{{ old('contact_email') }}" autocomplete="contact_email" placeholder="メールアドレス">
+
+                                @error('contact_email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" class="@error('agree-term') is-invalid @enderror" name="agree-term" id="agree-term" class="agree-term" />
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span>私はのすべての声明に同意します <a href="#" class="term-service text-info">利用規約</a></label>
+                                @error('agree-term')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>Please accept our terms and conditions to continue.</strong>
+                                    </span>
+                                @enderror
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="登録"/>
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="チェックアウトに進む"/>
                             </div>
                         </form>
                     </div>
