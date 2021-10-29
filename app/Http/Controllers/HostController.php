@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request\Request;
+
+use App\Http\Requests\MessageRequest;
 use App\Http\Requests\NewClientRequest;
 use App\Models\Files;
 use App\Models\User;
 use App\Models\Client;
+use App\Models\Post;
 use App\Models\AccountingOffice;
 use App\Models\AccountingOfficeStaff;
 use Hashids\Hashids;
+use Illuminate\Http\Request;
 
 
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +20,7 @@ use Illuminate\Support\Str;
 
 use View;
 use Session;
+use DateTime;
 
 
 class HostController extends Controller
@@ -149,5 +153,46 @@ class HostController extends Controller
     public function pdf_source(Request $request)
     {
         return $request->pdf;
+    }
+
+    public function send_notification(Request $request)
+    {
+
+        $request->validate([
+            'subject' => 'required',
+            'details' => 'required',
+            'file' => 'csv,txt,xlx,xls,pdf,doc|max:2048'
+        ]);
+
+        $date = new DateTime();
+
+        $accounting_office_staff_id = null;
+        $client_id = null;
+        $is_global = 1;
+        $notification_date = $date->format('Y-m-d');
+        $subject = $request->input('subject');
+        $details = $request->input('details');
+        $file_name = $request->file('attachment')->getClientOriginalName();
+        $file_path = $request->file('attachment')->store('public/uploads');
+
+        $post = Post::create([
+            'accounting_office_staff_id' => $accounting_office_staff_id,
+            'client_id' => $client_id,
+            'is_global' => $is_global,
+            'notification_date' => $notification_date,
+            'subject' => $subject,
+            'details' => $details,
+            'file_name' => $file_name,
+            'file_path' => $file_path
+        ]);
+
+        if($post) {
+            Session::flash('message', 'Message has been sent to all clients');
+        }
+        else {
+            Session::flash('message', 'Message failed to send. An unknown error has occured.');
+        }   
+        return redirect()->route('message-clients');
+
     }
 }

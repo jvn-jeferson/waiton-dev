@@ -52,8 +52,8 @@
                                                 @forelse($clients as $client)
                                                     <tr>
                                                         <td><a href="view-individual-clients/client_id={{$hashids->encode($client->id)}}/dashboard">{{$client->name}}</a></td>
-                                                        <td>{{$client->business_type}}</td>
-                                                        <td>{{$client->tax_filing_month}}</td>
+                                                        <td>@if($client->business_type_id == 1) Sole Propriety @else Corporation @endif</td>
+                                                        <td>{{date("F", mktime(0, 0, 0, $client->tax_filing_month, 10)) }}</td>
                                                         <td></td>
                                                         <td>@if($client->verified_at == '') <a href="#" class="btn btn-danger btn-block"><i class="fas fa-circle"></i></a>@endif</td>
                                                     </tr>

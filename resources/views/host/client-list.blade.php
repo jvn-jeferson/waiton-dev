@@ -27,7 +27,7 @@
                                                 <tr>
                                                     <td><input type="checkbox" name="select" id="select" value="{{ $client->id }}"></td>
                                                     <td>{{$client->name }}</td>
-                                                    <td>{{$client->business_type_id }}</td>
+                                                    <td>@if($client->business_type_id == 1) Sole Propriety @else Corporation @endif</td>
                                                     <td>{{date("F", mktime(0, 0, 0, $client->tax_filing_month, 10)) }}</td>
                                                     <td>{{$client->nta_num }}</td>
                                                     <td></td>

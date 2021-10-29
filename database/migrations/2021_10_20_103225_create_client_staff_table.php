@@ -15,8 +15,8 @@ class CreateClientStaffTable extends Migration
     {
         Schema::create('client_staffs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('client_id');
+            $table->foreignId('user_id');
             $table->string('name');
             $table->tinyInteger('is_admin')->default(1);
             $table->timestamps();

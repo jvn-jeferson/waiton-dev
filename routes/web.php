@@ -45,6 +45,7 @@ Route::get('client-list', [HostController::class, 'client_list'])->name('client-
 Route::get('account-management', [HostController::class, 'account_management'])->name('account-management');
 Route::get('plan-update', [HostController::class, 'plan_update'])->name('plan-update');
 Route::post('register-new-client', [HostController::class, 'register_new_client'])->name('register-new-client');
+Route::post('send-notification', [HostController::class, 'send_notification'])->name('send-notification');
 // End Accounting Office routes
 
 //Accounting Office Individual Routes
@@ -58,24 +59,6 @@ Route::get('video-creation', [HostController::class, 'video_creation'])->name('v
 Route::post('get-pdf-source', [HostController::class, 'pdf_source'])->name('get-pdf-source');
 
 //End Accounting Office Individual Routes
-
-
-// Route::name('host')->group(function (){
-
-// });
-
-// Route::name('client')->group(function (){
-    
-// });
-
-// Route::name('admin')->group(function (){
-
-// });
-
-
-// Route::name('guest')->group(function (){
-
-// });
 
 
 //Temporary routes

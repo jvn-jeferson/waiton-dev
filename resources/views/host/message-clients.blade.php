@@ -11,27 +11,53 @@
                                 <h3 class="card-title">
                                     Send Message to Every Client
                                 </h3>
+                                @if(Session::has('message'))
+                                    <div class="alert alert-success alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            <span class="sr-only">Close</span>
+                                        </button>
+                                        <strong>{{ Session::get('message') }}</strong>
+                                    </div>
+
+                                @endif
                             </div>
                             <div class="card-body">
-                                <form action="" method="post" enctype="multipart/form">
+                                <form action="send-notification" method="POST" enctype="multipart/form-data">
+                                    @csrf
                                     <div class="form-group">
-                                        <label for="message_date">Notification Date</label>
-                                        <input type="date" name="message_date" id="message_date" class="form-control col-12 col-sm-6 col-md-3">
+                                        <label for="notification_date">Notification Date</label>
+                                        <input type="date" name="notification_date" id="notification_date" class="form-control col-12 col-sm-6 col-md-3">
+                                        @error('notification_date')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="message_subject">Subject</label>
-                                        <input type="text" name="message_subject" id="message_subject" class="form-control">
+                                        <label for="subject">Subject</label>
+                                        <input type="text" name="subject" id="subject" class="form-control">
+                                        @error('subject')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="message_details">Details</label>
-                                        <textarea type="text" name="message_details" id="message_details" class="form-control" rows="5"></textarea>
+                                        <label for="details">Details</label>
+                                        <textarea type="text" name="details" id="details" class="form-control" rows="5"></textarea>
+                                        @error('details')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="message_attachment">Attach a File</label>
-                                        <input type="file" name="message_attachment" id="message_attachment">
+                                        <label for="attachment">Attach a File</label>
+                                        <input type="file" name="attachment" id="attachment">
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-info float-right" type="submit" name="message_send"><i class="fas fa-paper-plane"></i> Send Message</button>
+                                        <button class="btn btn-info float-right" type="submit" name="submit" value="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
                                     </div>
                                 </form>
                             </div>
