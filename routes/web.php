@@ -10,8 +10,6 @@ use App\Http\Controllers\TemporaryController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Tests\MailController;
 
-Auth::routes();
-
 
 Route::get('/', [MainController::class, 'index'])->name('/');
 Route::get('select-plan', [MainController::class, 'select_plan'])->name('select-plan');

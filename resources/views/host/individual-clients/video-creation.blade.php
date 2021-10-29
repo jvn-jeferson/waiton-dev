@@ -1,15 +1,25 @@
 @extends('layouts.blank-nav')
 
 @section('extra-css')
-    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.10.377/build/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.10.377/build/pdf.min.js"></script>
 
-    <style>
-        
-        .loader {
+<style>
+    #pdf-canvas {
+        border: 1px solid black;
+    }
+
+    .stroke-color {
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+    }
+
+    .loader {
         margin-left: 40%;
         margin-right: auto;
         position: relative;
-        border: 16px solid #f3f3f3; /* Light grey */
+        border: 16px solid #f3f3f3;
+        /* Light grey */
         border-top: 16px solid blue;
         border-bottom: 16px solid blue;
         border-right: 16px solid green;
@@ -18,97 +28,102 @@
         width: 64px;
         height: 64px;
         animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
         }
 
-        @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        100% {
+            transform: rotate(360deg);
         }
-    </style>
+    }
+</style>
 @endsection
 
 @section('content')
-    <div class="content-wrapper">
-        <section class="content">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        Explanation Video Creation
-                    </h3>
+<div class="content-wrapper">
+    <section class="content">
+        <div class="row">
+            <div class="col-9 justify-content-center">
+                <button id="prev">Previous</button>
+                <button id="next">Next</button>
+                <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
+                <div class="float-right" style="display:none">
+                    <form action="#" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="pdf-file" id="pdf-file">
+                        <input class="btn btn-primary" type="submit">Render</button>
+                    </form>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-9 justify-content-center">
-                            <button id="prev">Previous</button>
-                            <button id="next">Next</button>
-                            <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
-                            <div class="float-right" style="display:none">
-                                <form action="#" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="file" name="pdf-file" id="pdf-file">
-                                    <input class="btn btn-primary" type="submit">Render</button>
-                                </form>
+                <canvas id="pdf-canvas"></canvas>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Explanation Video Creation
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h4 class="card-title">
+                                    Video Information
+                                </h4>
                             </div>
-                            <canvas style="width: 100%; border:2px dashed #c6c6c6" class="mt-2" id="pdf-canvas"></canvas>
-                        </div>
-                        <div class="col-3">
-                            <div class="card h-100">
-                                <div class="card-header">
-                                    <h4 class="card-title">
-                                        Video Information
-                                    </h4>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="video_name">Video Title</label>
+                                    <input type="text" class="form-control">
                                 </div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="video_name">Video Title</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                    <button class="btn-primary btn btn-block" id="start">Launch Recorder</button>
-                                    <div class="form-group mt-2">
-                                        <label for="tools">Drawing Tools</label>
-                                        <button class="btn btn-block btn-light text-bold"><i class="fas fa-circle text-danger"></i> Pointer</button>
-                                        <button class="btn btn-block btn-light text-bold" onclick="setPencil()" type="button"><i class="fas fa-pencil-alt"></i> Pencil</button>
-                                        <button class="btn btn-block btn-light text-bold" onclick="setMarker()" type="button"><i class="fas fa-marker text-warning"></i> Higlighter</button>
-                                    </div>
-                                    <div class="form-row mt-2 text-center align-items-center">
-                                        <div class="col-6">
-                                            <input onInput="draw_color = this.value" type="color" class="color-picker">
-                                        </div>
-                                        <div class="col-6">
-                                            <input onInput="draw_width = this.value" type="range" min="1" max="100" class="pen-range">
-                                        </div>
-                                    </div>
-                                    <div class="form-row text-center align-items-center">
-                                        <div class="col-6">
-                                            <button class="btn btn-block btn-light" onclick="undo_last()">
-                                                <i class="fas fa-undo"></i>
-                                                Undo
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <button class="btn btn-block btn-success mt-4" id="record"><i class="fa fas-circle-record-vinyl"></i> Start Recording</button>
-                                    <button class="btn btn-block btn-danger" id="stop"><i class="fa fas-circle-stop"></i> Stop Recording</button>
-
-                                    <div class="alert mt-2 text-center" id="loader-div" style="display: none">
-                                        <div class="loader"></div>
-                                        Recording...
-                                    </div>
-
-                                    <div class="mt-2">
-                                        <video src="" style="width: 100%; border:1px dashed gray" id="video" autoplay muted></video>
-                                    </div>
-
-                                    <button class="btn btn-block btn-success mt-3" id="download">Download Video</button>
+                                <button class="btn-primary btn btn-block" id="start">Launch Recorder</button>
+                                <div class="form-group mt-2">
+                                    <label for="tools">Drawing Tools</label>
+                                    <button class="btn btn-block btn-light text-bold"><i class="fas fa-circle text-danger"></i> Pointer</button>
+                                    <button class="btn btn-block btn-light text-bold" onclick="setPencil()" type="button"><i class="fas fa-pencil-alt"></i> Pencil</button>
+                                    <button class="btn btn-block btn-light text-bold" onclick="setMarker()" type="button"><i class="fas fa-marker text-warning"></i> Higlighter</button>
                                 </div>
+                                <div class="form-row mt-2 text-center align-items-center">
+                                    <div class="col-6">
+                                        <input type="color" oninput="stroke_color = this.value" placeholder="Colors">
+                                    </div>
+                                    <div class="col-6">
+                                        <input onInput="draw_width = this.value" type="range" min="1" max="100" class="pen-range">
+                                    </div>
+                                </div>
+                                <div class="form-row text-center align-items-center">
+                                    <div class="col-6">
+                                        <button class="btn btn-block btn-light" onclick="undo_last()">
+                                            <i class="fas fa-undo"></i>
+                                            Undo
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-block btn-success mt-4" id="record"><i class="fa fas-circle-record-vinyl"></i> Start Recording</button>
+                                <button class="btn btn-block btn-danger" id="stop"><i class="fa fas-circle-stop"></i> Stop Recording</button>
+
+                                <div class="alert mt-2 text-center" id="loader-div" style="display: none">
+                                    <div class="loader"></div>
+                                    Recording...
+                                </div>
+
+                                <div class="mt-2">
+                                    <video src="" style="width: 100%; border:1px dashed gray" id="video" autoplay muted></video>
+                                </div>
+
+                                <button class="btn btn-block btn-success mt-3" id="download">Download Video</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
-    
+        </div>
+    </section>
+</div>
+
 @endsection
 
 @section('extra-scripts')
@@ -116,11 +131,11 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-    const prev = document.querySelector('#prev'), 
-        next = document.querySelector('#next'), 
-        zoomIn = document.querySelector('#zoomIn'), 
-        zoomOut = document.querySelector('#zoomOut'), 
-        page = document.querySelector('#page-num'), 
+    const prev = document.querySelector('#prev'),
+        next = document.querySelector('#next'),
+        zoomIn = document.querySelector('#zoomIn'),
+        zoomOut = document.querySelector('#zoomOut'),
+        page = document.querySelector('#page-num'),
         total_page = document.querySelector('#page-count')
 
     var pdfDoc = null,
@@ -128,13 +143,16 @@
         pageRendering = false,
         pageNumPending = null,
         scale = 1.0,
-        canvas = document.querySelector('#pdf-canvas'),
-        ctx = canvas.getContext('2d')
-    
+        canvas = document.getElementById('pdf-canvas');
+    ctx = canvas.getContext('2d')
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     function renderPage(num) {
         pageRendering = true;
-        pdfDoc.getPage(num).then((page)=> {
-            var viewport = page.getViewport({scale:scale});
+        pdfDoc.getPage(num).then((page) => {
+            var viewport = page.getViewport({
+                scale: scale
+            });
             canvas.height = viewport.height
             canvas.width = viewport.width
 
@@ -144,9 +162,9 @@
             }
 
             var renderTask = page.render(renderContext)
-            renderTask.promise.then(()=> {
+            renderTask.promise.then(() => {
                 pageRendering = false
-                if(pageNumPending !== null) {
+                if (pageNumPending !== null) {
                     renderPage(pageNumPending)
                     pageNumPending = null
                 }
@@ -156,15 +174,15 @@
     }
 
     function queueRenderPage(num) {
-        if(pageRendering) {
+        if (pageRendering) {
             pageNumPending = num
-        }else{
+        } else {
             renderPage(num)
         }
     }
 
     function onPrevPage() {
-        if(pageNum <= 1) {
+        if (pageNum <= 1) {
             return
         }
         pageNum--
@@ -172,7 +190,7 @@
     }
 
     function onNextPage() {
-        if(pageNum>= pdfDoc.numPages){
+        if (pageNum >= pdfDoc.numPages) {
             return
         }
         pageNum++
@@ -182,108 +200,104 @@
     prev.addEventListener('click', onPrevPage)
     next.addEventListener('click', onNextPage)
 
-    pdfjsLib.getDocument('https://dagrs.berkeley.edu/sites/default/files/2020-01/sample.pdf').promise.then((doc)=>{
-    pdfDoc = doc
-    total_page.textContent = doc.numPages
-    renderPage(pageNum)
+    var pdf_file = "{{asset('temp/sample.pdf')}}"
+    pdfjsLib.getDocument(pdf_file).promise.then((doc) => {
+        pdfDoc = doc
+        total_page.textContent = doc.numPages
+        renderPage(pageNum)
     })
-    
 </script>
 
 <script>
-    
-
     var context = ctx;
 
-    let draw_color = "black"
-    let draw_width = "2"
-    let is_drawing = false
-    let is_pen = true
-    let is_marker = false
-
     let restore_array = [];
-    let index = -1;
+    let start_index = -1;
+    let stroke_color = 'black';
+    let stroke_width = "2";
+    let is_drawing = false;
 
-    canvas.addEventListener('mousedown', start, false)
-    canvas.addEventListener('mousemove', draw, false)
-
-    canvas.addEventListener('mouseup', stop, false)
-    canvas.addEventListener('mouseout', stop, false)
-
-    function start(e) {
-        is_drawing = true
-        context.beginPath()
-        context.moveTo(e.clientX-canvas.offsetLeft,  e.clientY-canvas.offsetTop)
-
-        
-        context.strokeStyle = draw_color
-        context.lineWidth = draw_width
-        if(is_marker) {
-            context.lineCap = "square"
-            context.globalAlpha = 0.1
-        }
-        else {
-            context.lineCap = "round"
-            context.lineJoin = "round"
-        }
+    function change_color(element) {
+        stroke_color = element.style.background;
     }
 
- 
-
-    function draw(e) {
-        if(is_drawing) {
-            context.lineTo(e.clientX-canvas.offsetLeft, e.clientY-canvas.offsetTop)
-
-            context.stroke()
-        }
-        e.preventDefault()
+    function change_width(element) {
+        stroke_width = element.innerHTML
     }
 
-    function stop(e) {
-        if(is_drawing) {
-            context.stroke()
-            context.closePath()
-            is_drawing = false
+    function start(event) {
+        is_drawing = true;
+        context.beginPath();
+        context.moveTo(getX(event), getY(event));
+        event.preventDefault();
+    }
+
+    function draw(event) {
+        if (is_drawing) {
+            context.lineTo(getX(event), getY(event));
+            context.strokeStyle = stroke_color;
+            context.lineWidth = stroke_width;
+            context.lineCap = "round";
+            context.lineJoin = "round";
+            context.stroke();
         }
-        e.preventDefault()
+        event.preventDefault();
+    }
 
-        if(e.type !== 'mouseout') {
-            restore_array.push(context.getImageData(0,0, canvas.width, canvas.height))
-            index += 1
+    function stop(event) {
+        if (is_drawing) {
+            context.stroke();
+            context.closePath();
+            is_drawing = false;
+        }
+        event.preventDefault();
+        restore_array.push(context.getImageData(0, 0, canvas.width, canvas.height));
+        start_index += 1;
+    }
 
-            console.log(restore_array)
+    function getX(event) {
+        if (event.pageX == undefined) {
+            return event.targetTouches[0].pageX - canvas.offsetLeft
+        } else {
+            return event.pageX - canvas.offsetLeft
         }
     }
 
-    function clearCanvas() {
 
-        queueRenderPage(pageNum)
-        restore_array = []
-        index = -1
-    }
-
-    function undo_last() {
-        if(index <= 0) {
-            clearCanvas()
-        }else {
-            index-=1
-            restore_array.pop()
-            context.putImageData(restore_array[index], 0, 0)
+    function getY(event) {
+        if (event.pageY == undefined) {
+            return event.targetTouches[0].pageY - canvas.offsetTop
+        } else {
+            return event.pageY - canvas.offsetTop
         }
     }
 
-    function setPencil() {
-        draw_color= "black"
-        draw_width= "2"
-        is_pen = true
-        is_marker = false
+    canvas.addEventListener("touchstart", start, false);
+    canvas.addEventListener("touchmove", draw, false);
+    canvas.addEventListener("touchend", stop, false);
+    canvas.addEventListener("mousedown", start, false);
+    canvas.addEventListener("mousemove", draw, false);
+    canvas.addEventListener("mouseup", stop, false);
+    canvas.addEventListener("mouseout", stop, false);
+
+    function Restore() {
+        if (start_index <= 0) {
+            Clear()
+        } else {
+            start_index += -1;
+            restore_array.pop();
+            if (event.type != 'mouseout') {
+                context.putImageData(restore_array[start_index], 0, 0);
+            }
+        }
     }
 
-    function setMarker() {
-        draw_color= "yellow"
-        draw_width= "25"
-        is_marker = true
-        is_pen = false
+    function Clear() {
+        context.fillStyle = "white";
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        restore_array = [];
+        start_index = -1;
     }
 </script>
 
@@ -306,7 +320,7 @@
     });
 
     stopButton.addEventListener('click', () => {
-    stopRecording();
+        stopRecording();
     })
 
 
@@ -388,7 +402,7 @@
         }
     }
 
-    document.querySelector('button#start').addEventListener('click', async() => {
+    document.querySelector('button#start').addEventListener('click', async () => {
         const constraints = {
             audio: false,
             video: {
@@ -402,7 +416,7 @@
 </script>
 
 <script>
-    
+
 </script>
 
 @endsection
