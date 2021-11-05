@@ -6,11 +6,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MessageRequest;
 use App\Http\Requests\NewClientRequest;
 use App\Models\Files;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Post;
 use App\Models\AccountingOffice;
 use App\Models\AccountingOfficeStaff;
+use App\Models\ClientInvoice;
+use App\Models\Subscription;
+use Carbon\Carbon;
 use Hashids\Hashids;
 use Illuminate\Http\Request;
 
@@ -21,7 +25,7 @@ use Illuminate\Support\Str;
 use View;
 use Session;
 use DateTime;
-
+use Illuminate\Database\Eloquent\Collection;
 
 class HostController extends Controller
 {
@@ -44,6 +48,54 @@ class HostController extends Controller
         $clients = Client::where('accounting_office_id', 1)->get();
 
         return View::make('host.customer-selection', ['clients' => $clients, 'hashids'=>$this->hashids]);
+    }
+
+    public function accounting_profile()
+    {
+        \Stripe\Stripe::setApiKey(env("STRIPE_SECRET"));
+        $account_office_id = Auth::user()->accountingOffice->id;
+        $customer = Subscription::where('accounting_office_id',$account_office_id)->orderBy('created_at', 'desc')->first();
+        $invoice_details = ClientInvoice::where('accounting_office_id',$account_office_id)->get();
+        $cards = \Stripe\PaymentMethod::all([
+            "customer" => $customer->customer_id, "type" => "card"
+        ]);
+
+        foreach($invoice_details as $inv_details)
+        {
+            $invoice = \Stripe\Invoice::retrieve($inv_details->invoice_number);
+            $inv_details->date = Carbon::parse($inv_details->created_at)->format('d M Y');
+            $inv_details->status = $inv_details->subscription->stripe_status;
+            $invoice_pdf = $invoice->invoice_pdf;
+            $inv_details->invoice_pdf = $invoice_pdf;
+        }
+
+
+        $cards_data = $cards->data;
+        $cards_details = [];
+        foreach($cards_data as $card)
+        {
+            if($card->card)
+            {
+                $brand = $card->card->brand;
+                $country = $card->card->country;
+                $exp_month = $card->card->exp_month;
+                $exp_year = $card->card->exp_year;
+                $card_type = $card->card->funding;
+                $last_digits = $card->card->last4;
+                $cards_details = [
+                    'brand' => $brand,
+                    'country' => $country,
+                    'exp_month' => $exp_month,
+                    'exp_year' => $exp_year,
+                    'card_type' => $card_type,
+                    'last_digits' => $last_digits,
+                    'status'=>$customer->stripe_status,
+                    'trial_at' => Carbon::parse($customer->trial_ends)->format('d M Y')
+                ];
+            }
+         }
+         $collenction = collect($cards_details);
+        return View::make('host.account-profile',['customer' => $collenction,'invoice_details'=> $invoice_details]);
     }
 
     public function message_clients()
@@ -114,7 +166,7 @@ class HostController extends Controller
         return redirect()->route('customer-selection');
     }
 
-    public function view_client($client_id) 
+    public function view_client($client_id)
     {
         $id = $this->hashids->decode($client_id)[0];
         $client = Client::find($id)->first();
@@ -122,7 +174,7 @@ class HostController extends Controller
         return View::make('host.individual-clients.dashboard', ['client' => $client]);
     }
 
-    public function contact_client($client_id) 
+    public function contact_client($client_id)
     {
         $id = $this->hashids->decode($client_id)[0];
         $client = Client::find($id)->first();
@@ -130,7 +182,7 @@ class HostController extends Controller
         return View::make('host.individual-clients.message-client', ['client' => $client]);
     }
 
-    public function financial_history_client($client_id) 
+    public function financial_history_client($client_id)
     {
         $id = $this->hashids->decode($client_id)[0];
         $client = Client::find($id)->first();
@@ -191,7 +243,7 @@ class HostController extends Controller
         }
         else {
             Session::flash('message', 'Message failed to send. An unknown error has occured.');
-        }   
+        }
         return redirect()->route('message-clients');
 
     }

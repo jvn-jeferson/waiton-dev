@@ -2,15 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HostController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TemporaryController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Tests\MailController;
 
-
+Auth::routes();
 Route::get('/', [MainController::class, 'index'])->name('/');
 Route::get('select-plan', [MainController::class, 'select_plan'])->name('select-plan');
 Route::get('registration/{subscription_plan}', [MainController::class, 'register_office'])->name('registration');
@@ -42,6 +42,7 @@ Route::get('message-clients', [HostController::class, 'message_clients'])->name(
 Route::get('client-list', [HostController::class, 'client_list'])->name('client-list');
 Route::get('account-management', [HostController::class, 'account_management'])->name('account-management');
 Route::get('plan-update', [HostController::class, 'plan_update'])->name('plan-update');
+Route::get('accounting-profile', [HostController::class, 'accounting_profile'])->name('accounting-profile');
 Route::post('register-new-client', [HostController::class, 'register_new_client'])->name('register-new-client');
 Route::post('send-notification', [HostController::class, 'send_notification'])->name('send-notification');
 // End Accounting Office routes
@@ -69,3 +70,7 @@ Route::get('sendhtmlemail','MailController@html_email');
 Route::get('sendattachmentemail','MailController@attachment_email');
 
 Route::get('temp-action', [TemporaryController::class, 'index']);
+
+Route::get('password/email', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.email');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -33,6 +33,8 @@
     <!-- Stripe CSS -->
     <link rel="stylesheet" href="{{asset('css/stripe.css')}}">
 
+    <script src="https://js.stripe.com/v3/"></script>
+
     @yield('extras')
 </head>
 <body>

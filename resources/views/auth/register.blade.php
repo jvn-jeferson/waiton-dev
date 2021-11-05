@@ -1,31 +1,30 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">登録を完了します</h2>
-                        <form method="POST" action="{{ route('checkout') }}">
+                        <form method="POST" action="{{ route('checkout') }}" id="payment_start">
                             @csrf
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-home material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" class="@error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" autocomplete="name" placeholder="事務所名"/>
+                                <input type="text" name="name" id="name" class="@error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" autocomplete="name" placeholder="事務所名" required/>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
-                            <input type="hidden" name="subscription_plan" id="subscription_plan" value="{{$data['subscription_plan']}}" >
+                            <input type="hidden" name="subscription_plan" id="subscription_plan" value="{{$data['id']}}" >
                             <div class="form-group">
                                 <label for="representative"><i class="zmdi zmdi-account"></i></label>
-                                <input type="text" class="@error('representative') is-invalid @enderror" name="representative" id="representative"  value="{{ old('representative') }}" autocomplete="representative" placeholder="代表者"/>
+                                <input type="text" class="@error('representative') is-invalid @enderror" name="representative" id="representative"  value="{{ old('representative') }}" placeholder="代表者"/>
                                 @error('representative')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                
+
                             </div>
                             <div class="form-group">
                                 <label for="address"><i class="zmdi zmdi-nature-people"></i></label>
@@ -38,23 +37,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="telephone"><i class="zmdi zmdi-local-phone"></i></label>
-                                <input type="number" class="@error('telephone') is-invalid @enderror" name="telephone" id="telephone" value="{{ old('telephone') }}" autocomplete="telephone" placeholder="電話番号"/>
+                                <input type="number" class="@error('telephone') is-invalid @enderror" name="telephone" id="telephone" value="{{ old('telephone') }}" placeholder="電話番号"/>
                                 @error('telephone')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="contact_email"><i class="zmdi zmdi-email"></i></label>
-                                <input id="contact_email" type="email" class="@error('contact_email') is-invalid @enderror" name="contact_email" value="{{ old('contact_email') }}" autocomplete="contact_email" placeholder="メールアドレス">
+                                <input id="contact_email" type="email" class="@error('contact_email') is-invalid @enderror" name="contact_email" value="{{ old('contact_email') }}" autocomplete="email" placeholder="メールアドレス">
 
                                 @error('contact_email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <input type="checkbox" class="@error('agree-term') is-invalid @enderror" name="agree-term" id="agree-term" class="agree-term" />
                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>私はのすべての声明に同意します <a href="#" class="term-service text-info">利用規約</a></label>
@@ -65,7 +64,19 @@
                                 @enderror
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="チェックアウトに進む"/>
+                                <script
+                                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                data-key="pk_test_51IShqvDBrLv03ZFnYLiidxC5jiBlzh9EXwlwPeO54cUtCJrgBnicvipCHNaxCbxgyYDG6ecn5kQcznAQfte5qo7C00HAac3a3r"
+                                data-amount="<?php echo $data['price']; ?>"
+                                data-name="<?php echo $data['name']?>"
+                                data-description="Plan"
+                                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                data-locale="auto"
+                                data-label="チェックアウトに進む"
+                                data-currency="jpy"
+                                >
+                                </script>
+                                <input type="hidden" name="amount" value="{{$data['price']}}">
                             </div>
                         </form>
                     </div>
@@ -74,4 +85,5 @@
                     </div>
                 </div>
             </div>
+
 @endsection

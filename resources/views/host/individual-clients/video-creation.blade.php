@@ -131,6 +131,8 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
+    var imageData_store = [];
+    let restore_array = [];
     const prev = document.querySelector('#prev'),
         next = document.querySelector('#next'),
         zoomIn = document.querySelector('#zoomIn'),
@@ -147,7 +149,7 @@
     ctx = canvas.getContext('2d')
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    function renderPage(num) {
+    function renderPage(num,result = []) {
         pageRendering = true;
         pdfDoc.getPage(num).then((page) => {
             var viewport = page.getViewport({
@@ -156,11 +158,17 @@
             canvas.height = viewport.height
             canvas.width = viewport.width
 
+
             var renderContext = {
                 canvasContext: ctx,
                 viewport: viewport,
             }
+            if(result.length != 0){
 
+            }
+            imageData_store.forEach(function(i,key){
+                ctx.putImageData(imageData_store[key], 0, 0)
+            })
             var renderTask = page.render(renderContext)
             renderTask.promise.then(() => {
                 pageRendering = false
@@ -194,8 +202,10 @@
             return
         }
         pageNum++
-        queueRenderPage(pageNum)
+        var result = imageData_store.push(context.getImageData(0, 0, canvas.width, canvas.height));
+        queueRenderPage(pageNum,result)
     }
+
 
     prev.addEventListener('click', onPrevPage)
     next.addEventListener('click', onNextPage)
@@ -211,8 +221,7 @@
 <script>
     var context = ctx;
 
-    let restore_array = [];
-    let start_index = -1;
+   let start_index = -1;
     let stroke_color = 'black';
     let stroke_width = "2";
     let is_drawing = false;
@@ -280,17 +289,32 @@
     canvas.addEventListener("mouseup", stop, false);
     canvas.addEventListener("mouseout", stop, false);
 
-    function Restore() {
-        if (start_index <= 0) {
-            Clear()
-        } else {
-            start_index += -1;
-            restore_array.pop();
-            if (event.type != 'mouseout') {
-                context.putImageData(restore_array[start_index], 0, 0);
-            }
+    function clearCanvas() {
+        queueRenderPage(pageNum)
+        restore_array = []
+        start_index = -1
+    }
+    function undo_last() {
+        if(start_index <= 0) {
+            clearCanvas()
+        }else {
+            start_index-=1
+            restore_array.pop()
+            context.putImageData(restore_array[start_index], 0, 0)
         }
     }
+
+    // function Restore() {
+    //     if (start_index <= 0) {
+    //         Clear()
+    //     } else {
+    //         start_index += -1;
+    //         restore_array.pop();
+    //         if (event.type != 'mouseout') {
+    //             context.putImageData(restore_array[start_index], 0, 0);
+    //         }
+    //     }
+    // }
 
     function Clear() {
         context.fillStyle = "white";

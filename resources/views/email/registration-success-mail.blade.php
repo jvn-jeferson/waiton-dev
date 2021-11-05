@@ -21,19 +21,18 @@
                             Registration Successful
                         </h1>
 
-                        <p class="text-strong">Welcome to Waiton {{$mail_data['rep']}} !</p>
+                        <p class="text-strong">Welcome to Waiton </p>{{$data['name']}}
 
                         <p>We are thrilled to have you in our community. Please take a moment to review our <a href="#">Terms and Conditions</a> before your proceed.</p>
-                        <p>Your 90% done in setting an account for your company, <strong class="text-primary">{{$mail_data['company']}}</strong>. All you need to do now is to update your password so you can access your dashboard.</p>
-                        <p>Please click on this <a href="">link</a> to update your password.</p>
-                        <p>Your temporary password is:</p>
-                        <h3 class="text-dark">{{$mail_data['password']}}</h3>
+                        <p>Your 90% done in setting an account for your company, <strong class="text-primary">{{$data['company']}}</strong>. All you need to do now is to update your password so you can access your dashboard.</p>
+                        <p>Please click on this to update your password.</p>
+                        {!! $data['content'] !!}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

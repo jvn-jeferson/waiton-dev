@@ -31,7 +31,7 @@
                           <li>Upto <strong class="text-primary">{{$plan['max_admin']}}</strong> account users</li>
                         </ul>
 
-                        <a href="registration/{{strtolower($plan['name'])}}" class="btn @if($plan['name']=='Intermediate') btn-success @else btn-primary @endif">Choose</a>
+                        <a href="registration/{{strtolower($plan['id'])}}" class="btn @if($plan['name']=='Intermediate') btn-success @else btn-primary @endif">Choose</a>
                       </div>
                     </div>
                   @endforeach

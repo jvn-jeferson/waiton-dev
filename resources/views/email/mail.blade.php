@@ -12,10 +12,10 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-6 col-lg-6 col-sm-12 m-auto">
-                <p>Hey this is a test email.</p>
+                {!! $data['content'] !!}
             </div>
         </div>
     </div>
-    
+
 </body>
 </html>
