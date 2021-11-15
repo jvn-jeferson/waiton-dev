@@ -15,17 +15,17 @@ class CreateSubscriptionsTable extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('accounting_office_id');
-            $table->string('name');
+            $table->foreignId('accounting_office_id')->constraint()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('subscription_plan_id')->constraint()->onUpdate('cascade')->onDelete('cascade');
             $table->string('stripe_id')->unique();
             $table->string('stripe_status');
+            $table->string('customer_id');
             $table->string('stripe_price')->nullable();
             $table->integer('quantity')->nullable();
-            $table->timestamp('trial_ends_at')->nullable();
-            $table->timestamp('ends_at')->nullable();
+            $table->timestamp('trial_start')->nullable();
+            $table->timestamp('trial_ends')->nullable();
             $table->timestamps();
-
-            $table->index(['accounting_office_id', 'stripe_status']);
+            $table->softDeletes();
         });
     }
 

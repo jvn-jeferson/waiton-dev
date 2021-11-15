@@ -23,10 +23,7 @@ class CreateClientsTable extends Migration
             $table->string('telephone');
             $table->string('representative')->unique();
             $table->tinyInteger('tax_filing_month');
-            $table->string('nta_num')->unique();
-            $table->string('temporary_password');
             $table->timestamp('verified_at')->nullable();
-            $table->string('notify_on_ids')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

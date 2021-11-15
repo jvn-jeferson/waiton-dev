@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Collection;
 
 use App\Http\Requests\MessageRequest;
 use App\Http\Requests\NewClientRequest;
+use App\Http\Requests\AccountingOfficeStaffRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 use App\Models\Files;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Post;
@@ -14,40 +18,58 @@ use App\Models\AccountingOffice;
 use App\Models\AccountingOfficeStaff;
 use App\Models\ClientInvoice;
 use App\Models\Subscription;
+use App\Models\SubscriptionPlan;
+use App\Models\ClientStaff;
+use App\Models\Message;
+use App\Models\File;
+
 use Carbon\Carbon;
 use Hashids\Hashids;
-use Illuminate\Http\Request;
-
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use View;
 use Session;
 use DateTime;
-use Illuminate\Database\Eloquent\Collection;
 
 class HostController extends Controller
 {
-    protected $account;
+    private $user;
+    private $accounting_office;
+    private $staff;
+    private $subscription;
+    private $subscription_plan;
+    private $clients;
 
     public function __construct()
     {
-        $this->account = AccountingOffice::find(1)->first();
         $this->hashids = new Hashids('', 15);
         $this->hashfileids = new Hashids('Waiton Files', 10);
     }
 
-    public function index()
+    private function set_globals()
     {
-        return View::make('host.dashboard');
+        $this->user = Auth::user();
+        $this->accounting_office = AccountingOffice::firstWhere('user_id', $this->user->id);
+        $this->staff = AccountingOfficeStaff::firstWhere('user_id', $this->user->id);
+        $this->subscription = Subscription::firstWhere('accounting_office_id', $this->accounting_office->id);
+        $this->subscription_plan = SubscriptionPlan::find($this->subscription->subscription_plan_id);
+        $this->clients = Client::where('accounting_office_id', $this->accounting_office->id)->get();
+    }
+
+    public function index()
+    {  
+        $this->set_globals();
+        return View::make('host.dashboard')->with(['page_title'=> '事業所ホーム', 'subscription' => $this->subscription, 'account' => $this->accounting_office, 'staff' => $this->staff]);
     }
 
     public function customer_selection()
     {
-        $clients = Client::where('accounting_office_id', 1)->get();
-
-        return View::make('host.customer-selection', ['clients' => $clients, 'hashids'=>$this->hashids]);
+        $this->set_globals();
+        return View::make('host.customer-selection')->with(['page_title'=> '顧客の選択','clients' => $this->clients, 'hashids'=>$this->hashids]);
     }
 
     public function accounting_profile()
@@ -94,76 +116,146 @@ class HostController extends Controller
                 ];
             }
          }
-         $collenction = collect($cards_details);
-        return View::make('host.account-profile',['customer' => $collenction,'invoice_details'=> $invoice_details]);
+         $collection = collect($cards_details);
+        return View::make('host.account-profile',['customer' => $collection,'invoice_details'=> $invoice_details]);
     }
 
     public function message_clients()
     {
-        return View::make('host.message-clients');
+        $this->set_globals();
+        $messages = null;
+        if(Auth::user()->role_id == 2){
+            $messages = Message::where('accounting_office_id',$this->accounting_office->id)->get();
+        }
+        else {
+            $messages = Message::where('user_id',$this->user->id)->get();
+        }
+
+        foreach($messages as $message) {
+            $file_ids = explode(', ', $message->file_ids());
+            $file_names = array();
+            foreach($file_ids as $file) {
+                
+            }
+        }
+        
+        return View::make('host.message-clients')->with(['page_title'=>'全顧客への連絡', 'messages' => $messages]);
     }
 
     public function client_list()
     {
         $clients = Client::where('accounting_office_id', 1)->get();
-        return View::make('host.client-list', ['clients'=>$clients]);
+        return View::make('host.client-list')->with(['page_title'=> '顧客の一覧（閲覧）', 'clients'=>$clients]);
     }
 
     public function account_management()
     {
-        $staffs = AccountingOfficeStaff::where('accounting_office_id', 1)->get();
-        return View::make('host.account-management', ['account' => $this->account, 'staffs'=> $staffs]);
+        $this->set_globals();
+        $staffs = AccountingOfficeStaff::where('accounting_office_id', $this->accounting_office->id)->get();
+        return View::make('host.account-management')->with(['page_title'=> '事務所内の管理', 'account' => $this->accounting_office, 'staffs'=> $staffs]);
+    }
+
+    public function register_new_staff(Request $request)
+    {
+        $this->set_globals();
+        $request->validate([
+            'is_admin' => 'required',
+            'name' => 'required',
+            'email' => 'required|email:rfc,dns'
+        ]);
+
+        $accounting_office_id = $this->accounting_office->id;
+        $result = '';
+
+
+        DB::transaction(function () use($request, $accounting_office_id, $result){
+
+            $user_id = User::insertGetId([
+                'email' => $request->input('email'),
+                'password' => Hash::make(Str::random(8)),
+                'role_id' => 3 - $request->input('is_admin'),
+                'is_online' => 0,
+                'remember_token' => Str::random(60)
+            ]);
+
+            if($user_id) {
+                AccountingOfficeStaff::create([
+                    'accounting_office_id' => $accounting_office_id,
+                    'user_id' => $user_id,
+                    'name' => $request->input('name'),
+                    'is_admin' => $request->input('is_admin')
+                ]);
+
+                User::findorFail($user_id);
+                //Send password reset
+
+                $result = "success";
+            }
+            else {
+                $result = "failure";
+            }
+        });
+        
+        return $result;
     }
 
     public function plan_update()
     {
-        return View::make('host.plan-update');
+        $this->set_globals();
+
+        return View::make('host.plan-update')->with(['page_title' => 'プラン確認・変更']);
     }
 
-    public function register_new_client(NewClientRequest $request)
+    public function register_new_client(Request $request)
     {
-        $name = $request->input('company_name');
-        $address = $request->input('company_address');
-        $rep = $request->input('company_rep');
-        $email = $request->input('company_email');
-        $rep_address = $request->input('company_rep_address');
-        $telephone = $request->input('company_telephone');
-        $tax_filing_month = $request->input('filing_month');
-        $business_type = $request->get('business_type');
-        $nta_num = $request->input('company_nta_num');
-        // $notify_on = implode(',', $request->input('notifier'));
-        $temporary_password = Str::random(8);
-        $account_office_id = 1;
-        $token = Str::random(25);
-
-        $user = User::create([
-            'email' => $email,
-            'password' => Hash::make($temporary_password),
-            'role_id' => 4,
-            'is_online' => 0,
-            'remember_token' => $token,
-            'created_at' => time(),
+        $request->validate([
+            'name' => 'required',
+            'business_type_id' => 'required',
+            'address' => 'required|max:255',
+            'telephone' => 'required',
+            'representative' => 'required',
+            'tax_filing_month' => 'required',
+            'email' => 'required|email:rfc,dns'
         ]);
 
-        $client_user_id = $user->id;
 
-        $client = Client::create([
-            'user_id' => $client_user_id,
-            'accounting_office_id' => $account_office_id,
-            'name' => $name,
-            'business_type_id' => $business_type,
-            'address' => $address,
-            'telephone' => $telephone,
-            'representative' => $rep,
-            'tax_filing_month' => $tax_filing_month,
-            'nta_num' => $nta_num,
-            'business_type_id' => $business_type,
-            'temporary_password' => $temporary_password,
-            'verified_at' => time(),
-        ]);
+        $host_id = Auth::user()->id;
+        $accounting_office_id = AccountingOffice::where('user_id', $host_id)->first()->id;
+        $token = Str::random(60);
 
-        Session::flash('success', 'Client has been registered.');
-        return redirect()->route('customer-selection');
+        DB::transaction(function () use ($request, $accounting_office_id, $token){
+            $user_id = User::insertGetId([
+                'email' => $request->email,
+                'password' => Hash::make(Str::random(10)),
+                'role_id' => 4,
+                'is_online' => 0,
+                'remember_token' => $token
+            ]);
+    
+            if($user_id) {
+                $client_id = Client::insertGetId([
+                    'user_id' => $user_id,
+                    'accounting_office_id' => $accounting_office_id,
+                    'name' => $request->name,
+                    'business_type_id' => $request->business_type_id,
+                    'address' => $request->address,
+                    'telephone' => $request->telephone,
+                    'representative' => $request->representative,
+                    'tax_filing_month' => $request->tax_filing_month
+                ]);
+    
+                ClientStaff::create([
+                    'client_id' => $client_id,
+                    'user_id' => $user_id,
+                    'name' => $request->representative,
+                    'is_admin' => 1
+                ]);
+                return "Client creation successful";
+            }
+            else {
+                return "Client creation failed";
+            }
+        });
     }
 
     public function view_client($client_id)
@@ -204,47 +296,50 @@ class HostController extends Controller
 
     public function pdf_source(Request $request)
     {
-        return $request->pdf;
+        $file =  $request->file('file');
+
+        $path = $file->store('public/files/temp');
+        $name = $file->getClientOriginalName();
+
+        $url =  url($path);
+        return $url;
     }
 
     public function send_notification(Request $request)
     {
+        DB::transaction(function () use($request){
 
-        $request->validate([
-            'subject' => 'required',
-            'details' => 'required',
-            'file' => 'csv,txt,xlx,xls,pdf,doc|max:2048'
-        ]);
+            $this->set_globals();
+            $file_ids = array();
 
-        $date = new DateTime();
+            if($request->hasfile('files')) {
+                foreach($request->file('files') as $key => $file) {
+                    $path = $file->store('public/files/uploaded/'.Auth::user()->id.'');
+                    $name = $file->getClientOriginalName();
 
-        $accounting_office_staff_id = null;
-        $client_id = null;
-        $is_global = 1;
-        $notification_date = $date->format('Y-m-d');
-        $subject = $request->input('subject');
-        $details = $request->input('details');
-        $file_name = $request->file('attachment')->getClientOriginalName();
-        $file_path = $request->file('attachment')->store('public/uploads');
+                    $file_id = File::insertGetId([
+                        'user_id' => Auth::user()->id,
+                        'path' => $path,
+                        'name' => $name
+                    ]);
 
-        $post = Post::create([
-            'accounting_office_staff_id' => $accounting_office_staff_id,
-            'client_id' => $client_id,
-            'is_global' => $is_global,
-            'notification_date' => $notification_date,
-            'subject' => $subject,
-            'details' => $details,
-            'file_name' => $file_name,
-            'file_path' => $file_path
-        ]);
+                    array_push($file_ids, $file_id);
+                }
+            }
 
-        if($post) {
-            Session::flash('message', 'Message has been sent to all clients');
-        }
-        else {
-            Session::flash('message', 'Message failed to send. An unknown error has occured.');
-        }
-        return redirect()->route('message-clients');
+            Message::create([
+                'user_id' => Auth::user()->id,
+                'accounting_office_id' => $this->accounting_office->id,
+                'accounting_office_staff_id' => $this->staff->id,
+                'is_global' => $request->input('is_global'),
+                'targeted_at' => $request->input('targeted_at'),
+                'scheduled_at' => $request->input('scheduled_at'),
+                'contents' => $request->input('contents'),
+                'file_ids' => implode(',' , $file_ids)
+            ]);
 
+            Session::flash('success', 'Notification has been sent.');
+            return redirect('message_clients');
+        });
     }
 }

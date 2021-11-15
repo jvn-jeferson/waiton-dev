@@ -31,7 +31,12 @@ class SendPasswordNotification extends Notification
 
     public function toMail(User $notifiable): MailMessage
     {
-        $accounting_office = $notifiable->accountingOffice;
+        if($notifiable->role_id == 2 || $notifiable->role_id == 3){
+            $target = $notifiable->accountingOffice;
+        }
+        else if ($notifiable->role_id == 4 || $notifiable->role_id == 5){
+            $target = $notifiable->clients;
+        }
         if (static::$toMailCallback) {
             return call_user_func(static::$toMailCallback, $notifiable, $this->token);
         }
@@ -45,14 +50,15 @@ class SendPasswordNotification extends Notification
             ], false));
         }
 
+
         return (new MailMessage())
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->subject("Reset Password")
             ->view('email.registration-success-mail', [
                 'data' => [
                     'title' => 'Send Password Notification',
-                    'name' => $accounting_office->name,
-                    'company' => $notifiable->representative,
+                    'name' => $target->representative,
+                    'company' => $target->name,
                     'content' => " <a style='
                         width: 30%;
                         margin: 0 auto;

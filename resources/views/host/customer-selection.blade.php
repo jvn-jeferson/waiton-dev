@@ -19,49 +19,62 @@
                         <div class="div card card-info card-outline">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    List of Registered Clients
+                                    事業者一覧
                                 </h3>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <h4 class="text-bold text-light">
-                                            Client List
-                                        </h4>
-                                    </div>
-                                    <div class="col-sm-6"></div>
-                                    <div class="col-sm-3">
-                                        <button class="btn btn-success float-right" type="button" data-toggle="modal" data-placement="top" title="Add a new customer" data-target="#newClientModal" type="button">
-                                            <i class="fas fa-plus"></i>
-                                            New Client
-                                        </button>
-                                    </div>
-                                </div>
 
                                 <div class="row">
+                                    <div class="col-auto"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 table-responsive">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr>
+                                                    <th>新規追加</th>
+                                                    <td>
+                                                        <button class="btn btn-block btn-success float-right" type="button" data-toggle="modal" data-placement="top" title="Add a new customer" data-target="#newClientModal" type="button">
+                                                            追加
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <h3 class="text-bold">顧客一覧</h3>
+                                        <h3 class="text-bold">閲覧する顧客名を選びクイックして下さい。</h3>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-sm-12 col-12 col-md-12  table-responsive">
-                                        <table class="table mt-2 table-hover table-striped text-center">
+                                        <table class="table mt-2 table-hover table-striped text-center table-bordered">
                                             <thead class="thead bg-info">
-                                                <th>Business Name</th>
-                                                <th>Type</th>
-                                                <th>Final Accounts Month</th>
-                                                <th>New Post</th>
-                                                <th>Pending Verification</th>
+                                                <th>事業者名</th>
+                                                <th>種類</th>
+                                                <th>決算月</th>
+                                                <th>新規投稿</th>
+                                                <th>確認待ち</th>
                                             </thead>
                                             <tbody>
-                                                @forelse($clients as $client)
+                                                @if($clients)
+                                                    @foreach($clients as $client)
+                                                        <tr>
+                                                            <td><a href="view-individual-clients/client_id={{$hashids->encode($client->id)}}/dashboard">{{$client->name}}</a></td>
+                                                            <td>@if($client->business_type_id == 1) 個人 @else 法人 @endif</td>
+                                                            <td>{{date("F", mktime(0, 0, 0, $client->tax_filing_month, 10)) }}</td>
+                                                            <td></td>
+                                                            <td>@if($client->verified_at == '') <a href="#" class="btn btn-danger btn-block"><i class="fas fa-circle"></i></a>@endif</td>
+                                                        </tr>
+                                                    @endforeach
+                                                @else
                                                     <tr>
-                                                        <td><a href="view-individual-clients/client_id={{$hashids->encode($client->id)}}/dashboard">{{$client->name}}</a></td>
-                                                        <td>@if($client->business_type_id == 1) Sole Propriety @else Corporation @endif</td>
-                                                        <td>{{date("F", mktime(0, 0, 0, $client->tax_filing_month, 10)) }}</td>
-                                                        <td></td>
-                                                        <td>@if($client->verified_at == '') <a href="#" class="btn btn-danger btn-block"><i class="fas fa-circle"></i></a>@endif</td>
+                                                        <td colspan="5">現在、あなたの会社に登録されているクライアントはありません。 上の新しいクライアントボタンをクリックして登録してください。</td>
                                                     </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="5">No data to Show</td>
-                                                    </tr>
-                                                @endforelse
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>
@@ -79,125 +92,91 @@
         <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Register a new Client</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">新しいクライアントを登録する</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="register-new-client" method="post" id="newClientForm">
+                    <form method="post" id="newClientForm">
                         @csrf
-                        <div id="user-info-tab">
-                            <div class="form-group">
-                                <label for="company_name">Company Name</label>
-                                <input type="text" name="company_name" id="company_name" class="form-control" placeholder="ex. ABC Co., Ltd.">
+                        <div class="row">
+                            <div class="pull-left col-4">
+                                <h3 class="modal-title">顧客の情報</h3>
                             </div>
-                            <div class="form-group">
-                                <label for="company_address">Business Address</label>
-                                <input type="text" name="company_address" id="company_address" class="form-control" placeholder="">
-                            </div>
-                            <div class="form-row">
-                                
-                                <div class="form-group col-6">
-                                    <label for="company_rep">Representative</label>
-                                    <input type="text" name="company_rep" id="company_rep" class="form-control" placeholder="">
-    
-                                </div><div class="form-group col-6">
-                                    <label for="company_email">Email Address</label>
-                                    <input type="text" name="company_email" id="company_email" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="company_rep_address">Representative Address</label>
-                                <input type="text" name="company_rep_address" id="company_rep_address" class="form-control" placeholder="">
-                            </div>
-                            <div class="form-group">
-                                <label for="company_telephone">Telephone Number</label>
-                                <input type="text" name="company_telephone" id="company_telephone" class="form-control col-6" placeholder="">
-                            </div>
-    
-                            <div class="float-right form-group">
-                                <button class="btn btn-info" type="button" id="next-page-btn">Next</button>
+                            <div class="col-8">
+                                <input type="submit" value="新規登録" class="btn btn-primary btn-block">
                             </div>
                         </div>
-
-                        <div id="filing-info-tab" style="display:none">
-                            <div class="form-group">
-                                <label for="filing_month">Tax Filing Month</label>
-                                <select name="filing_month" id="filing_month" class="form-control col-4">
-                                    <option value="1">January</option>
-                                    <option value="2">February</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="business_type">Business Type</label>
-                                <div class="row">
-                                    <div class="col-3">
-                                        <input type="radio" name="business_type" id="business_type" value="1"> Sole-Propriety
-                                    </div>
-                                    <div class="col-3">
-                                        <input type="radio" name="business_type" id="business_type" value="2"> Corporation
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="company_nta_num">NTA Registration Number</label>
-                                <input type="text" name="company_nta_num" id="company_nta_num" class="form-control" placeholder="">
-                            </div>
-                            <label for="notify_for">Notification Checklist:</label>
-                            <table class="table table-striped table-hover table-responsive justify-content-center">
+                        <div class="table-reponsive">
+                            <table class="table-bordered table">
                                 <tbody>
                                     <tr>
-                                        <td>Establishment Notification Form</td>
-                                        <td><input type="checkbox" name="notifier" id="notifier" value="1"></td>
+                                        <th colspan="2"><label for="business_name">社名</label></th>
+                                        <td>
+                                            <div class="form-row">
+                                                <div class="col-8">
+                                                    <input type="text" name="business_name" id="business_name" class="form-control" placeholder="">
+                                                </div>
+                                                <div class="col-4">
+                                                    <input type="radio" name="business_type" id="business_type" value="1" class="mx-auto my-auto">法人
+                                                    <input type="radio" name="business_type" id="business_type" value="2" class="mx-auto my-auto">個人
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Application for Blue Declaration</td>
-                                        <td><input type="checkbox" name="notifier" id="notifier" value="2"></td>
+                                        <th colspan="2"><label for="business_address">社名</label></th>
+                                        <td>
+                                            <input type="text" name="business_address" id="business_address" class="form-control" placeholder="">
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Special delivery date for tax withholding tax</td>
-                                        <td><input type="checkbox" name="notifier" id="notifier" value="3"></td>
+                                        <th colspan="2"><label for="business_telephone">電話番号</label></th>
+                                        <td>
+                                            <input type="text" name="business_telephone" id="business_telephone" class="form-control" placeholder="">
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Notification to salary payment offices, etc.</td>
-                                        <td><input type="checkbox" name="notifier" id="notifier" value="4"></td>
+                                        <th colspan="2"><label for="representative_name">代表者</label></th>
+                                        <td>
+                                            <input type="text" name="representative_name" id="representative_name" class="form-control" placeholder="">
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Application for extension of submission deadline</td>
-                                        <td><input type="checkbox" name="notifier" id="notifier"  value="5"></td>
+                                        <th colspan="2"><label for="representative_address">代表者住所</label></th>
+                                        <td>
+                                            <input type="text" name="representative_address" id="representative_address" class="form-control" placeholder="">
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Consumption tax taxable business operator</td>
-                                        <td><input type="checkbox" name="notifier" id="notifier" value="6"></td>
+                                        <th colspan="2"><label for="final_accounts_month">決算月</label></th>
+                                        <td>
+                                            <select name="final_accounts_month" id="final_accounts_month" class="col-auto form-control">
+                                                <option value="1">1月</option>
+                                                <option value="2">2月</option>
+                                                <option value="3">3月</option>
+                                                <option value="4">4月</option>
+                                                <option value="5">5月</option>
+                                                <option value="6">6月</option>
+                                                <option value="7">7月</option>
+                                                <option value="8">8月</option>
+                                                <option value="9">9月</option>
+                                                <option value="10">10月</option>
+                                                <option value="11">11月</option>
+                                                <option value="12">12月</option>
+                                            </select>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Notification to consumption tax exemption business</td>
-                                        <td><input type="checkbox" name="notifier" id="notifier"  value="7"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Consumption tax taxable business operator selection notice</td>
-                                        <td><input type="checkbox" name="notifier" id="notifier"  value="8"></td>
+                                        <th><label for="contact_email_address">ワンタイムパスワードの </label></th>
+                                        <th><label for="">送付先メールアドレス</label></th>
+                                        <td>
+                                            <input type="email" name="contact_email_address" id="contact_email_address" class="form-control" placeholder="">
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
-    
-                            <div class="float-left form-group">
-                                <button class="btn btn-info" type="button" id="prev-page-btn">Back</button>
-                            </div>
-                            <div class="float-right form-group">
-                                <button class="btn btn-success" type="submit" id="submit-btn">Submit</button>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -208,24 +187,46 @@
 
 @section('extra-scripts')
     <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        const profile_div = document.querySelector('#user-info-tab')
-        const filing_div = document.querySelector('#filing-info-tab')
-        const next = document.querySelector('#next-page-btn')
-        const prev = document.querySelector('#prev-page-btn')
+        
+        $("#newClientForm").on('submit', function(event) {
+            event.preventDefault()
 
-        function displayNext() {
-            profile_div.style.display = 'none'
-            filing_div.style.display = 'block'
-        }
+            var type_id = document.querySelector('input[name="business_type"]:checked').value;
+            var url = "{{route('register-new-client')}}";
 
-        function displayPrevious() {
-            profile_div.style.display = 'block'
-            filing_div.style.display = 'none'
-        }
-
-        next.addEventListener('click', displayNext)
-        prev.addEventListener('click', displayPrevious)
+            axios.post(url, {
+                name: $('#business_name').val(),
+                business_type_id: type_id,
+                address: $('#business_address').val(),
+                telephone: $('#business_telephone').val(),
+                representative: $('#representative_name').val(),
+                tax_filing_month: $('#final_accounts_month').val(),
+                email: $('#contact_email_address').val()
+            }).then(function(response) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'クライアント登録が成功しました',
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        $('#business_name').val('')
+                        $('#business_address').val('')
+                        $('#business_telephone').val('')
+                        $('#representative_name').val('')
+                        $('#contact_email_address').val('')
+                        $('#newClientModal').modal('hide')
+                    }
+                })
+            }).catch(function(error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong. Check your inputs and try again.',
+                })
+            })
+        })
     </script>
 @endsection

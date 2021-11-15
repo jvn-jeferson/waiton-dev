@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\AccountingOffice;
+use App\Models\AccountingOfficeStaff;
 use App\Models\Subscription;
 use App\Models\Client;
 use App\Models\ClientInvoice;
@@ -102,7 +103,7 @@ class MainController extends Controller
       $userId = User::insertGetId([
         'email' => $email,
         'password' => $temporary_password,
-        'role_id' => 1,
+        'role_id' => 2,
         'is_online' => 0,
         'remember_token' => $token
       ]);
@@ -138,6 +139,13 @@ class MainController extends Controller
           'payment_invoice_status' => $session->payment_status,
           'subscription_id' => $subscription_plan,
           'token' => $session->id,
+        ]);
+
+        AccountingOfficeStaff::create([
+          'accounting_office_id' => $accountingId,
+          'user_id' => $userId,
+          'is_admin' => 1,
+          'name' => $name
         ]);
 
         $user = User::findorFail($userId);

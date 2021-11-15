@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class SubscriptionPlan extends Model
 {
     use HasFactory;
+
+    protected $table = 'subscription_plans';
+
+    protected $fillable = [
+        'name',
+        'price',
+        'max_admin',
+        'max_users',
+        'max_clients',
+        'max_storage'
+    ];
 }

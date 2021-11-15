@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewClientRequest extends FormRequest
+class AccountingOfficeStaffRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,8 @@ class NewClientRequest extends FormRequest
     public function rules()
     {
         return [
-            'business_name' => 'required',
-            'business_type' => 'required',
-            'business_address' => 'required',
-            'business_telephone' => 'required',
-            'representative_name' => 'required',
-            'representative_address' => 'required',
-            'final_accounts_month' => 'required',
-            'contact_email_address' => 'required'
+            'name' => 'required',
+            'email' => 'required|email:rfc,dns'
         ];
     }
 }

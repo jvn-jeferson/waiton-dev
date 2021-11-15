@@ -24,4 +24,8 @@ class Subscription extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function subscription_plan() {
+        return $this->belongsTo(SubscriptionPlan::class);
+    }
 }

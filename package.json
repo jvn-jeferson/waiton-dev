@@ -19,14 +19,14 @@
         "postcss": "^8.1.14",
         "resolve-url-loader": "^3.1.2",
         "sass": "^1.32.11",
-        "sass-loader": "^11.0.1",
-        "vue": "^2.6.12",
-        "vue-template-compiler": "^2.6.12"
+        "sass-loader": "^11.0.1"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.4",
         "admin-lte": "^3.1.0",
         "pdfjs": "^2.4.6",
-        "stripe": "^8.176.0"
+        "stripe": "^8.176.0",
+        "sweetalert": "^2.1.2",
+        "sweetalert2": "^11.1.10"
     }
 }

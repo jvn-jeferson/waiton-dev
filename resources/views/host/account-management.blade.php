@@ -8,46 +8,48 @@
                     <div class="col-auto col-md-12 col-sm-12">
                         <div class="card card-info card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Registration Information</h3>
+                                <h3 class="card-title">登録情報</h3>
                                 <div class="card-tools">
-                                    <button class="btn btn-warning btn-tool">Change/Update Info</button>
+                                    @if(Auth::user()->role_id == 2)
+                                        <button class="btn btn-warning btn-tool text-light" id="btn-swal">変更・登録</button>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table-striped table">
+                                    <table class="table-striped table table-bordered">
                                         <tbody>
                                             <tr>
-                                                <td class="text-bold">Office Name</td>
+                                                <td class="text-bold">事務所名</td>
                                                 <td>{{$account->name}}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-bold">Representative</td>
+                                                <td>代表者</td>
                                                 <td>{{$account->representative}}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-bold">Office Location</td>
+                                                <td>所在地</td>
                                                 <td>{{$account->address}}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-bold">Telephone Number</td>
+                                                <td>電話番号</td>
                                                 <td>{{$account->telephone}}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-bold">User Type</td>
+                                                <td>ご利用</td>
                                                 <td>Paid member</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-bold">Active Plan</td>
+                                                <td>選択プラン</td>
                                                 <td>5 company plan</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-bold">Current Clients</td>
-                                                <td>4</td>
+                                                <td>利用者数</td>
+                                                <td>4 社</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-bold">Date of Use</td>
-                                                <td>2021/3/1　～　2022/2/28　First registration {{$account->verified_at}}</td>
+                                                <td>ご利用期日</td>
+                                                <td>2021/3/1　～　2022/2/28　初回登録 {{$account->verified_at}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -61,7 +63,7 @@
                         <div class="card card-danger card-outline collapsed-card">
                             <div class="card-header">
                                 <h3 class="card-title text-bold">
-                                    新しいユーザーを追加する
+                                    新規登録
                                 </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -70,34 +72,37 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <table class="table">
-                                    <tr>
-                                        <td rowspan="2">
-                                            <label for="user-type">Type of access</label>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="a">
-                                                <label class="form-check-label" for="exampleRadios1">
-                                                User
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="b">
-                                                <label class="form-check-label" for="exampleRadios2">
-                                                Manager
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td>Name</td>
-                                        <td><input type="text" name="" id="" class="form-control" placeholder="Full Legal Name"></td>
-                                        <td rowspan="2">
-                                            <button class="btn btn-primary btn-block">Register</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email Address</td>
-                                        <td><input type="email" name="" id="" class="form-control" placeholder="sample@mail.com"></td>
-                                    </tr>
-                                </table>
+                                <form method="post" id="newUserForm">
+                                    @csrf
+                                    <div class="table-responsive">
+                                        <table class="mb-2 table table-bordered">
+                                            <tbody class="text-center align-items-center">
+                                                <tr>
+                                                    <td class="bg-light" rowspan="2">
+                                                        <label for="" class="h3">
+                                                            <input type="radio" name="is_admin" id="is_admin" value="1">利用者 
+                                                        </label><br>
+                                                        <label for="" class="h3">
+                                                            <input type="radio" name="is_admin" id="is_admin" value="0">管理者 
+                                                        </label>
+                                                    </td>
+                                                    <td>名前</td>
+                                                    <td class="bg-light"><input type="text" name="name" id="name" class="form-control bg-light"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>メールアドレス</td>
+                                                    <td class="bg-light"><input type="email" name="email" id="email" class="form-control bg-light"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-9"></div>
+                                        <div class="col-3">
+                                            <input type="submit" value="新規登録" class="btn btn-warning btn-block text-bold">
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -107,7 +112,7 @@
                         <div class="card card-danger card-outline collapsed-card">
                             <div class="card-header">
                                 <h3 class="card-title text-bold">
-                                    ユーザー管理
+                                    ログイン情報
                                 </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -116,36 +121,31 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <table class="table table-striped table-bordered">
-                                    <thead>
-                                        <th colspan="3">
-                                            User Accounts
-                                        </th>
-                                    </thead>
-                                    <tbody class="text-center">
-                                        @forelse($staffs as $staff)
-                                            <tr class="align-items-center">
-                                                <td rowspan="3">
-                                                    <p class="text-bold">@if($staff->is_admin==1) Manager @else Staff @endif</p>
-                                                    <button class="btn btn-info" type="button">Manage</button>
-                                                </td>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="2" class="text-center h3">管理者</td>
                                                 <td>ID</td>
-                                                <td>{{$staff->id}}</td>
+                                                <td>Z0123456</td>
                                             </tr>
                                             <tr>
-                                                <td>Name</td>
-                                                <td>{{$staff->name}}</td>
-                                            </tr><tr>
-                                                <td>email</td>
-                                                <td></td>
+                                                <td>名前</td>
+                                                <td>市川欽一</td>
                                             </tr>
-                                        @empty
                                             <tr>
-                                                <td colspan="3">No results to show.</td>
+                                                <td><button class="btn btn-info btn-flat btn-block">編集</button></td>
+                                                <td>パスワード</td>
+                                                <td class="bg-gray">********</td>
                                             </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
+                                            <tr>
+                                                <td><button class="btn btn-danger btn-flat btn-block">削除</button></td>
+                                                <td>メールアドレス</td>
+                                                <td class="bg-gray">ichikawa@gmial.com</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,4 +157,37 @@
 
 @section('extra-scripts')
     <script type="text/javascript" src="{{ asset('js/app.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        
+        $("#newUserForm").on('submit', function(event) {
+            event.preventDefault()
+            
+            var url = "{{route('register-new-staff')}}"
+            axios.post(url, {
+                is_admin : 1,
+                name: $('#name').val(),
+                email: $('#email').val()
+            }).then(function(response) {
+                Swal.fire({
+                    title: 'ユーザーの作成に成功',
+                    icon: 'success',
+                    position: 'top-end'
+                }).then((result) => {
+                   if(result.isConfirmed) {
+                    $('#name').val() = ''
+                    $('#email').val() = ''
+                    $('#is_admin').checked = false
+                   } 
+                })
+            }).catch(function(error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong. Check your inputs and try again.',
+                })
+            })
+        });
+    </script>
 @endsection

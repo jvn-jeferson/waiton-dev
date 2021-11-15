@@ -3,9 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 
-class CreateAccountingOfficesTable extends Migration
+class CreateFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,15 +13,11 @@ class CreateAccountingOfficesTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounting_offices', function (Blueprint $table) {
+        Schema::create('files', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id');
+            $table->foreignId('user_id')->constraint()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('path');
             $table->string('name');
-            $table->string('representative');
-            $table->string('address');
-            $table->string('telephone');
-            $table->string('contact_email');
-            $table->timestamp('verified_at')->useCurrentOnUpdate()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -35,6 +30,6 @@ class CreateAccountingOfficesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounting_offices');
+        Schema::dropIfExists('files');
     }
 }

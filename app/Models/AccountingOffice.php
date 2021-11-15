@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class AccountingOffice extends Model
 {
@@ -28,4 +30,16 @@ class AccountingOffice extends Model
         'address',
         'contact_email'
     ];
+
+    public function clients(): HasMany {
+        return $this->hasMany(Client::class);
+    }
+
+    public function subscription(): HasOne {
+        return $this->hasOne(Subscription::class);
+    }
+
+    public function staff(): HasMany {
+        return $this->hasMany(AccountingOfficeStaff::class);
+    }
 }

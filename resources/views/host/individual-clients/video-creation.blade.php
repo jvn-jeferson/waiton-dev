@@ -67,7 +67,8 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <div class="card h-100">
+                        <input type="file" name="file" id="file" class="form-control">
+                        <div class="card h-100 mt-3">
                             <div class="card-header">
                                 <h4 class="card-title">
                                     Video Information
@@ -81,7 +82,7 @@
                                 <button class="btn-primary btn btn-block" id="start">Launch Recorder</button>
                                 <div class="form-group mt-2">
                                     <label for="tools">Drawing Tools</label>
-                                    <button class="btn btn-block btn-light text-bold"><i class="fas fa-circle text-danger"></i> Pointer</button>
+                                    <button class="btn btn-block btn-light text-bold" onclick="setPointer()"><i class="fas fa-circle text-danger"></i> Pointer</button>
                                     <button class="btn btn-block btn-light text-bold" onclick="setPencil()" type="button"><i class="fas fa-pencil-alt"></i> Pencil</button>
                                     <button class="btn btn-block btn-light text-bold" onclick="setMarker()" type="button"><i class="fas fa-marker text-warning"></i> Higlighter</button>
                                 </div>
@@ -128,9 +129,11 @@
 
 @section('extra-scripts')
 <script src="{{ asset('js/app.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
 
 <script>
+    
+    var pdf_file = '';
     var imageData_store = [];
     let restore_array = [];
     const prev = document.querySelector('#prev'),
@@ -210,18 +213,13 @@
     prev.addEventListener('click', onPrevPage)
     next.addEventListener('click', onNextPage)
 
-    var pdf_file = "{{asset('temp/sample.pdf')}}"
-    pdfjsLib.getDocument(pdf_file).promise.then((doc) => {
-        pdfDoc = doc
-        total_page.textContent = doc.numPages
-        renderPage(pageNum)
-    })
+    
 </script>
 
 <script>
     var context = ctx;
 
-   let start_index = -1;
+    let start_index = -1;
     let stroke_color = 'black';
     let stroke_width = "2";
     let is_drawing = false;
@@ -303,18 +301,6 @@
             context.putImageData(restore_array[start_index], 0, 0)
         }
     }
-
-    // function Restore() {
-    //     if (start_index <= 0) {
-    //         Clear()
-    //     } else {
-    //         start_index += -1;
-    //         restore_array.pop();
-    //         if (event.type != 'mouseout') {
-    //             context.putImageData(restore_array[start_index], 0, 0);
-    //         }
-    //     }
-    // }
 
     function Clear() {
         context.fillStyle = "white";
@@ -440,7 +426,30 @@
 </script>
 
 <script>
-
+    var formData = new FormData();
+    const fileInput = document.querySelector('#file')
+    fileInput.onchange = () => {
+        formData.append('file', fileInput.files[0])
+        var url = "{{route('get-pdf-source')}}"
+        axios.post(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(function (response) {
+            console.log(response.data)
+            var path = response.data
+            pdf_file = path
+            pdfjsLib.getDocument(pdf_file).promise.then((doc) => {
+                pdfDoc = doc
+                total_page.textContent = doc.numPages
+                renderPage(pageNum)
+            })
+        })
+        .catch(function (error) {
+            console.log(error.response.data);
+        })
+    }
 </script>
 
 @endsection

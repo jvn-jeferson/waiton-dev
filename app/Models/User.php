@@ -56,18 +56,24 @@ class User extends Authenticatable
         return app(PasswordBroker::class)->createToken($this);
     }
 
-    public function clients(): HasMany
+    public function clients(): HasOne
     {
-        return $this->hasMany(Client::class);
+        return $this->hasOne(Client::class);
     }
 
     public function accountingOffice(): HasOne
     {
         return $this->hasOne(AccountingOffice::class);
     }
+    
+    public function role(): HasOne {
+        return $this->hasOne(Role::class, 'id', 'role_id');
+    }
 
     public function sendPasswordNotification($token): void
     {
         $this->notify(new SendPasswordNotification($token));
     }
+
+    
 }

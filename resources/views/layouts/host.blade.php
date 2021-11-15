@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('css/app.css')}}">
+  @yield('extra-css')
 </head>
 
 <body class="hold-transition sidebar-mini dark-mode">
@@ -23,57 +24,49 @@
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
+        <li class="nav-item ml-3">
+          <a href="#" class="nav-link text-bold">{{$page_title}}</a>
+        </li>
       </ul>
 
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-        <li class="nav-item">
-          <a class="nav-link" href="#" role="button">
-            <i class="fas fa-envelope"></i>
-          </a>
+        <li>
+          <a href="" class="nav-link"></a>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            {{Auth::user()->accountingOffice->name ?? ''}}
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                      src="{{asset('img/user-icon.png')}}"
+                      alt="User profile picture">
+                </div>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#" role="button">
-            <i class="fas fa-bell"></i>
-          </a>
-        </li>
-        <ul class="navbar-nav ml-auto">
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          {{Auth::user()->accountingOffice->representative ?? ''}}
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <div class="card card-primary card-outline">
-            <div class="card-body box-profile">
-              <div class="text-center">
-                <img class="profile-user-img img-fluid img-circle"
-                     src="{{asset('img/user-icon.png')}}"
-                     alt="User profile picture">
+                <h3 class="profile-username text-center">
+                  {{Auth::user()->accountingOffice->representative ?? ''}}
+                </h3>
+
+                <p class="text-muted text-center text-bold">
+                  {{Auth::user()->role->display_name ?? ''}}
+                </p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+
+                </ul>
+
+                <a href="{{ route('accounting-profile') }}" class="btn btn-primary btn-block"><b>顧客情報</b></a>
+
+                <a  href="{{ url('/logout') }}" class="btn btn-danger btn-block"><b>ログアウト</b></a>
               </div>
-
-              <h3 class="profile-username text-center">
-              {{Auth::user()->accountingOffice->name ?? ''}}
-              </h3>
-
-              <p class="text-muted text-center">
-              {{Auth::user()->email ?? ''}}
-              </p>
-
-              <ul class="list-group list-group-unbordered mb-3">
-
-              </ul>
-
-              <a href="{{ route('accounting-profile') }}" class="btn btn-primary btn-block"><b>Profile</b></a>
-
-              <a  href="{{ url('/logout') }}" class="btn btn-danger btn-block"><b>Logout</b></a>
+              <!-- /.card-body -->
             </div>
-            <!-- /.card-body -->
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
       </ul>
     </nav>
     <!-- /.navbar -->
@@ -83,7 +76,7 @@
       <!-- Brand Logo -->
       <a href="home" class="brand-link">
         <img src="{{asset('img/w-logo-green.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Waiton</span>
+        <span class="brand-text font-weight-light">{{config('app.name')}}</span>
       </a>
 
       <!-- Sidebar -->
@@ -94,7 +87,7 @@
             <img src="{{asset('img/user-icon.png')}}" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block">株式会社ABC</a>
+            <a href="#" class="d-block">{{Auth::user()->accountingOffice->name}}</a>
           </div>
         </div>
 
@@ -107,14 +100,11 @@
               <a href="home" class="nav-link  @if(request()->route()->getName() == 'home') active  @endif">
                 <i class="nav-icon fas fa-home"></i>
                 <p>
-                  ホーム
+                  事務所ホーム
                 </p>
               </a>
             </li>
-
-            <li class="nav-header mt-3">顧客管理</li>
-
-            <li class="nav-item">
+            <li class="nav-item mt-3">
               <a href="customer-selection" class="nav-link @if(request()->route()->getName() == 'customer-selection') active @endif">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
@@ -141,12 +131,15 @@
               </a>
             </li>
 
-            <li class="nav-header mt-3">アカウントツール</li>
+            <li class="nav-header mt-3 ml-2">
+                事務所内の管理　
+            </li>
+
             <li class="nav-item">
               <a href="account-management" class="nav-link @if(request()->route()->getName() == 'account-management') active  @endif">
                 <i class="nav-icon fa fa-cog"></i>
                 <p>
-                  事務所内の管理
+                  メンバー管理
                 </p>
               </a>
             </li>
@@ -160,10 +153,7 @@
               </a>
             </li>
 
-            <li class="nav-header mt-3">
-              エクストラ
-            </li>
-            <li class="nav-item">
+            <li class="nav-item mt-5">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-bookmark"></i>
                 <p>
@@ -202,8 +192,10 @@
   </div>
   <!-- ./wrapper -->
 
+  
+  
   @yield('extra-scripts')
-
+  
 </body>
 
 </html>

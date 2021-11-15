@@ -13,8 +13,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">Current Plan</span>
                 <span class="info-box-number">
-                  Basic Plus
-                  {{-- {{$subscription->name}} --}}
+                  {{Auth::user()->accountingOffice->subscription->subscription_plan->name}}
                 </span>
               </div>
             </div>
@@ -42,7 +41,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">Clients</span>
                 <span class="info-box-number">
-                  10 / 10
+                  {{Auth::user()->accountingOffice->clients->count()}} / {{Auth::user()->accountingOffice->subscription->subscription_plan->max_clients}}
                 </span>
               </div>
             </div>
@@ -71,24 +70,32 @@
                 </h3>
               </div>
               <div class="card-body">
-                <table class="table-hover table table-striped table-bordered text-center">
-                  <thead class="thead bg-info">
-                    <th>Business Name</th>
-                    <th>Final Accounts Month</th>
-                    <th>Proposal Month</th>
-                    <th>Classification</th>
-                  </thead>
-                  <tbody>
-                    {{-- @foreach($companies as $company) --}}
-                    <tr>
-                      <td>ABC Co., Ltd.</td>
-                      <td>March</td>
-                      <td>May</td>
-                      <td>Sure</td>
-                    </tr>
-                    {{-- @endforeach --}}
-                  </tbody>
-                </table>
+                <div class="table-responsive">
+                  <table class="table-hover table table-striped table-bordered text-center">
+                    <thead class="thead bg-info">
+                      <th>事業者名</th>
+                      <th>決算月</th>
+                      <th>提出月</th>
+                      <th>種類</th>
+                    </thead>
+                    <tbody>
+                      {{-- @foreach($companies as $company) --}}
+  
+                      @forelse(Auth::user()->accountingOffice->clients as $client)
+                        <tr>
+                          <td>{{$client->name}}</td>
+                          <td>{{date("F", mktime(0, 0, 0, $client->tax_filing_month, 10))}}</td>
+                          <td></td>
+                          <td>{{$client->business_type_id}}</td>
+                        </tr>
+                      @empty
+                        <tr>
+                          <td colspan="4"></td>
+                        </tr>
+                      @endforelse
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -97,38 +104,44 @@
           <div class="col-12 col-md-12 col-sm-12">
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">ビジネス情報</h3>
+                <h3 class="card-title">事業者情報</h3>
               </div>
               <div class="card-body">
                 <table class="table-bordered table">
                   <tbody>
                     <tr>
-                      <td class="w-25 text-bold">Office Name</td>
-                      <td class="w-75">Ichikawa Tax Accountant Office</td>
+                      <td class="w-25 text-bold">事務所名</td>
+                      <td class="w-75">{{Auth::user()->accountingOffice->name ?? ''}}</td>
                     </tr>
                     <tr>
-                      <td class="w-25 text-bold">Business Address</td>
-                      <td class="w-75">2-6-7 Higashitenma, Kita-ku, Osaka-shi, Osaka</td>
+                      <td class="w-25 text-bold">所在地</td>
+                      <td class="w-75">{{Auth::user()->accountingOffice->address ?? ''}}</td>
                     </tr>
                     <tr>
-                      <td class="w-25 text-bold">Representative</td>
-                      <td class="w-75">Kinichi Ichikawa</td>
+                      <td class="w-25 text-bold">代表者
+                      </td>
+                      <td class="w-75">{{Auth::user()->accountingOffice->representative ?? ''}}</td>
                     </tr>
                     <tr>
-                      <td class="w-25 text-bold">User Staff</td>
-                      <td class="w-75">Paid Members</td>
+                      <td class="w-25 text-bold">ご利用スタッフ
+                      </td>
+                      <td class="w-75">{{Auth::user()->accountingOffice->subscription->stripe_status ?? ''}}</td>
                     </tr>
                     <tr>
-                      <td class="w-25 text-bold">Subscription Info</td>
-                      <td class="w-75">2021/3/1　～　2022/2/28</td>
+                      <td class="w-25 text-bold">ご利用期日
+                      </td>
+                      <td class="w-75">{{date_format(Auth::user()->accountingOffice->subscription->created_at, 'j F Y') ?? ''}}</td>
                     </tr>
                     <tr>
-                      <td class="w-25 text-bold">Users</td>
-                      <td class="w-75">2</td>
+                      <td class="w-25 text-bold">利用メンバー数
+                      </td>
+                      <td class="w-75">{{Auth::user()->accountingOffice->staff->count()}}名
+                      </td>
                     </tr>
                     <tr>
-                      <td class="w-25 text-bold">Registered Clients</td>
-                      <td class="w-75">10</td>
+                      <td class="w-25 text-bold">登録顧客数
+                      </td>
+                      <td class="w-75">{{Auth::user()->accountingOffice->clients->count()}}社</td>
                     </tr>
                   </tbody>
                 </table>
