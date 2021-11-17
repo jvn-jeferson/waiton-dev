@@ -58,12 +58,16 @@ class MainController extends Controller
 
   public function checkout(Request $request)
   {
+
     $request->validate([
       'name' => 'required',
       'address' => 'required',
       'representative' => 'required'
     ]);
-    \Stripe\Stripe::setApiKey(env("STRIPE_SECRET"));
+    $striep_key = env('STRIPE_KEY');
+
+    $test = \Stripe\Stripe::setApiKey($striep_key);
+    dd($test);
     $customer = \Stripe\Customer::create([
       'email' => $request->stripeEmail,
       'source' => $request->stripeToken,
