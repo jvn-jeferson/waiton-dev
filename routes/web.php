@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('view-stored-info', [ClientController::class, 'view_stored_info'])->name('view-stored-info');
         Route::get('notification-history', [ClientController::class, 'notification_history'])->name('notification-history');
         Route::get('various-settings', [ClientController::class, 'various_settings'])->name('various-settings');
+        Route::post('upload-files', [ClientController::class, 'upload_files'])->name('upload-files');
     });
     // End Client Routes
 

@@ -16,6 +16,7 @@ class CreateClientUploadsTable extends Migration
         Schema::create('client_uploads', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('client_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('client_staff_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('file_name');
             $table->string('file_path');
             $table->double('file_size');

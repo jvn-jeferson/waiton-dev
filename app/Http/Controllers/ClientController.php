@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use View;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ClientUpload;
 
 use Session;
 
@@ -30,6 +31,22 @@ class ClientController extends Controller
         return View::make('client.outgoing');
     }
 
+    public function upload_files(Request $request) 
+    {
+        
+        if($request->has('file')) {
+            foreach($request->file('file') as $key => $file) {
+                $comment = $request->input('comment')[$key];
+
+                DB::transaction(function () use ($comment, $request) {
+                    
+                });
+            }
+        }
+        else {
+            return redirect('data-outgoing');
+        }
+    }
     public function going_in()
     {
         return View::make('client.incoming');

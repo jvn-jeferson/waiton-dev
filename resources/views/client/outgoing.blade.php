@@ -10,69 +10,72 @@
         <!-- Content -->
         <section class="content">
             <!-- Upload Files -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title text-success">
-                        経理部にデータを送信（閲覧期限1ヶ月)
-                    </h3>
-                    
-                </div>
-                <div class="card-body">
-                    <p class="text-muted">
-                        次のファイルを経理部にアップロードします。アップロード資料にファイルをドロップするか、アップロードボタンからファイルを選択します。
-                    </p>
-                    <table class="table table-hover table-bordered table-striped">
-                        <thead class="thead bg-dark">
-                            <th>アップロードされた資料</th>
-                            <th>備考</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input type="file" name="file[]" id="file" class="form-control">
-                                </td>
-                                <td>
-                                    <input type="text" name="comment[]" id="comment" class="form-control">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="file" name="file[]" id="file" class="form-control">
-                                </td>
-                                <td>
-                                    <input type="text" name="comment[]" id="comment" class="form-control">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="file" name="file[]" id="file" class="form-control">
-                                </td>
-                                <td>
-                                    <input type="text" name="comment[]" id="comment" class="form-control">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="file" name="file[]" id="file" class="form-control">
-                                </td>
-                                <td>
-                                    <input type="text" name="comment[]" id="comment" class="form-control">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="file" name="file[]" id="file" class="form-control">
-                                </td>
-                                <td>
-                                    <input type="text" name="comment[]" id="comment" class="form-control">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-footer">
-                    <button class="float-right btn btn-success" type="submit">アップロード</button>
-                </div>
+            <form action="upload-files" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title text-success">
+                            経理部にデータを送信（閲覧期限1ヶ月)
+                        </h3>
+                        
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">
+                            次のファイルを経理部にアップロードします。アップロード資料にファイルをドロップするか、アップロードボタンからファイルを選択します。
+                        </p>
+                        <table class="table table-hover table-bordered table-striped">
+                            <thead class="thead bg-dark">
+                                <th>アップロードされた資料</th>
+                                <th>備考</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="file" name="file[]" id="file" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="comment[]" id="comment" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="file" name="file[]" id="file" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="comment[]" id="comment" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="file" name="file[]" id="file" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="comment[]" id="comment" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="file" name="file[]" id="file" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="comment[]" id="comment" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="file" name="file[]" id="file" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="comment[]" id="comment" class="form-control">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <input class="float-right btn btn-success" type="submit" value="アップロード" name="submit">
+                    </div>
+                </form>
             </div>
             <!-- /upload files -->
 
