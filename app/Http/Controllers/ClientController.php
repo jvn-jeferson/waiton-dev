@@ -11,6 +11,8 @@ use Session;
 
 //Models
 use App\Models\Message;
+use App\Models\Client;
+use App\Models\ClientStaff;
 
 class ClientController extends Controller
 {
@@ -39,7 +41,22 @@ class ClientController extends Controller
                 $comment = $request->input('comment')[$key];
 
                 DB::transaction(function () use ($comment, $request) {
-                    
+
+                    $user_id = Auth::user()->id;
+                    $client = Client::where('user_id', $user_id)->first();
+                    $staff = ClientStaff::where('user_id', $user_id)->first();
+
+                    ClientUpload::create(
+                        [
+                            'client_id' => $client->id,
+                            'client_staff_id' => $staff->id,
+                            'file_name' => $file->getClientOriginalName(),
+                            'file_path' => $file->store('public/files/upload/'.Auth::user()->id),
+                            'file_size' => $file->getFileSize(),
+                            'comment' => $comment
+                        ]);
+
+                    return redirect('data-outgoing');
                 });
             }
         }
