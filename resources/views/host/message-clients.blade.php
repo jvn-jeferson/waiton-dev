@@ -135,7 +135,7 @@
                                                     <td>{{$message->created_at}}</td>
                                                     <td>{{$message->scheduled_at}}</td>
                                                     <td>{{$message->contents}}</td>
-                                                    <td class="text-info"></td>
+                                                    <td class="text-info">{{$message->file_names}}</td>
                                                 </tr>
                                             @empty
                                                 <tr>

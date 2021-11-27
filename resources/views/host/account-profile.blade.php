@@ -26,7 +26,7 @@
                                                     <i class="@if($customer['brand'] == 'visa') fab fa-cc-visa @else fab fa-cc-mastercard @endif" style="font-size:70px;"></i>
                                                 </div>
                                             </div>
-                                            <br></br>
+                                            <br>
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <p>Credit Card:</p>

@@ -217,12 +217,12 @@
 </script>
 
 <script>
-    var context = ctx;
+    var context = ctx
 
-    let start_index = -1;
-    let stroke_color = 'black';
-    let stroke_width = "2";
-    let is_drawing = false;
+    let start_index = -1
+    let stroke_color = 'black'
+    let stroke_width = "2"
+    let is_drawing = false
 
     function change_color(element) {
         stroke_color = element.style.background;
@@ -230,6 +230,17 @@
 
     function change_width(element) {
         stroke_width = element.innerHTML
+    }
+
+    function setPencil() {
+        stroke_color = 'black'
+        strocke_width = "2"
+    }
+
+    function setMarker() {
+        stroke_color = 'yellow'
+        stroke_width = "10"
+        context.fillStyle = 'hsla(0, 0%, 40%, 0)'
     }
 
     function start(event) {

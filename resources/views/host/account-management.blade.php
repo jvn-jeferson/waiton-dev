@@ -165,8 +165,9 @@
             event.preventDefault()
             
             var url = "{{route('register-new-staff')}}"
+            var is_admin_check = $('#is_admin').val()
             axios.post(url, {
-                is_admin : 1,
+                is_admin : is_admin_check,
                 name: $('#name').val(),
                 email: $('#email').val()
             }).then(function(response) {
@@ -176,8 +177,8 @@
                     position: 'top-end'
                 }).then((result) => {
                    if(result.isConfirmed) {
-                    $('#name').val() = ''
-                    $('#email').val() = ''
+                    $('#name').val('')
+                    $('#email').val('')
                     $('#is_admin').checked = false
                    } 
                 })

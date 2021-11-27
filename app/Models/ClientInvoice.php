@@ -10,7 +10,7 @@ class ClientInvoice extends Model
 {
     use HasFactory;
 
-    protected $table = 'client_invoice';
+    protected $table = 'client_invoices';
 
     protected $fillable = [
         'amount_due',

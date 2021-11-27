@@ -16,9 +16,10 @@ class RoleClientStaff
      */
     public function handle(Request $request, Closure $next)
     {
-        // if(!in_array(auth()->user()->role_id, [4,5])){
-        //     abort(403);
-        // }
+
+        if(!in_array(auth()->user()->role_id, [4,5])){
+            abort(403);
+        }
         return $next($request);
     }
 }

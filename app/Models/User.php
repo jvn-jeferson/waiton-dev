@@ -56,7 +56,7 @@ class User extends Authenticatable
         return app(PasswordBroker::class)->createToken($this);
     }
 
-    public function clients(): HasOne
+    public function client(): HasOne
     {
         return $this->hasOne(Client::class);
     }

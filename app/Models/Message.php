@@ -20,7 +20,7 @@ class Message extends Model
         'posted_at',
         'scheduled_at',
         'contents',
-        'file_id'
+        'file_ids'
     ];
 
 }

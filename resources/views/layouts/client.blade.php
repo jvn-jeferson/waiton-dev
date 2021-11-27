@@ -29,8 +29,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          株式会社ABC
-          {{-- {{$user->name}} --}}
+          Actions
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="card card-primary card-outline">
@@ -42,13 +41,11 @@
               </div>
 
               <h3 class="profile-username text-center">
-                Jeferson Bonayon
-                {{-- {{$user->name}} --}}
+                {{auth()->user()->client->representative}}
               </h3>
 
               <p class="text-muted text-center">
-                Software Engineer
-                {{-- {{$user->company}} --}}
+                {{auth()->user()->client->name}}
               </p>
 
               <ul class="list-group list-group-unbordered mb-3">
@@ -57,7 +54,7 @@
 
               <a href="various-settings" class="btn btn-primary btn-block"><b>Profile</b></a>
               
-              <a href="#" class="btn btn-danger btn-block"><b>Logout</b></a>
+              <a  href="{{ url('/logout') }}" class="btn btn-danger btn-block"><b>ログアウト</b></a>
             </div>
             <!-- /.card-body -->
           </div>
@@ -72,7 +69,7 @@
     <!-- Brand Logo -->
     <a href="client-home" class="brand-link">
       <img src="{{asset('img/w-logo-green.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <p class="brand-text font-weight-light">Waiton</p>
+      <p class="brand-text font-weight-light">{{config('app.name')}}</p>
     </a>
 
     <!-- Sidebar -->
@@ -83,7 +80,9 @@
           <img src="{{asset('img/user-icon.png')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="various-settings" class="d-block">株式会社ABC</a>
+          <a href="various-settings" class="d-block">
+            {{auth()->user()->client->name}}
+          </a>
         </div>
       </div>
 

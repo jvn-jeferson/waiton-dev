@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-warning float-left text-light">選択データのダウンロード</button>
+                                <button class="btn btn-warning float-left text-light" id="downloadBtn">選択データのダウンロード</button>
                             </div>
                         </div>
                     </div>
@@ -62,16 +62,35 @@
 @section('extra-scripts')
     <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
     <script>
-        var select_all = document.querySelector('#all');
-        var selects = document.querySelector('#select');
+        var select_all = document.querySelector('#all')
+        var selects = document.getElementsByName('select')
 
         select_all.addEventListener('change', function() {
             if(select_all.checked) {
-                selects.checked = true;
+                $.each(selects, function(index, value){
+                    selects[index].checked = true
+                })
             }
             else {
-                selects.checked = false;
+                $.each(selects, function(index, value){
+                    selects[index].checked = false
+                })
             }
+        })
+
+        var download = document.querySelector('#downloadBtn')
+
+        download.addEventListener('click', function() {
+            
+            var checkedValues = $('input#select:checked').map(function() {
+                                    return this.value
+                                }).get()
+
+            console.log(checkedValues)
+            
+            //loop through each checked value
+            //for each key:value create a zip file
+            //initiate download process
         })
     </script>
 @endsection

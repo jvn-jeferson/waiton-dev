@@ -4,12 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use View;
+use Illuminate\Support\Facades\Auth;
+
+use Session;
+
+//Models
+use App\Models\Message;
 
 class ClientController extends Controller
 {
     public function index()
     {
-        return View::make('client.dashboard');
+        $messages = Message::where([[
+            'accounting_office_id', '=', 1
+        ]])
+        ->where(function($q){
+          $q->where('is_global', '=', '1')
+          ->orWhere('targeted_at', '=', Auth::user()->client->id);  
+        })->get();
+        return View::make('client.dashboard')->with(['messages' => $messages]);
     }
 
     public function going_out()
@@ -24,8 +37,7 @@ class ClientController extends Controller
 
     public function history()
     {
-        // return View::make('client.history');
-        echo request()->route()->getName();
+        return View::make('client.history');
     }
 
     public function access_stored_info()

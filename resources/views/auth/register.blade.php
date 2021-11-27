@@ -4,7 +4,7 @@
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">登録を完了します</h2>
-                        <form method="POST" action="{{ route('checkout') }}" id="payment_start">
+                        <form method="POST" action="{{ route('registration') }}" id="payment_start">
                             @csrf
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-home material-icons-name"></i></label>
@@ -15,7 +15,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            <input type="hidden" name="subscription_plan" id="subscription_plan" value="{{$data['id']}}" >
+                            {{-- <input type="hidden" name="subscription_plan" id="subscription_plan" value="{{$data['id']}}" > --}}
                             <div class="form-group">
                                 <label for="representative"><i class="zmdi zmdi-account"></i></label>
                                 <input type="text" class="@error('representative') is-invalid @enderror" name="representative" id="representative"  value="{{ old('representative') }}" placeholder="代表者"/>
@@ -37,8 +37,17 @@
                             </div>
                             <div class="form-group">
                                 <label for="telephone"><i class="zmdi zmdi-local-phone"></i></label>
-                                <input type="number" class="@error('telephone') is-invalid @enderror" name="telephone" id="telephone" value="{{ old('telephone') }}" placeholder="電話番号"/>
+                                <input type="text" class="@error('telephone') is-invalid @enderror" name="telephone" id="telephone" value="{{ old('telephone') }}" placeholder="電話番号"/>
                                 @error('telephone')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" class="@error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email') }}" placeholder="電子メイル"/>
+                                @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -63,12 +72,15 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="form-group form-button">
+                            <div class="form-group">
+                                <input type="submit" value="登録" class="btn btn-success btn-block">
+                            </div>
+                            {{-- <div class="form-group form-button">
                                 <script
                                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                                 data-key="pk_test_51IShqvDBrLv03ZFnYLiidxC5jiBlzh9EXwlwPeO54cUtCJrgBnicvipCHNaxCbxgyYDG6ecn5kQcznAQfte5qo7C00HAac3a3r"
-                                data-amount="<?php echo $data['price']; ?>"
-                                data-name="<?php echo $data['name']?>"
+                                data-amount="{{$data['price']}}"
+                                data-name="{{$data['name']}}"
                                 data-description="Plan"
                                 data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
                                 data-locale="auto"
@@ -77,7 +89,7 @@
                                 >
                                 </script>
                                 <input type="hidden" name="amount" value="{{$data['price']}}">
-                            </div>
+                            </div> --}}
                         </form>
                     </div>
                     <div class="signup-image">

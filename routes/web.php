@@ -12,20 +12,21 @@ use App\Http\Controllers\Tests\MailController;
 
 Auth::routes();
 Route::get('/', [MainController::class, 'index'])->name('/');
-Route::get('select-plan', [MainController::class, 'select_plan'])->name('select-plan');
-Route::get('registration/{subscription_plan}', [MainController::class, 'register_office'])->name('registration');
+// Route::get('select-plan', [MainController::class, 'select_plan'])->name('select-plan');
+Route::post('registration', [MainController::class, 'register_office'])->name('registration');
 Route::get('logout', [LoginController::class, 'logout']);
 Route::get('screen-recording', [HostController::class, 'screen_record'])->name('screen_recording');
 Route::get('change-password/$1', [MainController::class, 'change_password'])->name('change-password');
 Route::get('send-email', [PaymentController::class, 'send_email'])->name('send-email');
-
 Route::post('payment_process', [PaymentController::class, 'payment_process'])->name('payment_process');
-Route::post('checkout', [MainController::class, 'checkout'])->name('checkout');
+// Route::post('checkout', [MainController::class, 'checkout'])->name('checkout');
 Route::post('update-password', [PaymentController::class, 'update_password'])->name('update-password');
+Route::get('redirectuser', [MainController::class, 'redirectuser'])->name('redirectuser');
+
 
 Route::group(['middleware' => 'auth'], function() {
     // Client routes
-        Route::group(['middleware' => 'client_staff'], function() {
+    Route::group(['middleware' => 'client_staff'], function() {
         Route::get('client-home', [ClientController::class, 'index'])->name('client-home');
         Route::get('data-outgoing', [ClientController::class, 'going_out'])->name('data-outgoing');
         Route::get('data-incoming', [ClientController::class, 'going_in'])->name('data-incoming');

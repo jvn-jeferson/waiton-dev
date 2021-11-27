@@ -13,7 +13,11 @@
               <div class="info-box-content">
                 <span class="info-box-text">Current Plan</span>
                 <span class="info-box-number">
+                  @if(Auth::user()->accountingOffice->subscription)
                   {{Auth::user()->accountingOffice->subscription->subscription_plan->name}}
+                  @else
+                    FREE USER
+                  @endif
                 </span>
               </div>
             </div>
@@ -41,7 +45,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">Clients</span>
                 <span class="info-box-number">
-                  {{Auth::user()->accountingOffice->clients->count()}} / {{Auth::user()->accountingOffice->subscription->subscription_plan->max_clients}}
+                  {{Auth::user()->accountingOffice->clients->count()}} / @if(Auth::user()->accountingOffice->subscription) {{ Auth::user()->accountingOffice->subscription->subscription_plan->max_clients}} @else 1 @endif
                 </span>
               </div>
             </div>
@@ -125,12 +129,14 @@
                     <tr>
                       <td class="w-25 text-bold">ご利用スタッフ
                       </td>
-                      <td class="w-75">{{Auth::user()->accountingOffice->subscription->stripe_status ?? ''}}</td>
+                      <td class="w-75">@if(Auth::user()->accountingOffice->subscription) {{
+                        Auth::user()->accountingOffice->subscription->status ?? ''
+                      }} @else FREE USER @endif</td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">ご利用期日
                       </td>
-                      <td class="w-75">{{date_format(Auth::user()->accountingOffice->subscription->created_at, 'j F Y') ?? ''}}</td>
+                      <td class="w-75">{{date_format(Auth::user()->accountingOffice->created_at, 'j F Y') ?? ''}}</td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">利用メンバー数

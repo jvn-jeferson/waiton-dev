@@ -56,7 +56,11 @@ class HostController extends Controller
         $this->accounting_office = AccountingOffice::firstWhere('user_id', $this->user->id);
         $this->staff = AccountingOfficeStaff::firstWhere('user_id', $this->user->id);
         $this->subscription = Subscription::firstWhere('accounting_office_id', $this->accounting_office->id);
-        $this->subscription_plan = SubscriptionPlan::find($this->subscription->subscription_plan_id);
+        if($this->subscription) {     
+            $this->subscription_plan = SubscriptionPlan::findorFail($this->subscription->subscription_plan_id);
+        }else {
+            $this->subscription_plan = null;
+        }
         $this->clients = Client::where('accounting_office_id', $this->accounting_office->id)->get();
     }
 
@@ -132,11 +136,17 @@ class HostController extends Controller
         }
 
         foreach($messages as $message) {
-            $file_ids = explode(', ', $message->file_ids());
+            
             $file_names = array();
-            foreach($file_ids as $file) {
-                
+            if(!$message->file_id == null) {
+                $file_ids = explode(', ', $message->file_id);
+                foreach($file_ids as $file) {
+                    $file_name = File::find($file)->get('name');
+                    array_push($file_names,$file_name);
+                }
             }
+            
+            $message->file_names = implode(', ', $file_names);
         }
         
         return View::make('host.message-clients')->with(['page_title'=>'全顧客への連絡', 'messages' => $messages]);
@@ -226,7 +236,7 @@ class HostController extends Controller
         DB::transaction(function () use ($request, $accounting_office_id, $token){
             $user_id = User::insertGetId([
                 'email' => $request->email,
-                'password' => Hash::make(Str::random(10)),
+                'password' => Hash::make('password'),
                 'role_id' => 4,
                 'is_online' => 0,
                 'remember_token' => $token
@@ -335,7 +345,7 @@ class HostController extends Controller
                 'targeted_at' => $request->input('targeted_at'),
                 'scheduled_at' => $request->input('scheduled_at'),
                 'contents' => $request->input('contents'),
-                'file_ids' => implode(',' , $file_ids)
+                'file_id' => implode(',' , $file_ids)
             ]);
 
             Session::flash('success', 'Notification has been sent.');
