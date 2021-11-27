@@ -24,10 +24,10 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 if(in_array(Auth::user()->role_id, [2,3])) {
-                    return redirect(RouteServiceProvider::HOME);
+                    return redirect('/home');
                 }
                 else if(in_array(Auth::user()->role_id, [4,5])){ 
-                    return redirect(RouteServiceProvider::CLIENTHOME);
+                    return redirect('/client-home');
                 }
                 else {
                     abort(404);

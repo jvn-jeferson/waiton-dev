@@ -29,7 +29,7 @@ class LoginController extends Controller
      */
     public function redirectTo() 
     {
-        $role = auth()->user()->role->id;
+        $role = auth()->user()->role_id;
 
         switch($role)
         {
