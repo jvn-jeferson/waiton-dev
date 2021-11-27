@@ -92,6 +92,8 @@ class MainController extends Controller
 
         if($staff_id) 
         {
+          $user = User::findorFail($user_id);
+          $user->sendPasswordNotification($user->createToken());
           return View::make('auth/login');
         }
         else 
