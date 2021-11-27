@@ -150,17 +150,17 @@
                             <tr class="align-items-center">
                                 <td class="file-upload">
                                     <div class="image-upload-wrap">
-                                        <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+                                        <input class="file-upload-input" type='file' onchange="readURL(this, 0);"/>
                                         <div class="drag-text">
                                             <h3>ファイルをドラッグアンドドロップするか、この領域をクリックします。</h3>
                                         </div>
-                                        </div>
-                                        <div class="file-upload-content">
+                                    </div>
+                                    <div class="file-upload-content">
                                         <img class="file-upload-image" src="#" alt="your image" />
                                         <div class="image-title-wrap">
                                             <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
                                         </div>
-                                        </div>
+                                    </div>
                                 </td>
                                 <td class="align-items-center">
                                     <textarea name="textarea1" id="textarea1" rows="7"class="form-control" placeholder="Put your comments here."></textarea>
@@ -229,10 +229,11 @@
 <script src="{{asset('js/app.js')}}"></script>
 
 <script>
-    function readURL(input) {
+    function readURL(input, index) {
     if (input.files && input.files[0]) {
 
         var reader = new FileReader();
+        var current = index+1; 
 
         reader.onload = function(e) {
         $('.image-upload-wrap').hide();
@@ -245,6 +246,13 @@
 
         reader.readAsDataURL(input.files[0]);
 
+        var markup = "<tr class='align-items-center'><td class='file-upload'><div class='image-upload-wrap'><input class='file-upload-input' type='file' onchange='readURL(this, "+current+")'/><div class='drag-text'><h3>ファイルをドラッグアンドドロップするか、この領域をクリックします。</h3></div></div><div class='file-upload-content'><img class='file-upload-image' src='#' alt='your image' /><div class='image-title-wrap'><button type='button' onclick='removeUpload()' class='remove-image'>Remove <span class='image-title'>Uploaded Image</span></button></div></div></td><td class='align-items-center'><textarea name='textarea1' id='textarea1' rows='7'class='form-control' placeholder='Put your comments here.''></textarea></td></tr>"
+
+        var tablerowcount = document.querySelector('table').rows.length;
+
+        if(tablerowcount <= 5) {
+            $('table tbody').append(markup);
+        }
     } else {
         removeUpload();
     }

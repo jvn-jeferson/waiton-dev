@@ -64,6 +64,59 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="card card-primary card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title text-bold">
+                      From会計事務所
+                    </h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover">
+                        <thead class="thead-light">
+                          <th>郵送日</th>
+                          <th>ファイル名</th>
+                          <th>状態</th>
+                          <th>確認リクエスト</th>
+                          <th>視聴期限</th>
+                        </thead>
+                        <tbody>
+                          {{-- forelse here --}}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="card card-danger card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title text-bold">
+                      資料の保管
+                    </h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover">
+                        <thead class="bg-info">
+                          <th>アップロード日</th>
+                          <th>ファイル名</th>
+                          <th>アップローダー</th>
+                          <th>状態</th>
+                        </thead>
+                        <tbody>
+                          {{-- forelse here --}}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
     </div>
