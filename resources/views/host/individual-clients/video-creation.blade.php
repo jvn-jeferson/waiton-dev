@@ -50,13 +50,6 @@
                 <button id="prev">Previous</button>
                 <button id="next">Next</button>
                 <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
-                <div class="float-right" style="display:none">
-                    <form action="#" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="pdf-file" id="pdf-file">
-                        <input class="btn btn-primary" type="submit">Render</button>
-                    </form>
-                </div>
                 <canvas id="pdf-canvas"></canvas>
             </div>
             <div class="col-3">
@@ -67,7 +60,10 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <input type="file" name="file" id="file" class="form-control">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <input type="file" name="pdfSource" id="pdfSource" class="form-control" accept=".pdf">
+                        </form>
                         <div class="card h-100 mt-3">
                             <div class="card-header">
                                 <h4 class="card-title">
@@ -345,7 +341,8 @@
     })
 
 
-
+    //CHANGE TO UPLOAD TO GOOGLE DRIVE
+    //RETURN GDRIVE LINKS
     downloadButton.addEventListener('click', () => {
         const blob = new Blob(recordedBlobs, {
             type: 'video/mp4'
@@ -355,6 +352,8 @@
         a.style.display = 'none';
         a.href = url;
         a.download = 'test.mp4';
+
+
         document.body.appendChild(a);
         a.click();
         setTimeout(() => {
@@ -438,7 +437,7 @@
 
 <script>
     var formData = new FormData();
-    const fileInput = document.querySelector('#file')
+    const fileInput = document.querySelector('#pdfSource')
     fileInput.onchange = () => {
         formData.append('file', fileInput.files[0])
         var url = "{{route('get-pdf-source')}}"
@@ -450,8 +449,11 @@
         .then(function (response) {
             console.log(response.data)
             var path = response.data
+            var base_url = "<?php echo env('APP_URL'); ?>"
+            var file_path = base_url + path
+            
             pdf_file = path
-            pdfjsLib.getDocument(pdf_file).promise.then((doc) => {
+            pdfjsLib.getDocument(file_path).promise.then((doc) => {
                 pdfDoc = doc
                 total_page.textContent = doc.numPages
                 renderPage(pageNum)

@@ -26,7 +26,7 @@
                                     <p class="text-dark">
                                         2021年5月2日午後3時30分
                                     </p>
-                                    <button class="btn btn-block btn-primary">資料のダウンロード</button>
+                                    <button class="btn btn-block btn-primary" onclick="downloadFile(this, 1)">資料のダウンロード</button>
                                 </td>
                                 <td rowspan="2">
                                     <p class="text-dark">
@@ -61,4 +61,31 @@
 @section('extra-scripts')
 <!-- Scripts -->
 <script src="{{asset('js/app.js')}}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+
+    function downloadFile(e, id) {
+        var file_id = id
+
+        Swal.fire({
+            title: 'Do you want to download this file?',
+            text: 'After confirmation, the file will be downloaded on to your local computer.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#4D9E17',
+            cancelButtonColor: '#B30712',
+            confirmButtonText: 'Proceed and download.'
+        }).then((result) => {
+            if(result.isConfirmed) {
+                Swal.fire(
+                    'File Download will begin shortly.',
+                    'Your file is ready for download.',
+                    'success'
+                )
+            }
+        })
+    }
+</script>
 @endsection

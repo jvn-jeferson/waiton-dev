@@ -107,15 +107,20 @@
                                 <th>備考</th>
                             </thead>
                             <tbody class="text-center">
-                                {{-- foreach $file in $files --}}
-                                <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
-                                    <td>2021年4月10日21:40</td>
-                                    <td>2021年5月10日21:40</td>
-                                    <td>Ichikawa-san</td>
-                                    <td class="text-info">sample.pdf</td>
-                                    <td>ありがとうございました</td>
-                                </tr>
+                                @forelse($uploads as $upload)
+                                    <tr>
+                                        <td><input type="checkbox" name="" id="{{$upload->id}}"></td>
+                                        <td>{{$upload->created_at}}</td>
+                                        <td>2021年5月10日21:40</td>
+                                        <td>Ichikawa-san</td>
+                                        <td class="text-info">{{$upload->file_name}}</td>
+                                        <td>{{$upload->comment}}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6">表示するレコードはありません。</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

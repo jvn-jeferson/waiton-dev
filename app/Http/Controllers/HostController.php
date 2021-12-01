@@ -309,10 +309,12 @@ class HostController extends Controller
         $file =  $request->file('file');
 
         $path = $file->store('public/files/temp');
-        $name = $file->getClientOriginalName();
+        $contents = Storage::url($path);
 
-        $url =  url($path);
-        return $url;
+        return $contents;
+
+        
+        //127.0.0.1:8080/storage/public/temp/file_name
     }
 
     public function send_notification(Request $request)

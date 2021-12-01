@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\ClientUpload;
 
 use Session;
-
+use Illuminate\Support\Facades\DB;
 //Models
 use App\Models\Message;
 use App\Models\Client;
@@ -30,17 +30,22 @@ class ClientController extends Controller
 
     public function going_out()
     {
-        return View::make('client.outgoing');
+        $uploads = ClientUpload::where('client_id', '=', Auth::user()->client->id)->orderBy('created_at', 'DESC')->get();
+        return View::make('client.outgoing')->with(['uploads' => $uploads]);
     }
 
     public function upload_files(Request $request) 
     {
+        $file_count = 0;
+
+        
+
         
         if($request->has('file')) {
-            foreach($request->file('file') as $key => $file) {
+            foreach($request->file('file') as $key => $value) {
                 $comment = $request->input('comment')[$key];
 
-                DB::transaction(function () use ($comment, $request) {
+                DB::transaction(function () use ($comment, $request, $key) {
 
                     $user_id = Auth::user()->id;
                     $client = Client::where('user_id', $user_id)->first();
@@ -49,16 +54,19 @@ class ClientController extends Controller
                     ClientUpload::create(
                         [
                             'client_id' => $client->id,
-                            'client_staff_id' => $staff->id,
-                            'file_name' => $file->getClientOriginalName(),
-                            'file_path' => $file->store('public/files/upload/'.Auth::user()->id),
-                            'file_size' => $file->getFileSize(),
+                            'client_staff_id' => 1,
+                            'file_name' => $request->file('file')[$key]->getClientOriginalName(),
+                            'file_path' => $request->file('file')[$key]->store('public/files/upload/'.Auth::user()->id),
+                            'file_size' => $request->file('file')[$key]->getSize(),
                             'comment' => $comment
                         ]);
-
-                    return redirect('data-outgoing');
+                    
+                        $file_count += 1;
                 });
             }
+
+            Session::flash('success', 'ファイルバッチが会計事務所に送信されました。');
+            return redirect('data-outgoing');
         }
         else {
             return redirect('data-outgoing');
