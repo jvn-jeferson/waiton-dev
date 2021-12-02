@@ -93,7 +93,7 @@
                 </div>
                 <div class="card-body">
                     <div style="margin-bottom: 4px">
-                        <button class="float-left btn btn-primary" type="button">Delete Selected File</button>
+                        <button class="float-left btn btn-primary" type="button" onclick="deletefiles()">Delete Selected File</button>
                     </div>
                     <br>
                     <div class="mt-2">
@@ -109,7 +109,7 @@
                             <tbody class="text-center">
                                 @forelse($uploads as $upload)
                                     <tr>
-                                        <td><input type="checkbox" name="" id="{{$upload->id}}"></td>
+                                        <td><input type="checkbox" name="file_id" id="file_id" value="{{$upload->id}}"></td>
                                         <td>{{$upload->created_at}}</td>
                                         <td>2021年5月10日21:40</td>
                                         <td>Ichikawa-san</td>
@@ -137,6 +137,38 @@
 <!-- Scripts -->
 <script src="{{asset('js/app.js')}}"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function deletefiles() {
+
+        var checkedBox = document.getElementsByName('file_id')
+        const ids = [];
+        for (var checkbox of checkedBox) {
+            if(checkbox.checked)
+            {
+                ids.push(checkbox.value);
+            }
+        }
+
+        //axios here
+        var url = "{{route('delete-records')}}";
+
+        axios.post(url, {
+            file_ids: ids
+        }).then(function(response) {
+            console.log(response.data);
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: response.data
+            })
+        }).catch(function(error) {
+            console.log(error.response.data);
+        })
+    }
+</script>
 <script>
     
 </script>

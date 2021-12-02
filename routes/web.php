@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('notification-history', [ClientController::class, 'notification_history'])->name('notification-history');
         Route::get('various-settings', [ClientController::class, 'various_settings'])->name('various-settings');
         Route::post('upload-files', [ClientController::class, 'upload_files'])->name('upload-files');
+        Route::post('delete-records', [ClientController::class, 'delete_records'])->name('delete-records');
     });
     // End Client Routes
 

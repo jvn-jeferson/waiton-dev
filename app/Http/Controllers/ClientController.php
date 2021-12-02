@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use View;
 use Illuminate\Support\Facades\Auth;
-use App\Models\ClientUpload;
 
 use Session;
 use Illuminate\Support\Facades\DB;
+
 //Models
 use App\Models\Message;
 use App\Models\Client;
 use App\Models\ClientStaff;
+use App\Models\ClientUpload;
+use App\Models\HostUpload;
 
 class ClientController extends Controller
 {
@@ -25,7 +27,10 @@ class ClientController extends Controller
           $q->where('is_global', '=', '1')
           ->orWhere('targeted_at', '=', Auth::user()->client->id);  
         })->get();
-        return View::make('client.dashboard')->with(['messages' => $messages]);
+
+        $uploads = ClientUpload::where('client_id', Auth::user()->client->id)->get();
+        $downloads = HostUpload::where('client_id', Auth::user()->client->id)->get();
+        return View::make('client.dashboard')->with(['messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads]);
     }
 
     public function going_out()
@@ -35,12 +40,7 @@ class ClientController extends Controller
     }
 
     public function upload_files(Request $request) 
-    {
-        $file_count = 0;
-
-        
-
-        
+    {   
         if($request->has('file')) {
             foreach($request->file('file') as $key => $value) {
                 $comment = $request->input('comment')[$key];
@@ -61,7 +61,6 @@ class ClientController extends Controller
                             'comment' => $comment
                         ]);
                     
-                        $file_count += 1;
                 });
             }
 
@@ -72,6 +71,18 @@ class ClientController extends Controller
             return redirect('data-outgoing');
         }
     }
+
+    public function delete_records(Request $request)
+    {
+        $ids = $request->file_ids;
+        foreach ($ids as $id) {
+            $record = ClientUpload::find($id);
+            $record->delete();
+        }
+
+        return 'Deleted successfully';
+    }
+
     public function going_in()
     {
         return View::make('client.incoming');

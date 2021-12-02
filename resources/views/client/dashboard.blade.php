@@ -56,7 +56,18 @@
                           </tr>
                         </thead>
                         <tbody>
-                          {{-- forelse here --}}
+                          @forelse($uploads as $upload)
+                            <tr>
+                              <td>{{$upload->created_at->format('Y年m月d日')}}</td>
+                              <td>{{$upload->file_name}}</td>
+                              <td>アップロード</td>
+                              <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日')  }}</td>
+                            </tr>
+                          @empty
+                            <tr>
+                              <td colspan="4">データなし</td>
+                            </tr>
+                          @endforelse
                         </tbody>
                       </table>
                     </div>
@@ -83,7 +94,19 @@
                           <th>視聴期限</th>
                         </thead>
                         <tbody>
-                          {{-- forelse here --}}
+                          @forelse($downloads as $download)
+                            <tr>
+                              <td>{{$download->created_at->format('Y年m月d日')}}</td>
+                              <td>{{$download->file_name}}</td>
+                              <td>{{$download->status}}</td>
+                              <td>{{$download->priority}}</td>
+                              <td>{{$download->created_at->modify('+1 month')->format('Y年m月d日')  }}</td>
+                            </tr>
+                          @empty
+                            <tr>
+                              <td colspan="5" class="text-center">データなし</td>
+                            </tr>
+                          @endforelse
                         </tbody>
                       </table>
                     </div>
@@ -109,7 +132,10 @@
                           <th>状態</th>
                         </thead>
                         <tbody>
-                          {{-- forelse here --}}
+                          @forelse($uploads as $uploads)
+
+                          @empty
+                          @endforelse
                         </tbody>
                       </table>
                     </div>

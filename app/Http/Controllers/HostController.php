@@ -22,6 +22,8 @@ use App\Models\SubscriptionPlan;
 use App\Models\ClientStaff;
 use App\Models\Message;
 use App\Models\File;
+use App\Models\ClientUpload;
+use App\Models\HostUpload;
 
 use Carbon\Carbon;
 use Hashids\Hashids;
@@ -273,7 +275,11 @@ class HostController extends Controller
         $id = $this->hashids->decode($client_id)[0];
         $client = Client::find($id)->first();
 
-        return View::make('host.individual-clients.dashboard', ['client' => $client]);
+        $messages = Message::where('targeted_at', '=', $id)->orWhere('is_global', '=', 1)->get();
+        $uploads = ClientUpload::where('client_id', '=', $id)->get();
+        $downloads = HostUpload::where('client_id', '=', $id)->get();
+
+        return View::make('host.individual-clients.dashboard', ['client' => $client, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads]);
     }
 
     public function contact_client($client_id)
@@ -312,9 +318,6 @@ class HostController extends Controller
         $contents = Storage::url($path);
 
         return $contents;
-
-        
-        //127.0.0.1:8080/storage/public/temp/file_name
     }
 
     public function send_notification(Request $request)

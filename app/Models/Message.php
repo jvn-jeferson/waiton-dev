@@ -23,4 +23,5 @@ class Message extends Model
         'file_ids'
     ];
 
+    protected $dates = ['scheduled_at', 'deleted_at', 'updated_at'];
 }

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ClientUpload extends Model
 {
-    use HasFactory;
+    use HasFactory, softDeletes;
 
     protected $table = 'client_uploads';
 
@@ -27,6 +28,8 @@ class ClientUpload extends Model
         'file_size',
         'comment'
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function client(): HasOne {
         return $this->hasOne(Client::class);
