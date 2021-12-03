@@ -35,7 +35,7 @@
                                                     <th>新規追加</th>
                                                     <td>
                                                         {{-- @if($client->count < $subscription->subscription_plan->max_clients) data-toggle="modal" data-placement="top" title="Add a new customer" data-target="#newClientModal" @else onclick="launchMaxClientNotif() @endif" --}}
-                                                        <button class="btn btn-block btn-success float-right" data-toggle="modal" data-placement="top" title="Add a new customer" data-target="#newClientModal" type="button">
+                                                        <button class="btn btn-block btn-success float-right" @if(auth()->user()->role_id == 2) data-toggle="modal" data-placement="top" title="Add a new customer" data-target="#newClientModal" @else onclick="launchNoAccess()" @endif type="button">
                                                             追加
                                                         </button>
                                                     </td>
@@ -229,5 +229,14 @@
                 })
             })
         })
+
+
+        function launchNoAccess() {
+            Swal.fire({
+                icon: 'info',
+                title: 'アクセスできません',
+                text: '新しいクライアントを追加するには、管理者権限が必要です。'
+            })
+        }
     </script>
 @endsection

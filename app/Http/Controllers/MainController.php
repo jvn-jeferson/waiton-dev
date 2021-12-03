@@ -89,19 +89,10 @@ class MainController extends Controller
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
-
-        if($staff_id) 
-        {
-          // $user = User::findorFail($user_id);
-          // $user->sendPasswordNotification($user->createToken());
-          return View::make('auth/login');
-        }
-        else 
-        {
-          abort(500);
-        }
       }
     });
+
+    return View::make('main/payment_success');
   }
 
   public function confirm_payment()
