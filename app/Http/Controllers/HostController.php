@@ -290,6 +290,57 @@ class HostController extends Controller
         return View::make('host.individual-clients.message-client', ['client' => $client]);
     }
 
+    public function from_client($client_id)
+    {
+        $id = $this->hashids->decode($client_id)[0];
+        $client = Client::find($id)->first();
+
+        return View::make('host.individual-clients.incoming')->with(['client' => $client]);
+    }
+
+    public function to_client($client_id)
+    {
+        $id = $this->hashids->decode($client_id)[0];
+        $client = Client::find($id)->first();
+        $uploads = HostUpload::where('client_id', $id)->get();
+
+        return View::make('host.individual-clients.outgoing')->with(['client' => $client, 'uploads' => $uploads]);
+    }
+
+    public function file_tax($client_id, Request $request)
+    {
+        $id = $this->hashids->decode($client_id)[0];
+        $request->validate(
+            [
+                'file' => 'required|mimes:doc,docx,pdf,csv'
+            ]
+        );
+
+        DB::transaction(function () use ($request, $id) {
+
+            $path = $request->file('file')->store('public/files/'.Auth::user()->accountingOffice->id);
+            $name = $request->file('file')->getClientOriginalName();
+            $size = $request->file('file')->getSize();
+
+            $file_id = File::insertGetId([
+                'path' => $path,
+                'name' => $name,
+                'size' => $size
+            ]);
+
+            HostUpload::create([
+                'accounting_office_staff_id' => 1,
+                'client_id' => $id,
+                'file_id' => $file_id,
+                'status' => 1,
+                'priority' => $request->input('require_action'),
+                'details' => $request->input('comment')
+            ]);
+
+            return 'success';
+        });
+    }
+
     public function financial_history_client($client_id)
     {
         $id = $this->hashids->decode($client_id)[0];

@@ -57,6 +57,9 @@ Route::group(['middleware' => 'auth'], function() {
         //Accounting Office Individual Routes
         Route::get('view-individual-clients/client_id={client_id}/dashboard', [HostController::class, 'view_client'])->name('individual-dashboard');
         Route::get('view-individual-clients/client_id={client_id}/contact', [HostController::class, 'contact_client'])->name('individual-contact');
+        Route::get('view-individual-clients/client_id={client_id}/data-incoming', [HostController::class, 'from_client'])->name('data-incoming');
+        Route::get('view-individual-clients/client_id={client_id}/data-outgoing', [HostController::class, 'to_client'])->name('data-outgoing');
+        Route::post('view-individual-clients/client_id={client_id}/send-tax-file', [HostController::class, 'file_tax'])->name('send-tax-file');
         Route::get('view-individual-clients/client_id={client_id}/settlement-history', [HostController::class, 'financial_history_client'])->name('individual-history');
         Route::get('view-individual-clients/client_id={client_id}/access-files/{file_id}', [HostController::class, 'access_files_client'])->name('individual-history-access');
         Route::get('video-creation', [HostController::class, 'video_creation'])->name('video-creation');

@@ -112,7 +112,7 @@
           
           <li class="nav-header mt-3">文書</li>
           <li class="nav-item">
-            <a href="data-outgoing" class="nav-link @if(request()->route()->getName() == 'data-outgoing') active  @endif">
+            <a href="data-incoming" class="nav-link @if(request()->route()->getName() == 'data-incoming') active  @endif">
               <i class="nav-icon fas fa-upload"></i>
               <p>
               To　会計事務所
@@ -120,11 +120,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="data-incoming" class="nav-link @if(request()->route()->getName() == 'data-incoming') active  @endif">
+            <a href="data-outgoing" class="nav-link @if(request()->route()->getName() == 'data-outgoing') active  @endif">
               <i class="nav-icon fas fa-download"></i>
               <p>
               From　会計事務所
-                <span class="right badge badge-danger">2</span>
               </p>
             </a>
           </li>

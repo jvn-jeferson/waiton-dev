@@ -34,7 +34,8 @@
                                                 <tr>
                                                     <th>新規追加</th>
                                                     <td>
-                                                        <button class="btn btn-block btn-success float-right" type="button" data-toggle="modal" data-placement="top" title="Add a new customer" data-target="#newClientModal" type="button">
+                                                        {{-- @if($client->count < $subscription->subscription_plan->max_clients) data-toggle="modal" data-placement="top" title="Add a new customer" data-target="#newClientModal" @else onclick="launchMaxClientNotif() @endif" --}}
+                                                        <button class="btn btn-block btn-success float-right" data-toggle="modal" data-placement="top" title="Add a new customer" data-target="#newClientModal" type="button">
                                                             追加
                                                         </button>
                                                     </td>

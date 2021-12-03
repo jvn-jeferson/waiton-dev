@@ -9,29 +9,27 @@
                         <div class="card card-info card-outline">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    Send Message to Every Client
+                                    対象顧客への連絡
                                 </h3>
                             </div>
                             <div class="card-body">
+                                <p class="text-dark h4">向けに連絡を行うことができます</p>
                                 <form action="" method="post" enctype="multipart/form">
+                                    @csrf
                                     <div class="form-group">
-                                        <label for="message_date">Notification Date</label>
-                                        <input type="date" name="message_date" id="message_date" class="form-control col-12 col-sm-6 col-md-3">
+                                        <label for="scheduled_at">指定日（設定しない場合は、投稿日で連絡されます）</label>
+                                        <input type="date" name="scheduled_at" id="scheduled_at" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label for="message_subject">Subject</label>
-                                        <input type="text" name="message_subject" id="message_subject" class="form-control">
+                                        <label for="contents">コメント欄</label>
+                                        <input type="text" name="contents" id="contents" class="form-control" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="message_details">Details</label>
-                                        <textarea type="text" name="message_details" id="message_details" class="form-control" rows="5"></textarea>
+                                        <label for="file">Attach a File</label>
+                                        <input type="file" name="file" id="file">
                                     </div>
                                     <div class="form-group">
-                                        <label for="message_attachment">Attach a File</label>
-                                        <input type="file" name="message_attachment" id="message_attachment">
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn btn-info float-right" type="submit" name="message_send"><i class="fas fa-paper-plane"></i> Send Message</button>
+                                        <input type="submit" value="登録" name="submit" class="btn btn-warning float-right">
                                     </div>
                                 </form>
                             </div>
@@ -42,7 +40,7 @@
                     <div class="col-auto col-md-12 col-sm-12">
                         <div class="card card-success card-outline collapsed-card">
                             <div class="card-header">
-                                <h3 class="card-title">Post Records</h3>
+                                <h3 class="card-title text-dark">投稿履歴</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                         <i class="fas fa-bars"></i>
@@ -52,13 +50,12 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-bordered text-center">
-                                        <thead class="thead bg-info">
-                                            <th>Select</th>
-                                            <th>Date Posted</th>
-                                            <th>Post Schedule</th>
-                                            <th>Subject</th>
-                                            <th>Details</th>
-                                            <th>Posted Material</th>
+                                        <thead class="thead bg-light">
+                                            <th>選択</th>
+                                            <th>投稿日</th>
+                                            <th>指定日</th>
+                                            <th>コメント</th>
+                                            <th>投稿資料</th>
                                         </thead>
                                         <tbody>
                                             {{-- @foreach ($records as $record) --}}
