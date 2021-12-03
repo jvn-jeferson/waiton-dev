@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class HostUpload extends Model
 {
@@ -26,6 +26,6 @@ class HostUpload extends Model
 
     public function file() : HasOne
     { 
-        $this->hasOne(File::class);
+       return $this->hasOne(File::class, 'id', 'file_id');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ClientUpload extends Model
 {
@@ -23,6 +24,7 @@ class ClientUpload extends Model
 
     protected $filterable = [
         'client_id',
+        'client_staff_id',
         'file_name',
         'file_path',
         'file_size',

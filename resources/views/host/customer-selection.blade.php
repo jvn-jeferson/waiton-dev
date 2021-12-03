@@ -127,7 +127,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th colspan="2"><label for="business_address">社名</label></th>
+                                        <th colspan="2"><label for="business_address">本店所在地</label></th>
                                         <td>
                                             <input type="text" name="business_address" id="business_address" class="form-control" placeholder="">
                                         </td>

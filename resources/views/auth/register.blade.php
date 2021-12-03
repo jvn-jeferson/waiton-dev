@@ -46,23 +46,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" class="@error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email') }}" placeholder="電子メイル"/>
+                                <input type="email" class="@error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email') }}" placeholder="メールアドレス"/>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
-                            <!-- <div class="form-group">
-                                <label for="contact_email"><i class="zmdi zmdi-email"></i></label>
-                                <input id="contact_email" type="email" class="@error('contact_email') is-invalid @enderror" name="contact_email" value="{{ old('contact_email') }}" autocomplete="email" placeholder="メールアドレス">
-
-                                @error('contact_email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div> -->
                             <div class="form-group">
                                 <input type="checkbox" class="@error('agree-term') is-invalid @enderror" name="agree-term" id="agree-term" class="agree-term" />
                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>私はのすべての声明に同意します <a href="#" class="term-service text-info">利用規約</a></label>
