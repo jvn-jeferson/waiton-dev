@@ -58,7 +58,7 @@ class HostController extends Controller
         $this->accounting_office = AccountingOffice::firstWhere('user_id', $this->user->id);
         $this->staff = AccountingOfficeStaff::firstWhere('user_id', $this->user->id);
         $this->subscription = Subscription::firstWhere('accounting_office_id', $this->accounting_office->id);
-        if($this->subscription) {     
+        if($this->subscription) {
             $this->subscription_plan = SubscriptionPlan::findorFail($this->subscription->subscription_plan_id);
         }else {
             $this->subscription_plan = null;
@@ -67,7 +67,7 @@ class HostController extends Controller
     }
 
     public function index()
-    {  
+    {
         $this->set_globals();
         return View::make('host.dashboard')->with(['page_title'=> '事業所ホーム', 'subscription' => $this->subscription, 'account' => $this->accounting_office, 'staff' => $this->staff]);
     }
@@ -138,7 +138,7 @@ class HostController extends Controller
         }
 
         foreach($messages as $message) {
-            
+
             $file_names = array();
             if(!$message->file_id == null) {
                 $file_ids = explode(', ', $message->file_id);
@@ -147,10 +147,10 @@ class HostController extends Controller
                     array_push($file_names,$file_name);
                 }
             }
-            
+
             $message->file_names = implode(', ', $file_names);
         }
-        
+
         return View::make('host.message-clients')->with(['page_title'=>'全顧客への連絡', 'messages' => $messages]);
     }
 
@@ -207,7 +207,7 @@ class HostController extends Controller
                 $result = "failure";
             }
         });
-        
+
         return $result;
     }
 
@@ -215,7 +215,7 @@ class HostController extends Controller
     {
         $this->set_globals();
 
-        return View::make('host.plan-update')->with(['page_title' => 'プラン確認・変更']);
+        return View::make('host.blank-tempo')->with(['page_title' => 'プラン確認・変更']);
     }
 
     public function register_new_client(Request $request)
@@ -238,12 +238,12 @@ class HostController extends Controller
         DB::transaction(function () use ($request, $accounting_office_id, $token){
             $user_id = User::insertGetId([
                 'email' => $request->email,
-                'password' => Hash::make('password'),
+                'password' => Hash::make(Str::random(12)),
                 'role_id' => 4,
                 'is_online' => 0,
                 'remember_token' => $token
             ]);
-    
+
             if($user_id) {
                 $client_id = Client::insertGetId([
                     'user_id' => $user_id,
@@ -255,13 +255,18 @@ class HostController extends Controller
                     'representative' => $request->representative,
                     'tax_filing_month' => $request->tax_filing_month
                 ]);
-    
+
                 ClientStaff::create([
                     'client_id' => $client_id,
                     'user_id' => $user_id,
                     'name' => $request->representative,
                     'is_admin' => 1
                 ]);
+
+                $user = User::findOrFail($user_id);
+                $token = $user->createToken();
+                $user->sendPasswordNotification($token);
+
                 return "Client creation successful";
             }
             else {

@@ -49,11 +49,11 @@
               </p>
 
               <ul class="list-group list-group-unbordered mb-3">
-                
+
               </ul>
 
               <a href="various-settings" class="btn btn-primary btn-block"><b>Profile</b></a>
-              
+
               <a  href="{{ url('/logout') }}" class="btn btn-danger btn-block"><b>ログアウト</b></a>
             </div>
             <!-- /.card-body -->
@@ -99,7 +99,7 @@
               </p>
             </a>
           </li>
-          
+
           <li class="nav-header mt-3">文書</li>
           <li class="nav-item">
             <a href="data-outgoing" class="nav-link @if(request()->route()->getName() == 'data-outgoing') active  @endif">
@@ -118,7 +118,7 @@
               </p>
             </a>
           </li>
-          
+
           <li class="nav-header mt-3">記録</li>
           <li class="nav-item">
             <a href="settlement-history" class="nav-link @if(request()->route()->getName() == 'settlement-history') active  @endif">
@@ -133,12 +133,12 @@
                 <i class="nav-icon fas fa-bell"></i>
                 <p>
                 通知
-                  
+
                 </p>
               </a>
           </li>
 
-          
+
           <li class="nav-header mt-3">ツール</li>
           <li class="nav-item">
             <a href="various-settings" class="nav-link @if(request()->route()->getName() == 'various-settings') active  @endif">
@@ -148,10 +148,10 @@
                 </p>
               </a>
           </li>
-          
+
           <li class="nav-header mt-5"></li>
           <li class="nav-item">
-            <a href="../gallery.html" class="nav-link">
+            <a href="{{ route('client-faq') }}" class="nav-link">
               <i class="nav-icon far fa-question-circle"></i>
               <p>
                 FAQ
@@ -159,7 +159,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="../gallery.html" class="nav-link">
+            <a href="{{ route('client-inquiry') }}" class="nav-link">
               <i class="nav-icon far fa-comment-dots"></i>
               <p>
               問合せ

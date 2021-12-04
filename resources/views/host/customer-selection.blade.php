@@ -191,7 +191,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        
+
         $("#newClientForm").on('submit', function(event) {
             event.preventDefault()
 
@@ -227,6 +227,7 @@
                     title: 'Oops...',
                     text: 'Something went wrong. Check your inputs and try again.',
                 })
+
             })
         })
 

@@ -60,7 +60,7 @@ class MainController extends Controller
     DB::transaction(function () use ($request) {
       $user_id = User::insertGetId([
         'email' => $request->input('email'),
-        'password' => Hash::make('password'),
+        'password' => Hash::make(Str::random(12)),
         'role_id' => 2,
         'is_online' => 0,
         'remember_token' => Str::random(60),
@@ -68,7 +68,7 @@ class MainController extends Controller
         'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
       ]);
 
-      if($user_id) 
+      if($user_id)
       {
         $accountingId = AccountingOffice::insertGetId([
           'user_id' => $user_id,
@@ -89,6 +89,10 @@ class MainController extends Controller
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
+
+        $user = User::findOrFail($user_id);
+        $token = $user->createToken();
+        $user->sendPasswordNotification($token);
       }
     });
 
@@ -108,7 +112,7 @@ class MainController extends Controller
   //     'address' => 'required',
   //     'representative' => 'required'
   //   ]);
-    
+
   //   \Stripe\Stripe::setApiKey(env("STRIPE_SECRET"));
   //   $customer = \Stripe\Customer::create([
   //     'email' => $request->stripeEmail,

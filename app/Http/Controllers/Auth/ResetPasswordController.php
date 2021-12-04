@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class ResetPasswordController extends Controller
 {
@@ -26,25 +28,19 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    public function redirectTo() 
-    {
-        $role = auth()->user()->role->id;
+    protected $redirectTo = "/login";
 
-        switch($role)
-        {
-            case 1:
-                abort(403);
-                break;
-            case 2:
-            case 3:
-                return '/home';
-                break;
-            case 4:
-            case 5:
-                return '/client-home';
-                break;
-            default:
-                return '/login';
-        }
+    public function __construct()
+    {
+        $this->middleware('guest');
     }
+
+    protected function resetPassword($user, $password)
+    {
+        $user->forceFill([
+            'password' => Hash::make($password),
+            'remember_token' => Str::random(60),
+        ])->save();
+    }
+
 }

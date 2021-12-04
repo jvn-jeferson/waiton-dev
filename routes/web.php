@@ -37,6 +37,8 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('various-settings', [ClientController::class, 'various_settings'])->name('various-settings');
         Route::post('upload-files', [ClientController::class, 'upload_files'])->name('upload-files');
         Route::post('delete-records', [ClientController::class, 'delete_records'])->name('delete-records');
+        Route::get('client-faq', [ClientController::class, 'faq'])->name('client-faq');
+        Route::get('client-inquiry', [ClientController::class, 'inquiry'])->name('client-inquiry');
     });
     // End Client Routes
 

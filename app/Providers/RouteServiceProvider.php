@@ -20,6 +20,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/home';
     public const CLIENTHOME = '/client-home';
+    public const LOGIN = 'login';
 
 
     /**

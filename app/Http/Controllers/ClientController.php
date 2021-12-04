@@ -25,7 +25,7 @@ class ClientController extends Controller
         ]])
         ->where(function($q){
           $q->where('is_global', '=', '1')
-          ->orWhere('targeted_at', '=', Auth::user()->client->id);  
+          ->orWhere('targeted_at', '=', Auth::user()->client->id);
         })->get();
 
         $uploads = ClientUpload::where('client_id', Auth::user()->client->id)->get();
@@ -39,8 +39,8 @@ class ClientController extends Controller
         return View::make('client.outgoing')->with(['uploads' => $uploads]);
     }
 
-    public function upload_files(Request $request) 
-    {   
+    public function upload_files(Request $request)
+    {
         if($request->has('file')) {
             foreach($request->file('file') as $key => $value) {
                 $comment = $request->input('comment')[$key];
@@ -60,7 +60,7 @@ class ClientController extends Controller
                             'file_size' => $request->file('file')[$key]->getSize(),
                             'comment' => $comment
                         ]);
-                    
+
                 });
             }
 
@@ -111,5 +111,15 @@ class ClientController extends Controller
     public function various_settings()
     {
         return View::make('client.settings');
+    }
+
+    public function faq()
+    {
+        return View::make('client.faq');
+    }
+
+    public function inquiry()
+    {
+        return View::make('client.inquiry');
     }
 }
