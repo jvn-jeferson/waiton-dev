@@ -46,11 +46,11 @@
 <div class="content-wrapper">
     <section class="content">
         <div class="row">
-            <div class="col-9 justify-content-center">
-                <button id="prev">Previous</button>
-                <button id="next">Next</button>
+            <div class="col-9 justify-content-center" style="visibility: hidden;" id="video-container">
+                <button class="btn btn-primary" id="prev">Previous</button>
                 <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
                 <canvas id="pdf-canvas"></canvas>
+                <button class="btn btn-primary" id="next">Next</button>
             </div>
             <div class="col-3">
                 <div class="card">
@@ -128,7 +128,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
 
 <script>
-    
+
     var pdf_file = '';
     var imageData_store = [];
     let restore_array = [];
@@ -209,7 +209,7 @@
     prev.addEventListener('click', onPrevPage)
     next.addEventListener('click', onNextPage)
 
-    
+
 </script>
 
 <script>
@@ -451,9 +451,11 @@
             var path = response.data
             var base_url = "<?php echo env('APP_URL'); ?>"
             var file_path = base_url + path
-            
+
             pdf_file = path
             pdfjsLib.getDocument(file_path).promise.then((doc) => {
+                var video_container = document.getElementById('video-container');
+                video_container.style.visibility = 'visible';
                 pdfDoc = doc
                 total_page.textContent = doc.numPages
                 renderPage(pageNum)
