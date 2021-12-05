@@ -13,8 +13,10 @@
                             <div class="row">
                                 <div class="col-7">
                                     <p><a href="#" onclick="window.open('{{route('video-creation')}}');">Create a video from here and paste the URL.</a></p>
-                                    <input type="url" name="video-url" id="video-url" class="form-control" placeholder="Paste the video url here.">
+                                    <form method="GET" action="{{url('get-video')}}">
+                                    <input type="text" name="video_url" id="video_url" class="form-control" placeholder="Paste the video url here.">
                                     <video src="" style="width: 100%; border:2px darkgreen dashed; position: relative; display:flex" class="mt-2"></video>
+                                    </form>
                                 </div>
                                 <div class="col-5">
                                     <h4 class="text-bold">

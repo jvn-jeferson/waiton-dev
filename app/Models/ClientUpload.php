@@ -19,6 +19,7 @@ class ClientUpload extends Model
         'file_name',
         'file_path',
         'file_size',
+        'file_type',
         'comment'
     ];
 

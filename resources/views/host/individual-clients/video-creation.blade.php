@@ -73,7 +73,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="video_name">Video Title</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" id="video_title" name="video_title" class="form-control">
                                 </div>
                                 <button class="btn-primary btn btn-block" id="start">Launch Recorder</button>
                                 <div class="form-group mt-2">
@@ -110,7 +110,10 @@
                                 <div class="mt-2">
                                     <video src="" style="width: 100%; border:1px dashed gray" id="video" autoplay muted></video>
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="video_name">File Url</label>
+                                    <input type="text" id="file_url" name="file_url" class="form-control" readonly>
+                                </div>
                                 <button class="btn btn-block btn-success mt-3" id="download">Download Video</button>
                             </div>
                         </div>
@@ -128,7 +131,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
 
 <script>
-
     var pdf_file = '';
     var imageData_store = [];
     let restore_array = [];
@@ -138,7 +140,6 @@
         zoomOut = document.querySelector('#zoomOut'),
         page = document.querySelector('#page-num'),
         total_page = document.querySelector('#page-count')
-
     var pdfDoc = null,
         pageNum = 1,
         pageRendering = false,
@@ -148,7 +149,7 @@
     ctx = canvas.getContext('2d')
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    function renderPage(num,result = []) {
+    function renderPage(num, result = []) {
         pageRendering = true;
         pdfDoc.getPage(num).then((page) => {
             var viewport = page.getViewport({
@@ -156,16 +157,12 @@
             });
             canvas.height = viewport.height
             canvas.width = viewport.width
-
-
             var renderContext = {
                 canvasContext: ctx,
                 viewport: viewport,
             }
-            if(result.length != 0){
-
-            }
-            imageData_store.forEach(function(i,key){
+            if (result.length != 0) {}
+            imageData_store.forEach(function(i, key) {
                 ctx.putImageData(imageData_store[key], 0, 0)
             })
             var renderTask = page.render(renderContext)
@@ -202,19 +199,14 @@
         }
         pageNum++
         var result = imageData_store.push(context.getImageData(0, 0, canvas.width, canvas.height));
-        queueRenderPage(pageNum,result)
+        queueRenderPage(pageNum, result)
     }
-
-
     prev.addEventListener('click', onPrevPage)
     next.addEventListener('click', onNextPage)
-
-
 </script>
 
 <script>
     var context = ctx
-
     let start_index = -1
     let stroke_color = 'black'
     let stroke_width = "2"
@@ -277,7 +269,6 @@
         }
     }
 
-
     function getY(event) {
         if (event.pageY == undefined) {
             return event.targetTouches[0].pageY - canvas.offsetTop
@@ -285,7 +276,6 @@
             return event.pageY - canvas.offsetTop
         }
     }
-
     canvas.addEventListener("touchstart", start, false);
     canvas.addEventListener("touchmove", draw, false);
     canvas.addEventListener("touchend", stop, false);
@@ -299,11 +289,12 @@
         restore_array = []
         start_index = -1
     }
+
     function undo_last() {
-        if(start_index <= 0) {
+        if (start_index <= 0) {
             clearCanvas()
-        }else {
-            start_index-=1
+        } else {
+            start_index -= 1
             restore_array.pop()
             context.putImageData(restore_array[start_index], 0, 0)
         }
@@ -320,42 +311,47 @@
 
 <script>
     'use strict';
-
     /* globals MediaRecorder */
-
     let mediaRecorder;
     let recordedBlobs;
-
     const recordButton = document.querySelector('button#record');
     const stopButton = document.querySelector('button#stop');
     const recordedVideo = document.querySelector('video#video');
     const downloadButton = document.querySelector('button#download');
-
-
     recordButton.addEventListener('click', () => {
         startRecording();
     });
-
     stopButton.addEventListener('click', () => {
         stopRecording();
     })
-
-
     //CHANGE TO UPLOAD TO GOOGLE DRIVE
     //RETURN GDRIVE LINKS
     downloadButton.addEventListener('click', () => {
         const blob = new Blob(recordedBlobs, {
             type: 'video/mp4'
         });
-        const url = window.URL.createObjectURL(blob);
+        const blobUrl = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.style.display = 'none';
-        a.href = url;
-        a.download = 'test.mp4';
 
-
+        fetch(blobUrl).then(response => response.blob())
+            .then(blobs => {
+                const name = $("#video_title").val();
+                const fd = new FormData();
+                fd.append("file", blobs); // where `.ext` matches file `MIME` type
+                fd.append('fileName',name);
+                return axios.post("/save-video",fd, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+            })
+            .then((response) => {
+                console.log(response);
+                $("#file_url").val(response.data);
+            })
+            .catch(err => console.log(err));
         document.body.appendChild(a);
-        a.click();
         setTimeout(() => {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
@@ -370,7 +366,6 @@
     }
 
     function startRecording() {
-
         var loader = document.querySelector('#loader-div');
         loader.style.display = 'block';
         recordedBlobs = [];
@@ -384,7 +379,6 @@
             errorMsgElement.innerHTML = `Exception while creating MediaRecorder: ${JSON.stringify(e)}`;
             return;
         }
-
         console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
         recordButton.disabled = true;
         stopButton.disabled = false;
@@ -407,11 +401,9 @@
         recordButton.disabled = false;
         console.log('getUserMedia() got stream:', stream);
         window.stream = stream;
-
         const gumVideo = document.querySelector('video#video');
         gumVideo.srcObject = stream;
     }
-
     async function init(constraints) {
         try {
             const stream = await navigator.mediaDevices.getDisplayMedia(constraints);
@@ -421,7 +413,6 @@
             errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
         }
     }
-
     document.querySelector('button#start').addEventListener('click', async () => {
         const constraints = {
             audio: false,
@@ -442,28 +433,27 @@
         formData.append('file', fileInput.files[0])
         var url = "{{route('get-pdf-source')}}"
         axios.post(url, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-        .then(function (response) {
-            console.log(response.data)
-            var path = response.data
-            var base_url = "<?php echo env('APP_URL'); ?>"
-            var file_path = base_url + path
-
-            pdf_file = path
-            pdfjsLib.getDocument(file_path).promise.then((doc) => {
-                var video_container = document.getElementById('video-container');
-                video_container.style.visibility = 'visible';
-                pdfDoc = doc
-                total_page.textContent = doc.numPages
-                renderPage(pageNum)
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             })
-        })
-        .catch(function (error) {
-            console.log(error.response.data);
-        })
+            .then(function(response) {
+                console.log(response.data)
+                var path = response.data
+                var base_url = "<?php echo env('APP_URL'); ?>"
+                var file_path = base_url + path
+                pdf_file = path
+                pdfjsLib.getDocument(file_path).promise.then((doc) => {
+                    var video_container = document.getElementById('video-container');
+                    video_container.style.visibility = 'visible';
+                    pdfDoc = doc
+                    total_page.textContent = doc.numPages
+                    renderPage(pageNum)
+                })
+            })
+            .catch(function(error) {
+                console.log(error.response.data);
+            })
     }
 </script>
 

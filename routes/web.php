@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('view-individual-clients/client_id={client_id}/settlement-history', [HostController::class, 'financial_history_client'])->name('individual-history');
         Route::get('view-individual-clients/client_id={client_id}/access-files/{file_id}', [HostController::class, 'access_files_client'])->name('individual-history-access');
         Route::get('video-creation', [HostController::class, 'video_creation'])->name('video-creation');
+        Route::post('save-video', [HostController::class, 'save_video']);
         Route::post('get-pdf-source', [HostController::class, 'pdf_source'])->name('get-pdf-source');
         //End Accounting Office Individual Routes
     });
