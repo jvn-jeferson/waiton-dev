@@ -232,27 +232,6 @@ class HostController extends Controller
         $accounting_office_id = AccountingOffice::where('user_id', $host_id)->first()->id;
         $token = Str::random(60);
 
-<<<<<<< HEAD
-        DB::transaction(function () use ($request, $accounting_office_id, $token) {
-            $user_id = User::insertGetId([
-                'email' => $request->email,
-                'password' => Hash::make(Str::random(12)),
-                'role_id' => 4,
-                'is_online' => 0,
-                'remember_token' => $token
-            ]);
-
-            if ($user_id) {
-                $client_id = Client::insertGetId([
-                    'user_id' => $user_id,
-                    'accounting_office_id' => $accounting_office_id,
-                    'name' => $request->name,
-                    'business_type_id' => $request->business_type_id,
-                    'address' => $request->address,
-                    'telephone' => $request->telephone,
-                    'representative' => $request->representative,
-                    'tax_filing_month' => $request->tax_filing_month
-=======
         DB::transaction(function () use ($request, $accounting_office_id, $token){
 
             $hashids = new Hashids(config('hashids.login_salt'), 8);
@@ -277,7 +256,6 @@ class HostController extends Controller
                     'role_id' => 4,
                     'is_online' => 0,
                     'remember_token' => $token
->>>>>>> 0dd57f87f78e0df3f0b58579c8d653dd0e5e4653
                 ]);
 
                 if($manager_id)
@@ -289,22 +267,17 @@ class HostController extends Controller
                     ]);
 
                     ClientStaff::create([
-                        'client_id' => $client->id, 
+                        'client_id' => $client->id,
                         'user_id' => $manager_id,
                         'name' => $request->manager_name,
                         'is_admin' => 1
                     ]);
 
-<<<<<<< HEAD
-                return "Client creation successful";
-            } else {
-                return "Client creation failed";
-=======
                     $manager->save();
                     $manager->createToken();
                     $manager->sendPasswordNotification($token, $manager_pw, $manager_login_id);
 
-                    if($request->user1_name != '' && $request->user1_email != '') 
+                    if($request->user1_name != '' && $request->user1_email != '')
                     {
                         $user1_pw = Str::random(8);
                         $user1_id = User::insertGetId([
@@ -324,7 +297,7 @@ class HostController extends Controller
                             ]);
 
                             ClientStaff::create([
-                                'client_id' => $client->id, 
+                                'client_id' => $client->id,
                                 'user_id' => $user1_id,
                                 'name' => $request->user1_name,
                                 'is_admin' => 0
@@ -357,7 +330,7 @@ class HostController extends Controller
                             ]);
 
                             ClientStaff::create([
-                                'client_id' => $client->id, 
+                                'client_id' => $client->id,
                                 'user_id' => $user2_id,
                                 'name' => $request->user2_name,
                                 'is_admin' => 0
@@ -375,10 +348,9 @@ class HostController extends Controller
                     return "Client creation successfull but failed to add new user.";
                 }
             }
-            else 
+            else
             {
                 return "Failed to create a new client";
->>>>>>> 0dd57f87f78e0df3f0b58579c8d653dd0e5e4653
             }
         });
     }
