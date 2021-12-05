@@ -15,6 +15,7 @@ use App\Models\Client;
 use App\Models\ClientStaff;
 use App\Models\ClientUpload;
 use App\Models\HostUpload;
+use App\Models\File;
 
 class ClientController extends Controller
 {
@@ -49,7 +50,7 @@ class ClientController extends Controller
                 DB::transaction(function () use ($comment, $request, $key) {
 
                     $user_id = Auth::user()->id;
-                    $client = Client::where('user_id', $user_id)->first();
+                    $client = Auth::user()->clientStaff->client;
                     $staff = ClientStaff::where('user_id', $user_id)->first();
 
                     ClientUpload::create(
@@ -86,6 +87,7 @@ class ClientController extends Controller
 
     public function going_in()
     {
+
         return View::make('client.incoming');
     }
 
