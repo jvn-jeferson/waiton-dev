@@ -9,19 +9,21 @@ use App\Http\Controllers\TemporaryController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Tests\MailController;
+use App\Http\Controllers\AdministratorController;
 
 Auth::routes();
 Route::get('/', [MainController::class, 'index'])->name('/');
-// Route::get('select-plan', [MainController::class, 'select_plan'])->name('select-plan');
 Route::post('registration', [MainController::class, 'register_office'])->name('registration');
 Route::get('logout', [LoginController::class, 'logout']);
 Route::get('screen-recording', [HostController::class, 'screen_record'])->name('screen_recording');
 Route::get('change-password/$1', [MainController::class, 'change_password'])->name('change-password');
 Route::get('send-email', [PaymentController::class, 'send_email'])->name('send-email');
 Route::post('payment_process', [PaymentController::class, 'payment_process'])->name('payment_process');
-// Route::post('checkout', [MainController::class, 'checkout'])->name('checkout');
 Route::post('update-password', [PaymentController::class, 'update_password'])->name('update-password');
 Route::get('redirectuser', [MainController::class, 'redirectuser'])->name('redirectuser');
+Route::get('request-reset-password', [MainController::class, 'request_reset_password'])->name('request-reset-password');
+Route::post('send-password-reset-mail', [MainController::class, 'send_password_reset'])->name('send-password-reset-mail');
+Route::get('password/request-reset/{token}?user={login_id}', [MainController::class, 'password_reset_granted'])->name('password.request-reset');
 
 
 Route::group(['middleware' => 'auth'], function() {
@@ -59,8 +61,8 @@ Route::group(['middleware' => 'auth'], function() {
         //Accounting Office Individual Routes
         Route::get('view-individual-clients/client_id={client_id}/dashboard', [HostController::class, 'view_client'])->name('individual-dashboard');
         Route::get('view-individual-clients/client_id={client_id}/contact', [HostController::class, 'contact_client'])->name('individual-contact');
-        Route::get('view-individual-clients/client_id={client_id}/data-incoming', [HostController::class, 'from_client'])->name('data-incoming');
-        Route::get('view-individual-clients/client_id={client_id}/data-outgoing', [HostController::class, 'to_client'])->name('data-outgoing');
+        Route::get('view-individual-clients/client_id={client_id}/data-incoming', [HostController::class, 'from_client'])->name('individual-data-incoming');
+        Route::get('view-individual-clients/client_id={client_id}/data-outgoing', [HostController::class, 'to_client'])->name('individual-data-outgoing');
         Route::post('view-individual-clients/client_id={client_id}/send-tax-file', [HostController::class, 'file_tax'])->name('send-tax-file');
         Route::get('view-individual-clients/client_id={client_id}/settlement-history', [HostController::class, 'financial_history_client'])->name('individual-history');
         Route::get('view-individual-clients/client_id={client_id}/access-files/{file_id}', [HostController::class, 'access_files_client'])->name('individual-history-access');
@@ -68,6 +70,15 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('save-video', [HostController::class, 'save_video']);
         Route::post('get-pdf-source', [HostController::class, 'pdf_source'])->name('get-pdf-source');
         //End Accounting Office Individual Routes
+    });
+
+    Route::group(['middleware' => 'administrator', 'prefix' => 'administrator'], function () {
+        Route::get('registration-status', [AdministratorController::class, 'registration_status'])->name('admin-registration-status');
+        Route::get('registered-client-information', [AdministratorController::class, 'registered_client_information'])->name('admin-registered-client-information');
+        Route::get('home', [AdministratorController::class, 'index'])->name('admin-home');
+        Route::get('contact', [AdministratorController::class, 'contact'])->name('admin-contact');
+        Route::get('various-settings', [AdministratorController::class, 'settings'])->name('admin-various-settings');
+        Route::get('link-change', [AdministratorController::class, 'link_change'])->name('admin-link-change');
     });
 });
 

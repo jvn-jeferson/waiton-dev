@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use View;
 use Hash;
+use Hashids\Hashids;
 
 class MainController extends Controller
 {
@@ -58,9 +59,11 @@ class MainController extends Controller
 
 
     DB::transaction(function () use ($request) {
+      $pw = Str::random(8);
+      $hashids = new Hashids(config('hashids.login_salt'), 10);
       $user_id = User::insertGetId([
         'email' => $request->input('email'),
-        'password' => Hash::make(Str::random(12)),
+        'password' => Hash::make($pw),
         'role_id' => 2,
         'is_online' => 0,
         'remember_token' => Str::random(60),
@@ -70,6 +73,10 @@ class MainController extends Controller
 
       if($user_id)
       {
+        User::find($user_id)->update([
+          'login_id' => $hashids->encode($user_id)
+        ]);
+
         $accountingId = AccountingOffice::insertGetId([
           'user_id' => $user_id,
           'name' => $request->input('name'),
@@ -92,12 +99,39 @@ class MainController extends Controller
 
         $user = User::findOrFail($user_id);
         $token = $user->createToken();
-        $user->sendPasswordNotification($token);
+        $user->sendPasswordNotification($token, $pw, $user->login_id);
       }
     });
 
     return View::make('main/payment_success');
   }
+
+  public function request_reset_password()
+  {
+    return View::make('auth/passwords/request_reset_password');
+  }
+
+  public function send_password_reset(Request $request)
+  {
+    $request->validate(
+      [
+        'email' => 'required|email:rfc,dns',
+      ]
+    );
+
+    $user = User::where('email', $request->input('email'))->first();
+    $login_id = $user->login_id;
+    $token = $user->createToken();
+    $user->sendResetPassNotification($token, $login_id);
+
+    return View::make('main.payment_success');
+  }
+
+  public function password_reset_granted($token, $login_id)
+  {
+    echo 'HELLO';
+  }
+
 
   public function confirm_payment()
   {

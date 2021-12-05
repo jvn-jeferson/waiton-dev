@@ -29,8 +29,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          株式会社ABC
-          {{-- {{$user->name}} --}}
+          {{Auth::user()->accountingOffice->name}}
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="card card-primary card-outline">
@@ -42,13 +41,15 @@
               </div>
 
               <h3 class="profile-username text-center">
-                Jeferson Bonayon
-                {{-- {{$user->name}} --}}
+                {{Auth::user()->accountingOfficeStaff->name}}
               </h3>
 
               <p class="text-muted text-center">
-                Software Engineer
-                {{-- {{$user->company}} --}}
+                @if(Auth::user()->role_id == 2)
+                Manager
+                @else
+                Staff
+                @endif
               </p>
 
               <ul class="list-group list-group-unbordered mb-3">

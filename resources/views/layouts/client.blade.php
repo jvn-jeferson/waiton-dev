@@ -41,11 +41,11 @@
               </div>
 
               <h3 class="profile-username text-center">
-                {{auth()->user()->client->representative}}
+                {{auth()->user()->clientStaff->client->representative}}
               </h3>
 
               <p class="text-muted text-center">
-                {{auth()->user()->client->name}}
+                {{auth()->user()->clientStaff->client->name}}
               </p>
 
               <ul class="list-group list-group-unbordered mb-3">
@@ -81,7 +81,7 @@
         </div>
         <div class="info">
           <a href="various-settings" class="d-block">
-            {{auth()->user()->client->name}}
+            {{auth()->user()->clientStaff->client->name}}
           </a>
         </div>
       </div>

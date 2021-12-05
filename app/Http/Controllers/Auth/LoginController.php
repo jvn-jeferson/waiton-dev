@@ -34,7 +34,7 @@ class LoginController extends Controller
         switch($role)
         {
             case 1:
-                abort(403);
+                return '/administrator/home';
                 break;
             case 2:
             case 3:

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubscriptionPlansTable extends Migration
+class CreateClientObligationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateSubscriptionPlansTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscription_plans', function (Blueprint $table) {
+        Schema::create('client_obligations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->double('price');
-            $table->tinyInteger('max_admin');
-            $table->tinyInteger('max_users');
-            $table->integer('max_clients');
-            $table->integer('max_storage');
+            $table->foreignId('client_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->boolean('is_taxable')->default(true);
+            $table->tinyInteger('taxable_type')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateSubscriptionPlansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscription_plans');
+        Schema::dropIfExists('client_obligations');
     }
 }

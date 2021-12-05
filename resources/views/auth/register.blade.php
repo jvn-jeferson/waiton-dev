@@ -2,7 +2,7 @@
 @section('content')
 <div class="container p-5">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header text-center">
             <h3 class="card-title text-bold">登録情報</h3>
         </div>
         <div class="card-body">

@@ -28,11 +28,10 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = "/login";
 
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest')->except('logout');
     }
 
     protected function resetPassword($user, $password)
@@ -42,5 +41,7 @@ class ResetPasswordController extends Controller
             'remember_token' => Str::random(60),
         ])->save();
     }
+
+    protected $redirectTo = '/login';
 
 }

@@ -16,6 +16,9 @@ class RoleAdministrator
      */
     public function handle(Request $request, Closure $next)
     {
+        if(!in_array(auth()->user()->role_id, [0, 1])){
+            abort(403);
+        }
         return $next($request);
     }
 }

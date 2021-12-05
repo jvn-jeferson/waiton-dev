@@ -219,10 +219,12 @@ class HostController extends Controller
             'name' => 'required',
             'business_type_id' => 'required',
             'address' => 'required|max:255',
-            'telephone' => 'required',
             'representative' => 'required',
+            'representative_address' => 'required',
+            'email' => 'required|email:rfc,dns',
             'tax_filing_month' => 'required',
-            'email' => 'required|email:rfc,dns'
+            'manager_name' => 'required',
+            'manager_email' => 'required|email:rfc,dns',
         ]);
 
 
@@ -230,6 +232,7 @@ class HostController extends Controller
         $accounting_office_id = AccountingOffice::where('user_id', $host_id)->first()->id;
         $token = Str::random(60);
 
+<<<<<<< HEAD
         DB::transaction(function () use ($request, $accounting_office_id, $token) {
             $user_id = User::insertGetId([
                 'email' => $request->email,
@@ -249,22 +252,133 @@ class HostController extends Controller
                     'telephone' => $request->telephone,
                     'representative' => $request->representative,
                     'tax_filing_month' => $request->tax_filing_month
+=======
+        DB::transaction(function () use ($request, $accounting_office_id, $token){
+
+            $hashids = new Hashids(config('hashids.login_salt'), 8);
+
+            $client = Client::create([
+                'accounting_office_id' => $accounting_office_id,
+                'name' => $request->name,
+                'business_type_id' => $request->business_type_id,
+                'address' => $request->address,
+                'representative' => $request->representative,
+                'representative_address' => $request->representative_address,
+                'contact_email' => $request->email,
+                'tax_filing_month' => $request->tax_filing_month
+            ]);
+
+            if($client->id)
+            {
+                $manager_pw = Str::random(8);
+                $manager_id = User::insertGetId([
+                    'email' => $request->manager_email,
+                    'password' => Hash::make($manager_pw),
+                    'role_id' => 4,
+                    'is_online' => 0,
+                    'remember_token' => $token
+>>>>>>> 0dd57f87f78e0df3f0b58579c8d653dd0e5e4653
                 ]);
 
-                ClientStaff::create([
-                    'client_id' => $client_id,
-                    'user_id' => $user_id,
-                    'name' => $request->representative,
-                    'is_admin' => 1
-                ]);
+                if($manager_id)
+                {
+                    $manager_login_id = $hashids->encode($manager_id);
+                    $manager = User::findOrFail($manager_id);
+                    $manager->update([
+                        'login_id' => $manager_login_id
+                    ]);
 
-                $user = User::findOrFail($user_id);
-                $token = $user->createToken();
-                $user->sendPasswordNotification($token);
+                    ClientStaff::create([
+                        'client_id' => $client->id, 
+                        'user_id' => $manager_id,
+                        'name' => $request->manager_name,
+                        'is_admin' => 1
+                    ]);
 
+<<<<<<< HEAD
                 return "Client creation successful";
             } else {
                 return "Client creation failed";
+=======
+                    $manager->save();
+                    $manager->createToken();
+                    $manager->sendPasswordNotification($token, $manager_pw, $manager_login_id);
+
+                    if($request->user1_name != '' && $request->user1_email != '') 
+                    {
+                        $user1_pw = Str::random(8);
+                        $user1_id = User::insertGetId([
+                            'email' => $request->user1_email,
+                            'password' => Hash::make($user1_pw),
+                            'role_id' => 5,
+                            'is_online' => 0,
+                            'remember_token' => $token
+                        ]);
+
+                        if($user1_id)
+                        {
+                            $user1_login_id = $hashids->encode($user1_id);
+                            $user1 = User::findOrFail($user1_id);
+                            $user1->update([
+                                'login_id' => $user1_login_id
+                            ]);
+
+                            ClientStaff::create([
+                                'client_id' => $client->id, 
+                                'user_id' => $user1_id,
+                                'name' => $request->user1_name,
+                                'is_admin' => 0
+                            ]);
+
+                            $user1->save();
+                            $user1->createToken();
+                            $user1->sendPasswordNotification($token, $user1_pw, $user1_login_id);
+                        }
+
+                    }
+
+                    if($request->user2_name != '' && $request->user2_email != '')
+                    {
+                        $user2_pw = Str::random(8);
+                        $user2_id = User::insertGetId([
+                            'email' => $request->user2_email,
+                            'password' => Hash::make($user2_pw),
+                            'role_id' => 5,
+                            'is_online' => 0,
+                            'remember_token' => $token
+                        ]);
+
+                        if($user2_id)
+                        {
+                            $user2_login_id = $hashids->encode($user2_id);
+                            $user2 = User::findOrFail($user2_id);
+                            $user2->update([
+                                'login_id' => $user2_login_id
+                            ]);
+
+                            ClientStaff::create([
+                                'client_id' => $client->id, 
+                                'user_id' => $user2_id,
+                                'name' => $request->user2_name,
+                                'is_admin' => 0
+                            ]);
+
+                            $user1->save();
+                            $user1->createToken();
+                            $user1->sendPasswordNotification($token, $user1_pw, $user1_login_id);
+                        }
+
+                        return 'Client creation success.';
+                    }
+                }
+                else {
+                    return "Client creation successfull but failed to add new user.";
+                }
+            }
+            else 
+            {
+                return "Failed to create a new client";
+>>>>>>> 0dd57f87f78e0df3f0b58579c8d653dd0e5e4653
             }
         });
     }

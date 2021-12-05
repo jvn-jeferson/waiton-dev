@@ -15,6 +15,7 @@ use App\Models\Client;
 use App\Models\ClientStaff;
 use App\Models\ClientUpload;
 use App\Models\HostUpload;
+use App\Models\File;
 
 class ClientController extends Controller
 {
@@ -25,17 +26,18 @@ class ClientController extends Controller
         ]])
         ->where(function($q){
           $q->where('is_global', '=', '1')
-          ->orWhere('targeted_at', '=', Auth::user()->client->id);
+          ->orWhere('targeted_at', '=', Auth::user()->clientStaff->client->id);
         })->get();
 
-        $uploads = ClientUpload::where('client_id', Auth::user()->client->id)->get();
-        $downloads = HostUpload::where('client_id', Auth::user()->client->id)->get();
+
+        $uploads = ClientUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
+        $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
         return View::make('client.dashboard')->with(['messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads]);
     }
 
     public function going_out()
     {
-        $uploads = ClientUpload::where('client_id', '=', Auth::user()->client->id)->orderBy('created_at', 'DESC')->get();
+        $uploads = ClientUpload::where('client_id', '=', Auth::user()->clientStaff->client->id)->orderBy('created_at', 'DESC')->get();
         return View::make('client.outgoing')->with(['uploads' => $uploads]);
     }
 
@@ -48,7 +50,7 @@ class ClientController extends Controller
                 DB::transaction(function () use ($comment, $request, $key) {
 
                     $user_id = Auth::user()->id;
-                    $client = Client::where('user_id', $user_id)->first();
+                    $client = Auth::user()->clientStaff->client;
                     $staff = ClientStaff::where('user_id', $user_id)->first();
 
                     ClientUpload::create(
@@ -85,6 +87,7 @@ class ClientController extends Controller
 
     public function going_in()
     {
+        
         return View::make('client.incoming');
     }
 
