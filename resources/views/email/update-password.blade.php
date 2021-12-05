@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Waiton Registration Successful</title>
+    <title>Upfiling Password Reset</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -18,18 +18,20 @@
                 <div class="card">
                     <div class="card-body text-center mx-auto">
                         <h1 class="text-success">
-                            Registration Successful
+                            {{$data['title']}}
                         </h1>
 
-                        <p class="text-strong">Welcome to Waiton </p>{{$data['name']}}
+                        <p class="text-strong">Hi <strong>{{$data['name']}}<strong>,</p>
 
-                        <p>We are thrilled to have you in our community. Please take a moment to review our <a href="#">Terms and Conditions</a> before your proceed.</p>
-                        <p>Your 90% done in setting an account for your company, <strong class="text-primary">{{$data['company']}}</strong>. All you need to do now is to update your password so you can access your dashboard.</p>
-                        <p>Please click on this to update your password.</p>
-
-                        <p>Your unique ID is: <strong class="text-primary">{{$data['login_id']}}</strong> .</p>
-                        <p>Your temporary password is: <strong class="text-primary">{{$data['pw']}}</strong> .</p>
+                        <p>You're request to change your password has been verified and authorized. Please click the button below to reset your password.</p>
                         {!! $data['content'] !!}
+
+                        <p class="mt-4">
+                            Regards,
+                        </p>
+                        <p class="mt-1">
+                            Upfiling administrator
+                        </p>
                     </div>
                 </div>
             </div>

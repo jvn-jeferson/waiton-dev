@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Client;
 use App\Notifications\SendPasswordNotification;
+use App\Notifications\ChangePasswordNotification;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -25,7 +26,7 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        'login_id',
         'email',
         'password',
         'role_id',
@@ -70,10 +71,13 @@ class User extends Authenticatable
         return $this->hasOne(Role::class, 'id', 'role_id');
     }
 
-    public function sendPasswordNotification($token): void
+    public function sendPasswordNotification($token, $pw, $login_id): void
     {
-        $this->notify(new SendPasswordNotification($token));
+        $this->notify(new SendPasswordNotification($token, $pw, $login_id));
     }
 
-    
+    public function sendResetPassNotification($token, $login_id): void
+    {
+        $this->notify(new ChangePasswordNotification($token, $login_id));
+    }
 }
