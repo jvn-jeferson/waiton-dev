@@ -87,7 +87,7 @@ class ClientController extends Controller
 
     public function going_in()
     {
-
+        
         return View::make('client.incoming');
     }
 

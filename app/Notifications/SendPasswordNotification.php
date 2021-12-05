@@ -51,7 +51,7 @@ class SendPasswordNotification extends Notification
             $url = url(route('password.reset', [
                 'token' => $this->token,
                 'email' => $notifiable->getEmailForPasswordReset(),
-                'login_id' => $this->login_id,
+                'login_id' => $notifiable->login_id,
                 'pw' => $this->pw
             ], false));
         }
