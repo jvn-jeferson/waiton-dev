@@ -90,7 +90,7 @@
 
 
     <div class="modal fade" id="newClientModal" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+        <div class="modal-dialog modal-dialog-centered modal-xl " role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">新しいクライアントを登録する</h5>
@@ -113,29 +113,23 @@
                             <table class="table-bordered table">
                                 <tbody>
                                     <tr>
-                                        <th colspan="2"><label for="business_name">社名</label></th>
+                                        <th colspan="2"><label for="client_name">社名</label></th>
                                         <td>
                                             <div class="form-row">
                                                 <div class="col-8">
-                                                    <input type="text" name="business_name" id="business_name" class="form-control" placeholder="">
+                                                    <input type="text" name="client_name" id="client_name" class="form-control" placeholder="">
                                                 </div>
                                                 <div class="col-4">
-                                                    <input type="radio" name="business_type" id="business_type" value="1" class="mx-auto my-auto">法人
-                                                    <input type="radio" name="business_type" id="business_type" value="2" class="mx-auto my-auto">個人
+                                                    <input type="radio" name="client_type" id="client_type" value="1" class="mx-auto my-auto">法人
+                                                    <input type="radio" name="client_type" id="client_type" value="2" class="mx-auto my-auto">個人
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th colspan="2"><label for="business_address">本店所在地</label></th>
+                                        <th colspan="2"><label for="client_address">本店所在地</label></th>
                                         <td>
-                                            <input type="text" name="business_address" id="business_address" class="form-control" placeholder="">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2"><label for="business_telephone">電話番号</label></th>
-                                        <td>
-                                            <input type="text" name="business_telephone" id="business_telephone" class="form-control" placeholder="">
+                                            <input type="text" name="client_address" id="client_address" class="form-control" placeholder="">
                                         </td>
                                     </tr>
                                     <tr>
@@ -170,12 +164,39 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th><label for="contact_email_address">ワンタイムパスワードの </label></th>
-                                        <th><label for="">送付先メールアドレス</label></th>
+                                        <th colspan="2"><label for="contact_email_address">ワンタイムパスワードの • 送付先メールアドレス                                             </label></th>
                                         <td>
                                             <input type="email" name="contact_email_address" id="contact_email_address" class="form-control" placeholder="">
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td rowspan="2">管理者</td>
+                                        <td>名前</td>
+                                        <td><input type="text" name="manager_name" id="manager_name" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>メールアドレス</td>
+                                        <td><input type="email" name="manager_email" id="manager_email" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">利用者</td>
+                                        <td>名前</td>
+                                        <td><input type="text" name="user1_name" id="user1_name" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>メールアドレス</td>
+                                        <td><input type="email" name="user1_email" id="user1_email" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">利用者</td>
+                                        <td>名前</td>
+                                        <td><input type="text" name="user2_name" id="user2_name" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>メールアドレス</td>
+                                        <td><input type="email" name="user2_email" id="uer2_email" class="form-control"></td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -195,17 +216,24 @@
         $("#newClientForm").on('submit', function(event) {
             event.preventDefault()
 
-            var type_id = document.querySelector('input[name="business_type"]:checked').value;
+            var type_id = document.querySelector('input[name="client_type"]:checked').value;
             var url = "{{route('register-new-client')}}";
-
+            
             axios.post(url, {
-                name: $('#business_name').val(),
+                name: $('#client_name').val(),
                 business_type_id: type_id,
-                address: $('#business_address').val(),
-                telephone: $('#business_telephone').val(),
+                address: $('#client_address').val(),
                 representative: $('#representative_name').val(),
+                representative_address: $('#representative_address').val(),
                 tax_filing_month: $('#final_accounts_month').val(),
-                email: $('#contact_email_address').val()
+                email: $('#contact_email_address').val(),
+                manager_name: $('#manager_name').val(),
+                manager_email: $('#manager_email').val(),
+                user1_name: $('#user1_name').val(),
+                user1_email: $('#user1_email').val(),
+                user2_name: $('#user2_name').val(),
+                $user2_email: $('#user2_email').val()
+
             }).then(function(response) {
                 Swal.fire({
                     position: 'top-end',
@@ -213,11 +241,17 @@
                     title: 'クライアント登録が成功しました',
                 }).then((result) => {
                     if(result.isConfirmed) {
-                        $('#business_name').val('')
-                        $('#business_address').val('')
-                        $('#business_telephone').val('')
+                        $('#client_name').val('')
+                        $('#client_address').val('')
                         $('#representative_name').val('')
+                        $('#representative_address').val('')
                         $('#contact_email_address').val('')
+                        $('#manager_name').val(''),
+                        $('#manager_email').val(''),
+                        $('#user1_name').val(''),
+                        $('#user1_email').val(''),
+                        $('#user2_name').val(''),
+                        $('#user2_email').val('')
                         $('#newClientModal').modal('hide')
                     }
                 })
@@ -227,6 +261,8 @@
                     title: 'Oops...',
                     text: 'Something went wrong. Check your inputs and try again.',
                 })
+
+                console.log(error.response.data)
 
             })
         })

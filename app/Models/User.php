@@ -57,11 +57,6 @@ class User extends Authenticatable
         return app(PasswordBroker::class)->createToken($this);
     }
 
-    public function client(): HasOne
-    {
-        return $this->hasOne(Client::class);
-    }
-
     public function accountingOffice(): HasOne
     {
         return $this->hasOne(AccountingOffice::class);
@@ -69,6 +64,16 @@ class User extends Authenticatable
     
     public function role(): HasOne {
         return $this->hasOne(Role::class, 'id', 'role_id');
+    }
+
+    public function clientStaff(): HasOne
+    {
+        return $this->hasOne(ClientStaff::class, 'user_id', 'id');
+    }
+
+    public function accountingOfficeStaff(): HasOne
+    {
+        return $this->hasOne(AccountingOfficeStaff::class, 'user_id', 'id');
     }
 
     public function sendPasswordNotification($token, $pw, $login_id): void

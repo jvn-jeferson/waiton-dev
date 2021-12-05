@@ -39,7 +39,7 @@ class SendPasswordNotification extends Notification
             $target = $notifiable->accountingOffice;
         }
         else if ($notifiable->role_id == 4 || $notifiable->role_id == 5){
-            $target = $notifiable->client;
+            $target = $notifiable->clientStaff->client;
         }
         if (static::$toMailCallback) {
             return call_user_func(static::$toMailCallback, $notifiable, $this->token);

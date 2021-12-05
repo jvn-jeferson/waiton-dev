@@ -25,17 +25,18 @@ class ClientController extends Controller
         ]])
         ->where(function($q){
           $q->where('is_global', '=', '1')
-          ->orWhere('targeted_at', '=', Auth::user()->client->id);
+          ->orWhere('targeted_at', '=', Auth::user()->clientStaff->client->id);
         })->get();
 
-        $uploads = ClientUpload::where('client_id', Auth::user()->client->id)->get();
-        $downloads = HostUpload::where('client_id', Auth::user()->client->id)->get();
+
+        $uploads = ClientUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
+        $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
         return View::make('client.dashboard')->with(['messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads]);
     }
 
     public function going_out()
     {
-        $uploads = ClientUpload::where('client_id', '=', Auth::user()->client->id)->orderBy('created_at', 'DESC')->get();
+        $uploads = ClientUpload::where('client_id', '=', Auth::user()->clientStaff->client->id)->orderBy('created_at', 'DESC')->get();
         return View::make('client.outgoing')->with(['uploads' => $uploads]);
     }
 

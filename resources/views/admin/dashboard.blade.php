@@ -93,9 +93,9 @@
                                     @forelse($accounting_firms as $firm)
                                         <tr>
                                             <td><a href="{{route('admin-registration-status', ['office' => $firm->name])}}">{{$firm->name}}</a></td>
+                                            <td>{{$firm->id}}</td>
                                             <td>{{$firm->clients->count()}}</td>
                                             <td>{{1 ?? $firm->subscription->subscription_plan->max_clients}}</td>
-                                            <td></td>
                                             <td></td>
                                             <td>{{$firm->created_at->format('Y年m月d日 ')}}</td>
                                             <td></td>
