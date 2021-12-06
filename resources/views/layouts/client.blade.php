@@ -159,10 +159,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('client-inquiry') }}" class="nav-link">
+            <a href="#" class="nav-link" id="inquiryBtn">
               <i class="nav-icon far fa-comment-dots"></i>
               <p>
-              問合せ
+                問合せ
               </p>
             </a>
           </li>
@@ -181,7 +181,37 @@
 </div>
 <!-- ./wrapper -->
 
+<script type="text/javascript" src="{{ asset('js/app.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @yield('extra-scripts')
 
+<script>
+  $('#inquiryBtn').click(async () => {
+    const { value: text } = await Swal.fire({
+      icon: 'question',
+      input: 'textarea',
+      inputLabel: 'Inquiry',
+      inputPlaceholder: 'Type your inquiry here... We will send you and email to your registered email address.',
+      inputAttributes: {
+        'aria-label': 'Type your inquiry here..'
+      },
+      showCancelButton: false
+    })
+
+    if(text) {
+      var url = "{{route('send-inquiry')}}"
+
+      axios.post(url, {
+        content: text,
+      }).then(function(response) {
+        console.log(response.data)
+      }).catch(function(error) {
+        console.log(error.response.data)
+      })
+    }
+  })
+</script>
 </body>
 </html>
