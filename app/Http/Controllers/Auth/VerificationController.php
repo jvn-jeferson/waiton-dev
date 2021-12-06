@@ -38,7 +38,7 @@ class VerificationController extends Controller
                 break;
             case 'acct_admin':
             case 'acct_staff':
-                return '/accounting_office/home';
+                return '/accounting_office';
                 break;
             case 'client_admin':
             case 'client_staff':

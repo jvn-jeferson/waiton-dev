@@ -37,7 +37,7 @@ class ConfirmPasswordController extends Controller
                 break;
             case 2:
             case 3:
-                return '/accounting_office/home';
+                return '/accounting_office';
                 break;
             case 4:
             case 5:
