@@ -531,9 +531,9 @@ class HostController extends Controller
         return View::make('host.individual-clients.financial-history', ['client' => $client, 'hashids' => $this->hashids]);
     }
 
-    public function access_files_client($client_id, $file_id)
+    public function access_files_client(Request $request)
     {
-        $id = $this->hashids->decode($client_id)[0];
+        $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
         return View::make('host.individual-clients.access-historical-file', ['client' => $client, 'hashids' => $this->hashids]);
     }

@@ -38,7 +38,7 @@ class LoginController extends Controller
                 break;
             case 2:
             case 3:
-                return route('home');
+                return '/accounting_office/home';
                 break;
             case 4:
             case 5:

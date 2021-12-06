@@ -33,11 +33,11 @@ class ConfirmPasswordController extends Controller
         switch($role)
         {
             case 1:
-                abort(403);
+                return '/administrator/home';
                 break;
             case 2:
             case 3:
-                return '/home';
+                return '/accounting_office/home';
                 break;
             case 4:
             case 5:
