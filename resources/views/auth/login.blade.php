@@ -10,7 +10,7 @@
             <form action="{{ route('login')}}" method="POST">
                 @csrf
                 <h3 class="lead my-2 text-center">
-                    電子メールアドレス
+                    
                 </h3>
                     <div class="form-group">
                         <label for="email_address"><i class="zmdi zmdi-email material-icons-name"></i></label>
@@ -42,7 +42,7 @@
                 １　利用者は会計事務所の管理者にご連絡いただき、管理者の管理画面からパスワードの修正を行ってください。
             </h4>
             <h4 class="lead mt-2">
-                ２　管理者のパスワードが不明な場合は<a href="{{route('request-reset-password')}}" class="text-info">こちら</a>から手続きしてください。
+                ２　管理者のパスワードが不明な場合は<strong class="text-bold"><a href="{{route('request-reset-password')}}" class="text-info">こちら</a></strong>から手続きしてください。
             </h4>
         </div>
     </div>

@@ -59,18 +59,4 @@ class PaymentController extends Controller
             $message->from(env('MAIL_FROM_ADDRESS'), 'Registration Validation');
         });
     }
-
-    public function send_email() {
-        $to_email = "jbonayon15@gmail.com";
-
-        Mail::to($to_email)->send(new Email);
-
-        if(Mail::failures() != 0) {
-            return "<p> Success! Your E-mail has been sent.</p>";
-        }
-
-        else {
-            return "<p> Failed! Your E-mail has not sent.</p>";
-        }
-    }
 }

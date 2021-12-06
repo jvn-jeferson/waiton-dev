@@ -23,7 +23,7 @@
                         <p class="text-muted">
                             次のファイルを経理部にアップロードします。アップロード資料にファイルをドロップするか、アップロードボタンからファイルを選択します。
                         </p>
-                        <table class="table table-hover table-bordered table-striped">
+                        <table class="table table-hover table-bordered table-striped" id="uploadFormTable">
                             <thead class="thead bg-dark">
                                 <th>アップロードされた資料</th>
                                 <th>備考</th>
@@ -31,7 +31,10 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <input type="file" name="file[]" id="file" class="form-control">
+                                        <div class="form-row">
+                                            <label for="file" class="btn btn-warning col-2">アップロード</label>
+                                            <input type="file" name="file[]" id="file" class="form-control col-10" style="" onchange="showFileName(this, 1)">
+                                        </div>
                                     </td>
                                     <td>
                                         <input type="text" name="comment[]" id="comment" class="form-control">
@@ -39,7 +42,10 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="file" name="file[]" id="file" class="form-control">
+                                        <div class="form-row">
+                                            <label for="file" class="btn btn-warning col-2">アップロード</label>
+                                            <input type="file" name="file[]" id="file" class="form-control col-10" style="" onchange="showFileName(this, 2)">
+                                        </div>
                                     </td>
                                     <td>
                                         <input type="text" name="comment[]" id="comment" class="form-control">
@@ -47,7 +53,10 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="file" name="file[]" id="file" class="form-control">
+                                        <div class="form-row">
+                                            <label for="file" class="btn btn-warning col-2">アップロード</label>
+                                            <input type="file" name="file[]" id="file" class="form-control col-10" style="" onchange="showFileName(this, 3)">
+                                        </div>
                                     </td>
                                     <td>
                                         <input type="text" name="comment[]" id="comment" class="form-control">
@@ -55,7 +64,10 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="file" name="file[]" id="file" class="form-control">
+                                        <div class="form-row">
+                                            <label for="file" class="btn btn-warning col-2">アップロード</label>
+                                            <input type="file" name="file[]" id="file" class="form-control col-10" style="" onchange="showFileName(this, 4)">
+                                        </div>
                                     </td>
                                     <td>
                                         <input type="text" name="comment[]" id="comment" class="form-control">
@@ -63,7 +75,10 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="file" name="file[]" id="file" class="form-control">
+                                        <div class="form-row">
+                                            <label for="file" class="btn btn-warning col-2">アップロード</label>
+                                            <input type="file" name="file[]" id="file" class="form-control col-10" style="" onchange="showFileName(this, 5)">
+                                        </div>
                                     </td>
                                     <td>
                                         <input type="text" name="comment[]" id="comment" class="form-control">
@@ -92,10 +107,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div style="margin-bottom: 4px">
-                        <button class="float-left btn btn-primary" type="button" onclick="deletefiles()">Delete Selected File</button>
-                    </div>
-                    <br>
+                    <button class="float-left btn btn-primary col-3 my-2" type="button" onclick="deletefiles()">選択したファイルを削除</button>
                     <div class="mt-2">
                         <table class="table table-hover table-bordered">
                             <thead class="thead-dark text-center">
@@ -134,12 +146,6 @@
 @endsection
 
 @section('extra-scripts')
-<!-- Scripts -->
-<script src="{{asset('js/app.js')}}"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script>
     function deletefiles() {
 
@@ -168,8 +174,11 @@
             console.log(error.response.data);
         })
     }
-</script>
-<script>
-    
+
+    function showFileName(input, index)
+    {
+        //TODO show file_name
+        var fileName = input.files[0].name
+    }
 </script>
 @endsection

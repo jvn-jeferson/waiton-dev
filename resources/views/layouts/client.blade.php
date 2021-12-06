@@ -1,17 +1,18 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>{{config('app.name')}}</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+  <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
-    @yield('extra-css')
+  @yield('extra-css')
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -23,13 +24,16 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a class="nav-link text-bold" href="#" >{{$page_title}}</a>
+      </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          Actions
+          {{Auth::user()->clientStaff->client->name ?? ''}}
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="card card-primary card-outline">
@@ -41,11 +45,15 @@
               </div>
 
               <h3 class="profile-username text-center">
-                {{auth()->user()->clientStaff->client->representative}}
+                @if(auth()->user()->clientStaff->is_admin == 1)
+                  Administrator
+                @else
+                  Staff
+                @endif
               </h3>
 
               <p class="text-muted text-center">
-                {{auth()->user()->clientStaff->client->name}}
+                {{auth()->user()->clientStaff->name}}
               </p>
 
               <ul class="list-group list-group-unbordered mb-3">
@@ -175,8 +183,8 @@
 
   <!-- Content Wrapper. Contains page content -->
   <main class="py-4">
-            @yield('content')
-        </main>
+      @yield('content')
+  </main>
   <!-- /.content-wrapper -->
 </div>
 <!-- ./wrapper -->
@@ -184,9 +192,6 @@
 <script type="text/javascript" src="{{ asset('js/app.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-@yield('extra-scripts')
-
 <script>
   $('#inquiryBtn').click(async () => {
     const { value: text } = await Swal.fire({
@@ -213,5 +218,6 @@
     }
   })
 </script>
+@yield('extra-scripts')
 </body>
 </html>

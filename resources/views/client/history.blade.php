@@ -19,8 +19,7 @@
                             <th>タイプ</th>
                             <th>決済日</th>
                             <th>確定申告</th>
-                            <th>出願日</th>
-                            <th>承認日</th>
+                            <th>出願日 • 承認日</th>
                             <th>説明ビデオ</th>
                         </thead>
                         <tbody>
@@ -31,8 +30,7 @@
                                     <button class="btn btn-block btn-primary" type="button" onclick="browsingConfirmation(2)">ブラウジング</button>
                                 </td>
                                 <td>財務諸表/確定申告（法人税/地方税/消費税）2021年度</td>
-                                <td>2021年5月28日</td>
-                                <td>2021年5月30日</td>
+                                <td>2021年5月28日 • 2021年5月30日</td>
                                 <td>
                                     <img src="{{asset('img/placeholder-image.png')}}" alt="" width="144px" height="144px">
                                 </td>
@@ -47,9 +45,6 @@
 @endsection
 
 @section('extra-scripts')
-    <!-- Scripts -->
-    <script src="{{asset('js/app.js')}}"></script>
-
     <script>
         function browsingConfirmation(id) {
             swal.fire({
