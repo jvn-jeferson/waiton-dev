@@ -15,7 +15,7 @@ class CreateHostUploadsTable extends Migration
     {
         Schema::create('host_uploads', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('accounting_office_staff_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('client_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('file_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->tinyInteger('status');

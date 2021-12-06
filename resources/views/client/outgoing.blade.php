@@ -110,10 +110,10 @@
                                 @forelse($uploads as $upload)
                                     <tr>
                                         <td><input type="checkbox" name="file_id" id="file_id" value="{{$upload->id}}"></td>
-                                        <td>{{$upload->created_at}}</td>
-                                        <td>2021年5月10日21:40</td>
-                                        <td>Ichikawa-san</td>
-                                        <td class="text-info">{{$upload->file_name}}</td>
+                                        <td>{{$upload->created_at->format('Y年m月d日 H:i')}}</td>
+                                        <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日 H:i')}}</td>
+                                        <td>{{$upload->user->clientStaff->name}}</td>
+                                        <td class="text-info">{{$upload->file->name}}</td>
                                         <td>{{$upload->comment}}</td>
                                     </tr>
                                 @empty

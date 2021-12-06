@@ -14,20 +14,14 @@ class ClientUpload extends Model
     protected $table = 'client_uploads';
 
     protected $fillable = [
-        'client_id',
-        'client_staff_id',
-        'file_name',
-        'file_path',
-        'file_size',
+        'user_id',
+        'file_id',
         'comment'
     ];
 
     protected $filterable = [
-        'client_id',
-        'client_staff_id',
-        'file_name',
-        'file_path',
-        'file_size',
+        'user_id',
+        'file_id',
         'comment'
     ];
 
@@ -35,5 +29,13 @@ class ClientUpload extends Model
 
     public function client(): HasOne {
         return $this->hasOne(Client::class);
+    }
+
+    public function user():HasOne {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function file():HasOne {
+        return $this->hasOne(File::class, 'id', 'file_id');
     }
 }

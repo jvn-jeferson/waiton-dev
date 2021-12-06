@@ -60,7 +60,6 @@
 @endsection
 
 @section('extra-scripts')
-    <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
     <script>
         var select_all = document.querySelector('#all')
         var selects = document.getElementsByName('select')

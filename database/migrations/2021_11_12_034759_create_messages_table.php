@@ -16,8 +16,6 @@ class CreateMessagesTable extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('accounting_office_id')->constrained()->onDelete('cascade')->onUpdate('cascade');;
-            $table->foreignId('accounting_office_staff_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->tinyInteger('is_global')->default(0);
             $table->tinyInteger('targeted_at')->default(0);
             $table->timestamp('scheduled_at')->nullable();

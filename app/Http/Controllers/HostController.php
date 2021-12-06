@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Response;
 
 use View;
 use Session;
@@ -129,9 +130,20 @@ class HostController extends Controller
     public function message_clients()
     {
         $this->set_globals();
+        $user_ids = [];
+        $users = User::whereIn('role_id',[2,3])->get();
+        foreach ($users as $user)
+        {
+            if($user->accountingOfficeStaff->accountingOffice->id == Auth::user()->accountingOfficeStaff->accountingOffice->id)
+            {
+                array_push($user_ids, $user->id);
+            }
+        }
+
+        
         $messages = null;
         if(Auth::user()->role_id == 2){
-            $messages = Message::where('accounting_office_id',$this->accounting_office->id)->get();
+            $messages = Message::whereIn('user_id',$user_ids)->get();
         }
         else {
             $messages = Message::where('user_id',$this->user->id)->get();
@@ -360,46 +372,129 @@ class HostController extends Controller
         });
     }
 
-    public function view_client($client_id)
+    public function view_client(Request $request)
     {
-        $id = $this->hashids->decode($client_id)[0];
+        $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
+        $client_user_ids = [];
+        $users = User::where('role_id', 4)->orWhere('role_id',5)->get();
+        foreach ($users as $user)
+        {
+            if($user->clientStaff->client->id == $id){
+                array_push($client_user_ids,$user->id);
+            }
+        }
 
-        $messages = Message::where('targeted_at', '=', $id)->orWhere('is_global', '=', 1)->get();
-        $uploads = ClientUpload::where('client_id', '=', $id)->get();
+        $messages = Message::where('targeted_at', '=', $id)->orWhere('is_global', '=', 1)->latest()->limit(5)->get();
+        $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->get();
         $downloads = HostUpload::where('client_id', '=', $id)->get();
 
-        return View::make('host.individual-clients.dashboard', ['client' => $client, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads]);
+        return View::make('host.individual-clients.dashboard', ['hashids'=> $this->hashids, 'client' => $client, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads]);
     }
 
-    public function contact_client($client_id)
+    public function contact_client(Request $request)
     {
-        $id = $this->hashids->decode($client_id)[0];
+        $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
+        $messages = Message::where('targeted_at',$id)->get();
 
-        return View::make('host.individual-clients.message-client', ['client' => $client]);
+        return View::make('host.individual-clients.message-client', ['hashids'=> $this->hashids, 'client' => $client, 'messages' => $messages]);
     }
 
-    public function from_client($client_id)
+    public function message_client(Request $request)
     {
-        $id = $this->hashids->decode($client_id)[0];
+        DB::transaction(function () use($request){
+            $inputSched = $request->input('scheduled_at');
+            $scheduled_at = '';
+            if($inputSched == null)
+            {
+                $scheduled_at = Carbon::now()->format('Y-m-d H:i:s');
+            }
+            else {
+                $time = strtotime($request->input('scheduled_at'));
+                $scheduled_at = date('Y-m-d H:i:s', $time);
+            }
+            
+            if($request->file('attachment') != null) {
+                $file = $request->file('attachment');
+                $file_name = $file->getClientOriginalName();
+                $file_path = $file->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($request->client_id)->name);
+                $file_size = $file->getSize();
+
+                $file_id = File::insertGetId([
+                    'user_id' => Auth::user()->id,
+                    'path' => $file_path,
+                    'name' => $file_name,
+                    'size' => $file_size,
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ]);
+
+                if($file_id) {
+                    Message::create([
+                        'user_id' => Auth::user()->id,
+                        'is_global' => 0,
+                        'targeted_at' => $request->input('client_id'),
+                        'scheduled_at' => $scheduled_at,
+                        'contents' => $request->input('content'),
+                        'file_id' => $file_id
+                    ]);
+                }
+            } 
+            else {
+                Message::create([
+                    'user_id' => Auth::user()->id,
+                    'is_global' => 0,
+                    'targeted_at' => $request->input('client_id'),
+                    'scheduled_at' => $scheduled_at,
+                    'contents' => $request->input('content')
+                ]);
+            }
+
+            
+        });
+
+        return redirect()->route('access-contact', ['client_id' => $this->hashids->encode($request->input('client_id'))]);
+    }
+
+    public function from_client(Request $request)
+    {
+        $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
+        $client_user_ids = [];
+        $users = User::where('role_id', 4)->orWhere('role_id',5)->get();
+        foreach ($users as $user)
+        {
+            if($user->clientStaff->client->id == $id){
+                array_push($client_user_ids,$user->id);
+            }
+        }
+        $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->get();
 
-        return View::make('host.individual-clients.incoming')->with(['client' => $client]);
+        return View::make('host.individual-clients.incoming')->with(['hashids'=> $this->hashids, 'client' => $client, 'uploads'=> $uploads]);
     }
 
-    public function to_client($client_id)
+    public function download_file(Request $request)
     {
-        $id = $this->hashids->decode($client_id)[0];
+        $file_db = File::find($request->file_id);
+
+        $file = Storage::get($file_db->path);
+
+        return (new Response($file, 200))->header('Content-Type', '.*');
+    }
+
+    public function to_client(Request $request)
+    {
+        $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
         $uploads = HostUpload::where('client_id', $id)->get();
 
-        return View::make('host.individual-clients.outgoing')->with(['client' => $client, 'uploads' => $uploads]);
+        return View::make('host.individual-clients.outgoing')->with(['hashids'=> $this->hashids, 'client' => $client, 'uploads' => $uploads]);
     }
 
-    public function file_tax($client_id, Request $request)
+    public function file_tax(Request $request)
     {
-        $id = $this->hashids->decode($client_id)[0];
+        $id = $request->client_id;
         $request->validate(
             [
                 'file' => 'required|mimes:doc,docx,pdf,csv'
@@ -413,30 +508,31 @@ class HostController extends Controller
             $size = $request->file('file')->getSize();
 
             $file_id = File::insertGetId([
+                'user_id' => Auth::user()->id,
                 'path' => $path,
                 'name' => $name,
                 'size' => $size
             ]);
 
             HostUpload::create([
-                'accounting_office_staff_id' => 1,
+                'user_id' => Auth::user()->id,
                 'client_id' => $id,
                 'file_id' => $file_id,
-                'status' => 1,
+                'status' => 0,
                 'priority' => $request->input('require_action'),
                 'details' => $request->input('comment')
             ]);
 
-            return 'success';
+            return redirect()->route('access-outbox', ['client_id' => $this->hashids->encode($id)]);
         });
     }
 
-    public function financial_history_client($client_id)
+    public function financial_history_client(Request $request)
     {
-        $id = $this->hashids->decode($client_id)[0];
+        $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
 
-        return View::make('host.individual-clients.financial-history', ['client' => $client, 'hashids' => $this->hashfileids]);
+        return View::make('host.individual-clients.financial-history', ['client' => $client, 'hashids' => $this->hashids]);
     }
 
     public function access_files_client($client_id, $file_id)

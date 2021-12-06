@@ -156,9 +156,6 @@
 @endsection
 
 @section('extra-scripts')
-    <script type="text/javascript" src="{{ asset('js/app.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         
         $("#newUserForm").on('submit', function(event) {

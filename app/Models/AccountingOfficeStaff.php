@@ -20,8 +20,8 @@ class AccountingOfficeStaff extends Model
         'is_admin'
     ];
 
-    public function accounting_office() : HasOne {
-        return $this->hasOne(AccountingOffice::class);
+    public function accountingOffice() : HasOne {
+        return $this->hasOne(AccountingOffice::class, 'id', 'accounting_office_id');
     }
 
     public function user() : HasOne {

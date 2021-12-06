@@ -24,7 +24,7 @@
                             <tbody>
                                 <tr class="align-center">
                                     <td>1</td>
-                                    <td><p class="text-dark">March 31, 2021</p> <a href="access-files/{{$hashids->encode(209)}}" class="btn btn-primary">Access</a></td>
+                                    <td><p class="text-dark">March 31, 2021</p> <a href="{{route('access-archive', ['file_id' => $this->hashids->encode(str_random(12))])}}" class="btn btn-primary">Access</a></td>
                                     <td>Financial statements / tax returns (corporate tax / local tax / consumption tax) FY03 / 2021</td>
                                     <td>May 28, 2021</td>
                                     <td>May 30, 2021</td>

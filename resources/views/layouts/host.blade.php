@@ -97,7 +97,7 @@
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
-              <a href="home" class="nav-link  @if(request()->route()->getName() == 'home') active  @endif">
+              <a href="{{route('home')}}" class="nav-link  @if(request()->route()->getName() == 'home') active  @endif">
                 <i class="nav-icon fas fa-home"></i>
                 <p>
                   事務所ホーム
@@ -105,7 +105,7 @@
               </a>
             </li>
             <li class="nav-item mt-3">
-              <a href="customer-selection" class="nav-link @if(request()->route()->getName() == 'customer-selection') active @endif">
+              <a href="{{route('clients')}}" class="nav-link @if(request()->route()->getName() == 'clients') active @endif">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
                   顧客の選択
@@ -114,7 +114,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="message-clients" class="nav-link @if(request()->route()->getName() == 'message-clients') active @endif">
+              <a href="{{route('outbox')}}" class="nav-link @if(request()->route()->getName() == 'outbox') active @endif">
                 <i class="nav-icon fas fa-paper-plane"></i>
                 <p>
                   全顧客への連絡
@@ -123,7 +123,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="client-list" class="nav-link  @if(request()->route()->getName() == 'client-list') active @endif">
+              <a href="{{route('clients-information')}}" class="nav-link  @if(request()->route()->getName() == 'clients-information') active @endif">
                 <i class="nav-icon fas fa-address-book"></i>
                 <p>
                   顧客の一覧
@@ -136,7 +136,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="account-management" class="nav-link @if(request()->route()->getName() == 'account-management') active  @endif">
+              <a href="{{route('account')}}" class="nav-link @if(request()->route()->getName() == 'account') active  @endif">
                 <i class="nav-icon fa fa-cog"></i>
                 <p>
                   メンバー管理
@@ -145,7 +145,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="plan-update" class="nav-link @if(request()->route()->getName() == 'plan-update') active  @endif">
+              <a href="{{route('subscription')}}" class="nav-link @if(request()->route()->getName() == 'subscription') active  @endif">
                 <i class="nav-icon fas fa-calendar"></i>
                 <p>
                   プラン確認・変更
@@ -170,7 +170,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link">
+              <a href="#" class="nav-link" id="inquiryBtn">
                 <i class="nav-icon far fa-comment-dots"></i>
                 <p>
                   問合せ
@@ -194,8 +194,38 @@
 
   
   
+  <script type="text/javascript" src="{{ asset('js/app.js')}}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   @yield('extra-scripts')
-  
+
+  <script>
+    $('#inquiryBtn').click(async () => {
+      const { value: text } = await Swal.fire({
+        icon: 'question',
+        input: 'textarea',
+        inputLabel: 'Inquiry',
+        inputPlaceholder: 'Type your inquiry here... We will send you and email to your registered email address.',
+        inputAttributes: {
+          'aria-label': 'Type your inquiry here..'
+        },
+        showCancelButton: false
+      })
+
+      if(text) {
+        var url = "{{route('send-inquiry')}}"
+
+        axios.post(url, {
+          content: text,
+        }).then(function(response) {
+          console.log(response.data)
+        }).catch(function(error) {
+          console.log(error.response.data)
+        })
+      }
+    })
+  </script>
 </body>
 
 </html>

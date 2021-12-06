@@ -18,6 +18,7 @@ class CreateFilesTable extends Migration
             $table->foreignId('user_id')->constraint()->onDelete('cascade')->onUpdate('cascade');
             $table->string('path');
             $table->string('name');
+            $table->bigInteger('size');
             $table->timestamps();
             $table->softDeletes();
         });

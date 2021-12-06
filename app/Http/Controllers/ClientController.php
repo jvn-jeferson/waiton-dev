@@ -17,27 +17,23 @@ use App\Models\ClientUpload;
 use App\Models\HostUpload;
 use App\Models\File;
 
+use Carbon\Carbon;
+use Hashids\Hashids;
+
 class ClientController extends Controller
 {
     public function index()
     {
-        $messages = Message::where([[
-            'accounting_office_id', '=', 1
-        ]])
-        ->where(function($q){
-          $q->where('is_global', '=', '1')
-          ->orWhere('targeted_at', '=', Auth::user()->clientStaff->client->id);
-        })->get();
+        $messages = Message::where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5);
 
-
-        $uploads = ClientUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
+        $uploads = ClientUpload::where('user_id', Auth::user()->id)->get();
         $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
         return View::make('client.dashboard')->with(['messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads]);
     }
 
     public function going_out()
     {
-        $uploads = ClientUpload::where('client_id', '=', Auth::user()->clientStaff->client->id)->orderBy('created_at', 'DESC')->get();
+        $uploads = ClientUpload::where('user_id', Auth::user()->id)->latest()->get();
         return View::make('client.outgoing')->with(['uploads' => $uploads]);
     }
 
@@ -53,15 +49,23 @@ class ClientController extends Controller
                     $client = Auth::user()->clientStaff->client;
                     $staff = ClientStaff::where('user_id', $user_id)->first();
 
-                    ClientUpload::create(
-                        [
-                            'client_id' => $client->id,
-                            'client_staff_id' => 1,
-                            'file_name' => $request->file('file')[$key]->getClientOriginalName(),
-                            'file_path' => $request->file('file')[$key]->store('public/files/upload/'.Auth::user()->id),
-                            'file_size' => $request->file('file')[$key]->getSize(),
+                    $file_id = File::insertGetId([
+                        'user_id' => $user_id,
+                        'path' => $request->file('file')[$key]->store('public/files/upload/'.Auth::user()->id),
+                        'name' => $request->file('file')[$key]->getClientOriginalName(),
+                        'size' => $request->file('file')[$key]->getSize(),
+                        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                    ]);
+                    
+                    if($file_id)
+                    {
+                        ClientUpload::create([
+                            'user_id' => $user_id,
+                            'file_id' => $file_id,
                             'comment' => $comment
                         ]);
+                    }
 
                 });
             }

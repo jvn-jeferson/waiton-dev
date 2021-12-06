@@ -121,5 +121,4 @@
 @endsection
 
 @section('extra-scripts')
-<script type="text/javascript" src="{{asset('js/app.js')}}"></script>
 @endsection

@@ -46,9 +46,9 @@
 
               <p class="text-muted text-center">
                 @if(Auth::user()->role_id == 2)
-                Manager
+                  Manager
                 @else
-                Staff
+                  Staff
                 @endif
               </p>
 
@@ -94,7 +94,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="dashboard" class="nav-link  @if(request()->route()->getName() == 'individual-dashboard') active  @endif">
+            <a href="{{route('access-dashboard', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link  @if(request()->route()->getName() == 'access-dashboard') active  @endif">
               <i class="nav-icon fas fa-home"></i>
               <p>
               ホーム
@@ -103,7 +103,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="contact" class="nav-link  @if(request()->route()->getName() == 'individual-contact') active  @endif">
+            <a href="{{route('access-contact', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link  @if(request()->route()->getName() == 'access-contact') active  @endif">
               <i class="nav-icon fas fa-envelope"></i>
               <p>
                 メッセージを送る
@@ -113,7 +113,7 @@
           
           <li class="nav-header mt-3">文書</li>
           <li class="nav-item">
-            <a href="data-incoming" class="nav-link @if(request()->route()->getName() == 'data-incoming') active  @endif">
+            <a href="{{route('access-inbox', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'access-inbox') active  @endif">
               <i class="nav-icon fas fa-upload"></i>
               <p>
               To　会計事務所
@@ -121,7 +121,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="data-outgoing" class="nav-link @if(request()->route()->getName() == 'data-outgoing') active  @endif">
+            <a href="{{route('access-outbox', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'access-outbox') active  @endif">
               <i class="nav-icon fas fa-download"></i>
               <p>
               From　会計事務所
@@ -131,7 +131,7 @@
           
           <li class="nav-header mt-3">記録</li>
           <li class="nav-item">
-            <a href="settlement-history" class="nav-link @if(request()->route()->getName() == 'individual-history' || request()->route()->getName() == 'individual-history-access')  active  @endif">
+            <a href="{{route('access-taxation-history', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'access-taxation-history')  active  @endif">
                 <i class="nav-icon fas fa-calendar"></i>
                 <p>
                 過去の決算

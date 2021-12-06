@@ -27,6 +27,8 @@ Route::get('password/request-reset/{token}?user={login_id}', [MainController::cl
 
 
 Route::group(['middleware' => 'auth'], function() {
+
+    Route::post('send-inquiry', [MainController::class, 'send_inquiry'])->name('send-inquiry');
     // Client routes
     Route::group(['middleware' => 'client_staff'], function() {
         Route::get('client-home', [ClientController::class, 'index'])->name('client-home');
@@ -44,26 +46,36 @@ Route::group(['middleware' => 'auth'], function() {
     });
     // End Client Routes
 
-    Route::group(['middleware'=> 'accounting_office_staff'], function () {
+    Route::group(['middleware'=> 'accounting_office_staff', 'prefix' => 'accounting_office'], function () {
         // Accounting Office routes
-        Route::get('home', [HostController::class, 'index'])->name('home');
-        Route::get('customer-selection', [HostController::class, 'customer_selection'])->name('customer-selection');
-        Route::get('message-clients', [HostController::class, 'message_clients'])->name('message-clients');
-        Route::get('client-list', [HostController::class, 'client_list'])->name('client-list');
-        Route::get('account-management', [HostController::class, 'account_management'])->name('account-management');
-        Route::get('plan-update', [HostController::class, 'plan_update'])->name('plan-update');
+        Route::get('/', [HostController::class, 'index'])->name('home');
+        Route::get('clients', [HostController::class, 'customer_selection'])->name('clients');
+        Route::get('outbox', [HostController::class, 'message_clients'])->name('outbox');
+        Route::get('clients-information', [HostController::class, 'client_list'])->name('clients-information');
+        Route::get('account', [HostController::class, 'account_management'])->name('account');
+        Route::get('subscription', [HostController::class, 'plan_update'])->name('subscription');
         Route::get('accounting-profile', [HostController::class, 'accounting_profile'])->name('accounting-profile');
         Route::post('register-new-client', [HostController::class, 'register_new_client'])->name('register-new-client');
         Route::post('send-notification', [HostController::class, 'send_notification'])->name('send-notification');
         Route::post('register-new-staff', [HostController::class, 'register_new_staff'])->name('register-new-staff');
+        Route::post('download-file', [HostController::class, 'download_file'])->name('download-file');
         // End Accounting Office routes
 
         //Accounting Office Individual Routes
-        Route::get('view-individual-clients/client_id={client_id}/dashboard', [HostController::class, 'view_client'])->name('individual-dashboard');
-        Route::get('view-individual-clients/client_id={client_id}/contact', [HostController::class, 'contact_client'])->name('individual-contact');
-        Route::get('view-individual-clients/client_id={client_id}/data-incoming', [HostController::class, 'from_client'])->name('individual-data-incoming');
-        Route::get('view-individual-clients/client_id={client_id}/data-outgoing', [HostController::class, 'to_client'])->name('individual-data-outgoing');
-        Route::post('view-individual-clients/client_id={client_id}/send-tax-file', [HostController::class, 'file_tax'])->name('send-tax-file');
+        Route::group(['prefix' => 'access-client'], function() {
+            //GET HEAD
+            Route::get('dashboard', [HostController::class, 'view_client'])->name('access-dashboard');
+            Route::get('contact', [HostController::class, 'contact_client'])->name('access-contact');
+            Route::get('inbox', [HostController::class, 'from_client'])->name('access-inbox');
+            Route::get('outbox', [HostController::class, 'to_client'])->name('access-outbox');
+            Route::get('taxation-history', [HostController::class, 'financial_history_client'])->name('access-taxation-history');
+            Route::get('access-financial-archive', [HostController::class, 'access_files_client'])->name('access-archive');
+
+            //POST HEAD
+            Route::post('message-client', [HostController::class, 'message_client'])->name('message-client');
+            Route::post('send-tax-file', [HostController::class, 'file_tax'])->name('send-tax-file');
+        });
+
         Route::get('view-individual-clients/client_id={client_id}/settlement-history', [HostController::class, 'financial_history_client'])->name('individual-history');
         Route::get('view-individual-clients/client_id={client_id}/access-files/{file_id}', [HostController::class, 'access_files_client'])->name('individual-history-access');
         Route::get('video-creation', [HostController::class, 'video_creation'])->name('video-creation');
