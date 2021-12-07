@@ -60,7 +60,9 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="4" class="text-center"></td>
+                                                <td colspan="4" class="text-center">
+                                                    表示するレコードがありません
+                                                </td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -135,6 +137,11 @@
                                                 <td>が保存されました。</td>
                                             </tr>
                                         @empty
+                                            <tr>
+                                                <td colspan="3" class="text-center text-info">
+                                                表示するレコードがありません
+                                                </td>
+                                            </tr>
                                         @endforelse
                                     </tbody>
                                 </table>

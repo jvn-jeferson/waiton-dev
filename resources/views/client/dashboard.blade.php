@@ -40,7 +40,7 @@
               <div class="col-12">
                 <div class="card card-primary card-outline">
                   <div class="card-header">
-                    <h3 class="card-title">
+                    <h3 class="card-title text-bold">
                       To会計事務所
                     </h3>
                   </div>
@@ -59,7 +59,7 @@
                           @forelse($uploads as $upload)
                             <tr>
                               <td>{{$upload->created_at->format('Y年m月d日')}}</td>
-                              <td>{{$upload->file_name}}</td>
+                              <td class="text-info">{{$upload->file->name}}</td>
                               <td>アップロード</td>
                               <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日')  }}</td>
                             </tr>
@@ -97,9 +97,24 @@
                           @forelse($downloads as $download)
                             <tr>
                               <td>{{$download->created_at->format('Y年m月d日')}}</td>
-                              <td>{{$download->file_name}}</td>
-                              <td>{{$download->status}}</td>
-                              <td>{{$download->priority}}</td>
+                              <td class="text-info">{{$download->file->name}}</td>
+                              <td>
+                                @switch($download->status)
+                                  @case(1)
+                                    ファイル名
+                                    @break
+                                  @case(2)
+                                    承認
+                                    @break
+                                  @case(3)
+                                    保留
+                                    @break
+                                  @default
+
+                                    @break
+                                @endswitch
+                              </td>
+                              <td>@if($download->priority == 1) （確認依頼あり）@endif</td>
                               <td>{{$download->created_at->modify('+1 month')->format('Y年m月d日')  }}</td>
                             </tr>
                           @empty
@@ -128,13 +143,27 @@
                         <thead class="bg-info">
                           <th>アップロード日</th>
                           <th>ファイル名</th>
-                          <th>アップローダー</th>
-                          <th>状態</th>
+                          <th>ストレージステータス</th>
                         </thead>
                         <tbody>
-                          @forelse($uploads as $uploads)
-
-                          @empty
+                          @forelse($files as $file)
+                            <tr>
+                              <td>{{$file->created_at->format('Y年m月d日')}}</td>
+                              <td class="text-info">{{$file->name}}</td>
+                              <td>
+                                @if($file->deleted_at)
+                                  アーカイブされました。
+                                @else
+                                  が保存されました。
+                                @endif
+                              </td>
+                            </tr>
+                          @empty  
+                            <tr>
+                              <td colspan="3" class="text-center text-info">
+                                まだファイルをアップロードしていません。
+                              </td>
+                            </tr>
                           @endforelse
                         </tbody>
                       </table>
@@ -149,8 +178,6 @@
 @endsection
 
 @section('extra-scripts')
-<!-- Scripts -->
-<script src="{{asset('js/app.js')}}"></script>
 @endsection
 
 

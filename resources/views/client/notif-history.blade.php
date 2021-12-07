@@ -19,31 +19,31 @@
                     <table class="table-bordered table">
                         <tbody>
                             <tr>
-                                <td>会社名</td>
-                                <td>
-                                    ABC株式会社
+                                <td class="text-bold bg-lightblue">会社名</td>
+                                <td class="text-dark text-bold">
+                                    {{$account->name}}
                                 </td>
                             </tr>
                             <tr>
-                                <td>当店の場所</td>
+                                <td class="text-bold bg-lightblue">当店の場所</td>
                                 <td>
-                                    ２ー６ー７ ひがしてんま、 きたーく、 おさかーし、 おさか
+                                    {{$account->address}}
                                 </td>
                             </tr>
                             <tr>
-                                <td>代表</td>
+                                <td class="text-bold bg-lightblue">代表</td>
                                 <td>
-                                    たろ やまだ
+                                    {{$account->representative}}
                                 </td>
                             </tr>
                             <tr>
-                                <td>代表住宅</td>
+                                <td class="text-bold bg-lightblue">代表住宅</td>
                                 <td>
-                                    １ー３ー２０ なかのしま、 きたーく、 おさかーし、 おさか
+                                    {{$account->representative_address}}
                                 </td>
                             </tr>
                             <tr>
-                                <td rowspan="8">主要な通知の状況など</td>
+                                <td rowspan="8" class="text-bold bg-lightblue">主要な通知の状況など</td>
                                 <td>
                                     <input type="checkbox" name="" id="" disabled checked>
                                     設立通知フォーム
@@ -101,7 +101,7 @@
                     <p class="text-dark h2">
                         過去の通知フォームなどへのアクセス
                     </p>
-                    <button class="btn btn-primary" onclick="confirmAccessRequest(1)">ブラウジング</button>
+                    <button class="btn btn-primary" onclick="confirmAccessRequest({{$account->id}})">ブラウジング</button>
                 </div>
             </div>
         </section>
@@ -109,18 +109,35 @@
 @endsection
 
 @section('extra-scripts')
-    <!-- Scripts -->
-    <script src="{{asset('js/app.js')}}"></script>
     <script>
         function confirmAccessRequest(id) {
-            swal.fire({
+            Swal.fire({
                 title: "機密情報へのアクセスの閲覧",
-                icon: 'warning',
                 text: "登録したメールアドレスにワンタイムパスワードが送信されますので、メールアドレスのURLからログインしてアクセスしてください。",
                 showCancelButton: !0,
-                confirmButtonText: "了解した",
+                confirmButtonText: "閲覧する",
                 cancelButtonText: "キャンセル",
                 reverseButtons: false
+            }).then((result) => {
+                if(result.isConfirmed)
+                {
+                    var url = "{{route('send-otp-notif-history')}}";
+                    axios.post(url, {
+                        client_id: id
+                    }).then(function(response) {
+                        Swal.fire({
+                            title: '成功',
+                            icon: 'success',
+                            text: '登録したメールアドレスにワンタイムパスワードが送信されました。 メールを確認し、手順に従って会社の通知履歴にアクセスしてください。'
+                        })
+                    }).catch(function(error){
+                        Swal.fire({
+                            title: 'エラー',
+                            icon: 'warning',
+                            text: 'エラーが発生しました。 もう一度やり直してください。'
+                        })
+                    })
+                }
             })
         }
     </script>

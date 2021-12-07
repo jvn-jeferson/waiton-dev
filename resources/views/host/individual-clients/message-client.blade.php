@@ -14,23 +14,24 @@
                             </div>
                             <div class="card-body">
                                 <p class="text-dark h4">向けに連絡を行うことができます</p>
-                                <form action="" method="post" enctype="multipart/form">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="scheduled_at">指定日（設定しない場合は、投稿日で連絡されます）</label>
-                                        <input type="date" name="scheduled_at" id="scheduled_at" class="form-control">
+                                <form method="post" id="messageClientForm" action="{{route('message-client')}}" enctype="multipart/form-data">
+                                    <div class="m-3 p-3 alert-info">
+                                            @csrf
+                                            <input type="hidden" name="client_id" id="client_id" value="{{$client->id}}">
+                                            <div class="form-group">
+                                                <label for="scheduled_at">指定日（設定しない場合は、投稿日で連絡されます）</label>
+                                                <input type="date" name="scheduled_at" id="scheduled_at" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="content">コメント欄</label>
+                                                <input type="text" name="content" id="content" class="form-control" required/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="attachment">ファイルを添付</label>
+                                                <input type="file" name="attachment" id="attachment">
+                                            </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="contents">コメント欄</label>
-                                        <input type="text" name="contents" id="contents" class="form-control" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="file">Attach a File</label>
-                                        <input type="file" name="file" id="file">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="submit" value="登録" name="submit" class="btn btn-warning float-right">
-                                    </div>
+                                    <input type="submit" value="登録" name="submit" class="btn btn-warning float-right mx-3 col-2">
                                 </form>
                             </div>
                         </div>
@@ -58,18 +59,20 @@
                                             <th>投稿資料</th>
                                         </thead>
                                         <tbody>
-                                            {{-- @foreach ($records as $record) --}}
+                                            <button class="btn btn-primary btn-block col-3 mb-3">選択した投稿を削除</button>
+                                            @forelse($messages as $message)
                                                 <tr>
-                                                    <td><input type="checkbox" name="" id=""></td>
-                                                    <td>2021/06/15</td>
-                                                    <td></td>
-                                                    <td>Notice</td>
-                                                    <td>We would like to express our deepest sympathies during the heat.
-                                                        Let's do our best without being overwhelmed by Corona.
-                                                    </td>
-                                                    <td></td>
+                                                    <td><input type="checkbox" name="select" id="select" value="{{$message->id}}"></td>
+                                                    <td>{{$message->created_at}}</td>
+                                                    <td>{{$message->scheduled_at}}</td>
+                                                    <td>{{$message->contents}}</td>
+                                                    <td>{{$message->file->name ?? ''}}</td>
                                                 </tr>
-                                            {{-- @endforeach --}}
+                                            @empty
+                                                <tr>
+                                                    <td colspan="5" class="text-center text-info">クライアント<strong class="text-success">{{$client->name}}</strong>を対象としたメッセージはありません。</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
@@ -84,4 +87,8 @@
 
 @section('extra-scripts')
     <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    
 @endsection

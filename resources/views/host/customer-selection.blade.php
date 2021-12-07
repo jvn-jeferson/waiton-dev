@@ -64,7 +64,7 @@
                                                 @if($clients)
                                                     @foreach($clients as $client)
                                                         <tr>
-                                                            <td><a href="view-individual-clients/client_id={{$hashids->encode($client->id)}}/dashboard">{{$client->name}}</a></td>
+                                                            <td><a href="{{route('access-dashboard', ['client_id' => $hashids->encode($client->id)])}}">{{$client->name}}</a></td>
                                                             <td>@if($client->business_type_id == 1) 個人 @else 法人 @endif</td>
                                                             <td>{{date("F", mktime(0, 0, 0, $client->tax_filing_month, 10)) }}</td>
                                                             <td></td>

@@ -13,10 +13,8 @@
                             <div class="row">
                                 <div class="col-7">
                                     <p><a href="#" onclick="window.open('{{route('video-creation')}}');">Create a video from here and paste the URL.</a></p>
-                                    <form method="GET" action="{{url('get-video')}}">
-                                    <input type="text" name="video_url" id="video_url" class="form-control" placeholder="Paste the video url here.">
-                                    <video src="" style="width: 100%; border:2px darkgreen dashed; position: relative; display:flex" class="mt-2"></video>
-                                    </form>
+                                    <input type="url" name="video-url" id="video-url" class="form-control" placeholder="Paste the video url here.">
+                                    <video style="width: 100%; border:2px darkgreen dashed; position: relative; display:flex" class="mt-2" id="video-player" controls><source src=""></video>
                                 </div>
                                 <div class="col-5">
                                     <h4 class="text-bold">
@@ -99,4 +97,32 @@
 
 @section('extra-scripts')
     <script src="{{ asset('js/app.js')}}"></script>
+    <script>
+        var video_player = document.querySelector('#video-player')
+        var src_input = document.querySelector('#video-url')
+
+        $('#video-url').change(function() {
+            var url = src_input.value;
+            if(isValidHttpUrl(url)){
+                $('source').attr('src',url)
+                video_player.load()
+                video_player.play()
+            }
+            else {
+                console.log('ERROR')
+            }
+        })
+
+        function isValidHttpUrl(string) {
+            let url;
+            
+            try {
+                url = new URL(string);
+            } catch (_) {
+                return false;  
+            }
+
+            return url.protocol === "http:" || url.protocol === "https:";
+        }
+    </script>
 @endsection

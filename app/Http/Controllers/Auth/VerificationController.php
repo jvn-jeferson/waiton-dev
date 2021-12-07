@@ -34,11 +34,11 @@ class VerificationController extends Controller
         switch ($role)
         {
             case 'meister':
-                abort(403);
+                return '/administrator/home';
                 break;
             case 'acct_admin':
             case 'acct_staff':
-                return '/home';
+                return '/accounting_office';
                 break;
             case 'client_admin':
             case 'client_staff':

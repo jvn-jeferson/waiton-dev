@@ -88,13 +88,15 @@
                       @forelse(Auth::user()->accountingOffice->clients as $client)
                         <tr>
                           <td>{{$client->name}}</td>
-                          <td>{{date("F", mktime(0, 0, 0, $client->tax_filing_month, 10))}}</td>
+                          <td>{{$client->tax_filing_month.'月'}}</td>
                           <td></td>
-                          <td>{{$client->business_type_id}}</td>
+                          <td>@if($client->business_type_id == 1) 個人 @else 法人 @endif</td>
                         </tr>
                       @empty
                         <tr>
-                          <td colspan="4"></td>
+                          <td colspan="4">
+                            あなたのオフィスには登録済みのクライアントがありません。
+                          </td>
                         </tr>
                       @endforelse
                     </tbody>
@@ -161,5 +163,4 @@
 @endsection
 
 @section('extra-scripts')
-  <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
 @endsection

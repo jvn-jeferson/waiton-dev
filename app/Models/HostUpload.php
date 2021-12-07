@@ -14,7 +14,7 @@ class HostUpload extends Model
     protected $table = 'host_uploads';
 
     protected $fillable = [
-        'accounting_office_staff_id',
+        'user_id',
         'client_id',
         'file_id',
         'status',
@@ -27,5 +27,10 @@ class HostUpload extends Model
     public function file() : HasOne
     { 
        return $this->hasOne(File::class, 'id', 'file_id');
+    }
+
+    public function user() : HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

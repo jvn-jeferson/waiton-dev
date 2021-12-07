@@ -29,4 +29,9 @@ class Client extends Model
     {
         return $this->hasMany(ClientStaff::class);
     }
+
+    public function credentials(): HasOne
+    {
+        return $this->hasOne(TaxingCredentials::class);
+    }
 }

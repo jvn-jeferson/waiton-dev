@@ -18,8 +18,9 @@
                                     アップロード資料にファイルをドロップするか、アップロードボタンからファイルを選択してください。
                                 </p>
                                 <div class="table-responsive mt-2">
-                                    <form action="send-tax-file" method="post" enctype="multipart/form-data">
+                                    <form action="{{route('send-tax-file')}}" method="post" enctype="multipart/form-data">
                                         @csrf
+                                        <input type="hidden" name="client_id" id="client_id" value="{{$client->id}}" /> 
                                         <table class="table table-bordered">
                                             <tbody>
                                                 <tr class="bg-info">
@@ -75,11 +76,27 @@
                                                     @forelse($uploads as $upload)
                                                         <tr @if($upload->priority <= 0) class="bg-light" @else class="bg-warning" @endif>
                                                             <td><input type="checkbox" name="record_id" id="record_id" value="{{ $upload->id }}"></td>
-                                                            <td>{{$upload->created_at->format('Y年m月d日')}}</td>
+                                                            <td>{{$upload->created_at->format('Y年m月d日')}} • {{$upload->user->accountingOfficeStaff->name}}</td>
                                                             <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日')}}</td>
-                                                            <td>{{$upload->status}}</td>
+                                                            <td>
+                                                                @if($upload->priority == 0)
+                                                                    確認不要
+                                                                @else
+                                                                    @if($upload->status == 0) 
+                                                                        アップロードされました 
+                                                                    @elseif($upload->status == 1) 
+                                                                        ダウンロードされました 
+                                                                    @elseif($upload->status == 2)
+                                                                        承認済み 
+                                                                    @elseif($upload->status == 3)
+                                                                        留保 
+                                                                    @else 
+                                                                        確認不要 
+                                                                    @endif
+                                                                @endif
+                                                            </td>
                                                             <td>{{$upload->updated_at->format('Y年m月d日')}}</td>
-                                                            <td>{{$upload->file_id}}</td>
+                                                            <td class="text-info">{{$upload->file->name}}</td>
                                                             <td>{{$upload->details}}</td>
                                                         </tr>
                                                     @empty

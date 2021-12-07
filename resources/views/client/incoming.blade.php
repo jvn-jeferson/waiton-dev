@@ -13,7 +13,8 @@
                     <p class="text-muted">
                         以下のファイルが会計事務所から送信されました。承認が必要な資料については、承認/予約を確認して選択し、処理を決定してください。 コメントを送信することもできます。 （視聴期限は1ヶ月です)
                     </p>
-                    <table class="table table-bordered table-outline text-center">
+                    @forelse($host_uploads as $host_upload)
+                    <table class="table table-bordered table-outline text-center my-2">
                         <thead class="thead-dark">
                             <th>投稿情報</th>
                             <th>締め切りの表示</th>
@@ -24,34 +25,89 @@
                             <tr>
                                 <td rowspan="2">
                                     <p class="text-dark">
-                                        2021年5月2日午後3時30分
+                                        {{$host_upload->created_at->format('Y年m月d日 g:i A')}}
                                     </p>
                                     <button class="btn btn-block btn-primary" onclick="downloadFile(this, 1)">資料のダウンロード</button>
                                 </td>
                                 <td rowspan="2">
                                     <p class="text-dark">
-                                        2021年6月2日午後3時30分
+                                        {{$host_upload->created_at->modify('+1 month')->format('Y年m月d日 g:i A')}}
                                     </p>
                                 </td>
-                                <td rowspan="2">財務諸表/確定申告（法人税、地方税、消費税）/ FYO3 / 20201</td>
-                                <td class="text-center bg-danger">Admit</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center bg-danger">
-                                    Reserve
+                                <td rowspan="2" class="text-info">{{$host_upload->file->name}}</td>
+                                <td class="text-center
+                                    @switch($host_upload->status)
+                                        @case(1)
+                                            bg-light
+                                            @break
+                                        @case(2)
+                                            bg-success
+                                            @break
+                                        @case(3)
+                                            bg-light
+                                            @break
+                                        @case(4)
+                                            bg-dark
+                                            @break
+                                        @default
+                                            bg-light
+                                            @break
+                                    @endswitch
+                                ">
+                                    @if($host_upload->priority == 1)
+                                        承認
+                                    @else
+                                        ---
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td class="text-center
+                                    @switch($host_upload->status)
+                                        @case(1)
+                                            bg-light
+                                            @break
+                                        @case(2)
+                                            bg-light
+                                            @break
+                                        @case(3)
+                                            bg-danger
+                                            @break
+                                        @case(4)
+                                            bg-dark
+                                            @break
+                                        @default
+                                            bg-light
+                                            @break
+                                    @endswitch
+                                ">
+                                    @if($host_upload->priority == 1)
+                                        保留
+                                    @else
+                                        ---
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bg-light">
                                     コメント
                                 </td>
-                                <td colspan="3">
-                                    今年の財務諸表。
-                                    税額一覧とともに最終確認をお願いします
+                                <td colspan="2">
+                                    {{$host_upload->details}}
+                                </td>
+                                <td>
+                                    @if ($host_upload->priority == 1)
+                                        <button class="btn btn-flat btn-block btn-primary">
+                                            決定
+                                        </button>
+                                    @endif
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    @empty
+
+                    @endforelse
                 </div>
             </div>
         </section>
@@ -59,11 +115,6 @@
 @endsection
 
 @section('extra-scripts')
-<!-- Scripts -->
-<script src="{{asset('js/app.js')}}"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
 <script>
 
     function downloadFile(e, id) {
@@ -78,6 +129,9 @@
             cancelButtonColor: '#B30712',
             confirmButtonText: 'Proceed and download.'
         }).then((result) => {
+
+            //axios get file
+            //response
             if(result.isConfirmed) {
                 Swal.fire(
                     'File Download will begin shortly.',
