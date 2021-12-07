@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('register-new-client', [HostController::class, 'register_new_client'])->name('register-new-client');
         Route::post('send-notification', [HostController::class, 'send_notification'])->name('send-notification');
         Route::post('register-new-staff', [HostController::class, 'register_new_staff'])->name('register-new-staff');
+        Route::post('download-client', [HostController::class, 'download_client'])->name('download-client');
         // End Accounting Office routes
 
         //Accounting Office Individual Routes

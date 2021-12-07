@@ -21,13 +21,13 @@ use App\Models\Subscription;
 use App\Models\SubscriptionPlan;
 use App\Models\ClientStaff;
 use App\Models\Message;
-use App\Models\File;
 use App\Models\ClientUpload;
 use App\Models\HostUpload;
 
 use Carbon\Carbon;
 use Hashids\Hashids;
-
+use File;
+use ZipArchive;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -139,7 +139,7 @@ class HostController extends Controller
             if (!$message->file_id == null) {
                 $file_ids = explode(', ', $message->file_id);
                 foreach ($file_ids as $file) {
-                    $file_name = File::find($file)->get('name');
+                    $file_name = Files::find($file)->get('name');
                     array_push($file_names, $file_name);
                 }
             }
@@ -148,6 +148,25 @@ class HostController extends Controller
         }
 
         return View::make('host.message-clients')->with(['page_title' => '全顧客への連絡', 'messages' => $messages]);
+    }
+
+    public function download_client(Request $request) {
+        $zip = new ZipArchive;
+
+
+        $fileName = 'myNewFile.zip';
+        if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE)
+        {
+            $files = Storage::files(public_path());
+
+            foreach ($files as $key => $value) {
+                $relativeNameInZipFile = basename($value);
+                $zip->addFile($value, $relativeNameInZipFile);
+            }
+
+            $zip->close();
+        }
+        dd($fileName);
     }
 
     public function client_list()
@@ -407,7 +426,7 @@ class HostController extends Controller
             $name = $request->file('file')->getClientOriginalName();
             $size = $request->file('file')->getSize();
 
-            $file_id = File::insertGetId([
+            $file_id = Files::insertGetId([
                 'path' => $path,
                 'name' => $name,
                 'size' => $size
@@ -508,7 +527,7 @@ class HostController extends Controller
                     $path = $file->store('public/files/uploaded/' . Auth::user()->id . '');
                     $name = $file->getClientOriginalName();
 
-                    $file_id = File::insertGetId([
+                    $file_id = Files::insertGetId([
                         'user_id' => Auth::user()->id,
                         'path' => $path,
                         'name' => $name
