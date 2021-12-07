@@ -4,62 +4,41 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+            <h2 class="form-title">新規登録</h2>
+            <form method="POST" action="{{ route('password.update') }}">
+                @csrf
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
 
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                <h4 class="lead my-2">メールに記載されたIDを入力してください。</h4>
+                <div class="form-group">
+                    <label for="new_password"><i class="zmdi zmdi-email"></i></label>
+                    <input type="email" name="email" id="email" readonly placeholder="新しいパスワード" value="{{ $email ?? old('email') }}" readonly />
                 </div>
-            </div>
+
+                <h4 class="lead my-4">パスワードを変更してログインしてください。</h4>
+                <div class="form-group">
+                    <label for="temp"><i class="zmdi zmdi-lock-open"></i></label>
+                    <input type="text" name="temp" id="temp" placeholder="送付されたパスワード">
+                </div>
+                <div class="form-group">
+                    <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                    <input type="password" name="password" id="password" placeholder="新パスワード" required/>
+                </div>
+                <div class="form-group">
+                    <label for="password_confirmation"><i class="zmdi zmdi-lock"></i></label>
+                    <input type="password" name="password_confirmation" id="password_confirmation" placeholder="新パスワード（確認用）" />
+                </div>
+
+                <div class="form-group row mb-0">
+                    <div class="col-md-6 offset-md-3">
+                        <button type="submit" class="btn btn-primary">
+                            {{ __('Reset Password') }}
+                        </button>
+                    </div>
+                </div>
+                <br>
+            </form>
         </div>
     </div>
-</div>
-@endsection
+    @endsection

@@ -29,8 +29,27 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/login';
+    public function redirectTo() 
+    {
+        $role = auth()->user()->role->id;
 
+        switch($role)
+        {
+            case 1:
+                return '/administrator/home';
+                break;
+            case 2:
+            case 3:
+                return '/accounting_office';
+                break;
+            case 4:
+            case 5:
+                return '/client-home';
+                break;
+            default:
+                return '/login';
+        }
+    }
     /**
      * Create a new controller instance.
      *
@@ -52,6 +71,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
@@ -63,15 +83,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
         return User::create([
             'name' => $data['name'],
-            'representative' => $data['representative'],
-            'location' => $data['address'],
-            'telephone_number' => $data['tel_number'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-        ]);;
+        ]);
     }
-
 }

@@ -1,186 +1,166 @@
-@extends('layouts.final')
+@extends('layouts.host')
 
 @section('content')
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Home</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
+  <div class="content-wrapper">
     <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1">
+                <i class="fas fa-cog"></i>
+              </span>
+              <div class="info-box-content">
+                <span class="info-box-text">Current Plan</span>
+                <span class="info-box-number">
+                  @if(Auth::user()->accountingOffice->subscription)
+                  {{Auth::user()->accountingOffice->subscription->subscription_plan->name}}
+                  @else
+                    FREE USER
+                  @endif
+                </span>
+              </div>
+            </div>
+          </div>
 
-      <!-- Calendar Reminders box -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Reminders</h3>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-success elevation-1">
+                <i class="fas fa-hdd"></i>
+              </span>
+              <div class="info-box-content">
+                <span class="info-box-text">Storage Usage</span>
+                <span class="info-box-number">
+                  10 <small>%</small>
+                </span>
+              </div>
+            </div>
+          </div>
 
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
-            </button>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-warning elevation-1">
+                <i class="fas fa-users"></i>
+              </span>
+              <div class="info-box-content">
+                <span class="info-box-text">Clients</span>
+                <span class="info-box-number">
+                  {{Auth::user()->accountingOffice->clients->count()}} / @if(Auth::user()->accountingOffice->subscription) {{ Auth::user()->accountingOffice->subscription->subscription_plan->max_clients}} @else 1 @endif
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-danger elevation-1">
+                <i class="fas fa-tasks"></i>
+              </span>
+              <div class="info-box-content">
+                <span class="info-box-text">Tasks</span>
+                <span class="info-box-number">
+                  10 <small>%</small>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="card-body">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <i class="fas fa-circle text-warning"></i>
-              <span class="text-dark ">October 10, 2021</span><span class=""> - Payment of corporate tax, local tax and consumption tax</span>
-            </li>
-            <li class="list-group-item">
-              <i class="fas fa-circle text-warning"></i>
-              <span class="text-dark">September 10, 2021</span><span class=""> - Income tax withholding payment2021</span>
-            </li>
-            <li class="list-group-item">
-              <i class="fas fa-circle text-warning"></i>
-              <span class="text-dark">August 30, 2014</span><span class=""> - Interim payment of corporate tax, local tax, and consumption tax</span>
-            </li>
-          </ul>
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          
-        </div>
-        <!-- /.card-footer-->
-      </div>
-      <!-- /.card -->
-
-      <!-- To Accounting Office -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">To Accounting Office</h3>
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
-            </button>
+        <div class="row">
+          <div class="col-12 col-md-12 col-sm-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title text-white">
+                  今月の決算
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table-hover table table-striped table-bordered text-center">
+                    <thead class="thead bg-info">
+                      <th>事業者名</th>
+                      <th>決算月</th>
+                      <th>提出月</th>
+                      <th>種類</th>
+                    </thead>
+                    <tbody>
+                      {{-- @foreach($companies as $company) --}}
+  
+                      @forelse(Auth::user()->accountingOffice->clients as $client)
+                        <tr>
+                          <td>{{$client->name}}</td>
+                          <td>{{$client->tax_filing_month.'月'}}</td>
+                          <td></td>
+                          <td>@if($client->business_type_id == 1) 個人 @else 法人 @endif</td>
+                        </tr>
+                      @empty
+                        <tr>
+                          <td colspan="4">
+                            あなたのオフィスには登録済みのクライアントがありません。
+                          </td>
+                        </tr>
+                      @endforelse
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="card-body">
-          <table class="table table-striped table-hover mx-auto col-sm-12 text-center">
-            <thead class="thead bg-primary">
-              <th>DATE</th>
-              <th>FILE NAME</th>
-              <th>STATUS</th>
-              <th>VIEWING DEADLINE</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>May 31, 2021</td>
-                <td class="text-info">sample.pdf</td>
-                <td>Uploaded</td>
-                <td>June 30, 2021</td>
-              </tr>
-              <tr>
-                <td>May 31, 2021</td>
-                <td class="text-info">sample2.pdf</td>
-                <td>Uploaded</td>
-                <td>June 30, 2021</td>
-              </tr>
-              <tr>
-                <td>May 31, 2021</td>
-                <td class="text-info">sample3.pdf</td>
-                <td>Uploaded</td>
-                <td>June 30, 2021</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="card-footer"></div>
-      </div>
-
-      <!-- From Accounting Office -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">From Accounting Office</h3>
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
-            </button>
+        <div class="row">
+          <div class="col-12 col-md-12 col-sm-12">
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">事業者情報</h3>
+              </div>
+              <div class="card-body">
+                <table class="table-bordered table">
+                  <tbody>
+                    <tr>
+                      <td class="w-25 text-bold">事務所名</td>
+                      <td class="w-75">{{Auth::user()->accountingOffice->name ?? ''}}</td>
+                    </tr>
+                    <tr>
+                      <td class="w-25 text-bold">所在地</td>
+                      <td class="w-75">{{Auth::user()->accountingOffice->address ?? ''}}</td>
+                    </tr>
+                    <tr>
+                      <td class="w-25 text-bold">代表者
+                      </td>
+                      <td class="w-75">{{Auth::user()->accountingOffice->representative ?? ''}}</td>
+                    </tr>
+                    <tr>
+                      <td class="w-25 text-bold">ご利用スタッフ
+                      </td>
+                      <td class="w-75">@if(Auth::user()->accountingOffice->subscription) {{
+                        Auth::user()->accountingOffice->subscription->status ?? ''
+                      }} @else FREE USER @endif</td>
+                    </tr>
+                    <tr>
+                      <td class="w-25 text-bold">ご利用期日
+                      </td>
+                      <td class="w-75">{{date_format(Auth::user()->accountingOffice->created_at, 'j F Y') ?? ''}}</td>
+                    </tr>
+                    <tr>
+                      <td class="w-25 text-bold">利用メンバー数
+                      </td>
+                      <td class="w-75">{{Auth::user()->accountingOffice->staff->count()}}名
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="w-25 text-bold">登録顧客数
+                      </td>
+                      <td class="w-75">{{Auth::user()->accountingOffice->clients->count()}}社</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="card-body">
-          <table class="table table-striped table-hover mx-auto col-sm-12 text-center">
-            <thead class="thead bg-info">
-              <th>DATE</th>
-              <th>FILE NAME</th>
-              <th>Remarks</th>
-              <th>VIEWING DEADLINE</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>May 31, 2021</td>
-                <td class="text-info">sample.pdf</td>
-                <td>Awaiting Confirmation</td>
-                <td>June 30, 2021</td>
-              </tr>
-              <tr>
-                <td>May 31, 2021</td>
-                <td class="text-info">sample2.pdf</td>
-                <td></td>
-                <td>June 30, 2021</td>
-              </tr>
-              <tr>
-                <td>May 31, 2021</td>
-                <td class="text-info">sample3.pdf</td>
-                <td>No Confirmation Request</td>
-                <td>June 30, 2021</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="card-footer"></div>
       </div>
-
-      <!-- File Storage -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">File Storage</h3>
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
-            </button>
-          </div>
-        </div>
-        <div class="card-body">
-          <table class="table table-striped table-hover mx-auto col-sm-12 text-center">
-            <thead class="thead bg-info">
-              <th>DATE</th>
-              <th>FILE NAME</th>
-              <th>Storage</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>May 31, 2021</td>
-                <td class="text-info">sample.pdf</td>
-                <td>Saved</td>
-              </tr>
-              <tr>
-                <td>May 31, 2021</td>
-                <td class="text-info">sample2.pdf</td>
-                <td>Saved</td>
-              </tr>
-              <tr>
-                <td>May 31, 2021</td>
-                <td class="text-info">sample3.pdf</td>
-                <td>Saved</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="card-footer"></div>
-      </div>
-
     </section>
   </div>
-  @endsection
+@endsection
+
+@section('extra-scripts')
+@endsection

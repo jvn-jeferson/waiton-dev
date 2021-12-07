@@ -16,6 +16,9 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <!-- Stripe JS -->
+
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -26,6 +29,13 @@
 
     <!-- Pricing CSS -->
     <link rel="stylesheet" href="{{asset('css/pricing.css')}}">
+
+    <!-- Stripe CSS -->
+    <link rel="stylesheet" href="{{asset('css/stripe.css')}}">
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+    @yield('extras')
 </head>
 <body>
     <div id="app">
@@ -87,5 +97,6 @@
             @yield('content')
         </main>
     </div>
+    @yield('extra-js')
 </body>
 </html>

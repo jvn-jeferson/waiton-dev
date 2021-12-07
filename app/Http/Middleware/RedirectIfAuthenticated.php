@@ -23,7 +23,18 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                if(in_array(Auth::user()->role_id, [2,3])) {
+                    return redirect('/accounting_office');
+                }
+                else if(in_array(Auth::user()->role_id, [4,5])){ 
+                    return redirect('/client-home');
+                }
+                else if(in_array(Auth::user()->role_id, [1])){ 
+                    return redirect('/administrator/home');
+                }
+                else {
+                    abort(404);
+                }
             }
         }
 
