@@ -10,6 +10,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Tests\MailController;
 use App\Http\Controllers\AdministratorController;
+use App\Http\Controllers\UserController;
 
 Auth::routes();
 
@@ -17,7 +18,7 @@ Auth::routes();
 //GET HEAD
 Route::get('/', [MainController::class, 'index'])->name('/');
 Route::get('logout', [LoginController::class, 'logout']);
-Route::get('request-reset-password', [MainController::class, 'request_reset_password'])->name('request-reset-password');
+Route::get('forgot-password', [UserController::class, 'forgot_password'])->name('forgot-password');
 Route::get('password/request-reset/{token}?user={login_id}', [MainController::class, 'password_reset_granted'])->name('password.request-reset');
 
 //POST HEAD

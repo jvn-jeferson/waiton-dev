@@ -42,7 +42,7 @@
                 １　利用者は会計事務所の管理者にご連絡いただき、管理者の管理画面からパスワードの修正を行ってください。
             </h4>
             <h4 class="lead mt-2">
-                ２　管理者のパスワードが不明な場合は<strong class="text-bold"><a href="{{route('request-reset-password')}}" class="text-info">こちら</a></strong>から手続きしてください。
+                ２　管理者のパスワードが不明な場合は<strong class="text-bold"><a href="{{route('forgot-password')}}" class="text-info">こちら</a></strong>から手続きしてください。
             </h4>
         </div>
     </div>

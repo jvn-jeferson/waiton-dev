@@ -159,7 +159,7 @@ class HostController extends Controller
 
     public function client_list()
     {
-        $clients = Client::where('accounting_office_id', 1)->get();
+        $clients = Client::where('accounting_office_id', Auth::user()->accountingOfficeStaff->accounting_office_id)->get();
         return View::make('host.client-list')->with(['page_title' => '顧客の一覧（閲覧）', 'clients' => $clients]);
     }
 
