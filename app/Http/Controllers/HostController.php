@@ -26,7 +26,6 @@ use App\Models\HostUpload;
 
 use Carbon\Carbon;
 use Hashids\Hashids;
-use File;
 use ZipArchive;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -149,7 +148,7 @@ class HostController extends Controller
             $files = explode(',', $message->file_id);
             $file_names = '';
             foreach($files as $file) {
-                $file_names .= File::find($file)->name . " • ";
+                $file_names .= Files::find($file)->name . " • ";
             }
 
             $message->file_id = $file_names;
@@ -430,7 +429,7 @@ class HostController extends Controller
                 $file_path = $file->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($request->client_id)->name);
                 $file_size = $file->getSize();
 
-                $file_id = File::insertGetId([
+                $file_id = Files::insertGetId([
                     'user_id' => Auth::user()->id,
                     'path' => $file_path,
                     'name' => $file_name,
@@ -485,7 +484,7 @@ class HostController extends Controller
 
     public function download_file(Request $request)
     {
-        $file_db = File::find($request->file_id);
+        $file_db = Files::find($request->file_id);
 
         $file = Storage::get($file_db->path);
 
@@ -516,12 +515,8 @@ class HostController extends Controller
             $name = $request->file('file')->getClientOriginalName();
             $size = $request->file('file')->getSize();
 
-<<<<<<< HEAD
             $file_id = Files::insertGetId([
-=======
-            $file_id = File::insertGetId([
                 'user_id' => Auth::user()->id,
->>>>>>> 3188e24220d85d23596db13fcbbd1d1f545402f8
                 'path' => $path,
                 'name' => $name,
                 'size' => $size

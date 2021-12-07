@@ -61,7 +61,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(AccountingOffice::class);
     }
-    
+
     public function role(): HasOne {
         return $this->hasOne(Role::class, 'id', 'role_id');
     }

@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     //Accounting Office
     Route::group(['middleware'=> 'accounting_office_staff', 'prefix' => 'accounting_office'], function () {
-        
+
         //GET HEAD
         Route::get('/', [HostController::class, 'index'])->name('home');
         Route::get('clients', [HostController::class, 'customer_selection'])->name('clients');
@@ -68,12 +68,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('register-new-client', [HostController::class, 'register_new_client'])->name('register-new-client');
         Route::post('send-notification', [HostController::class, 'send_notification'])->name('send-notification');
         Route::post('register-new-staff', [HostController::class, 'register_new_staff'])->name('register-new-staff');
-<<<<<<< HEAD
-        Route::post('download-client', [HostController::class, 'download_client'])->name('download-client');
-        // End Accounting Office routes
-=======
         Route::post('download-file', [HostController::class, 'download_file'])->name('download-file');
->>>>>>> 3188e24220d85d23596db13fcbbd1d1f545402f8
 
         //Accounting Office Individual Routes
         Route::group(['prefix' => 'access-client'], function() {
