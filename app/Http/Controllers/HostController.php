@@ -145,21 +145,15 @@ class HostController extends Controller
         else {
             $messages = Message::where('user_id',$this->user->id)->get();
         }
-
-        foreach ($messages as $message) {
-
-            $file_names = array();
-            if (!$message->file_id == null) {
-                $file_ids = explode(', ', $message->file_id);
-                foreach ($file_ids as $file) {
-                    $file_name = File::find($file)->get('name');
-                    array_push($file_names, $file_name);
-                }
+        foreach($messages as $message) {
+            $files = explode(',', $message->file_id);
+            $file_names = '';
+            foreach($files as $file) {
+                $file_names .= File::find($file)->name . " • ";
             }
 
-            $message->file_names = implode(', ', $file_names);
+            $message->file_id = $file_names;
         }
-
         return View::make('host.message-clients')->with(['page_title' => '全顧客への連絡', 'messages' => $messages]);
     }
 
@@ -608,7 +602,10 @@ class HostController extends Controller
                     $file_id = File::insertGetId([
                         'user_id' => Auth::user()->id,
                         'path' => $path,
-                        'name' => $name
+                        'name' => $name,
+                        'size' => $file->getSize(),
+                        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                     ]);
 
                     array_push($file_ids, $file_id);
@@ -617,8 +614,6 @@ class HostController extends Controller
 
             Message::create([
                 'user_id' => Auth::user()->id,
-                'accounting_office_id' => $this->accounting_office->id,
-                'accounting_office_staff_id' => $this->staff->id,
                 'is_global' => $request->input('is_global'),
                 'targeted_at' => $request->input('targeted_at'),
                 'scheduled_at' => $request->input('scheduled_at'),
@@ -627,7 +622,7 @@ class HostController extends Controller
             ]);
 
             Session::flash('success', 'Notification has been sent.');
-            return redirect('message_clients');
+            return redirect()->route('outbox');
         });
     }
 }
