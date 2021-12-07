@@ -27,6 +27,6 @@ class Message extends Model
     protected $dates = ['scheduled_at', 'deleted_at', 'updated_at'];
 
     public function file(): HasOne {
-        return $this->hasOne(File::class, 'id', 'file_id');
+        return $this->hasOne(Files::class, 'id', 'file_id');
     }
 }
