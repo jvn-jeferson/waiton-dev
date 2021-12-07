@@ -24,7 +24,7 @@ Route::get('password/request-reset/{token}?user={login_id}', [MainController::cl
 //POST HEAD
 Route::post('registration', [MainController::class, 'register_office'])->name('registration');
 Route::post('update-password', [PaymentController::class, 'update_password'])->name('update-password');
-Route::post('send-password-reset-mail', [MainController::class, 'send_password_reset'])->name('send-password-reset-mail');
+Route::post('send-password-reset-mail', [UserController::class, 'send_password_change_link'])->name('send-password-reset-mail');
 
 //Routes only accessible to logged in users
 Route::group(['middleware' => 'auth'], function() {
