@@ -129,6 +129,9 @@
             cancelButtonColor: '#B30712',
             confirmButtonText: 'Proceed and download.'
         }).then((result) => {
+
+            //axios get file
+            //response
             if(result.isConfirmed) {
                 Swal.fire(
                     'File Download will begin shortly.',
