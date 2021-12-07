@@ -79,16 +79,18 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('outbox', [HostController::class, 'to_client'])->name('access-outbox');
             Route::get('taxation-history', [HostController::class, 'financial_history_client'])->name('access-taxation-history');
             Route::get('access-financial-archive', [HostController::class, 'access_files_client'])->name('access-archive');
+            Route::get('notification-history', [HostController::class, 'notification_history_client'])->name('access-notification-history');
+            Route::get('create-video', [HostController::class, 'create_video_client'])->name('create-video');
+            Route::get('video-creation', [HostController::class, 'video_creation'])->name('video-creation');
+            Route::get('created-video-list', [HostController::class, 'view_video_list'])->name('video-list');
+            Route::get('view-registration-information', [HostController::class, 'view_registration_information'])->name('view-registration-information');
 
             //POST HEAD
             Route::post('message-client', [HostController::class, 'message_client'])->name('message-client');
             Route::post('send-tax-file', [HostController::class, 'file_tax'])->name('send-tax-file');
-        });
-
-        Route::get('view-individual-clients/client_id={client_id}/access-files/{file_id}', [HostController::class, 'access_files_client'])->name('individual-history-access');
-        Route::get('video-creation', [HostController::class, 'video_creation'])->name('video-creation');
-        Route::post('save-video', [HostController::class, 'save_video']);
-        Route::post('get-pdf-source', [HostController::class, 'pdf_source'])->name('get-pdf-source');
+            Route::post('get-pdf-source', [HostController::class, 'pdf_source'])->name('get-pdf-source');
+            Route::post('save-video', [HostController::class, 'save_video'])->name('save-video');
+        });  
     });
 
     //Administrator routes

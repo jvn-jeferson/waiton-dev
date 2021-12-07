@@ -84,7 +84,7 @@
           <img src="{{asset('img/user-icon.png')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="various-settings" class="d-block">株式会社ABC</a>
+          <a href="various-settings" class="d-block">{{$client->name}}</a>
         </div>
       </div>
 
@@ -100,6 +100,9 @@
 </div>
 <!-- ./wrapper -->
 
+<script src="{{ asset('js/app.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @yield('extra-scripts')
 
 </body>

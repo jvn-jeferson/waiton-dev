@@ -56,7 +56,7 @@
                 
               </ul>
 
-              <a href="various-settings" class="btn btn-primary btn-block"><b>Client Profile</b></a>
+              <a href="{{route('view-registration-information', ['client_id' => $hashids->encode($client->id)])}}" class="btn btn-primary btn-block"><b>Client Profile</b></a>
               
               <a href="{{route('home')}}" class="btn btn-danger btn-block"><b>Back to Home</b></a>
             </div>
@@ -84,7 +84,7 @@
           <img src="{{asset('img/user-icon.png')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="various-settings" class="d-block">{{$client->name}}</a>
+          <a href="{{route('view-registration-information', ['client_id' => $hashids->encode($client->id)])}}" class="d-block">{{$client->name}}</a>
         </div>
       </div>
 
@@ -139,11 +139,10 @@
               </a>
           </li>
           <li class="nav-item">
-            <a href="notification-history" class="nav-link @if(request()->route()->getName() == 'notification-history') active  @endif">
+            <a href="{{route('access-notification-history', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'access-notification-history') active  @endif">
                 <i class="nav-icon fas fa-bell"></i>
                 <p>
                 通知
-                  
                 </p>
               </a>
           </li>
@@ -151,30 +150,28 @@
           
           <li class="nav-header mt-3">ツール</li>
           <li class="nav-item">
-            <a href="various-settings" class="nav-link @if(request()->route()->getName() == 'various-settings') active  @endif">
+            <a href="{{route('video-creation', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'create-video') active  @endif">
+                <i class="nav-icon fas fa-video"></i>
+                <p>
+                  動画作成
+                </p>
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('video-list', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'video-list') active  @endif">
+                <i class="nav-icon fas fa-photo-video"></i>
+                <p>
+                  作成動画リスト
+                </p>
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('view-registration-information', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'view-registration-information') active  @endif">
                 <i class="nav-icon fas fa-cogs"></i>
                 <p>
                 各種設定
                 </p>
               </a>
-          </li>
-          
-          <li class="nav-header mt-5"></li>
-          <li class="nav-item">
-            <a href="../gallery.html" class="nav-link">
-              <i class="nav-icon far fa-question-circle"></i>
-              <p>
-                FAQ
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="../gallery.html" class="nav-link">
-              <i class="nav-icon far fa-comment-dots"></i>
-              <p>
-              問合せ
-              </p>
-            </a>
           </li>
         </ul>
       </nav>
@@ -185,12 +182,15 @@
 
   <!-- Content Wrapper. Contains page content -->
   <main class="py-4">
-            @yield('content')
-        </main>
+      @yield('content')
+  </main>
   <!-- /.content-wrapper -->
 </div>
 <!-- ./wrapper -->
 
+<script src="{{ asset('js/app.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @yield('extra-scripts')
 
 </body>
