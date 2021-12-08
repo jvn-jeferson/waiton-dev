@@ -7,62 +7,63 @@
                 <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Accessing Information for File from History</h3>
+                            <h3 class="card-title">過去決算</h3>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-7">
-                                    <p><a href="#" onclick="window.open('{{route('video-creation')}}');">Create a video from here and paste the URL.</a></p>
-                                    <input type="url" name="video-url" id="video-url" class="form-control" placeholder="Paste the video url here.">
+                                    <p><a href="#" onclick="window.open('{{route('video-creation', ['client_id'=>$hashids->encode($client->id)])}}');">こちらから動画を作成し. URLを貼り付けてください。</a></p>
+                                    <input type="url" name="video-url" id="video-url" class="form-control" placeholder="動画のURLを貼り付けてください">
                                     <video style="width: 100%; border:2px darkgreen dashed; position: relative; display:flex" class="mt-2" id="video-player" controls><source src=""></video>
                                 </div>
                                 <div class="col-5">
                                     <h4 class="text-bold">
-                                        Please enter and upload the required information.
+                                        必要事項を入力・アップロードしてください。
                                     </h4>
                                     <div class="table-responsive">
                                         <table class="table-bordered table">
                                             <tbody>
                                                 <tr>
-                                                    <th>Type</th>
-                                                    <td class="bg-light">Confirm the declaration</td>
+                                                    <th>種類</th>
+                                                    <td class="bg-light"><input type="text" name="settlement_type" id="settlement_type" class="form-control" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Settlement Date</th>
-                                                    <td class="bg-light">March 31, 2021
+                                                    <th>決算日</th>
+                                                    <td class="bg-light">
+                                                        <input type="date" class="form-control" name="settlement_date" id="settlement_date">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Completed Tax Return</th>
+                                                    <th>提出済み申告書一式</th>
                                                     <td class="bg-light"><input type="file" name="" id="" class="form-control"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Proposal Date</th>
-                                                    <td class="bg-light">May 28, 2021</td>
+                                                    <th>承認日</th>
+                                                    <td class="bg-light"><input type="date" class="form-control" name="proposal_date" id="proposal_date"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Recognition Date</th>
-                                                    <td class="bg-light">May 30, 2021</td>
+                                                    <th>提出日</th>
+                                                    <td class="bg-light"><input type="date" class="form-control" name="recognition_date" id="recognition_date"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Company Representative</th>
-                                                    <td class="bg-light">Confirm the declaration</td>
+                                                    <th>会社担当者</th>
+                                                    <td class="bg-light"><input type="text" name="company_representative" id="company_representative" class="form-control"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Accounting Staff</th>
-                                                    <td class="bg-light">Ichiro Yamada</td>
+                                                    <th>会計事務所担当者</th>
+                                                    <td class="bg-light"><input type="text" name="accouting_staff" id="accouting_staff" class="form-control"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Video Contributor</th>
-                                                    <td class="bg-light">Manabu Tanaka</td>
+                                                    <th>動画投稿者</th>
+                                                    <td class="bg-light"><input type="text" name="video_contributor" id="video_contributor" class="form-control"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Viewing Deadline</th>
-                                                    <td class="bg-light">April 1, 2028</td>
+                                                    <th>閲覧期限</th>
+                                                    <td class="bg-light"><input type="text" name="viewing_deadline" id="viewing_deadline" class="form-control" readonly></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Remarks</th>
-                                                    <td class="bg-light">It was a year with a lot of sales and a lot of taxes.</td>
+                                                    <th>コメント</th>
+                                                    <td class="bg-light"><input type="text" name="comments" id="comments" class="form-control"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -70,18 +71,18 @@
                                     <div class="card">
                                         <div class="row p-2">
                                             <div class="col-6">
-                                                <button type="button" onclick="window.open('{{route('video-creation')}}');" class="btn btn-primary btn-block">Video Creation</button>
+                                                <button type="button" onclick="window.open('{{route('video-creation', ['client_id'=>$hashids->encode($client->id)])}}');" class="btn btn-warning btn-block">動画作成</button>
                                             </div>
                                             <div class="col-6">
-                                                <button class="btn btn-primary  btn-block">Preview Video</button>
+                                                <button class="btn btn-warning  btn-block">プレビュー</button>
                                             </div>
                                         </div>
                                         <div class="row p-2">
                                             <div class="col-6">
-                                                <button class="btn btn-success  btn-block">Register</button>
+                                                <button class="btn btn-warning  btn-block">登録</button>
                                             </div>
                                             <div class="col-6">
-                                                <button class="btn btn-danger  btn-block">Delete</button>
+                                                <button class="btn btn-danger  btn-block">削除</button>
                                             </div>
                                         </div>
                                     </div>
@@ -96,7 +97,6 @@
 @endsection
 
 @section('extra-scripts')
-    <script src="{{ asset('js/app.js')}}"></script>
     <script>
         var video_player = document.querySelector('#video-player')
         var src_input = document.querySelector('#video-url')

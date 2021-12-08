@@ -528,21 +528,26 @@ class HostController extends Controller
     public function financial_history_client(Request $request)
     {
         $id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($id)->first();
+        $client = Client::find($id);
 
         return View::make('host.individual-clients.financial-history', ['client' => $client, 'hashids' => $this->hashids]);
     }
 
-    public function access_files_client(Request $request)
+    public function create_video_client(Request $request)
     {
-        $id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($id)->first();
-        return View::make('host.individual-clients.access-historical-file', ['client' => $client, 'hashids' => $this->hashids]);
+        $client_id = $this->hashids->decode($request->client_id)[0];
+        $client = Client::find($client_id)->first();
+        $staff = Auth::user()->accountingOfficeStaff;
+        return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'hashids' => $this->hashids]);
     }
 
-    public function video_creation()
+    public function video_creation(Request $request)
     {
-        return View::make('host.individual-clients.video-creation');
+        $client_id = $this->hashids->decode($request->client_id)[0];
+        $client = Client::find($client_id)->first();
+        $staff = Auth::user()->accountingOfficeStaff;
+
+        return View::make('host.individual-clients.video-creation')->with(['client' => $client, 'hashids' => $this]);
     }
 
     public function save_video(Request $request)
@@ -595,6 +600,38 @@ class HostController extends Controller
 
         return $contents;
     }
+
+    public function view_video_list(Request $request)
+    {
+        $id = $this->hashids->decode($request->client_id)[0];
+        $client = Client::find($id)->first();
+        return View::make('host.individual-clients.video-list', ['client' => $client, 'hashids' => $this->hashids]);
+    }
+
+    public function access_files_client(Request $request)
+    {
+        $id = $this->hashids->decode($request->client_id)[0];
+        $client = Client::find($id)->first();
+        return View::make('host.individual-clients.access-historical-file', ['client' => $client, 'hashids' => $this->hashids]);
+    }
+
+    public function notification_history_client(Request $request)
+    {
+        $page_title = "届出";
+        $id = $this->hashids->decode($request->client_id)[0];
+        $client = Client::find($id)->first();
+
+        return View::make('host.individual-clients.notification-history')->with(['page_title', $page_title, 'hashids' => $this->hashids, 'client' => $client]);
+    }
+
+    public function view_registration_information(Request $request)
+    {
+        $page_title = '各種設定';
+        $id = $this->hashids->decode($request->client_id)[0];
+        $client = Client::find($id)->first();
+        return View::make('host.individual-clients.view-registration-info')->with(['page_title' => $page_title, 'client' => $client, 'hashids' => $this->hashids]);
+    }
+
 
     public function send_notification(Request $request)
     {

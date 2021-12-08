@@ -25,7 +25,7 @@ class Client extends Model
         'tax_filing_month',
     ];
 
-    public function users():HasMany
+    public function staffs():HasMany
     {
         return $this->hasMany(ClientStaff::class);
     }
