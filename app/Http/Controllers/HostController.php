@@ -157,8 +157,8 @@ class HostController extends Controller
     public function download_client(Request $request)
     {
         $zip = new ZipArchive;
-
-        $clients = Client::where('id', $request->client_id)->get();
+        $clients = Client::whereIn('id', $request->client_id)->get();
+        $data = [];
         if (isset($clients)) {
             foreach ($clients as $client) {
                 $client_name = $client ? str_replace(' ', '', $client->name) : '';
@@ -173,13 +173,13 @@ class HostController extends Controller
                     }
                     $zip->close();
                 }
-                return response()->json([
-                    'file_url' => $file_url,
-                    'name' => $fileName
-                ]);
+                $data[] = array(
+                    'file_url'=>$file_url,
+                    'file_name' => $fileName
+                );
             }
         }
-        return true;
+        return response()->json($data);
     }
 
     public function client_list()

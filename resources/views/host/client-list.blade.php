@@ -38,7 +38,6 @@
                                             <td>*********</td>
                                             <td>*********</td>
                                         </tr>
-                                        <input type="hidden" name="client_id[]" id="client_id[]" value="{{$client->id}}">
                                         @empty
                                         <tr>
                                             <td colspan="6">表示するレコードはありません。</td>
@@ -81,19 +80,12 @@
 
     download.addEventListener('click', function() {
 
-        var file_id = $('input#select:checked').map(function() {
+        var client_id = $('input#select:checked').map(function() {
             return this.value
         }).get()
-        var client_id = $("input[name='client_id[]']")
-            .map(function() {
-                return $(this).val();
-            })
-            .get();
-
         var url = "{{route('download-client')}}";
 
         axios.post(url, {
-            file_id: file_id,
             client_id: client_id
         }).then(function(response) {
             Swal.fire({
@@ -101,18 +93,45 @@
                 title: 'Success',
                 text: 'Congrats'
             })
-            var a = document.createElement('a');
-            var file_url = response.data.file_url;
-            a.href = file_url;
-            a.download = response.data.name;
-            document.body.append(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(url);
 
+            function download_files(files) {
+                function download_next(i) {
+                    if (i >= files.length) {
+                        return;
+                    }
+                    var a = document.createElement('a');
+                    a.href = files[i].file_url;
+                    a.target = '_blank';
+
+                    if ('download' in a) {
+                        a.download = files[i].file_name;
+                    }
+
+                    (document.body || document.documentElement).appendChild(a);
+                    if (a.click) {
+                        a.click(); // The click method is supported by most browsers.
+                    } else {
+                        window.open(files[i].file_url);
+                    }
+                    a.parentNode.removeChild(a);
+                    setTimeout(function() {
+                        download_next(i + 1);
+                    }, 500);
+                }
+                // Initiate the first download.
+                download_next(0);
+            }
+
+            function do_dl() {
+            var data = response.data;
+                download_files(data);
+            };
+            do_dl();
         }).catch(function(error) {
             console.log(error.response.data);
         })
+
+
 
         //loop through each checked value
         //for each key:value create a zip file
