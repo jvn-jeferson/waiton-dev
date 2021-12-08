@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use File;
 use Response;
 
 use View;
@@ -127,27 +128,24 @@ class HostController extends Controller
     {
         $this->set_globals();
         $user_ids = [];
-        $users = User::whereIn('role_id',[2,3])->get();
-        foreach ($users as $user)
-        {
-            if($user->accountingOfficeStaff->accountingOffice->id == Auth::user()->accountingOfficeStaff->accountingOffice->id)
-            {
+        $users = User::whereIn('role_id', [2, 3])->get();
+        foreach ($users as $user) {
+            if ($user->accountingOfficeStaff->accountingOffice->id == Auth::user()->accountingOfficeStaff->accountingOffice->id) {
                 array_push($user_ids, $user->id);
             }
         }
 
 
         $messages = null;
-        if(Auth::user()->role_id == 2){
-            $messages = Message::whereIn('user_id',$user_ids)->get();
+        if (Auth::user()->role_id == 2) {
+            $messages = Message::whereIn('user_id', $user_ids)->get();
+        } else {
+            $messages = Message::where('user_id', $this->user->id)->get();
         }
-        else {
-            $messages = Message::where('user_id',$this->user->id)->get();
-        }
-        foreach($messages as $message) {
+        foreach ($messages as $message) {
             $files = explode(',', $message->file_id);
             $file_names = '';
-            foreach($files as $file) {
+            foreach ($files as $file) {
                 $file_names .= Files::find($file)->name . " • ";
             }
 
@@ -156,23 +154,32 @@ class HostController extends Controller
         return View::make('host.message-clients')->with(['page_title' => '全顧客への連絡', 'messages' => $messages]);
     }
 
-    public function download_client(Request $request) {
+    public function download_client(Request $request)
+    {
         $zip = new ZipArchive;
-
-
-        $fileName = 'myNewFile.zip';
-        if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE)
-        {
-            $files = Storage::files(public_path());
-
-            foreach ($files as $key => $value) {
-                $relativeNameInZipFile = basename($value);
-                $zip->addFile($value, $relativeNameInZipFile);
+        $clients = Client::whereIn('id', $request->client_id)->get();
+        $data = [];
+        if (isset($clients)) {
+            foreach ($clients as $client) {
+                $client_name = $client ? str_replace(' ', '', $client->name) : '';
+                $fileName = trim($client_name) . '.zip';
+                $directory = public_path('storage/zip_files/upload/'.$fileName);
+                $file_url = asset('storage/zip_files/upload/'.$fileName);
+                if ($zip->open($directory, ZipArchive::CREATE) === TRUE) {
+                    $files =  Storage::disk('public')->files('files/upload/'.$client->id);
+                    foreach ($files as $file) {
+                        $relativeNameInZipFile = explode('/', $file)[3];
+                        $zip->addFile(Storage::path('public/' . $file), $relativeNameInZipFile);
+                    }
+                    $zip->close();
+                }
+                $data[] = array(
+                    'file_url'=>$file_url,
+                    'file_name' => $fileName
+                );
             }
-
-            $zip->close();
         }
-        dd($fileName);
+        return response()->json($data);
     }
 
     public function client_list()
@@ -257,7 +264,7 @@ class HostController extends Controller
         $accounting_office_id = AccountingOffice::where('user_id', $host_id)->first()->id;
         $token = Str::random(60);
 
-        DB::transaction(function () use ($request, $accounting_office_id, $token){
+        DB::transaction(function () use ($request, $accounting_office_id, $token) {
 
             $hashids = new Hashids(config('hashids.login_salt'), 8);
 
@@ -272,8 +279,7 @@ class HostController extends Controller
                 'tax_filing_month' => $request->tax_filing_month
             ]);
 
-            if($client->id)
-            {
+            if ($client->id) {
                 $manager_pw = Str::random(8);
                 $manager_id = User::insertGetId([
                     'email' => $request->manager_email,
@@ -283,8 +289,7 @@ class HostController extends Controller
                     'remember_token' => $token
                 ]);
 
-                if($manager_id)
-                {
+                if ($manager_id) {
                     $manager_login_id = $hashids->encode($manager_id);
                     $manager = User::findOrFail($manager_id);
                     $manager->update([
@@ -302,8 +307,7 @@ class HostController extends Controller
                     $manager->createToken();
                     $manager->sendPasswordNotification($token, $manager_pw, $manager_login_id);
 
-                    if($request->user1_name != '' && $request->user1_email != '')
-                    {
+                    if ($request->user1_name != '' && $request->user1_email != '') {
                         $user1_pw = Str::random(8);
                         $user1_id = User::insertGetId([
                             'email' => $request->user1_email,
@@ -313,8 +317,7 @@ class HostController extends Controller
                             'remember_token' => $token
                         ]);
 
-                        if($user1_id)
-                        {
+                        if ($user1_id) {
                             $user1_login_id = $hashids->encode($user1_id);
                             $user1 = User::findOrFail($user1_id);
                             $user1->update([
@@ -332,11 +335,9 @@ class HostController extends Controller
                             $user1->createToken();
                             $user1->sendPasswordNotification($token, $user1_pw, $user1_login_id);
                         }
-
                     }
 
-                    if($request->user2_name != '' && $request->user2_email != '')
-                    {
+                    if ($request->user2_name != '' && $request->user2_email != '') {
                         $user2_pw = Str::random(8);
                         $user2_id = User::insertGetId([
                             'email' => $request->user2_email,
@@ -346,8 +347,7 @@ class HostController extends Controller
                             'remember_token' => $token
                         ]);
 
-                        if($user2_id)
-                        {
+                        if ($user2_id) {
                             $user2_login_id = $hashids->encode($user2_id);
                             $user2 = User::findOrFail($user2_id);
                             $user2->update([
@@ -368,13 +368,10 @@ class HostController extends Controller
 
                         return 'Client creation success.';
                     }
-                }
-                else {
+                } else {
                     return "Client creation successfull but failed to add new user.";
                 }
-            }
-            else
-            {
+            } else {
                 return "Failed to create a new client";
             }
         });
@@ -385,11 +382,10 @@ class HostController extends Controller
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
         $client_user_ids = [];
-        $users = User::where('role_id', 4)->orWhere('role_id',5)->get();
-        foreach ($users as $user)
-        {
-            if($user->clientStaff->client->id == $id){
-                array_push($client_user_ids,$user->id);
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
             }
         }
 
@@ -397,36 +393,34 @@ class HostController extends Controller
         $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->get();
         $downloads = HostUpload::where('client_id', '=', $id)->get();
 
-        return View::make('host.individual-clients.dashboard', ['hashids'=> $this->hashids, 'client' => $client, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads]);
+        return View::make('host.individual-clients.dashboard', ['hashids' => $this->hashids, 'client' => $client, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads]);
     }
 
     public function contact_client(Request $request)
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
-        $messages = Message::where('targeted_at',$id)->get();
+        $messages = Message::where('targeted_at', $id)->get();
 
-        return View::make('host.individual-clients.message-client', ['hashids'=> $this->hashids, 'client' => $client, 'messages' => $messages]);
+        return View::make('host.individual-clients.message-client', ['hashids' => $this->hashids, 'client' => $client, 'messages' => $messages]);
     }
 
     public function message_client(Request $request)
     {
-        DB::transaction(function () use($request){
+        DB::transaction(function () use ($request) {
             $inputSched = $request->input('scheduled_at');
             $scheduled_at = '';
-            if($inputSched == null)
-            {
+            if ($inputSched == null) {
                 $scheduled_at = Carbon::now()->format('Y-m-d H:i:s');
-            }
-            else {
+            } else {
                 $time = strtotime($request->input('scheduled_at'));
                 $scheduled_at = date('Y-m-d H:i:s', $time);
             }
 
-            if($request->file('attachment') != null) {
+            if ($request->file('attachment') != null) {
                 $file = $request->file('attachment');
                 $file_name = $file->getClientOriginalName();
-                $file_path = $file->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($request->client_id)->name);
+                $file_path = $file->store('public/files/' . Auth::user()->accountingOfficeStaff->accountingOffice->name . '/' . Client::find($request->client_id)->name);
                 $file_size = $file->getSize();
 
                 $file_id = Files::insertGetId([
@@ -438,7 +432,7 @@ class HostController extends Controller
                     'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                 ]);
 
-                if($file_id) {
+                if ($file_id) {
                     Message::create([
                         'user_id' => Auth::user()->id,
                         'is_global' => 0,
@@ -448,8 +442,7 @@ class HostController extends Controller
                         'file_id' => $file_id
                     ]);
                 }
-            }
-            else {
+            } else {
                 Message::create([
                     'user_id' => Auth::user()->id,
                     'is_global' => 0,
@@ -458,8 +451,6 @@ class HostController extends Controller
                     'contents' => $request->input('content')
                 ]);
             }
-
-
         });
 
         return redirect()->route('access-contact', ['client_id' => $this->hashids->encode($request->input('client_id'))]);
@@ -470,16 +461,15 @@ class HostController extends Controller
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
         $client_user_ids = [];
-        $users = User::where('role_id', 4)->orWhere('role_id',5)->get();
-        foreach ($users as $user)
-        {
-            if($user->clientStaff->client->id == $id){
-                array_push($client_user_ids,$user->id);
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
             }
         }
         $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->get();
 
-        return View::make('host.individual-clients.incoming')->with(['hashids'=> $this->hashids, 'client' => $client, 'uploads'=> $uploads]);
+        return View::make('host.individual-clients.incoming')->with(['hashids' => $this->hashids, 'client' => $client, 'uploads' => $uploads]);
     }
 
     public function download_file(Request $request)
@@ -497,7 +487,7 @@ class HostController extends Controller
         $client = Client::find($id)->first();
         $uploads = HostUpload::where('client_id', $id)->get();
 
-        return View::make('host.individual-clients.outgoing')->with(['hashids'=> $this->hashids, 'client' => $client, 'uploads' => $uploads]);
+        return View::make('host.individual-clients.outgoing')->with(['hashids' => $this->hashids, 'client' => $client, 'uploads' => $uploads]);
     }
 
     public function file_tax(Request $request)
@@ -585,7 +575,8 @@ class HostController extends Controller
         return response()->json($name);
     }
 
-    function getVideo(Request $request) {
+    function getVideo(Request $request)
+    {
         $video_url = $request->video_url;
         $video = Storage::disk('google')->get($video_url);
         $response = Response::make($video, 200);

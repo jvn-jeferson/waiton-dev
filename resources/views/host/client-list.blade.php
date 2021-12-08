@@ -60,9 +60,9 @@
 @endsection
 
 @section('extra-scripts')
-    <script>
-        var select_all = document.querySelector('#all')
-        var selects = document.getElementsByName('select')
+<script>
+    var select_all = document.querySelector('#all')
+    var selects = document.getElementsByName('select')
 
     select_all.addEventListener('change', function() {
         if (select_all.checked) {
@@ -80,24 +80,58 @@
 
     download.addEventListener('click', function() {
 
-        var checkedValues = $('input#select:checked').map(function() {
+        var client_id = $('input#select:checked').map(function() {
             return this.value
         }).get()
-
         var url = "{{route('download-client')}}";
 
         axios.post(url, {
-            data: checkedValues
+            client_id: client_id
         }).then(function(response) {
-            console.log(response.data);
             Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: response.data
+                text: 'Congrats'
             })
+
+            function download_files(files) {
+                function download_next(i) {
+                    if (i >= files.length) {
+                        return;
+                    }
+                    var a = document.createElement('a');
+                    a.href = files[i].file_url;
+                    a.target = '_blank';
+
+                    if ('download' in a) {
+                        a.download = files[i].file_name;
+                    }
+
+                    (document.body || document.documentElement).appendChild(a);
+                    if (a.click) {
+                        a.click(); // The click method is supported by most browsers.
+                    } else {
+                        window.open(files[i].file_url);
+                    }
+                    a.parentNode.removeChild(a);
+                    setTimeout(function() {
+                        download_next(i + 1);
+                    }, 500);
+                }
+                // Initiate the first download.
+                download_next(0);
+            }
+
+            function do_dl() {
+            var data = response.data;
+                download_files(data);
+            };
+            do_dl();
         }).catch(function(error) {
             console.log(error.response.data);
         })
+
+
 
         //loop through each checked value
         //for each key:value create a zip file

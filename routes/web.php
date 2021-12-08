@@ -69,6 +69,8 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('send-notification', [HostController::class, 'send_notification'])->name('send-notification');
         Route::post('register-new-staff', [HostController::class, 'register_new_staff'])->name('register-new-staff');
         Route::post('download-file', [HostController::class, 'download_file'])->name('download-file');
+        Route::get('download-client', [HostController::class, 'download_client'])->name('download-client');
+        Route::post('download-client', [HostController::class, 'download_client'])->name('download-client');
 
         //Accounting Office Individual Routes
         Route::group(['prefix' => 'access-client'], function() {
