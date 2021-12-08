@@ -38,6 +38,7 @@
                                             <td>*********</td>
                                             <td>*********</td>
                                         </tr>
+                                        <input type="hidden" name="client_id[]" id="client_id[]" value="{{$client->id}}">
                                         @empty
                                         <tr>
                                             <td colspan="6">表示するレコードはありません。</td>
@@ -60,9 +61,9 @@
 @endsection
 
 @section('extra-scripts')
-    <script>
-        var select_all = document.querySelector('#all')
-        var selects = document.getElementsByName('select')
+<script>
+    var select_all = document.querySelector('#all')
+    var selects = document.getElementsByName('select')
 
     select_all.addEventListener('change', function() {
         if (select_all.checked) {
@@ -80,21 +81,35 @@
 
     download.addEventListener('click', function() {
 
-        var checkedValues = $('input#select:checked').map(function() {
+        var file_id = $('input#select:checked').map(function() {
             return this.value
         }).get()
+        var client_id = $("input[name='client_id[]']")
+            .map(function() {
+                return $(this).val();
+            })
+            .get();
 
         var url = "{{route('download-client')}}";
 
         axios.post(url, {
-            data: checkedValues
+            file_id: file_id,
+            client_id: client_id
         }).then(function(response) {
-            console.log(response.data);
             Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: response.data
+                text: 'Congrats'
             })
+            var a = document.createElement('a');
+            var file_url = response.data.file_url;
+            a.href = file_url;
+            a.download = response.data.name;
+            document.body.append(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+
         }).catch(function(error) {
             console.log(error.response.data);
         })
