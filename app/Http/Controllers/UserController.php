@@ -27,7 +27,8 @@ class UserController extends Controller
         else {
             //here send a password reset link
             $user = User::where('email', $request->email)->first();
-            
+            $token = $user->createToken();
+            $user->sendForgotPassNotification($token);
         }
 
     }
