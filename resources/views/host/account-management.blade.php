@@ -125,24 +125,61 @@
                                     <table class="table table-bordered">
                                         <tbody>
                                             <tr>
-                                                <td rowspan="2" class="text-center h3">管理者</td>
-                                                <td>ID</td>
-                                                <td>Z0123456</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-warning" role="button" data-toggle="tooltip" data-placement="top" data-tooltip="Edit">編集</button>
+                                                </td>
+                                                <td class="text-left">
+                                                    ワンタイムパスワードの•送付先メールアドレス
+                                                </td>
+                                                <td>
+                                                    <input type="email" name="destination_email" id="destination_email" class="form-control" value="{{$account->contact_email}}" readonly>
+                                                </td>
                                             </tr>
-                                            <tr>
-                                                <td>名前</td>
-                                                <td>市川欽一</td>
-                                            </tr>
-                                            <tr>
-                                                <td><button class="btn btn-info btn-flat btn-block">編集</button></td>
-                                                <td>パスワード</td>
-                                                <td class="bg-gray">********</td>
-                                            </tr>
-                                            <tr>
-                                                <td><button class="btn btn-danger btn-flat btn-block">削除</button></td>
-                                                <td>メールアドレス</td>
-                                                <td class="bg-gray">ichikawa@gmial.com</td>
-                                            </tr>
+                                            @forelse($staffs as $staff)
+                                                <tr>
+                                                    <td class="text-center" rowspan="2">
+                                                        @if($staff->is_admin == 1)
+                                                            管理者
+                                                        @else
+                                                            利用者
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        ID
+                                                    </td>
+                                                    <td>
+                                                        {{$staff->user->id}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>名前</td>
+                                                    <td>
+                                                        <input type="text" name="staff_name" id="staff_name" class="form-control" value="{{$staff->name}}" readonly>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-warning" role="button" data-toggle="tooltip" data-placement="top" data-tooltip="Edit">編集</button>
+                                                    </td>
+                                                    <td>パスワード</td>
+                                                    <td>
+                                                        <input type="password" name="password" id="password" class="form-control" value="**********" readonly>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-danger" role="button" data-toggle="tooltip" data-placement="top" data-tooltip="Delete">削除</button>
+                                                    </td>
+                                                    <td>メールアドレス</td>
+                                                    <td>
+                                                        <input type="email" name="email" id="email" class="form-control" value="{{$staff->user->email}}" readonly>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="3" class="text-center text-danger">登録ユーザーのリストを取得できませんでした。</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>

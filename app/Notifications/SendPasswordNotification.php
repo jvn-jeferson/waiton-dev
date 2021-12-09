@@ -49,10 +49,7 @@ class SendPasswordNotification extends Notification
             $url = call_user_func(static::$createUrlCallback, $notifiable, $this->token);
         } else {
             $url = url(route('password.reset', [
-                'token' => $this->token,
-                'email' => $notifiable->getEmailForPasswordReset(),
-                'login_id' => $notifiable->login_id,
-                'pw' => $this->pw
+                'token' => $this->token
             ], false));
         }
 

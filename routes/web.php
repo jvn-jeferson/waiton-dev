@@ -20,11 +20,15 @@ Route::get('/', [MainController::class, 'index'])->name('/');
 Route::get('logout', [LoginController::class, 'logout']);
 Route::get('forgot-password', [UserController::class, 'forgot_password'])->name('forgot-password');
 Route::get('password/request-reset/{token}?user={login_id}', [MainController::class, 'password_reset_granted'])->name('password.request-reset');
+Route::get('update-password', [UserController::class, 'update_password'])->name('update-password');
+Route::get('first-time-login', [UserController::class, 'first_time_login'])->name('first-time-login');
+
 
 //POST HEAD
-Route::post('registration', [MainController::class, 'register_office'])->name('registration');
-Route::post('update-password', [PaymentController::class, 'update_password'])->name('update-password');
+Route::post('registration', [UserController::class, 'ao_registration'])->name('registration');
 Route::post('send-password-reset-mail', [UserController::class, 'send_password_change_link'])->name('send-password-reset-mail');
+Route::post('change-existing-password', [UserController::class, 'change_password'])->name('change-existing-password');
+Route::post('update-credentials', [UserController::class, 'update_credentials'])->name('update-credentials');
 
 //Routes only accessible to logged in users
 Route::group(['middleware' => 'auth'], function() {

@@ -37,6 +37,11 @@ use Response;
 use View;
 use Session;
 use DateTime;
+use Mail;
+
+
+use App\Mail\ClientRegistrationMail;
+use App\Mail\PasswordResetMail;
 
 class HostController extends Controller
 {
@@ -201,8 +206,11 @@ class HostController extends Controller
                     'is_admin' => $request->input('is_admin')
                 ]);
 
-                User::findorFail($user_id);
-                //Send password reset
+                $user = User::findorFail($user_id);
+                Mail::to($user->email)->send(new PasswordResetMail($user));
+                if(Mail::fails()){
+                    $result = "failure";
+                }
 
                 $result = "success";
             } else {
@@ -280,9 +288,7 @@ class HostController extends Controller
                         'is_admin' => 1
                     ]);
 
-                    $manager->save();
-                    $manager->createToken();
-                    $manager->sendPasswordNotification($token, $manager_pw, $manager_login_id);
+                    $this->sendClientRegistrationEmail($manager->remember_token, $manager, $manager_pw);
 
                     if($request->user1_name != '' && $request->user1_email != '')
                     {
@@ -310,9 +316,7 @@ class HostController extends Controller
                                 'is_admin' => 0
                             ]);
 
-                            $user1->save();
-                            $user1->createToken();
-                            $user1->sendPasswordNotification($token, $user1_pw, $user1_login_id);
+                            $this->sendClientRegistrationEmail($user1->remember_token, $user1, $user1_pw);
                         }
 
                     }
@@ -343,9 +347,7 @@ class HostController extends Controller
                                 'is_admin' => 0
                             ]);
 
-                            $user1->save();
-                            $user1->createToken();
-                            $user1->sendPasswordNotification($token, $user1_pw, $user1_login_id);
+                            $this->sendClientRegistrationEmail($user2->remember_token, $user2, $user2_pw);
                         }
 
                         return 'Client creation success.';
@@ -360,6 +362,17 @@ class HostController extends Controller
                 return "Failed to create a new client";
             }
         });
+    }
+
+    public function sendClientRegistrationEmail($token, $user, $password)
+    {
+        Mail::to($user->email)->send(new ClientRegistrationMail($token, $user, $password));
+
+        if(Mail::failures()) {
+            abort(403);
+        }
+
+        return 'SUCCESS';
     }
 
     public function view_client(Request $request)

@@ -241,18 +241,8 @@
                     title: 'クライアント登録が成功しました',
                 }).then((result) => {
                     if(result.isConfirmed) {
-                        $('#client_name').val('')
-                        $('#client_address').val('')
-                        $('#representative_name').val('')
-                        $('#representative_address').val('')
-                        $('#contact_email_address').val('')
-                        $('#manager_name').val(''),
-                        $('#manager_email').val(''),
-                        $('#user1_name').val(''),
-                        $('#user1_email').val(''),
-                        $('#user2_name').val(''),
-                        $('#user2_email').val('')
-                        $('#newClientModal').modal('hide')
+
+                        window.location.reload();
                     }
                 })
             }).catch(function(error) {
@@ -261,8 +251,6 @@
                     title: 'Oops...',
                     text: 'Something went wrong. Check your inputs and try again.',
                 })
-
-                console.log(error.response.data)
 
             })
         })
