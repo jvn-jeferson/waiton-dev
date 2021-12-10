@@ -24,6 +24,6 @@ class PastNotification extends Model
     
     public function file(): HasOne
     {
-        return $this->hasOne(File::class, 'id', 'file_id');
+        return $this->hasOne(Files::class, 'id', 'file_id');
     }
 }

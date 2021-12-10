@@ -158,7 +158,7 @@ class HostController extends Controller
             $files = explode(',', $message->file_id);
             $file_names = '';
             foreach($files as $file) {
-                $file_names .= File::find($file)->name . " • ";
+                $file_names .= Files::find($file)->name . " • ";
             }
 
             $message->file_id = $file_names;
@@ -447,7 +447,7 @@ class HostController extends Controller
                 $file_path = $file->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($request->client_id)->name);
                 $file_size = $file->getSize();
 
-                $file_id = File::insertGetId([
+                $file_id = Files::insertGetId([
                     'user_id' => Auth::user()->id,
                     'path' => $file_path,
                     'name' => $file_name,
@@ -502,7 +502,7 @@ class HostController extends Controller
 
     public function download_file(Request $request)
     {
-        $file_db = File::find($request->file_id);
+        $file_db = Files::find($request->file_id);
 
         $file = Storage::url($file_db->path);
         $name = $file_db->name;
@@ -534,9 +534,12 @@ class HostController extends Controller
             $size = $request->file('file')->getSize();
 
             $file_id = Files::insertGetId([
+                'user_id' => Auth::user()->id,
                 'path' => $path,
                 'name' => $name,
-                'size' => $size
+                'size' => $size,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
 
             HostUpload::create([
@@ -677,7 +680,7 @@ class HostController extends Controller
         }
 
         DB::transaction (function () use ($request){
-            $file_id = File::insertGetId([
+            $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
                 'path' => $request->file('file')->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($request->client_id)->name),
                 'name' => $request->file('file')->getClientOriginalName(),
@@ -776,7 +779,7 @@ class HostController extends Controller
             $client_id = $this->hashids->decode($request->client_id)[0];
 
             //save file first
-            $file_id = File::insertGetId([
+            $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
                 'path' => $request->file('file')->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($client_id)->name),
                 'name' => $request->file('file')->getClientOriginalName(),
