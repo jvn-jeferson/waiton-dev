@@ -732,7 +732,7 @@ class HostController extends Controller
 
     public function send_inquiry(Request $request)
     {
-        Mail::to('jbonayon15@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
+        Mail::to('jvncgs.info@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
 
         if(Mail::failures()){
             return 'failure';
