@@ -133,9 +133,9 @@
                         <table class="table table-bordered">
                             <tr>
                                 <td class="text-center">
-                                    <button class="btn btn-warning">編集</button>
+                                    @if(auth()->user()->role_id == 4)<button class="btn btn-warning">編集</button>@endif
                                 </td>
-                                <td class="text-center w-25">
+                                <td class="w-25">
                                     ワンタイムパスワードの • 送付先メールアドレス
                                 </td>
                                 <td class="bg-gray">
@@ -144,7 +144,7 @@
                             </tr>
                             @forelse($staffs as $staff)
                                 <tr>
-                                    <td class="text-center text-bold @if($staff->is_admin == 0) bg-gray @endif">
+                                    <td class="text-center text-bold @if($staff->is_admin == 0) bg-gray @endif" rowspan="2">
                                         @if($staff->is_admin == 1)
                                             管理者
                                         @else
@@ -159,25 +159,24 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="@if($staff->is_admin == 0) bg-gray @endif text-center">
-                                        @if($staff->is_admin == 1)
-                                            <button class="btn btn-warning">編集</button>
-                                        @endif
-                                    </td>
                                     <td>名前</td>
                                     <td>{{$staff->name}}</td>
                                 </tr>
                                 <tr>
-                                    <td class="@if($staff->is_admin == 0) bg-gray @endif) text-center">
-                                        @if($staff->is_admin == 0 && auth()->user->role_id == 4)
-                                            <button class="btn btn-danger">削除</button>
+                                    <td class="@if($staff->is_admin == 0) bg-gray @endif text-center">
+                                        @if(auth()->user()->role_id == 4)
+                                            <button class="btn btn-warning">編集</button>
                                         @endif
                                     </td>
                                     <td>パスワード</td>
                                     <td class="bg-gray">**********</td>
                                 </tr>
                                 <tr>
-                                    <td class="@if($staff->is_admin == 0) bg-gray @endif"></td>
+                                    <td class="@if($staff->is_admin == 0) bg-gray @endif) text-center">
+                                        @if($staff->is_admin == 0 && auth()->user()->role_id == 4)
+                                            <button class="btn btn-danger">削除</button>
+                                        @endif
+                                    </td>
                                     <td>メールアドレス</td>
                                     <td class="bg-gray">{{$staff->user->email}}</td>
                                 </tr>

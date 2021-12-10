@@ -19,6 +19,9 @@ use View;
 use Hash;
 use Hashids\Hashids;
 
+use Mail;
+use App\Mail\InquiryMail;
+
 class MainController extends Controller
 {
   use AuthenticatesUsers;
@@ -45,67 +48,7 @@ class MainController extends Controller
     $plans = SubscriptionPlan::all();
     return View::make('main/select_plan', ['plans' => $plans]);
   }
-
-  public function register_office(Request $request)
-  {
-    $request->validate([
-      'name' => 'required|unique:accounting_offices,name',
-      'representative' => 'required',
-      'address' => 'required',
-      'telephone' => 'required|unique:accounting_offices,telephone',
-      'email' => 'required|unique:users,email|email:rfc,dns',
-    ]);
-
-
-
-    DB::transaction(function () use ($request) {
-      $pw = Str::random(8);
-      $hashids = new Hashids(config('hashids.login_salt'), 10);
-      $user_id = User::insertGetId([
-        'email' => $request->input('email'),
-        'password' => Hash::make($pw),
-        'role_id' => 2,
-        'is_online' => 0,
-        'remember_token' => Str::random(60),
-        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-      ]);
-
-      if($user_id)
-      {
-        User::find($user_id)->update([
-          'login_id' => $hashids->encode($user_id)
-        ]);
-
-        $accountingId = AccountingOffice::insertGetId([
-          'user_id' => $user_id,
-          'name' => $request->input('name'),
-          'representative' => $request->input('representative'),
-          'address' => $request->input('address'),
-          'telephone' => $request->input('telephone'),
-          'contact_email' => $request->input('email'),
-          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-          'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ]);
-
-        $staff_id = AccountingOfficeStaff::insertGetId([
-          'accounting_office_id' => $accountingId,
-          'user_id' => $user_id,
-          'name' => $request->input('representative'),
-          'is_admin' => 1,
-          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-          'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ]);
-
-        $user = User::findOrFail($user_id);
-        $token = $user->createToken();
-        $user->sendPasswordNotification($token, $pw, $user->login_id);
-      }
-    });
-
-    return View::make('main/payment_success');
-  }
-
+  
   public function request_reset_password()
   {
     return View::make('auth/passwords/request_reset_password');
@@ -254,6 +197,18 @@ class MainController extends Controller
     }
     else {
       abort(403);
+    }
+  }
+
+  public function send_inquiry(Request $request)
+  {
+    dd($request->all());
+    Mail::to('jbonayon15@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
+
+    if(Mail::fails()){
+      return 'failure';
+    }else { 
+      return 'success';
     }
   }
 }

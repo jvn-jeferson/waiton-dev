@@ -53,72 +53,54 @@
                 <button class="btn btn-primary" id="next">Next</button>
             </div>
             <div class="col-3">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-header">
-                        <h3 class="card-title">
-                            Explanation Video Creation
-                        </h3>
+                        <h4 class="card-title">
+                            動画情報
+                        </h4>
                     </div>
                     <div class="card-body">
                         <form action="" method="post" enctype="multipart/form-data">
                             @csrf
                             <input type="file" name="pdfSource" id="pdfSource" class="form-control" accept=".pdf">
                         </form>
-                        <div class="card h-100 mt-3">
-                            <div class="card-header">
-                                <h4 class="card-title">
-                                    Video Information
-                                </h4>
+                        <div class="form-group mt-2">
+                            <label for="video_name">名前</label>
+                            <input type="text" id="video_title" name="video_title" class="form-control">
+                        </div>
+                        <button class="btn-warning btn btn-block" id="start">レコーダーを起動</button>
+                        <div class="form-group mt-2">
+                            <label for="tools">描画ツール</label>
+                            <button class="btn btn-block btn-light text-bold" onclick="setPointer()"><i class="fas fa-circle text-danger"></i> ポインタ</button>
+                            <button class="btn btn-block btn-light text-bold" onclick="setPencil()" type="button"><i class="fas fa-pencil-alt"></i> 鉛筆</button>
+                            <button class="btn btn-block btn-light text-bold" onclick="setMarker()" type="button"><i class="fas fa-marker text-warning"></i> マーカー</button>
+                        </div>
+                        <div class="form-row mt-2 text-center align-items-center">
+                            <div class="col-6">
+                                <input type="color" oninput="stroke_color = this.value" placeholder="Colors">
                             </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="video_name">Video Title</label>
-                                    <input type="text" id="video_title" name="video_title" class="form-control">
-                                </div>
-                                <button class="btn-primary btn btn-block" id="start">Launch Recorder</button>
-                                <div class="form-group mt-2">
-                                    <label for="tools">Drawing Tools</label>
-                                    <button class="btn btn-block btn-light text-bold" onclick="setPointer()"><i class="fas fa-circle text-danger"></i> Pointer</button>
-                                    <button class="btn btn-block btn-light text-bold" onclick="setPencil()" type="button"><i class="fas fa-pencil-alt"></i> Pencil</button>
-                                    <button class="btn btn-block btn-light text-bold" onclick="setMarker()" type="button"><i class="fas fa-marker text-warning"></i> Higlighter</button>
-                                </div>
-                                <div class="form-row mt-2 text-center align-items-center">
-                                    <div class="col-6">
-                                        <input type="color" oninput="stroke_color = this.value" placeholder="Colors">
-                                    </div>
-                                    <div class="col-6">
-                                        <input onInput="draw_width = this.value" type="range" min="1" max="100" class="pen-range">
-                                    </div>
-                                </div>
-                                <div class="form-row text-center align-items-center">
-                                    <div class="col-6">
-                                        <button class="btn btn-block btn-light" onclick="undo_last()">
-                                            <i class="fas fa-undo"></i>
-                                            Undo
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <button class="btn btn-block btn-success mt-4" id="record"><i class="fa fas-circle-record-vinyl"></i> Start Recording</button>
-                                <button class="btn btn-block btn-danger" id="stop"><i class="fa fas-circle-stop"></i> Stop Recording</button>
-
-                                <div class="alert mt-2 text-center" id="loader-div" style="display: none">
-                                    <div class="loader"></div>
-                                    Recording...
-                                </div>
-
-                                <div class="mt-2">
-                                    <video src="" style="width: 100%; border:1px dashed gray" id="video" autoplay muted></video>
-                                </div>
-                                <div class="form-group">
-                                    <label for="video_name">File Url</label>
-                                    <input type="text" id="file_url" name="file_url" class="form-control" readonly>
-                                </div>
-                                <button class="btn btn-block btn-success mt-3" id="download">Download Video</button>
+                            <div class="col-6">
+                                <input onInput="draw_width = this.value" type="range" min="1" max="100" class="pen-range">
                             </div>
                         </div>
+                        <div class="form-row text-center align-items-center">
+                            <div class="col-6">
+                                <button class="btn btn-block btn-light" onclick="undo_last()">
+                                    <i class="fas fa-undo"></i>
+                                    元に戻す
+                                </button>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-block btn-warning mt-4" id="record"><i class="fa fas-circle-record-vinyl"></i> スタート</button>
+                        <button class="btn btn-block btn-warning" id="stop"><i class="fa fas-circle-stop"></i> 収録終了</button>
+                        <button class="btn btn-block btn-warning mt-5" id="download">プレビュー</button>
+                        <div class="form-group">
+                            <label for="video_name">URLをコピー</label>
+                            <input type="text" id="file_url" name="file_url" class="form-control" readonly>
+                        </div>
+                        <button class="btn btn-block btn-warning mt-5" id="preview">完了</button>
                     </div>
-                </div>
             </div>
         </div>
     </section>
@@ -127,8 +109,6 @@
 @endsection
 
 @section('extra-scripts')
-<script src="{{ asset('js/app.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
 
 <script>
     var pdf_file = '';
@@ -144,7 +124,7 @@
         pageNum = 1,
         pageRendering = false,
         pageNumPending = null,
-        scale = 1.0,
+        scale = 1.5,
         canvas = document.getElementById('pdf-canvas');
     ctx = canvas.getContext('2d')
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -340,7 +320,8 @@
                 const fd = new FormData();
                 fd.append("file", blobs); // where `.ext` matches file `MIME` type
                 fd.append('fileName',name);
-                return axios.post("/save-video",fd, {
+                var save_url = "{{route('save-video')}}"
+                return axios.post(url,fd, {
                     headers: {
                         "Content-Type": "application/json"
                     }
@@ -366,8 +347,6 @@
     }
 
     function startRecording() {
-        var loader = document.querySelector('#loader-div');
-        loader.style.display = 'block';
         recordedBlobs = [];
         let options = {
             mimeType: 'video/webm;codecs=vp9,opus'
@@ -401,8 +380,6 @@
         recordButton.disabled = false;
         console.log('getUserMedia() got stream:', stream);
         window.stream = stream;
-        const gumVideo = document.querySelector('video#video');
-        gumVideo.srcObject = stream;
     }
     async function init(constraints) {
         try {

@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'role_id' => 1,
             'is_online' => 0,
-            'remember_token' => Str::random(25),
+            'remember_token' => Str::random(60),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);

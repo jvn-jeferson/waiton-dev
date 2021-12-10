@@ -11,14 +11,17 @@ class RegistrationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $token;
+    public $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($token, $user)
     {
-        $this->registration_data = $data;
+        $this->token = $token;
+        $this->user = $user;
     }
 
     /**

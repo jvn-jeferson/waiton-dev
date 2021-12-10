@@ -23,18 +23,27 @@
                             <th>説明ビデオ</th>
                         </thead>
                         <tbody>
-                            <tr >
-                                <td class="my-auto">確認済み</td>
-                                <td>
-                                    <p class="text-muted my-auto">2021年３月31日</p>
-                                    <button class="btn btn-block btn-primary" type="button" onclick="browsingConfirmation(2)">ブラウジング</button>
-                                </td>
-                                <td>財務諸表/確定申告（法人税/地方税/消費税）2021年度</td>
-                                <td>2021年5月28日 • 2021年5月30日</td>
-                                <td>
-                                    <img src="{{asset('img/placeholder-image.png')}}" alt="" width="144px" height="144px">
-                                </td>
-                            </tr>
+                            @forelse($archives as $archive)
+                                <tr>
+                                    <td>
+                                        {{$archive->kinds}}
+                                    </td>
+                                    <td>
+                                        {{$archive->settlement_date->format('Y年m月d日')}} <br>
+                                        <button class="btn btn-primary btn-block" role="button" onclick="browsingConfirmation({{$archive->id}})">閲覧</button>
+                                    </td>
+                                    <td class="text-info">
+                                        {{$archive->file->name}}
+                                    </td>
+                                    <td>
+                                        {{$archive->proposal_date->format('Y年m月d日')}} • {{$archive->recognition_date->format('Y年m月d日')}}
+                                    </td>
+                                    <td>
+                                        {{$archive->video_url}}
+                                    </td>
+                                </tr>
+                            @empty
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -47,7 +56,7 @@
 @section('extra-scripts')
     <script>
         function browsingConfirmation(id) {
-            swal.fire({
+            Swal.fire({
                 title: "知らせ",
                 icon: 'warning',
                 text: "登録したメールアドレスにワンタイムパスワードが送信されますので、メールアドレスのURLからログインしてアクセスしてください。",
@@ -55,6 +64,23 @@
                 confirmButtonText: "了解した",
                 cancelButtonText: "キャンセル",
                 reverseButtons: false
+            }).then((result)=>{
+                if(result.isConfirmed)
+                {
+                    var url = "{{route('send-otp')}}";
+                    axios.post(url, {
+                        record_id: id,
+                        table: 'taxation_histories'
+                    }).then(function(response){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Access Created.',
+                            text: 'An email has been sent to your registered email address to access the requested information.'
+                        })
+                    }).catch(function(error){
+                        console.log(error.response.data)
+                    });
+                }
             })
         }
     </script>

@@ -12,6 +12,9 @@ use App\Http\Controllers\Tests\MailController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\UserController;
 
+use App\Controllers\DataTables\ClientDatatablesController;
+
+
 Auth::routes();
 
 //Routes accessible to guest users
@@ -20,17 +23,23 @@ Route::get('/', [MainController::class, 'index'])->name('/');
 Route::get('logout', [LoginController::class, 'logout']);
 Route::get('forgot-password', [UserController::class, 'forgot_password'])->name('forgot-password');
 Route::get('password/request-reset/{token}?user={login_id}', [MainController::class, 'password_reset_granted'])->name('password.request-reset');
+Route::get('update-password', [UserController::class, 'update_password'])->name('update-password');
+Route::get('first-time-login', [UserController::class, 'first_time_login'])->name('first-time-login');
+Route::get('access-record-verification', [MainController::class, 'access_record_verification'])->name('access-record-verification');
+
+
 
 //POST HEAD
-Route::post('registration', [MainController::class, 'register_office'])->name('registration');
-Route::post('update-password', [PaymentController::class, 'update_password'])->name('update-password');
-Route::post('send-password-reset-mail', [MainController::class, 'send_password_reset'])->name('send-password-reset-mail');
+Route::post('registration', [UserController::class, 'ao_registration'])->name('registration');
+Route::post('send-password-reset-mail', [UserController::class, 'send_password_change_link'])->name('send-password-reset-mail');
+Route::post('change-existing-password', [UserController::class, 'change_password'])->name('change-existing-password');
+Route::post('update-credentials', [UserController::class, 'update_credentials'])->name('update-credentials');
 
 //Routes only accessible to logged in users
 Route::group(['middleware' => 'auth'], function() {
 
     //Global routes
-    Route::post('send-inquiry', [MainController::class, 'send_inquiry'])->name('send-inquiry');
+
 
     // Client routes
     Route::group(['middleware' => 'client_staff'], function() {
@@ -45,16 +54,27 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('notification-history', [ClientController::class, 'notification_history'])->name('notification-history');
         Route::get('various-settings', [ClientController::class, 'various_settings'])->name('various-settings');
         Route::get('client-faq', [ClientController::class, 'faq'])->name('client-faq');
+        Route::get('access-record-verification', [ClientController::class, 'access_record_verification'])->name('access-record-verification');
+        Route::get('access-past-notification', [ClientController::class, 'access_past_notification'])->name('access-past-notification');
+        Route::get('access-tax-history', [ClientController::class, 'access_tax_history'])->name('access-tax-history');
 
         //POST HEAD
         Route::post('upload-files', [ClientController::class, 'upload_files'])->name('upload-files');
         Route::post('delete-records', [ClientController::class, 'delete_records'])->name('delete-records');
-        Route::post('send-otp-notif-history', [ClientController::class, 'send_otp_notif'])->name('send-otp-notif-history');
+        Route::post('send-inquiry', [ClientController::class, 'send_inquiry'])->name('send-inquiry');
+        Route::post('download-file', [ClientController::class, 'download_file'])->name('download');
+        Route::post('admit-host-upload', [ClientController::class, 'update_host_upload'])->name('admit-host-upload');
+        Route::post('send-otp', [ClientController::class, 'send_otp'])->name('send-otp');
+        Route::post('one-time-access', [ClientController::class, 'one_time_access'])->name('one-time-access');
+
+        //DataTables routes
+        Route::get('messages-data', [ClientDatatablesController::class, 'messages_data'])->name('messages-data');
+
     });
 
     //Accounting Office
     Route::group(['middleware'=> 'accounting_office_staff', 'prefix' => 'accounting_office'], function () {
-        
+
         //GET HEAD
         Route::get('/', [HostController::class, 'index'])->name('home');
         Route::get('clients', [HostController::class, 'customer_selection'])->name('clients');
@@ -68,12 +88,10 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('register-new-client', [HostController::class, 'register_new_client'])->name('register-new-client');
         Route::post('send-notification', [HostController::class, 'send_notification'])->name('send-notification');
         Route::post('register-new-staff', [HostController::class, 'register_new_staff'])->name('register-new-staff');
-<<<<<<< HEAD
         Route::post('download-client', [HostController::class, 'download_client'])->name('download-client');
         // End Accounting Office routes
-=======
         Route::post('download-file', [HostController::class, 'download_file'])->name('download-file');
->>>>>>> 3188e24220d85d23596db13fcbbd1d1f545402f8
+        Route::post('send-host-inquiry', [HostController::class, 'send_inquiry'])->name('send-host-inquiry');
 
         //Accounting Office Individual Routes
         Route::group(['prefix' => 'access-client'], function() {
@@ -84,16 +102,20 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('outbox', [HostController::class, 'to_client'])->name('access-outbox');
             Route::get('taxation-history', [HostController::class, 'financial_history_client'])->name('access-taxation-history');
             Route::get('access-financial-archive', [HostController::class, 'access_files_client'])->name('access-archive');
+            Route::get('notification-history', [HostController::class, 'notification_history_client'])->name('access-notification-history');
+            Route::get('create-video', [HostController::class, 'create_video_client'])->name('create-video');
+            Route::get('video-creation', [HostController::class, 'video_creation'])->name('video-creation');
+            Route::get('created-video-list', [HostController::class, 'view_video_list'])->name('video-list');
+            Route::get('view-registration-information', [HostController::class, 'view_registration_information'])->name('view-registration-information');
 
             //POST HEAD
             Route::post('message-client', [HostController::class, 'message_client'])->name('message-client');
             Route::post('send-tax-file', [HostController::class, 'file_tax'])->name('send-tax-file');
+            Route::post('get-pdf-source', [HostController::class, 'pdf_source'])->name('get-pdf-source');
+            Route::post('save-video', [HostController::class, 'save_video'])->name('save-video');
+            Route::post('save-taxation-history', [HostController::class, 'save_taxation_archive'])->name('save-taxation-history');
+            Route::post('save-notification-history', [HostController::class, 'save_notification_archive'])->name('save-notification-archive');
         });
-
-        Route::get('view-individual-clients/client_id={client_id}/access-files/{file_id}', [HostController::class, 'access_files_client'])->name('individual-history-access');
-        Route::get('video-creation', [HostController::class, 'video_creation'])->name('video-creation');
-        Route::post('save-video', [HostController::class, 'save_video']);
-        Route::post('get-pdf-source', [HostController::class, 'pdf_source'])->name('get-pdf-source');
     });
 
     //Administrator routes

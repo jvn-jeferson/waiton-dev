@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+
+class PasswordResetMail extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public $target;
+    public $name;
+
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
+    public function __construct($user)
+    {
+        $this->target = $user;
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+
+        switch($this->target->role_id)
+        {
+            case 1:
+                $this->name = 'Upfiling Administrator';
+                break;
+            case 2:
+            case 3:
+                $this->name = $this->target->accountingOfficeStaff->name;
+                break;
+            case 4:
+            case 5:
+                $this->name = $this->target->clientStaff->name;
+                break;
+            default:
+                break;
+        }
+
+        $url = url(route('update-password', ['login_id' => $this->target->login_id]));
+
+        return $this->from(config('mail.from.address'), config('mail.from.name'))
+                    ->subject('Password Reset Request')
+                    ->markdown('email.password-reset-mail', ['name' => $this->name, 'url' => $url]);
+    }
+}

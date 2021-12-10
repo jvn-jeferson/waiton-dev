@@ -25,7 +25,7 @@ class Client extends Model
         'tax_filing_month',
     ];
 
-    public function users():HasMany
+    public function staffs():HasMany
     {
         return $this->hasMany(ClientStaff::class);
     }
@@ -33,5 +33,10 @@ class Client extends Model
     public function credentials(): HasOne
     {
         return $this->hasOne(TaxingCredentials::class);
+    }
+
+    public function host(): hasOne
+    {
+        return $this->hasOne(AccountingOffice::class, 'id', 'accounting_office_id');
     }
 }

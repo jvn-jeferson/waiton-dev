@@ -26,7 +26,7 @@
                                         <tbody>
                                             @forelse($uploads as $upload)
                                                 <tr>
-                                                    <td><input type="checkbox" name="select" id="select" value="{{$upload->file_id}}" @if($upload->file_id == null) disabled @endif></td>
+                                                    <td class="text-center"><input type="checkbox" name="select" id="select" value="{{$upload->file_id}}" @if($upload->file_id == null) disabled @endif></td>
                                                     <td>{{$upload->created_at->format('Y年m月d日 H:i')}}</td>
                                                     <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日 H:i')}}</td>
                                                     <td>{{$upload->user->clientStaff->name}}</td>
@@ -53,9 +53,6 @@
 @endsection
 
 @section('extra-scripts')
-    <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $('#btnDownload').click(function() {
             var checkedBox = document.getElementsByName('select')
@@ -69,7 +66,12 @@
                     axios.post(url, {
                         file_id: id
                     }).then(function(response) {
-                        console.log(response.data);
+                        const link = document.createElement('a')
+                        link.href = response.data[0]
+                        link.setAttribute('download', response.data[1]);
+                        link.click();
+                        document.removeChild(link);
+
                     }).catch(function(error) {
                         console.log(error.response.data);
                     })
