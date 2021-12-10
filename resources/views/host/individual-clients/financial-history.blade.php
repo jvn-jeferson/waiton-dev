@@ -25,7 +25,19 @@
                                     <th>説明動画</th>
                                 </thead>
                                 <tbody>
-                                    
+                                    @forelse($archives as $archive)
+                                        <tr>
+                                            <td>{{$archive->kinds}}</td>
+                                            <td>{{$archive->settlement_date->format('Y年m月d日')}}</td>
+                                            <td class="text-info">{{$archive->file->name}}</td>
+                                            <td>{{$archive->recognition_date->format('Y年m月d日')}} • {{$archive->proposal_date->format('Y年m月d日')}}</td>
+                                            <td>{{$archive->video_url}}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5"></td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

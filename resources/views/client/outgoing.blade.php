@@ -23,6 +23,22 @@
                         <p class="text-muted">
                             次のファイルを経理部にアップロードします。アップロード資料にファイルをドロップするか、アップロードボタンからファイルを選択します。
                         </p>
+                        @if(Session::has('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{Session::get('success')}}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
+                        @if(Session::has('failure'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{{Session::get('failure')}}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
                         <table class="table table-hover table-bordered table-striped" id="uploadFormTable">
                             <thead class="thead bg-dark">
                                 <th>アップロードされた資料</th>
@@ -169,6 +185,11 @@
                 icon: 'success',
                 title: 'Success',
                 text: response.data
+            }).then((result)=>{
+                if(result.isConfirmed)
+                {
+                    window.location.reload();
+                }
             })
         }).catch(function(error) {
             console.log(error.response.data);

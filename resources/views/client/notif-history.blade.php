@@ -121,9 +121,10 @@
             }).then((result) => {
                 if(result.isConfirmed)
                 {
-                    var url = "{{route('send-otp-notif-history')}}";
+                    var url = "{{route('send-otp')}}";
                     axios.post(url, {
-                        client_id: id
+                        record_id: id,
+                        table: 'past_notifications'
                     }).then(function(response) {
                         Swal.fire({
                             title: '成功',

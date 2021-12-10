@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 use Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 //Models
 use App\Models\Message;
@@ -16,18 +20,33 @@ use App\Models\ClientStaff;
 use App\Models\ClientUpload;
 use App\Models\HostUpload;
 use App\Models\File;
+use App\Models\TaxationHistory;
+use App\Models\PastNotification;
+use App\Models\OneTimePassword;
 
 use Carbon\Carbon;
 use Hashids\Hashids;
 
+use Mail;
+use App\Mail\UploadNotification;
+use App\Mail\InquiryMail;
+use App\Mail\OTPMail;
+
 class ClientController extends Controller
 {
+
+    public $hashids;
+
+    public function __construct()
+    {
+        $this->hashids = new Hashids(config('hashids.loginSalt'), 10);
+    }
     public function index()
     {
         $messages = Message::where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5);
         $uploads = ClientUpload::where('user_id', Auth::user()->id)->get();
         $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
-        $files = File::where('user_id', Auth::user()->id)->get();
+        $files = File::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->get();
         $page_title = 'ホーム';
         return View::make('client.dashboard')->with(['page_title' => $page_title, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads, 'files' => $files]);
     }
@@ -73,11 +92,27 @@ class ClientController extends Controller
             }
 
             Session::flash('success', 'ファイルバッチが会計事務所に送信されました。');
-            return redirect('data-outgoing');
+            $this->sendUploadNotification(Auth::user()->email, Auth::user()->clientStaff->client->host, "Successfully uploaded file");
+
+            return redirect()->route('data-outgoing');
+
         }
         else {
+            Session::flash('failure', 'ファイルのアップロードでエラーが発生しました。 もう一度やり直してください。');
             return redirect('data-outgoing');
         }
+    }
+
+    public function sendUploadNotification($email, $target, $message)
+    {
+        Mail::to($email)->send(new UploadNotification($target, $message));
+
+        if(Mail::failures())
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public function delete_records(Request $request)
@@ -94,14 +129,15 @@ class ClientController extends Controller
     public function going_in()
     {
         $page_title = 'From　会計事務所';
-        $host_uploads = HostUpload::where('client_id', '=', Auth::user()->clientStaff->client->id)->get();
+        $host_uploads = HostUpload::where('client_id', '=', Auth::user()->clientStaff->client->id)->latest()->get();
         return View::make('client.incoming')->with(['page_title' => $page_title, 'host_uploads' => $host_uploads]);
     }
 
     public function history()
     {
         $page_title = '過去決算';
-        return View::make('client.history')->with(['page_title' => $page_title]);
+        $archives = TaxationHistory::where('client_id', Auth::user()->clientStaff->client->id)->get();
+        return View::make('client.history')->with(['page_title' => $page_title, 'archives' => $archives]);
     }
 
     public function access_stored_info()
@@ -128,6 +164,37 @@ class ClientController extends Controller
         return 'success';
     }
 
+    public function send_otp(Request $request)
+    {
+        DB::transaction(function () use($request)
+        {
+            $password = Str::random(10);
+            $access_id = OneTimePassword::insertGetId([
+                'password' => Hash::make($password),
+                'target_table' => $request->table,
+                'record_id' => $request->record_id,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]);
+
+            
+
+            $url = url(route('access-record-verification', ['access_id'=> $this->hashids->encode($access_id)]));
+            Mail::to(Auth::user()->email)->send(new OTPMail($password, $url));
+            if(Mail::failures())
+            {
+                return 'failure';
+            }
+        });
+
+        return 'success';
+    }
+
+    public function access_record_verification(Request $request)
+    {
+        return View::make('client.access_record_verification' , ['access_id'=> $request->access_id]);
+    }
+
     public function various_settings()
     {
         $page_title = '各種設定';
@@ -140,5 +207,95 @@ class ClientController extends Controller
     {
         $page_title = 'FAQ';
         return View::make('client.faq')->with(['page_title' => $page_title]);
+    }
+
+    public function send_inquiry(Request $request)
+    {
+        Mail::to('jbonayon15@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
+
+        if(Mail::fails()){
+            return 'failure';
+        }else { 
+            return 'success';
+        }
+    }
+
+    public function download_file(Request $request)
+    {
+        $file_db = File::find($request->file_id);
+
+        $file = Storage::url($file_db->path);
+        $name = $file_db->name;
+        return array(url($file), $name);
+    }
+
+    public function update_host_upload(Request $request)
+    {
+        $id = $request->id;
+        $status = $request->status;
+
+        $target = HostUpload::find($id);
+
+        $target->update([
+            'status' => $status,
+        ]);
+
+        if($target->save()) {
+            return 'success';
+        }
+    }
+
+    public function one_time_access(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return redirect()->route('access-record-verification')
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        $access = OneTimePassword::find($this->hashids->decode($request->record_id)[0]);
+
+        $route = $this->access_record($access, $request->password);
+
+        return redirect($route);
+    }
+
+    public function access_record(OneTimePassword $access, $password)
+    {
+        if(Hash::check($password, $access->password))
+        {
+            switch($access->target_table) {
+                case 'past_notifications':
+                    return route('access-past-notification', ['client_id' => $this->hashids->encode($access->record_id)]);
+                    break;
+                case 'taxation_histories':
+                    return route('access-tax-history', ['id' => $this->hashids->encode($access->record_id)]);
+                    break;
+                default:
+                    abort(403);
+                    break;
+            }
+        }
+        else {
+            abort(403);
+        }
+    }
+
+    public function access_past_notification(Request $request)
+    {
+        $records = PastNotification::where('client_id', $this->hashids->decode($request->client_id)[0])->get();
+
+        return View::make('client.view_archived_notif')->with('records', $records);
+    }
+
+    public function access_tax_history(Request $request)
+    {
+        $record = TaxationHistory::find($this->hashids->decode($request->id)[0]);
+
+        return View::make('client.view_archived_taxation')->with('record', $record);
     }
 }

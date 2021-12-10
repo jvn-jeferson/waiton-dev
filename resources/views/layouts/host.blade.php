@@ -211,12 +211,16 @@
       })
 
       if(text) {
-        var url = "{{route('send-inquiry')}}"
+        var url = "{{route('send-host-inquiry')}}"
 
         axios.post(url, {
           content: text,
         }).then(function(response) {
-          console.log(response.data)
+          Swal.fire({
+            icon: 'success',
+            title: 'SUCCESS',
+            text: 'Inquiry has been sent successfully.'
+          })
         }).catch(function(error) {
           console.log(error.response.data)
         })

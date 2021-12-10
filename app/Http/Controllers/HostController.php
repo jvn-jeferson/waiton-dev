@@ -24,6 +24,8 @@ use App\Models\Message;
 use App\Models\File;
 use App\Models\ClientUpload;
 use App\Models\HostUpload;
+use App\Models\TaxationHistory;
+use App\Models\PastNotification;
 
 use Carbon\Carbon;
 use Hashids\Hashids;
@@ -32,7 +34,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Response;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 use View;
 use Session;
@@ -42,6 +45,7 @@ use Mail;
 
 use App\Mail\ClientRegistrationMail;
 use App\Mail\PasswordResetMail;
+use App\Mail\InquiryMail;
 
 class HostController extends Controller
 {
@@ -208,7 +212,7 @@ class HostController extends Controller
 
                 $user = User::findorFail($user_id);
                 Mail::to($user->email)->send(new PasswordResetMail($user));
-                if(Mail::fails()){
+                if(Mail::failures()){
                     $result = "failure";
                 }
 
@@ -481,9 +485,9 @@ class HostController extends Controller
     {
         $file_db = File::find($request->file_id);
 
-        $file = Storage::get($file_db->path);
-
-        return (new Response($file, 200))->header('Content-Type', '.*');
+        $file = Storage::url($file_db->path);
+        $name = $file_db->name;
+        return array(url($file), $name);
     }
 
     public function to_client(Request $request)
@@ -526,16 +530,19 @@ class HostController extends Controller
                 'details' => $request->input('comment')
             ]);
 
-            return redirect()->route('access-outbox', ['client_id' => $this->hashids->encode($id)]);
+            
         });
+
+        return redirect()->route('access-outbox', ['client_id' => $this->hashids->encode($id)]);
     }
 
     public function financial_history_client(Request $request)
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
+        $taxation_archive = TaxationHistory::where('client_id', $client->id)->get();
 
-        return View::make('host.individual-clients.financial-history', ['client' => $client, 'hashids' => $this->hashids]);
+        return View::make('host.individual-clients.financial-history', ['client' => $client, 'hashids' => $this->hashids, 'archives' => $taxation_archive]);
     }
 
     public function create_video_client(Request $request)
@@ -609,7 +616,8 @@ class HostController extends Controller
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
-        return View::make('host.individual-clients.video-list', ['client' => $client, 'hashids' => $this->hashids]);
+        $videos = TaxationHistory::where('client_id', $client->id)->get();
+        return View::make('host.individual-clients.video-list', ['client' => $client, 'hashids' => $this->hashids, ]);
     }
 
     public function access_files_client(Request $request)
@@ -624,8 +632,8 @@ class HostController extends Controller
         $page_title = "届出";
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
-
-        return View::make('host.individual-clients.notification-history')->with(['page_title', $page_title, 'hashids' => $this->hashids, 'client' => $client]);
+        $notification_archives = PastNotification::where(['client_id' => $id])->get();
+        return View::make('host.individual-clients.notification-history')->with(['page_title', $page_title, 'hashids' => $this->hashids, 'client' => $client, 'archives' => $notification_archives]);
     }
 
     public function view_registration_information(Request $request)
@@ -634,6 +642,45 @@ class HostController extends Controller
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
         return View::make('host.individual-clients.view-registration-info')->with(['page_title' => $page_title, 'client' => $client, 'hashids' => $this->hashids]);
+    }
+
+    public function save_notification_archive(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'proposal_date' => 'required',
+            'recognition_date' => 'required',
+            'file' => 'required'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('access-notification-history', ['client_id' => $request->client_id])
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        DB::transaction (function () use ($request){
+            $file_id = File::insertGetId([
+                'user_id' => Auth::user()->id,
+                'path' => $request->file('file')->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($request->client_id)->name),
+                'name' => $request->file('file')->getClientOriginalName(),
+                'size' => $request->file('file')->getSize(),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]);
+
+            if($file_id)
+            {
+                PastNotification::create([
+                    'user_id' => Auth::user()->id,
+                    'client_id' => $request->client_id,
+                    'proposal_date' => $request->proposal_date,
+                    'recognition_date' => $request->recognition_date,
+                    'file_id' => $file_id
+                ]);
+            }
+        });
+
+        return redirect()->route('access-notification-history', ['client_id' => $this->hashids->encode($request->client_id)]);
     }
 
 
@@ -674,5 +721,73 @@ class HostController extends Controller
             Session::flash('success', 'Notification has been sent.');
             return redirect()->route('outbox');
         });
+    }
+
+    public function send_inquiry(Request $request)
+    {
+        Mail::to('jbonayon15@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
+
+        if(Mail::failures()){
+            return 'failure';
+        }else { 
+            return 'success';
+        }
+    }
+
+    public function save_taxation_archive(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'settlement_date' => 'required',
+            'file' => 'required',
+            'recognition_date' => 'required',
+            'proposal_date' => 'required',
+            'company_representative' => 'required',
+            'accounting_office_staff' => 'required',
+            'video_contributor' => 'required',
+            'kinds'=> 'required',
+            'video_url' => 'required|url'
+        ]);
+
+        if($validator->fails()){
+            return redirect()->route('create-video', ['client_id' => $request->client_id])
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        DB::transaction(function() use($request) {
+            $client_id = $this->hashids->decode($request->client_id)[0];
+            
+            //save file first
+            $file_id = File::insertGetId([
+                'user_id' => Auth::user()->id,
+                'path' => $request->file('file')->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($client_id)->name),
+                'name' => $request->file('file')->getClientOriginalName(),
+                'size' => $request->file('file')->getSize(),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]);
+
+            if($file_id)
+            {
+                TaxationHistory::create([
+                    'user_id' => Auth::user()->id,
+                    'client_id' => $client_id,
+                    'settlement_date' => $request->settlement_date,
+                    'file_id' => $file_id,
+                    'recognition_date' => $request->recognition_date,
+                    'proposal_date' => $request->proposal_date,
+                    'company_representative' => $request->company_representative,
+                    'accounting_office_staff' => $request->accounting_office_staff,
+                    'video_contributor' => $request->video_contributor,
+                    'comments' => $request->comments,
+                    'kinds' => $request->kinds,
+                    'video_url' => $request->video_url
+                ]);
+
+                
+            }
+        });
+
+        return redirect()->route('access-taxation-history', ['client_id' => $request->client_id]);
     }
 }

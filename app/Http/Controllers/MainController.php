@@ -19,6 +19,9 @@ use View;
 use Hash;
 use Hashids\Hashids;
 
+use Mail;
+use App\Mail\InquiryMail;
+
 class MainController extends Controller
 {
   use AuthenticatesUsers;
@@ -194,6 +197,18 @@ class MainController extends Controller
     }
     else {
       abort(403);
+    }
+  }
+
+  public function send_inquiry(Request $request)
+  {
+    dd($request->all());
+    Mail::to('jbonayon15@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
+
+    if(Mail::fails()){
+      return 'failure';
+    }else { 
+      return 'success';
     }
   }
 }

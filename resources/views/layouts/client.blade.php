@@ -206,14 +206,19 @@
     })
 
     if(text) {
+
       var url = "{{route('send-inquiry')}}"
 
       axios.post(url, {
-        content: text,
+        content: text
       }).then(function(response) {
         console.log(response.data)
       }).catch(function(error) {
-        console.log(error.response.data)
+        Swal.fire({
+          icon: 'danger',
+          title: 'ERROR',
+          text: 'An error has occured.'
+        })
       })
     }
   })
