@@ -7,21 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class RegistrationMail extends Mailable
+class InquiryMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $token;
-    public $user;
+    public $sender, $inquiry;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($token, $user)
+    public function __construct($sender, $inquiry)
     {
-        $this->token = $token;
-        $this->user = $user;
+        $this->sender = $sender;
+        $this->inquiry = $inquiry;
     }
 
     /**
@@ -31,6 +31,8 @@ class RegistrationMail extends Mailable
      */
     public function build()
     {
-        return $this->view('email.registration-success-mail', ['mail_data' => $this->registration_data]);
+        return $this->from(config('mail.from.address'), config('mail.from.name'))
+                    ->subject('A user has sent you an inquiry')
+                    ->markdown('email.inquiry-mail');
     }
 }

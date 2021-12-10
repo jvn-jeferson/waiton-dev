@@ -14,9 +14,9 @@
                 </h3>
                     <div class="form-group">
                         <label for="email_address"><i class="zmdi zmdi-email material-icons-name"></i></label>
-                        <input id="email" type="email" placeholder="ID" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <input id="login_id" type="text" placeholder="ID" class="@error('login_id') is-invalid @enderror" name="login_id" value="{{ old('login_id') }}" required autocomplete="email" autofocus>
     
-                        @error('email')
+                        @error('login_id')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group">
                         <label for="password"><i class="zmdi zmdi-lock"></i></label>
-                        <input id="password" type="password" placeholder="パスワード" class="@error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                        <input id="password" type="password" placeholder="パスワード" class="@error('password') is-invalid @enderror" name="password" required autocomplete="password">
                         @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

@@ -1,9 +1,9 @@
 @component('mail::message')
 # Welcome to UpFiling.jp
 
-Hi {{$user->accountingOfficeStaff->name}},<br>
+Hi {{$user->clientStaff->name}},<br>
 
-We are glad to let you know that you and your company, {{$user->accountingOfficeStaff->accountingOffice->name}} has been registered for a free trial account with us. <br>
+We are glad to let you know that you and your business, {{$user->clientStaff->client->name}} has been registered as a clientelle for {{$user->clientStaff->client->host->name}}<br>
 In order to gain access to our features, you need to complete your registration by updating your login password.<br>
 
 Please click the button bellow or copy this link to your browser in order to complete your registration. <br>

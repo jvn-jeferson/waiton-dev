@@ -114,6 +114,18 @@
                                     <th>承認日</th>
                                     <th class="w-50">資料</th>
                                 </thead>
+                                <tbody>
+                                    @forelse($archives as $archive)
+                                        <tr>
+                                            <td></td>
+                                            <td>{{$archive->proposal_date->format('Y年m月d日')}}</td>
+                                            <td>{{$archive->recognition_date->format('Y年m月d日')}}</td>
+                                            <td class="text-info">{{$archive->file->name}}</td>
+                                        </tr>
+                                    @empty
+
+                                    @endforelse
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -134,7 +146,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <form action="" method="post" enctype="multipart/form-data">
+                    <form action="{{route('save-notification-archive', ['client_id' => $client->id])}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <table class="table-bordered bg-light table">
                             <tbody>
@@ -166,7 +178,7 @@
                                         <div class="form-group form-row">
                                             <label for="proposal_date" class="col-sm-2 col-form-label">提出日</label>
                                             <div class="col-sm-10">
-                                                <input type="date" class="form-control" id="proposal_date" placeholder="Email">
+                                                <input type="date" class="form-control" id="proposal_date" name="proposal_date" placeholder="Email">
                                             </div>
                                         </div>
                                     </td>
@@ -176,7 +188,7 @@
                                         <div class="form-group form-row">
                                             <label for="recognition_date" class="col-sm-2 col-form-label">承認日</label>
                                             <div class="col-sm-10">
-                                                <input type="date" class="form-control" id="recognition_date" placeholder="Email">
+                                                <input type="date" class="form-control" id="recognition_date" name="recognition_date" placeholder="Email">
                                             </div>
                                         </div>
                                     </td>
@@ -186,18 +198,18 @@
                                         <div class="form-group form-row">
                                             <label for="attachment" class="col-sm-2 col-form-label">資料</label>
                                             <div class="col-sm-10">
-                                                <input type="file" class="form-control" id="attachment" placeholder="Email">
+                                                <input type="file" class="form-control" id="file" name="file" placeholder="Email">
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                    </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary">新規登録</button>
+                <button class="btn btn-primary" type="submit">新規登録</button>
+            </form>
             </div>
         </div>
     </div>
@@ -205,4 +217,5 @@
 @endsection
 
 @section('extra-scripts')
+
 @endsection

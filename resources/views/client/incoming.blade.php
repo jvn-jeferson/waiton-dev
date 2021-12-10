@@ -27,7 +27,7 @@
                                     <p class="text-dark">
                                         {{$host_upload->created_at->format('Y年m月d日 g:i A')}}
                                     </p>
-                                    <button class="btn btn-block btn-primary" onclick="downloadFile(this, 1)">資料のダウンロード</button>
+                                    <button class="btn btn-block btn-primary" onclick="downloadFile(this, {{$host_upload->file_id}})">資料のダウンロード</button>
                                 </td>
                                 <td rowspan="2">
                                     <p class="text-dark">
@@ -38,10 +38,10 @@
                                 <td class="text-center
                                     @switch($host_upload->status)
                                         @case(1)
-                                            bg-light
+                                            bg-success
                                             @break
                                         @case(2)
-                                            bg-success
+                                            bg-light
                                             @break
                                         @case(3)
                                             bg-light
@@ -68,10 +68,10 @@
                                             bg-light
                                             @break
                                         @case(2)
-                                            bg-light
+                                            bg-danger
                                             @break
                                         @case(3)
-                                            bg-danger
+                                            bg-light
                                             @break
                                         @case(4)
                                             bg-dark
@@ -96,8 +96,8 @@
                                     {{$host_upload->details}}
                                 </td>
                                 <td>
-                                    @if ($host_upload->priority == 1)
-                                        <button class="btn btn-flat btn-block btn-primary">
+                                    @if ($host_upload->priority == 1 && $host_upload->status <= 0)
+                                        <button class="btn btn-flat btn-block btn-primary" role="button" onclick="admitFile({{$host_upload->id}})">
                                             決定
                                         </button>
                                     @endif
@@ -118,7 +118,7 @@
 <script>
 
     function downloadFile(e, id) {
-        var file_id = id
+        var file = id
 
         Swal.fire({
             title: 'Do you want to download this file?',
@@ -126,7 +126,7 @@
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#4D9E17',
-            cancelButtonColor: '#B30712',
+            cancelButtonColor: '#c6c6c6',
             confirmButtonText: 'Proceed and download.'
         }).then((result) => {
 
@@ -137,8 +137,56 @@
                     'File Download will begin shortly.',
                     'Your file is ready for download.',
                     'success'
-                )
+                ).then((result) => {
+                    var url = "{{route('download')}}";
+                    axios.post(url, {
+                        file_id: file
+                    }).then(function (response) {
+                        const link = document.createElement('a')
+                        link.href = response.data[0]
+                        link.setAttribute('download', response.data[1]);
+                        link.click();
+                        document.removeChild(link);
+                    }).catch(function (response) {
+                        console.log(response.error.data);
+                    })
+                })
             }
+        })
+    }
+
+    function admitFile(post_id)
+    {
+        var url = "{{route('admit-host-upload')}}"
+        Swal.fire({
+            icon: 'question',
+            title: 'Consider',
+            text: 'Would you like to admit or reserve this statement?',
+            confirmButtonText: 'Admit',
+            cancelButtonText: 'Reserve',
+            showCancelButton: true
+        }).then((result) => {
+            var status = 0;
+            if(result.isConfirmed){
+                status = 1
+            }else {
+                status = 2
+            }
+
+            axios.post(url, {
+                id: post_id,
+                status: status
+            }).then(function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Action Completed',
+                    text: response.data,
+                }).then((result) => {
+                    window.location.reload();
+                })
+            }).catch(function(error) {
+                console.log(error.response.data);
+            })
         })
     }
 </script>

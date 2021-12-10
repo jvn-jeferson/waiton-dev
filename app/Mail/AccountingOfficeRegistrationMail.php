@@ -7,21 +7,23 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class RegistrationMail extends Mailable
+class AccountingOfficeRegistrationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $token;
     public $user;
+    public $password;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($token, $user)
+    public function __construct($token, $user, $password)
     {
         $this->token = $token;
         $this->user = $user;
+        $this->password = $password;
     }
 
     /**
@@ -31,6 +33,10 @@ class RegistrationMail extends Mailable
      */
     public function build()
     {
-        return $this->view('email.registration-success-mail', ['mail_data' => $this->registration_data]);
+        $url = url(route('first-time-login', ['token' => $this->user->remember_token]));
+
+        return $this->from(config('mail.from.address'), config('mail.from.name'))
+                    ->subject('Accounting Office Registration Success')
+                    ->markdown('email.registration-success-mail', ['url' => $url]);
     }
 }
