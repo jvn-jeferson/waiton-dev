@@ -151,14 +151,6 @@
             </li>
 
             <li class="nav-item mt-5">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-bookmark"></i>
-                <p>
-                  税理士業務簿
-                </p>
-              </a>
-            </li>
-            <li class="nav-item">
               <a href="" class="nav-link">
                 <i class="nav-icon far fa-question-circle"></i>
                 <p>

@@ -132,8 +132,13 @@
                                             @forelse($messages as $message)
                                                 <tr>
                                                     <td><input type="checkbox" name="select" id="select" value="{{$message->id}}"></td>
-                                                    <td>{{$message->created_at}}</td>
-                                                    <td>{{$message->scheduled_at}}</td>
+                                                    <td>{{$message->created_at->format('Y年m月d日 • H:i')}}</td>
+                                                    <td>@if($message->scheduled_at)
+                                                        {{$message->scheduled_at->format('Y年m月d日')}}
+                                                        @else
+                                                        {{""}}
+                                                        @endif
+                                                    </td>
                                                     <td>{{$message->contents}}</td>
                                                     <td class="text-info">
                                                         {{$message->file_id}}

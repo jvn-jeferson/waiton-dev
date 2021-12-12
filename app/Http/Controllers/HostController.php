@@ -155,10 +155,13 @@ class HostController extends Controller
             $messages = Message::where('user_id',$this->user->id)->get();
         }
         foreach($messages as $message) {
-            $files = explode(',', $message->file_id);
             $file_names = '';
-            foreach($files as $file) {
-                $file_names .= Files::find($file)->name . " • ";
+            if($message->file_id)
+            {    
+                $files = explode(',', $message->file_id);
+                foreach($files as $file) {
+                    $file_names .= Files::find($file)->name . " • ";
+                }
             }
 
             $message->file_id = $file_names;
@@ -282,7 +285,7 @@ class HostController extends Controller
                 'representative' => $request->representative,
                 'representative_address' => $request->representative_address,
                 'contact_email' => $request->email,
-                'tax_filing_month' => $request->tax_filing_month
+                'tax_filing_month' => $request->tax_filing_month,
             ]);
 
             if($client->id)
@@ -293,7 +296,9 @@ class HostController extends Controller
                     'password' => Hash::make($manager_pw),
                     'role_id' => 4,
                     'is_online' => 0,
-                    'remember_token' => $token
+                    'remember_token' => $token,
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                 ]);
 
                 if($manager_id)
@@ -321,7 +326,9 @@ class HostController extends Controller
                             'password' => Hash::make($user1_pw),
                             'role_id' => 5,
                             'is_online' => 0,
-                            'remember_token' => $token
+                            'remember_token' => $token,
+                            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                         ]);
 
                         if($user1_id)
@@ -352,7 +359,9 @@ class HostController extends Controller
                             'password' => Hash::make($user2_pw),
                             'role_id' => 5,
                             'is_online' => 0,
-                            'remember_token' => $token
+                            'remember_token' => $token,
+                            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                         ]);
 
                         if($user2_id)
@@ -714,7 +723,7 @@ class HostController extends Controller
 
             if ($request->hasfile('files')) {
                 foreach ($request->file('files') as $key => $file) {
-                    $path = $file->store('public/files/uploaded/' . Auth::user()->id . '');
+                    $path = $file->store('public/files/uploaded/' . Auth::user()->accountingOfficeStaff->accountingOffice->name . '');
                     $name = $file->getClientOriginalName();
 
                     $file_id = Files::insertGetId([
@@ -728,20 +737,28 @@ class HostController extends Controller
 
                     array_push($file_ids, $file_id);
                 }
+
+                Message::create([
+                    'user_id' => Auth::user()->id,
+                    'is_global' => $request->input('is_global'),
+                    'targeted_at' => $request->input('targeted_at'),
+                    'scheduled_at' => $request->input('scheduled_at'),
+                    'contents' => $request->input('contents'),
+                    'file_id' => implode(',', $file_ids)
+                ]);
+            }else {
+                Message::create([
+                    'user_id' => Auth::user()->id,
+                    'is_global' => $request->input('is_global'),
+                    'targeted_at' => $request->input('targeted_at'),
+                    'scheduled_at' => $request->input('scheduled_at'),
+                    'contents' => $request->input('contents')
+                ]);
             }
-
-            Message::create([
-                'user_id' => Auth::user()->id,
-                'is_global' => $request->input('is_global'),
-                'targeted_at' => $request->input('targeted_at'),
-                'scheduled_at' => $request->input('scheduled_at'),
-                'contents' => $request->input('contents'),
-                'file_id' => implode(',', $file_ids)
-            ]);
-
-            Session::flash('success', 'Notification has been sent.');
-            return redirect()->route('outbox');
         });
+
+        Session::flash('success', 'Notification has been sent.');
+        return redirect()->route('outbox');
     }
 
     public function send_inquiry(Request $request)
