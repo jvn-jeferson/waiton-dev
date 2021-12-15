@@ -157,7 +157,7 @@ class HostController extends Controller
         foreach($messages as $message) {
             $file_names = '';
             if($message->file_id)
-            {    
+            {
                 $files = explode(',', $message->file_id);
                 foreach($files as $file) {
                     $file_names .= Files::find($file)->name . " • ";
@@ -600,26 +600,21 @@ class HostController extends Controller
         } else {
             $name = time() . '.mp4';
         }
-        DB::transaction(function () use ($name, $request, $url) {
-            Storage::disk('google')->put($name,  file_get_contents($url->getRealPath()));
-            $user_id = Auth::user()->id;
-            $client = Client::where('user_id', $user_id)->first();
-            $staff = ClientStaff::where('user_id', $user_id)->first();
+        Storage::disk('google')->put($name,  file_get_contents($url->getRealPath()));
+        $url = Storage::disk('google')->url($name);
+        $user_id = Auth::user()->id;
+        $staff = ClientStaff::where('user_id', $user_id)->first();
 
-            ClientUpload::create(
-                [
-                    'client_id' => 1,
-                    'client_staff_id' => 1,
-                    'file_name' => $request->file->getClientOriginalName(),
-                    'file_path' => $name,
-                    'file_size' => $request->file->getSize(),
-                    'file_type' => 1,
-                    'comment' => ''
-                ]
-            );
-        });
+        Files::create(
+            [
+                'user_id' => $user_id,
+                'path' => $url,
+                'name' => $request->file->getClientOriginalName(),
+                'size' => $request->file->getSize(),
+            ]
+        );
 
-        return response()->json($name);
+        return response()->json($url);
     }
 
     function getVideo(Request $request) {
