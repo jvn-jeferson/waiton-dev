@@ -22,7 +22,9 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers {
+        logout as performLogout;
+    }
 
     /**
      * Where to redirect users after login.
@@ -66,11 +68,9 @@ class LoginController extends Controller
         return 'login_id';
     }
 
-    // public function authenticated(App\Http\Controllers\Auth\Request $request, $user)
-    // {
-    //     UserLogin::create([
-    //         'user_id' => $user->id,
-    //         'ip_address' => $request->getClientIp()
-    //     ]);
-    // }
+    public function logout(Request $request)
+    {
+        $this->performLogout($request);
+        return redirect()->route('/');
+    }
 }

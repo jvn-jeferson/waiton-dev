@@ -4,7 +4,7 @@
 <div class="container p-5">
     <div class="card">
         <div class="card-header text-center">
-            <h3 class="card-title">ログイン</h3>
+            <h3 class="card-title">ログイン ({{$user_type}})</h3>
         </div>
         <div class="card-body">
             <form action="{{ route('login')}}" method="POST">
@@ -32,18 +32,20 @@
                         @enderror
                     </div>
                     <div class="form-group form-button">
-                        <input type="submit" name="signin" id="signin" class="form-submit" value="ログイン"/>
+                        <input type="submit" name="signin" id="signin" class="offset-5 form-submit" value="ログイン"/>
                     </div>
             </form>
-            <h3 class="lead mt-5 text-dark">
-                パスワードをお忘れの方
-            </h3>
-            <h4 class="lead mt-2">
-                １　利用者は会計事務所の管理者にご連絡いただき、管理者の管理画面からパスワードの修正を行ってください。
-            </h4>
-            <h4 class="lead mt-2">
-                ２　管理者のパスワードが不明な場合は<strong class="text-bold"><a href="{{route('forgot-password')}}" class="text-info">こちら</a></strong>から手続きしてください。
-            </h4>
+            @if($user_type != 'モアジョブ')
+                <h3 class="lead mt-5 text-dark">
+                    パスワードをお忘れの方
+                </h3>
+                <h4 class="lead mt-2">
+                    １　利用者は会計事務所の管理者にご連絡いただき、管理者の管理画面からパスワードの修正を行ってください。
+                </h4>
+                <h4 class="lead mt-2">
+                    ２　管理者のパスワードが不明な場合は<strong class="text-bold"><a href="{{route('forgot-password')}}" class="text-info">こちら</a></strong>から手続きしてください。
+                </h4>
+            @endif
         </div>
     </div>
 </div>
