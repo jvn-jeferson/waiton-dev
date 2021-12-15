@@ -27,7 +27,10 @@
                                 <tbody>
                                     @forelse($archives as $archive)
                                         <tr>
-                                            <td>{{$archive->kinds}}</td>
+                                            <td>
+                                                {{$archive->kinds}} <br>
+                                                <button class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="top" title="ACCESS FILE" >アクセス</button>
+                                            </td>
                                             <td>{{$archive->settlement_date->format('Y年m月d日')}}</td>
                                             <td class="text-info">{{$archive->file->name}}</td>
                                             <td>{{$archive->recognition_date->format('Y年m月d日')}} • {{$archive->proposal_date->format('Y年m月d日')}}</td>
@@ -50,4 +53,9 @@
 @endsection
 
 @section('extra-scripts')
+<script>
+    $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
 @endsection

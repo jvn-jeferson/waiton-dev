@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserLogin;
 
+use Illuminate\Support\Facades\Request;
+
 
 class LoginController extends Controller
 {
@@ -66,11 +68,5 @@ class LoginController extends Controller
     public function username()
     {
         return 'login_id';
-    }
-
-    public function logout(Request $request)
-    {
-        $this->performLogout($request);
-        return redirect()->route('/');
     }
 }

@@ -20,7 +20,7 @@ class CreateMessagesTable extends Migration
             $table->tinyInteger('targeted_at')->default(0);
             $table->timestamp('scheduled_at')->nullable();
             $table->string('contents');
-            $table->foreignId('file_id');
+            $table->foreignId('file_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

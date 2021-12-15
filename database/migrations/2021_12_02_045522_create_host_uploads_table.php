@@ -21,6 +21,7 @@ class CreateHostUploadsTable extends Migration
             $table->tinyInteger('status');
             $table->tinyInteger('priority');
             $table->string('details');
+            $table->bigInteger('modified_by_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -8,7 +8,7 @@
                     パスワードは正常に更新されました。
                 </h4>
                 <p class="lead">
-                    <a href="{{route('login')}}" class="btn btn-primary">Back to Login</a>
+                    <a href="{{route('signin', ['user_type' => '会計事務所'])}}" class="btn btn-primary">Back to Login</a>
                 </p>
             </div>
         </div>

@@ -19,7 +19,8 @@ class HostUpload extends Model
         'file_id',
         'status',
         'priority',
-        'details'
+        'details',
+        'modified_by_user_id'
     ];
 
     protected $dates = ['deleted_at'];
@@ -32,5 +33,10 @@ class HostUpload extends Model
     public function user() : HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function editor() : HasOne
+    {
+        return $this->hasOne(ClientStaff::class, 'user_id', 'modified_by_user_id');
     }
 }
