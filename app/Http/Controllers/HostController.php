@@ -267,10 +267,10 @@ class HostController extends Controller
             'address' => 'required|max:255',
             'representative' => 'required',
             'representative_address' => 'required',
-            'email' => 'required|email:rfc,dns',
+            'email' => 'required|email:rfc,dns|unique:users,email',
             'tax_filing_month' => 'required',
             'manager_name' => 'required',
-            'manager_email' => 'required|email:rfc,dns',
+            'manager_email' => 'required|email:rfc,dns|unique:users,email',
         ]);
 
 
@@ -767,7 +767,6 @@ class HostController extends Controller
             'accounting_office_staff' => 'required',
             'video_contributor' => 'required',
             'kinds'=> 'required',
-            'video_url' => 'required|url'
         ]);
 
         if($validator->fails()){

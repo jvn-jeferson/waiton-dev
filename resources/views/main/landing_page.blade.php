@@ -50,12 +50,17 @@
           <li><a href="#about">特徴</a></li>
           <li><a href="#services">料金</a></li>
           <li><a href="#portfolio">ストーリー</a></li>
-          
-
         </ul>
       </nav><!-- .nav-menu -->
       
-      <a href="login" class="btn btn-outline-primary">ログイン</a>
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">ログイン <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li class='nav-link'><a href="{{route('signin', ['user_type'=> '会計事務所'])}}">会計事務所</a></li>
+          <li class='nav-link'><a href="{{route('signin', ['user_type'=> 'クライアント'])}}">クライアント</a></li>
+          <li class='nav-link'><a href="{{route('signin', ['user_type'=> 'モアジョブ'])}}">モアジョブ</a></li>
+        </ul>
+      </div>
       <a href="register" class="get-started-btn">新規登録</a>
 
     </div>

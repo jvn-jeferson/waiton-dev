@@ -95,7 +95,7 @@
                                                                     @endif
                                                                 @endif
                                                             </td>
-                                                            <td>{{$upload->updated_at->format('Y年m月d日')}}</td>
+                                                            <td>@if($upload->modified_by_user_id){{$upload->updated_at->format('Y年m月d日')}} • {{$upload->editor->name}} • @if($upload->status == 1) 承認 @else 保留 @endif @endif </td>
                                                             <td class="text-info">{{$upload->file->name}}</td>
                                                             <td>{{$upload->details}}</td>
                                                         </tr>

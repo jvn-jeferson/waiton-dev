@@ -43,6 +43,13 @@ class MainController extends Controller
     return View::make('main/landing_page');
   }
 
+  public function signin(Request $request)
+  {
+    $user_type = $request->user_type;
+
+    return View::make('auth/login')->with(['user_type' => $user_type]);
+  }
+
   public function select_plan()
   {
     $plans = SubscriptionPlan::all();

@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserLogin;
 
+use Illuminate\Support\Facades\Request;
+
 
 class LoginController extends Controller
 {
@@ -22,7 +24,9 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers {
+        logout as performLogout;
+    }
 
     /**
      * Where to redirect users after login.
@@ -65,12 +69,4 @@ class LoginController extends Controller
     {
         return 'login_id';
     }
-
-    // public function authenticated(App\Http\Controllers\Auth\Request $request, $user)
-    // {
-    //     UserLogin::create([
-    //         'user_id' => $user->id,
-    //         'ip_address' => $request->getClientIp()
-    //     ]);
-    // }
 }

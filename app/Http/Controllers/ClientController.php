@@ -43,7 +43,7 @@ class ClientController extends Controller
     }
     public function index()
     {
-        $messages = Message::where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5);
+        $messages = Message::where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->limit(5)->get();
         $uploads = ClientUpload::where('user_id', Auth::user()->id)->get();
         $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
         $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->get();
@@ -91,6 +91,7 @@ class ClientController extends Controller
                 });
             }
 
+            $client = Client::find(Auth::user()->clientStaff->client_id);
             Session::flash('success', 'ファイルバッチが会計事務所に送信されました。');
             $this->sendUploadNotification(Auth::user()->email, Auth::user()->clientStaff->client->host, "Successfully uploaded file");
             $this->sendUploadNotification($client->host->contact_email, $client->host, "One of your clients has uploaded a file. It is ready for download on your dashboard.");
@@ -148,6 +149,7 @@ class ClientController extends Controller
 
     public function view_stored_info()
     {
+        $records = TaxationHistory::where('client_id', Auth::user()->clientStaff->client->id)->get();
         return View::make('client.view-stored-info');
     }
 
@@ -239,6 +241,7 @@ class ClientController extends Controller
 
         $target->update([
             'status' => $status,
+            'modified_by_user_id' => Auth::user()->id,
         ]);
 
         if($target->save()) {

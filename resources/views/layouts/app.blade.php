@@ -59,15 +59,18 @@
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">ログインする</a>
-                                </li>
+                                <div class="dropdown mx-0">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">ログイン <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                    <li class='nav-link'><a href="{{route('signin', ['user_type'=> '会計事務所'])}}">会計事務所</a></li>
+                                    <li class='nav-link'><a href="{{route('signin', ['user_type'=> 'クライアント'])}}">クライアント</a></li>
+                                    <li class='nav-link'><a href="{{route('signin', ['user_type'=> 'モアジョブ'])}}">モアジョブ</a></li>
+                                    </ul>
+                                </div>
                             @endif
 
                             @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">登録</a>
-                                </li>
+                                <a href="register" class="btn btn-success mx-2">新規登録</a>
                             @endif
                         @else
                             <li class="nav-item dropdown">
