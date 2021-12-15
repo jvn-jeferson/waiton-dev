@@ -37,19 +37,36 @@
                                             </tr>
                                             <tr>
                                                 <td>ご利用</td>
-                                                <td>Paid member</td>
+                                                <td>
+                                                    @if($account->subscription)
+                                                        有料会員
+                                                    @else
+                                                        無料ユーザー
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>選択プラン</td>
-                                                <td>5 company plan</td>
+                                                <td>
+                                                    @if($account->subscription)
+                                                        {{$account->subscription->subscription_plan->name}}
+                                                    @else
+                                                        {{""}}
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>利用者数</td>
-                                                <td>4 社</td>
+                                                <td>{{$account->staff->count()}} 社</td>
                                             </tr>
                                             <tr>
                                                 <td>ご利用期日</td>
-                                                <td>2021/3/1　～　2022/2/28　初回登録 {{$account->verified_at}}</td>
+                                                <td>
+                                                    @if($account->subscription)
+                                                        {{$account->subscription->created_at->format('Y/m/d') .'~'. $account->subscription->ends_at->format('Y/m/d')}}
+                                                    @else
+                                                    @endif
+                                                    • {{$account->created_at}}</td>
                                             </tr>
                                         </tbody>
                                     </table>

@@ -15,7 +15,9 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
+        "nao-pon/flysystem-google-drive": "~1.1",
         "stripe/stripe-php": "^7.97",
+        "superbalist/flysystem-google-storage": "^7.2",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {

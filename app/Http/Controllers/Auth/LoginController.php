@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use App\Models\UserLogin;
+
 
 class LoginController extends Controller
 {
@@ -63,4 +65,12 @@ class LoginController extends Controller
     {
         return 'login_id';
     }
+
+    // public function authenticated(App\Http\Controllers\Auth\Request $request, $user)
+    // {
+    //     UserLogin::create([
+    //         'user_id' => $user->id,
+    //         'ip_address' => $request->getClientIp()
+    //     ]);
+    // }
 }

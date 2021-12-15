@@ -150,11 +150,14 @@ class HostController extends Controller
         } else {
             $messages = Message::where('user_id', $this->user->id)->get();
         }
-        foreach ($messages as $message) {
-            $files = explode(',', $message->file_id);
+        foreach($messages as $message) {
             $file_names = '';
-            foreach ($files as $file) {
-                $file_names .= Files::find($file)->name . " • ";
+            if($message->file_id)
+            {
+                $files = explode(',', $message->file_id);
+                foreach($files as $file) {
+                    $file_names .= Files::find($file)->name . " • ";
+                }
             }
 
             $message->file_id = $file_names;
@@ -287,7 +290,7 @@ class HostController extends Controller
                 'representative' => $request->representative,
                 'representative_address' => $request->representative_address,
                 'contact_email' => $request->email,
-                'tax_filing_month' => $request->tax_filing_month
+                'tax_filing_month' => $request->tax_filing_month,
             ]);
 
             if ($client->id) {
@@ -297,7 +300,9 @@ class HostController extends Controller
                     'password' => Hash::make($manager_pw),
                     'role_id' => 4,
                     'is_online' => 0,
-                    'remember_token' => $token
+                    'remember_token' => $token,
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                 ]);
 
                 if ($manager_id) {
@@ -323,7 +328,9 @@ class HostController extends Controller
                             'password' => Hash::make($user1_pw),
                             'role_id' => 5,
                             'is_online' => 0,
-                            'remember_token' => $token
+                            'remember_token' => $token,
+                            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                         ]);
 
                         if ($user1_id) {
@@ -351,7 +358,9 @@ class HostController extends Controller
                             'password' => Hash::make($user2_pw),
                             'role_id' => 5,
                             'is_online' => 0,
-                            'remember_token' => $token
+                            'remember_token' => $token,
+                            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                         ]);
 
                         if ($user2_id) {
@@ -522,9 +531,12 @@ class HostController extends Controller
             $size = $request->file('file')->getSize();
 
             $file_id = Files::insertGetId([
+                'user_id' => Auth::user()->id,
                 'path' => $path,
                 'name' => $name,
-                'size' => $size
+                'size' => $size,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
 
             HostUpload::create([
@@ -576,26 +588,21 @@ class HostController extends Controller
         } else {
             $name = time() . '.mp4';
         }
-        DB::transaction(function () use ($name, $request, $url) {
-            Storage::disk('google')->put($name,  file_get_contents($url->getRealPath()));
-            $user_id = Auth::user()->id;
-            $client = Client::where('user_id', $user_id)->first();
-            $staff = ClientStaff::where('user_id', $user_id)->first();
+        Storage::disk('google')->put($name,  file_get_contents($url->getRealPath()));
+        $url = Storage::disk('google')->url($name);
+        $user_id = Auth::user()->id;
+        $staff = ClientStaff::where('user_id', $user_id)->first();
 
-            ClientUpload::create(
-                [
-                    'client_id' => 1,
-                    'client_staff_id' => 1,
-                    'file_name' => $request->file->getClientOriginalName(),
-                    'file_path' => $name,
-                    'file_size' => $request->file->getSize(),
-                    'file_type' => 1,
-                    'comment' => ''
-                ]
-            );
-        });
+        Files::create(
+            [
+                'user_id' => $user_id,
+                'path' => $url,
+                'name' => $request->file->getClientOriginalName(),
+                'size' => $request->file->getSize(),
+            ]
+        );
 
-        return response()->json($name);
+        return response()->json($url);
     }
 
     function getVideo(Request $request)
@@ -666,7 +673,7 @@ class HostController extends Controller
         }
 
         DB::transaction (function () use ($request){
-            $file_id = File::insertGetId([
+            $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
                 'path' => $request->file('file')->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($request->client_id)->name),
                 'name' => $request->file('file')->getClientOriginalName(),
@@ -700,7 +707,7 @@ class HostController extends Controller
 
             if ($request->hasfile('files')) {
                 foreach ($request->file('files') as $key => $file) {
-                    $path = $file->store('public/files/uploaded/' . Auth::user()->id . '');
+                    $path = $file->store('public/files/uploaded/' . Auth::user()->accountingOfficeStaff->accountingOffice->name . '');
                     $name = $file->getClientOriginalName();
 
                     $file_id = Files::insertGetId([
@@ -714,20 +721,28 @@ class HostController extends Controller
 
                     array_push($file_ids, $file_id);
                 }
+
+                Message::create([
+                    'user_id' => Auth::user()->id,
+                    'is_global' => $request->input('is_global'),
+                    'targeted_at' => $request->input('targeted_at'),
+                    'scheduled_at' => $request->input('scheduled_at'),
+                    'contents' => $request->input('contents'),
+                    'file_id' => implode(',', $file_ids)
+                ]);
+            }else {
+                Message::create([
+                    'user_id' => Auth::user()->id,
+                    'is_global' => $request->input('is_global'),
+                    'targeted_at' => $request->input('targeted_at'),
+                    'scheduled_at' => $request->input('scheduled_at'),
+                    'contents' => $request->input('contents')
+                ]);
             }
-
-            Message::create([
-                'user_id' => Auth::user()->id,
-                'is_global' => $request->input('is_global'),
-                'targeted_at' => $request->input('targeted_at'),
-                'scheduled_at' => $request->input('scheduled_at'),
-                'contents' => $request->input('contents'),
-                'file_id' => implode(',', $file_ids)
-            ]);
-
-            Session::flash('success', 'Notification has been sent.');
-            return redirect()->route('outbox');
         });
+
+        Session::flash('success', 'Notification has been sent.');
+        return redirect()->route('outbox');
     }
 
     public function send_inquiry(Request $request)
@@ -765,7 +780,7 @@ class HostController extends Controller
             $client_id = $this->hashids->decode($request->client_id)[0];
 
             //save file first
-            $file_id = File::insertGetId([
+            $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
                 'path' => $request->file('file')->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($client_id)->name),
                 'name' => $request->file('file')->getClientOriginalName(),

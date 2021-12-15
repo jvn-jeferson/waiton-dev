@@ -19,7 +19,7 @@ use App\Models\Client;
 use App\Models\ClientStaff;
 use App\Models\ClientUpload;
 use App\Models\HostUpload;
-use App\Models\File;
+use App\Models\Files;
 use App\Models\TaxationHistory;
 use App\Models\PastNotification;
 use App\Models\OneTimePassword;
@@ -46,7 +46,7 @@ class ClientController extends Controller
         $messages = Message::where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5);
         $uploads = ClientUpload::where('user_id', Auth::user()->id)->get();
         $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
-        $files = File::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->get();
+        $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->get();
         $page_title = 'ホーム';
         return View::make('client.dashboard')->with(['page_title' => $page_title, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads, 'files' => $files]);
     }
@@ -72,7 +72,7 @@ class ClientController extends Controller
 
                     $file_id = Files::insertGetId([
                         'user_id' => $user_id,
-                        'path' => $request->file('file')[$key]->store('public/files/upload/'.$client_id),
+                        'path' => $request->file('file')[$key]->store('public/files/uploads/'.$client->name),
                         'name' => $request->file('file')[$key]->getClientOriginalName(),
                         'size' => $request->file('file')[$key]->getSize(),
                         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -93,6 +93,7 @@ class ClientController extends Controller
 
             Session::flash('success', 'ファイルバッチが会計事務所に送信されました。');
             $this->sendUploadNotification(Auth::user()->email, Auth::user()->clientStaff->client->host, "Successfully uploaded file");
+            $this->sendUploadNotification($client->host->contact_email, $client->host, "One of your clients has uploaded a file. It is ready for download on your dashboard.");
 
             return redirect()->route('data-outgoing');
 
@@ -222,7 +223,7 @@ class ClientController extends Controller
 
     public function download_file(Request $request)
     {
-        $file_db = File::find($request->file_id);
+        $file_db = Files::find($request->file_id);
 
         $file = Storage::url($file_db->path);
         $name = $file_db->name;
@@ -258,6 +259,7 @@ class ClientController extends Controller
         }
 
         $access = OneTimePassword::find($this->hashids->decode($request->record_id)[0]);
+
 
         $route = $this->access_record($access, $request->password);
 

@@ -18,7 +18,11 @@
                                     <li class="list-group-item">
                                       <i class="fas fa-circle @if($message->is_global == 0) text-success @else text-primary @endif"></i>
                                       <strong class="@if($message->is_global == 0) text-success @else text-primary @endif">
+                                        @if($message->scheduled_at)
                                         {{date_format($message->scheduled_at, 'Y年m月d日')}}
+                                        @else
+                                        {{$message->created_at->format('Y年m月d日')}}
+                                        @endif
                                       </strong>
                                       - {{$message->contents}}
                                     </li>
@@ -54,7 +58,7 @@
                                         @forelse($uploads as $upload)
                                             <tr>
                                                 <td>{{date_format($upload->created_at, 'Y年m月d日')}}</td>
-                                                <td>{{$upload->file_name}}</td>
+                                                <td class="text-primary">{{$upload->file->name}}</td>
                                                 <td>をアップロードしました。</td>
                                                 <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日')}}</td>
                                             </tr>
@@ -94,9 +98,30 @@
                                         @forelse($downloads as $download)
                                            <tr>
                                                <td>{{$download->created_at->format('Y年m月d日')}}</td>
-                                               <td>{{$download->file->name}}</td>
-                                               <td>{{$download->status}}</td>
-                                               <td>{{$download->priority}}</td>
+                                               <td class="text-info">{{$download->file->name}}</td>
+                                               <td>
+                                                   @switch($download->status)
+                                                        @case(1)
+                                                            UPLOADED
+                                                            @break
+                                                        @case(2)
+                                                            ADMITTED
+                                                            @break
+                                                        @case(3)
+                                                            RESERVED
+                                                            @break
+                                                        @default
+                                                            {{""}}
+                                                            @break
+                                                    @endswitch
+                                               </td>
+                                               <td>
+                                                   @if($download->priority > 0)
+                                                    確認依頼あり
+                                                   @else
+                                                    {{""}}
+                                                    @endif
+                                                </td>
                                                <td>{{$download->created_at->modify('+1 month')->format('Y年m月d日')}}</td>
                                            </tr>
                                         @empty
@@ -133,7 +158,7 @@
                                         @forelse($uploads as $upload)
                                             <tr>
                                                 <td>{{$upload->created_at->format('Y年m月d日')}}</td>
-                                                <td>{{$upload->file_name}}</td>
+                                                <td>{{$upload->file->name}}</td>
                                                 <td>が保存されました。</td>
                                             </tr>
                                         @empty
