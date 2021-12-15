@@ -100,7 +100,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="client-home" class="nav-link  @if(request()->route()->getName() == 'client-home') active  @endif">
+            <a href="{{route('client-home')}}" class="nav-link  @if(request()->route()->getName() == 'client-home') active  @endif">
               <i class="nav-icon fas fa-home"></i>
               <p>
               ホーム

@@ -26,7 +26,7 @@ class CreateTaxationHistoriesTable extends Migration
             $table->string('video_contributor')->nullable();
             $table->string('comment')->nullable();
             $table->string('kinds');
-            $table->string('video_url');
+            $table->string('video_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -149,6 +149,7 @@ class ClientController extends Controller
 
     public function view_stored_info()
     {
+        $records = TaxationHistory::where('client_id', Auth::user()->clientStaff->client->id)->get();
         return View::make('client.view-stored-info');
     }
 
