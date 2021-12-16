@@ -68,7 +68,7 @@
                             <label for="video_name">名前</label>
                             <input type="text" id="video_title" name="video_title" class="form-control">
                         </div>
-                        <button class="btn-warning btn btn-block" id="start">レコーダーを起動</button>
+                        <button class="btn-warning btn btn-block" id="start">録画画面選択</button>
                         <div class="form-group mt-2">
                             <label for="tools">描画ツール</label>
                             <button class="btn btn-block btn-light text-bold" onclick="setPointer()"><i class="fas fa-circle text-danger"></i> ポインタ</button>
@@ -78,9 +78,6 @@
                         <div class="form-row mt-2 text-center align-items-center">
                             <div class="col-6">
                                 <input type="color" oninput="stroke_color = this.value" placeholder="Colors">
-                            </div>
-                            <div class="col-6">
-                                <input onInput="draw_width = this.value" type="range" min="1" max="100" class="pen-range">
                             </div>
                         </div>
                         <div class="form-row text-center align-items-center">
@@ -364,7 +361,7 @@
         stopRecording();
     })
     //File URL
-    copy_url.preview.addEventListener('click', () =>{
+    copy_url.addEventListener('click', () =>{
         var textBox = document.getElementById("file_url");
         textBox.select();
         document.execCommand("copy");
