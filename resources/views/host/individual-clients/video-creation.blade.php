@@ -96,8 +96,8 @@
                         <button class="btn btn-block btn-warning" id="stop"><i class="fa fas-circle-stop"></i> 収録終了</button>
                         <button class="btn btn-block btn-warning mt-5" id="download">プレビュー</button>
                         <div class="form-group">
-                            <label for="video_name">URLをコピー</label>
-                            <input type="text" id="file_url" name="file_url" class="form-control" readonly>
+                            <button class="btn btn-block btn-warning mt-5" id="copy_url">URLをコピー</button>
+                            <input type="text" id="file_url" name="file_url" class="form-control" placeholder="動画のURLを表示"readonly>
                         </div>
                         <button type="button" class="btn btn-block btn-warning mt-5" id="preview" data-toggle="modal" data-target=".bd-example-modal-lg">完了</button>
                         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -362,6 +362,12 @@
     });
     stopButton.addEventListener('click', () => {
         stopRecording();
+    })
+    //File URL
+    copy_url.preview.addEventListener('click', () =>{
+        var textBox = document.getElementById("file_url");
+        textBox.select();
+        document.execCommand("copy");
     })
     //Preview
     preview.addEventListener('click', () =>{
