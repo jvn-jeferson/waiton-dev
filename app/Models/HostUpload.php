@@ -26,7 +26,7 @@ class HostUpload extends Model
     protected $dates = ['deleted_at'];
 
     public function file() : HasOne
-    { 
+    {
        return $this->hasOne(Files::class, 'id', 'file_id');
     }
 

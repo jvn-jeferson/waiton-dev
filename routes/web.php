@@ -16,7 +16,6 @@ use App\Controllers\DataTables\ClientDatatablesController;
 
 
 Auth::routes();
-
 //Routes accessible to guest users
 //GET HEAD
 Route::get('/', [MainController::class, 'index'])->name('/');

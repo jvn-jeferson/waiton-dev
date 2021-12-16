@@ -29,6 +29,6 @@ class Message extends Model
     public function file(): HasOne {
 
         return $this->hasOne(Files::class, 'id', 'file_id');
-        
+
     }
 }

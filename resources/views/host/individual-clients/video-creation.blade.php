@@ -68,7 +68,7 @@
                             <label for="video_name">名前</label>
                             <input type="text" id="video_title" name="video_title" class="form-control">
                         </div>
-                        <button class="btn-warning btn btn-block" id="start">レコーダーを起動</button>
+                        <button class="btn-warning btn btn-block" id="start">録画画面選択</button>
                         <div class="form-group mt-2">
                             <label for="tools">描画ツール</label>
                             <button class="btn btn-block btn-light text-bold" onclick="setPointer()"><i class="fas fa-circle text-danger"></i> ポインタ</button>
@@ -78,9 +78,6 @@
                         <div class="form-row mt-2 text-center align-items-center">
                             <div class="col-6">
                                 <input type="color" oninput="stroke_color = this.value" placeholder="Colors">
-                            </div>
-                            <div class="col-6">
-                                <input onInput="draw_width = this.value" type="range" min="1" max="100" class="pen-range">
                             </div>
                         </div>
                         <div class="form-row text-center align-items-center">
@@ -96,10 +93,69 @@
                         <button class="btn btn-block btn-warning" id="stop"><i class="fa fas-circle-stop"></i> 収録終了</button>
                         <button class="btn btn-block btn-warning mt-5" id="download">プレビュー</button>
                         <div class="form-group">
-                            <label for="video_name">URLをコピー</label>
-                            <input type="text" id="file_url" name="file_url" class="form-control" readonly>
+                            <button class="btn btn-block btn-warning mt-5" id="copy_url">URLをコピー</button>
+                            <input type="text" id="file_url" name="file_url" class="form-control" placeholder="動画のURLを表示"readonly>
                         </div>
-                        <button class="btn btn-block btn-warning mt-5" id="preview">完了</button>
+                        <button type="button" class="btn btn-block btn-warning mt-5" id="preview" data-toggle="modal" data-target=".bd-example-modal-lg">完了</button>
+                        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h3>動画プレビュー</h3>
+                                </div>
+                                <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <video width="500" height="400" id="video" controls>
+                                            <source src="" type="video/mp4" >
+                                          </video>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <table class="table table-striped table-responsive">
+                                                <tr>
+                                                    <th>種類</th>
+                                                    <td>test</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>決算日</th>
+                                                    <td>test</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>提出済み申告書一式</th>
+                                                    <td>test</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>承認日 提出日</th>
+                                                    <td>test</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>会社担当者</th>
+                                                    <td>test</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>会計事務所担当者</th>
+                                                    <td>test</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>動画投稿者</th>
+                                                    <td>test</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>閲覧期限</th>
+                                                    <td>test</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>コメント</th>
+                                                    <td>test</td>
+                                                </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        {{-- <button class="" id="preview">完了</button> --}}
                     </div>
             </div>
         </div>
@@ -304,6 +360,20 @@
     stopButton.addEventListener('click', () => {
         stopRecording();
     })
+    //File URL
+    copy_url.addEventListener('click', () =>{
+        var textBox = document.getElementById("file_url");
+        textBox.select();
+        document.execCommand("copy");
+    })
+    //Preview
+    preview.addEventListener('click', () =>{
+        const blob = new Blob(recordedBlobs, {
+            type: 'video/mp4'
+        });
+        var video = document.getElementById("video");
+        video.src = window.URL.createObjectURL(blob);
+    });
     //CHANGE TO UPLOAD TO GOOGLE DRIVE
     //RETURN GDRIVE LINKS
     downloadButton.addEventListener('click', () => {
@@ -320,7 +390,7 @@
                 const fd = new FormData();
                 fd.append("file", blobs); // where `.ext` matches file `MIME` type
                 fd.append('fileName',name);
-                var save_url = "{{route('save-video')}}"
+                var url = "{{route('save-video')}}"
                 return axios.post(url,fd, {
                     headers: {
                         "Content-Type": "application/json"

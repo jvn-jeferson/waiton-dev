@@ -67,7 +67,7 @@ class ClientController extends Controller
                 DB::transaction(function () use ($comment, $request, $key) {
 
                     $user_id = Auth::user()->id;
-                    $client = Auth::user()->clientStaff->client;
+                    $client_id = Auth::user()->clientStaff->client->id;
                     $staff = ClientStaff::where('user_id', $user_id)->first();
 
                     $file_id = Files::insertGetId([
@@ -213,7 +213,7 @@ class ClientController extends Controller
 
     public function send_inquiry(Request $request)
     {
-        Mail::to('jbonayon15@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
+        Mail::to('jvncgs.info@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
 
         if(Mail::fails()){
             return 'failure';
@@ -261,7 +261,7 @@ class ClientController extends Controller
         }
 
         $access = OneTimePassword::find($this->hashids->decode($request->record_id)[0]);
-  
+
 
         $route = $this->access_record($access, $request->password);
 
