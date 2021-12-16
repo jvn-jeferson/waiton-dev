@@ -29,7 +29,7 @@
                                         <tr>
                                             <td>
                                                 {{$archive->kinds}} <br>
-                                                <button class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="top" title="ACCESS FILE" >アクセス</button>
+                                                <a class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="top" title="ACCESS FILE" href="{{route('create-video', ['client_id'=> $hashids->encode($client->id), 'record_id' => $hashids->encodeHex($archive->id)])}}">アクセス</a>
                                             </td>
                                             <td>{{$archive->settlement_date->format('Y年m月d日')}}</td>
                                             <td class="text-info">{{$archive->file->name}}</td>

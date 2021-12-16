@@ -568,7 +568,15 @@ class HostController extends Controller
         $client_id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($client_id)->first();
         $staff = Auth::user()->accountingOfficeStaff;
-        return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'hashids' => $this->hashids]);
+        if($request->record_id) {
+            $record = TaxationHistory::find($this->hashids->decodeHex($request->record_id)[0]);
+            return View::make('host.individual-clients.view-past-settlement')->with(['client' => $client, 'hashids' => $this->hashids, 'record' => $record]);
+        }
+        else {
+            $record = null;
+            return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'hashids' => $this->hashids]);
+        }
+        
     }
 
     public function video_creation(Request $request)
@@ -576,8 +584,14 @@ class HostController extends Controller
         $client_id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($client_id)->first();
         $staff = Auth::user()->accountingOfficeStaff;
-
-        return View::make('host.individual-clients.video-creation')->with(['client' => $client, 'hashids' => $this]);
+        if($request->record_id)
+        {
+            $record = TaxationHistory::find($this->hashids->decodeHex($request->record_id)[0])->first();
+        }
+        else {
+            $record = null;
+        }
+        return View::make('host.individual-clients.video-creation')->with(['client' => $client, 'hashids' => $this->hashids, 'record' => $record]);
     }
 
     public function save_video(Request $request)

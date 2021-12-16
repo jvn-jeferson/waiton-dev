@@ -91,64 +91,68 @@
 
                         <button class="btn btn-block btn-warning mt-4" id="record"><i class="fa fas-circle-record-vinyl"></i> スタート</button>
                         <button class="btn btn-block btn-warning" id="stop"><i class="fa fas-circle-stop"></i> 収録終了</button>
-                        <button class="btn btn-block btn-warning mt-5" id="download">プレビュー</button>
+                        <button class="btn btn-block btn-warning mt-5" id="preview" data-toggle="modal" data-target=".bd-example-modal-lg">プレビュー</button>
+                        {{-- JENRY PALAGAY DITO NUNG URL CREATION --}}
+                        <button type="button" class="btn btn-block btn-warning mt-5" id="keep" >完了</button>
                         <div class="form-group">
                             <button class="btn btn-block btn-warning mt-5" id="copy_url">URLをコピー</button>
                             <input type="text" id="file_url" name="file_url" class="form-control" placeholder="動画のURLを表示"readonly>
                         </div>
-                        <button type="button" class="btn btn-block btn-warning mt-5" id="preview" data-toggle="modal" data-target=".bd-example-modal-lg">完了</button>
+                        <a href="{{route('video-list', ['client_id' => $hashids->encode($client->id)])}}"class="btn btn-block btn-warning mt-5" >完了</a>
                         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
                                 <h3>動画プレビュー</h3>
                                 </div>
                                 <div class="modal-body">
                                 <div class="row">
-                                    <div class="col-md-8">
-                                        <video width="500" height="400" id="video" controls>
+                                    <div class="col-6">
+                                        <video width="100%" height="100%" id="video" controls>
                                             <source src="" type="video/mp4" >
                                           </video>
                                     </div>
-                                    <div class="col-md-4">
-                                        <table class="table table-striped table-responsive">
+                                    <div class="col-6">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-responsive">
                                                 <tr>
-                                                    <th>種類</th>
-                                                    <td>test</td>
+                                                    <td class="w-25">種類</td>
+                                                    <td class="w-75">{{$record->kinds ?? ''}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>決算日</th>
-                                                    <td>test</td>
+                                                    <td class="w-25">決算日</td>
+                                                    <td>@if($record) {{$record->settlement_date->format('Y年m月d日') ?? '' }} @endif</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>提出済み申告書一式</th>
-                                                    <td>test</td>
+                                                    <th class="w-25">提出済み申告書一式</td>
+                                                    <td>{{$record->file->name ?? '' }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>承認日 提出日</th>
-                                                    <td>test</td>
+                                                    <th class="w-25">承認日 • 提出日</td>
+                                                    <td>@if($record){{$record->proposal_date->format('Y年m月d日') ?? '' }} • {{$record->recognition_date->format('Y年m月d日') ?? '' }}@endif</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>会社担当者</th>
-                                                    <td>test</td>
+                                                    <th class="w-25">会社担当者</td>
+                                                    <td>{{$record->company_representative ?? ''}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>会計事務所担当者</th>
-                                                    <td>test</td>
+                                                    <th class="w-25">会計事務所担当者</td>
+                                                    <td>{{$record->accounting_office_staff ?? ''}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>動画投稿者</th>
-                                                    <td>test</td>
+                                                    <th class="w-25">動画投稿者</td>
+                                                    <td>{{$record->video_contributor ?? ''}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>閲覧期限</th>
-                                                    <td>test</td>
+                                                    <th class="w-25">閲覧期限</td>
+                                                    <td>@if($record) {{$record->created_at->modify('+7 years')->format('Y年m月d日') ?? ''}} @endif</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>コメント</th>
-                                                    <td>test</td>
+                                                    <th class="w-25">コメント</td>
+                                                    <td>{{$record->commnet ?? ''}}</td>
                                                 </tr>
                                         </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -373,6 +377,8 @@
         });
         var video = document.getElementById("video");
         video.src = window.URL.createObjectURL(blob);
+
+
     });
     //CHANGE TO UPLOAD TO GOOGLE DRIVE
     //RETURN GDRIVE LINKS
@@ -383,13 +389,12 @@
         const blobUrl = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.style.display = 'none';
-
+        
         fetch(blobUrl).then(response => response.blob())
             .then(blobs => {
                 const name = $("#video_title").val();
                 const fd = new FormData();
                 fd.append("file", blobs); // where `.ext` matches file `MIME` type
-                fd.append('fileName',name);
                 var url = "{{route('save-video')}}"
                 return axios.post(url,fd, {
                     headers: {
@@ -487,7 +492,7 @@
             .then(function(response) {
                 console.log(response.data)
                 var path = response.data
-                var base_url = "<?php echo env('APP_URL'); ?>"
+                var base_url = "{{route('/')}}"
                 var file_path = base_url + path
                 pdf_file = path
                 pdfjsLib.getDocument(file_path).promise.then((doc) => {

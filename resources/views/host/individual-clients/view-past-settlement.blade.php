@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card card-primary">
-                        <form action="{{route('save-taxation-history', ['client_id'=>$hashids->encode($client->id)])}}" method="post" enctype="multipart/form-data">
+                        <form action="{{route('update-taxation-history', ['client_id'=>$hashids->encode($client->id)])}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="card-header">
                                 <h3 class="card-title">過去決算</h3>
@@ -44,79 +44,46 @@
                                                     <tr>
                                                         <th>決算日</th>
                                                         <td class="bg-light">
-                                                            <input type="date" class="form-control" name="settlement_date" id="settlement_date" value="{{old('settlement_date')}} ">
-                                                            @error('settlement_date')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
+                                                            <input type="text" class="form-control" name="settlement_date" id="settlement_date" value="{{$record->settlement_date->format('Y-m-d')}}" disabled>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <th>提出済み申告書一式</th>
                                                         <td class="bg-light">
-                                                            <input type="file" name="file" id="file" class="form-control">
-                                                            @error('file')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
+                                                            <input type="text" name="file" id="file" class="form-control" value="{{$record->file->name}}" disabled>
                                                         </td>
                                                         
                                                     </tr>
                                                     <tr>
                                                         <th>承認日</th>
                                                         <td class="bg-light">
-                                                            <input type="date" class="form-control" name="proposal_date" id="proposal_date" value="{{old('proposal_date')}}">
-                                                            @error('proposal_date')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
+                                                            <input type="text" class="form-control" name="proposal_date" id="proposal_date" value="{{$record->proposal_date->format('Y-m-d')}}" disabled>
+                                                        
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <th>提出日</th>
                                                         <td class="bg-light">
-                                                            <input type="date" class="form-control" name="recognition_date" id="recognition_date" value="{{old('recognition_date')}}">
-                                                            @error('recognition_date')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
+                                                            <input type="text" class="form-control" name="proposal_date" id="proposal_date" value="{{$record->recognition_date->format('Y-m-d')}}" disabled>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <th>会社担当者</th>
                                                         <td class="bg-light">
-                                                            <input type="text" name="company_representative" id="company_representative" class="form-control" value="{{old('company_representative')}}">
-                                                            @error('company_representative')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
+                                                            <input type="text" name="company_representative" id="company_representative" class="form-control" value="{{$record->company_representative}}" readonly>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <th>会計事務所担当者</th>
                                                         <td class="bg-light">
-                                                            <input type="text" name="accounting_office_staff" id="accounting_office_staff" class="form-control" value="{{old('accounting_office_staff')}}">
-                                                            @error('accounting_office_staff')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
+                                                            <input type="text" name="accounting_office_staff" id="accounting_office_staff" class="form-control" value="{{$record->accounting_office_staff}}" readonly>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <th>動画投稿者</th>
                                                         <td class="bg-light">
-                                                            <input type="text" name="video_contributor" id="video_contributor" class="form-control" value="{{old('video_contributor')}}">
-                                                            @error('video_contributor')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
+                                                            <input type="text" name="video_contributor" id="video_contributor" class="form-control" value="{{$record->video_contributor}}" readonly>
+                                                            
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -128,7 +95,7 @@
                                                     <tr>
                                                         <th>コメント</th>
                                                         <td class="bg-light">
-                                                            <input type="text" name="comments" id="comments" class="form-control" value="{{old('comments')}}">
+                                                            <input type="text" name="comments" id="comments" class="form-control" value="{{$record->comment}}">
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -137,7 +104,7 @@
                                         <div class="card">
                                             <div class="row p-2">
                                                 <div class="col-6">
-                                                    <button type="button" onclick="window.open('{{route('video-creation', ['client_id'=>$hashids->encode($client->id)])}}');" class="btn btn-warning btn-block">動画作成</button>
+                                                    <button type="button" onclick="window.open('{{route('video-creation', ['client_id'=>$hashids->encode($client->id), 'record_id' => $hashids->encodeHex($record->id)])}}');" class="btn btn-warning btn-block">動画作成</button>
                                                 </div>
                                                 <div class="col-6">
                                                     <button class="btn btn-warning  btn-block" type="button">プレビュー</button>
