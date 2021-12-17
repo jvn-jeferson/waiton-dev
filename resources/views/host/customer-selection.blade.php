@@ -117,7 +117,7 @@
                                         <td>
                                             <div class="form-row">
                                                 <div class="col-8">
-                                                    <input type="text" name="client_name" id="client_name" class="form-control" placeholder="">
+                                                    <input type="text" autocomplete="off" name="client_name" id="client_name" class="form-control" placeholder="">
                                                 </div>
                                                 <div class="col-4">
                                                     <input type="radio" name="client_type" id="client_type" value="1" class="mx-auto my-auto">法人
@@ -129,19 +129,19 @@
                                     <tr>
                                         <th colspan="2"><label for="client_address">本店所在地</label></th>
                                         <td>
-                                            <input type="text" name="client_address" id="client_address" class="form-control" placeholder="">
+                                            <input type="text" autocomplete="off" name="client_address" id="client_address" class="form-control" placeholder="">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th colspan="2"><label for="representative_name">代表者</label></th>
                                         <td>
-                                            <input type="text" name="representative_name" id="representative_name" class="form-control" placeholder="">
+                                            <input type="text" autocomplete="off" name="representative_name" id="representative_name" class="form-control" placeholder="">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th colspan="2"><label for="representative_address">代表者住所</label></th>
                                         <td>
-                                            <input type="text" name="representative_address" id="representative_address" class="form-control" placeholder="">
+                                            <input type="text" autocomplete="off" name="representative_address" id="representative_address" class="form-control" placeholder="">
                                         </td>
                                     </tr>
                                     <tr>
@@ -172,7 +172,7 @@
                                     <tr>
                                         <td rowspan="2">管理者</td>
                                         <td>名前</td>
-                                        <td><input type="text" name="manager_name" id="manager_name" class="form-control"></td>
+                                        <td><input type="text" autocomplete="off" name="manager_name" id="manager_name" class="form-control"></td>
                                     </tr>
                                     <tr>
                                         <td>メールアドレス</td>
@@ -181,7 +181,7 @@
                                     <tr>
                                         <td rowspan="2">利用者</td>
                                         <td>名前</td>
-                                        <td><input type="text" name="user1_name" id="user1_name" class="form-control"></td>
+                                        <td><input type="text" autocomplete="off" name="user1_name" id="user1_name" class="form-control"></td>
                                     </tr>
                                     <tr>
                                         <td>メールアドレス</td>
@@ -190,7 +190,7 @@
                                     <tr>
                                         <td rowspan="2">利用者</td>
                                         <td>名前</td>
-                                        <td><input type="text" name="user2_name" id="user2_name" class="form-control"></td>
+                                        <td><input type="text" autocomplete="off" name="user2_name" id="user2_name" class="form-control"></td>
                                     </tr>
                                     <tr>
                                         <td>メールアドレス</td>
@@ -215,7 +215,7 @@
 
             var type_id = document.querySelector('input[name="client_type"]:checked').value;
             var url = "{{route('register-new-client')}}";
-            
+
             axios.post(url, {
                 name: $('#client_name').val(),
                 business_type_id: type_id,
