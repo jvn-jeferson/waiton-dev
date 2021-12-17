@@ -118,8 +118,6 @@
                                 </div>
                             </div>
 
-                            <button class="btn btn-block btn-warning mt-4" id="record"><i
-                                    class="fa fas-circle-record-vinyl"></i> スタート</button>
                             <button class="btn btn-block btn-warning mt-4" id="pause"><i class="fa fas-pause"></i>
                                 一旦停止</button>
                             <button class="btn btn-block btn-warning" id="stop"><i class="fa fas-circle-stop"></i>
@@ -152,39 +150,54 @@
                                                         <table class="table table-striped">
                                                             <tr>
                                                                 <th>種類</th>
-                                                                <td>test</td>
+                                                                <td>{{$record->kind ?? ""}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>決算日</th>
-                                                                <td>test</td>
+                                                                <td>
+                                                                    @if($record)
+                                                                        {{$record->settlement_date->format('Y-m-d')}}
+                                                                    
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>提出済み申告書一式</th>
-                                                                <td>test</td>
+                                                                <td>
+                                                                    @if($record)
+                                                                        {{$record->file->name }}
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                             <tr>
-                                                                <th>承認日 提出日</th>
-                                                                <td>test</td>
+                                                                <th>承認日 | 提出日</th>
+                                                                <td>@if($record)
+                                                                        {{$record->proposal_date->format('Y-m-d')}} | {{$record->recognition_date->format('Y-m-d')}}
+                                                                    
+                                                                    @endif</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>会社担当者</th>
-                                                                <td>test</td>
+                                                                <td>{{$record->company_representative ?? ''}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>会計事務所担当者</th>
-                                                                <td>test</td>
+                                                                <td>{{$record->accounting_office_staff ?? ''}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>動画投稿者</th>
-                                                                <td>test</td>
+                                                                <td>{{$record->video_contributor ?? ''}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>閲覧期限</th>
-                                                                <td>test</td>
+                                                                <td>@if($record)
+                                                                        {{$record->created_at->modify('+7 years')->format('Y-m-d') }}
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>コメント</th>
-                                                                <td>test</td>
+                                                                <td>{{$record->comment ?? ''}}</td>
                                                             </tr>
                                                         </table>
                                                     </div>
@@ -387,17 +400,39 @@
         let mediaRecorder;
         let recordedBlobs;
         var isRecording = false;
-        const recordButton = document.querySelector('button#record');
         const stopButton = document.querySelector('button#stop');
         const recordedVideo = document.querySelector('video#video');
         const downloadButton = document.querySelector('button#download');
         const pause_play = document.querySelector('button#pause');
         const completion = document.querySelector('button#completion');
-        recordButton.addEventListener('click', () => {
-            startRecording();
-        });
+
+        completion.addEventListener('click', () => {
+            var vid_url = $('#file_url').val();
+            var client_id = "{{$client->id}}"
+            if (vid_url != '')
+            {
+                var url = "{{route('save-url-to-database')}}"
+                axios.post(url, {
+                    video_url: vid_url,
+                    client: client_id
+                }).then(function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: "SUCCESS",
+                        text: "video recording entry has been completed."
+                    }).then((result) => {
+                        var target= response.data
+                        window.location = target;
+                    })
+                }).catch(function(error) {
+                    console.log(error)
+                })
+            }
+        })
+
         stopButton.addEventListener('click', () => {
             stopRecording();
+            window.stream = null;
         })
         //File URL
         copy_url.addEventListener('click', () => {
@@ -494,7 +529,7 @@
                 return;
             }
             console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-            recordButton.disabled = true;
+            
             stopButton.disabled = false;
             mediaRecorder.onstop = (event) => {
                 console.log('Recorder stopped: ', event);
@@ -509,21 +544,31 @@
         function stopRecording() {
             mediaRecorder.stop();
             isRecording = false;
-            var loader = document.querySelector('#loader-div');
-            loader.style.display = 'none';
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Recording has ended.'
+            })
         }
 
         function handleSuccess(stream) {
-            recordButton.disabled = false;
             console.log('getUserMedia() got stream:', stream);
             window.stream = stream;
+
+            Swal.fire({
+                icon: 'success',
+                title: "SUCCESS",
+                text: 'Recording will now begin.'
+            })
+            startRecording();
         }
         async function init(constraints) {
             try {
                 const stream = await navigator.mediaDevices.getDisplayMedia(constraints);
                 handleSuccess(stream);
+                
             } catch (e) {
-                console.error('navigator.getUserMedia error:', e);
+                
                 errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
             }
         }
@@ -537,6 +582,8 @@
             };
             console.log('Using media constraints:', constraints);
             await init(constraints);
+
+            
         });
         var formData = new FormData();
         const fileInput = document.querySelector('#pdfSource')

@@ -29,12 +29,16 @@
                                         <tr>
                                             <td>
                                                 {{$archive->kinds}} <br>
-                                                <button class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="top" title="ACCESS FILE" >アクセス</button>
+                                                <a class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="top" title="ACCESS FILE" href="{{route('access-data-financial-record', ['record_id' => $hashids->encodeHex($archive->id), 'client_id' => $hashids->encode($client->id)])}}">アクセス</a>
                                             </td>
                                             <td>{{$archive->settlement_date->format('Y年m月d日')}}</td>
                                             <td class="text-info">{{$archive->file->name}}</td>
                                             <td>{{$archive->recognition_date->format('Y年m月d日')}} • {{$archive->proposal_date->format('Y年m月d日')}}</td>
-                                            <td>{{$archive->video_url}}</td>
+                                            <td class="align-items-center text-center justify-content-center">
+                                                <video style="width: 25%; border:2px darkgreen dashed; position: relative; display:flex">
+                                                    <source src="{{$archive->video_url}}">
+                                                </video>
+                                            </td>
                                         </tr>
                                     @empty
                                         <tr>

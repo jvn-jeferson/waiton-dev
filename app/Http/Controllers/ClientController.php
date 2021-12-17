@@ -132,6 +132,7 @@ class ClientController extends Controller
     {
         $page_title = 'From　会計事務所';
         $host_uploads = HostUpload::where('client_id', '=', Auth::user()->clientStaff->client->id)->latest()->get();
+
         return View::make('client.incoming')->with(['page_title' => $page_title, 'host_uploads' => $host_uploads]);
     }
 
