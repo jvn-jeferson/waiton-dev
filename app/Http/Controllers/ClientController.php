@@ -67,12 +67,12 @@ class ClientController extends Controller
                 DB::transaction(function () use ($comment, $request, $key) {
 
                     $user_id = Auth::user()->id;
-                    $client_name = Auth::user()->clientStaff->client->name;
+                    $client_id = Auth::user()->clientStaff->client->id;
                     $staff = ClientStaff::where('user_id', $user_id)->first();
 
                     $file_id = Files::insertGetId([
                         'user_id' => $user_id,
-                        'path' => $request->file('file')[$key]->store('public/files/uploads/'.$client_name),
+                        'path' => $request->file('file')[$key]->store('public/files/uploads/'.$client_id),
                         'name' => $request->file('file')[$key]->getClientOriginalName(),
                         'size' => $request->file('file')[$key]->getSize(),
                         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
