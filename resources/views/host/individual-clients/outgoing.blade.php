@@ -14,13 +14,13 @@
                                 <p class="text-bold">
                                     クライアント宛に、以下で資料をアップロードします。
                                 </p>
-                                <p class="text-bold">    
+                                <p class="text-bold">
                                     アップロード資料にファイルをドロップするか、アップロードボタンからファイルを選択してください。
                                 </p>
                                 <div class="table-responsive mt-2">
                                     <form action="{{route('send-tax-file')}}" method="post" enctype="multipart/form-data">
                                         @csrf
-                                        <input type="hidden" name="client_id" id="client_id" value="{{$client->id}}" /> 
+                                        <input type="hidden" name="client_id" id="client_id" value="{{$client->id}}" />
                                         <table class="table table-bordered">
                                             <tbody>
                                                 <tr class="bg-info">
@@ -82,21 +82,21 @@
                                                                 @if($upload->priority == 0)
                                                                     確認不要
                                                                 @else
-                                                                    @if($upload->status == 0) 
-                                                                        アップロードされました 
-                                                                    @elseif($upload->status == 1) 
-                                                                        ダウンロードされました 
+                                                                    @if($upload->status == 0)
+                                                                        アップロードされました
+                                                                    @elseif($upload->status == 1)
+                                                                        ダウンロードされました
                                                                     @elseif($upload->status == 2)
-                                                                        承認済み 
+                                                                        承認済み
                                                                     @elseif($upload->status == 3)
-                                                                        留保 
-                                                                    @else 
-                                                                        確認不要 
+                                                                        留保
+                                                                    @else
+                                                                        確認不要
                                                                     @endif
                                                                 @endif
                                                             </td>
                                                             <td>@if($upload->modified_by_user_id){{$upload->updated_at->format('Y年m月d日')}} • {{$upload->editor->name}} • @if($upload->status == 1) 承認 @else 保留 @endif @endif </td>
-                                                            <td class="text-info">{{$upload->file->name}}</td>
+                                                            <td class="text-info">{{$upload->file->name ?? ''}}</td>
                                                             <td>{{$upload->details}}</td>
                                                         </tr>
                                                     @empty
