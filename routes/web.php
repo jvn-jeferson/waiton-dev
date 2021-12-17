@@ -115,6 +115,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('save-video', [HostController::class, 'save_video'])->name('save-video');
             Route::post('save-taxation-history', [HostController::class, 'save_taxation_archive'])->name('save-taxation-history');
             Route::post('save-notification-history', [HostController::class, 'save_notification_archive'])->name('save-notification-archive');
+            Route::post('save-url-to-database', [HostController::class, 'save_url_to_database'])->name('save-url-to-database');
         });
     });
 
