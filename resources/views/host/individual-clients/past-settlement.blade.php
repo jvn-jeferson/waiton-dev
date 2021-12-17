@@ -26,7 +26,7 @@
                                                 {{$message}}
                                             </span>
                                         @enderror
-                                        <video style="width: 100%; border:2px darkgreen dashed; position: relative; display:flex" class="mt-2" id="video-player" controls><source src=""></video>
+                                        <video style="width: 100%; border:2px darkgreen dashed; position: relative; display:flex" class="mt-2" id="video-player" controls><source src="@if($record){{$record->video_url}}@endif"></video>
                                     </div>
                                     <div class="col-5">
                                         <h4 class="text-bold">
