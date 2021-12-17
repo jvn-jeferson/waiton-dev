@@ -72,7 +72,7 @@ class ClientController extends Controller
 
                     $file_id = Files::insertGetId([
                         'user_id' => $user_id,
-                        'path' => $request->file('file')[$key]->store('public/files/uploads/'.$client->name),
+                        'path' => $request->file('file')[$key]->store('public/files/uploads/'.$client_id),
                         'name' => $request->file('file')[$key]->getClientOriginalName(),
                         'size' => $request->file('file')[$key]->getSize(),
                         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
