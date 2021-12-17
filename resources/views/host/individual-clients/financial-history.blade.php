@@ -41,7 +41,7 @@
                                                 @endif 
                                             </td>
                                             <td>
-                                                @if(@archive)
+                                                @if($archive)
                                                 {{$archive->recognition_date->format('Y年m月d日')}} • {{$archive->proposal_date->format('Y年m月d日')}}
                                                 @endif
                                             </td>
