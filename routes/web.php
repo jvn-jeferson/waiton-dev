@@ -107,6 +107,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('video-creation', [HostController::class, 'video_creation'])->name('video-creation');
             Route::get('created-video-list', [HostController::class, 'view_video_list'])->name('video-list');
             Route::get('view-registration-information', [HostController::class, 'view_registration_information'])->name('view-registration-information');
+            Route::get('access-data-financial-record', [HostController::class, 'access_data_financial_record'])->name('access-data-financial-record');
 
             //POST HEAD
             Route::post('message-client', [HostController::class, 'message_client'])->name('message-client');

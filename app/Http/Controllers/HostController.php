@@ -25,6 +25,7 @@ use App\Models\ClientUpload;
 use App\Models\HostUpload;
 use App\Models\TaxationHistory;
 use App\Models\PastNotification;
+use App\Models\CreatedVideoRecord;
 
 use Carbon\Carbon;
 use Hashids\Hashids;
@@ -568,7 +569,15 @@ class HostController extends Controller
         $client_id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($client_id)->first();
         $staff = Auth::user()->accountingOfficeStaff;
-        return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'hashids' => $this->hashids]);
+
+        if($request->record_id)
+        {
+            $record = TaxationHistory::find($this->hashids->decodeHex($request->record_id)[0]);
+        }
+        else {
+            $record = null;
+        }
+        return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'hashids' => $this->hashids, 'record' => $record]);
     }
 
     public function video_creation(Request $request)
@@ -576,8 +585,15 @@ class HostController extends Controller
         $client_id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($client_id)->first();
         $staff = Auth::user()->accountingOfficeStaff;
+        if($request->record_id == 0)
+        {
+            $record = null;
+        }
+        else {
+            $record = TaxationHistory::find($request->record_id);
+        }
 
-        return View::make('host.individual-clients.video-creation')->with(['client' => $client, 'hashids' => $this]);
+        return View::make('host.individual-clients.video-creation')->with(['client' => $client, 'hashids' => $this, 'record' => $record]);
     }
 
     public function save_video(Request $request)
@@ -630,8 +646,8 @@ class HostController extends Controller
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
-        $videos = TaxationHistory::where('client_id', $client->id)->get();
-        return View::make('host.individual-clients.video-list', ['client' => $client, 'hashids' => $this->hashids, ]);
+        $videos = CreatedVideoRecord::where('client_id', $client->id)->get();
+        return View::make('host.individual-clients.video-list', ['client' => $client, 'hashids' => $this->hashids, 'videos' => $videos]);
     }
 
     public function access_files_client(Request $request)
@@ -770,46 +786,94 @@ class HostController extends Controller
             'kinds'=> 'required',
         ]);
 
+    
         if($validator->fails()){
             return redirect()->route('create-video', ['client_id' => $request->client_id])
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        DB::transaction(function() use($request) {
-            $client_id = $this->hashids->decode($request->client_id)[0];
 
-            //save file first
-            $file_id = Files::insertGetId([
-                'user_id' => Auth::user()->id,
-                'path' => $request->file('file')->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($client_id)->name),
-                'name' => $request->file('file')->getClientOriginalName(),
-                'size' => $request->file('file')->getSize(),
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        if($request->input('record_id'))
+        {
+            $record = TaxationHistory::find($request->record_id);
+
+            $record->update([
+                'settlement_date' => $request->settlement_date,
+                'recognition_date' => $request->recognition_date,
+                'proposal_date' => $request->proposal_date,
+                'company_representative' => $request->company_representative,
+                'accounting_office_staff' => $request->accounting_office_staff,
+                'video_contributor' => $request->video_contributor,
+                'comment' => $request->comment,
+                'kinds' => $request->kinds,
+                'video_url' => $request->video_url
             ]);
 
-            if($file_id)
-            {
-                TaxationHistory::create([
+            $record->save();
+
+        }
+        else {
+            DB::transaction(function() use($request) {
+                $client_id = $this->hashids->decode($request->client_id)[0];
+    
+                //save file first
+                $file_id = Files::insertGetId([
                     'user_id' => Auth::user()->id,
-                    'client_id' => $client_id,
-                    'settlement_date' => $request->settlement_date,
-                    'file_id' => $file_id,
-                    'recognition_date' => $request->recognition_date,
-                    'proposal_date' => $request->proposal_date,
-                    'company_representative' => $request->company_representative,
-                    'accounting_office_staff' => $request->accounting_office_staff,
-                    'video_contributor' => $request->video_contributor,
-                    'comments' => $request->comments,
-                    'kinds' => $request->kinds,
-                    'video_url' => $request->video_url
+                    'path' => $request->file('file')->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($client_id)->name),
+                    'name' => $request->file('file')->getClientOriginalName(),
+                    'size' => $request->file('file')->getSize(),
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                 ]);
-
-
-            }
-        });
+    
+                if($file_id)
+                {
+                    TaxationHistory::create([
+                        'user_id' => Auth::user()->id,
+                        'client_id' => $client_id,
+                        'settlement_date' => $request->settlement_date,
+                        'file_id' => $file_id,
+                        'recognition_date' => $request->recognition_date,
+                        'proposal_date' => $request->proposal_date,
+                        'company_representative' => $request->company_representative,
+                        'accounting_office_staff' => $request->accounting_office_staff,
+                        'video_contributor' => $request->video_contributor,
+                        'comment' => $request->comment,
+                        'kinds' => $request->kinds,
+                        'video_url' => $request->video_url
+                    ]);
+    
+    
+                }
+            });
+        }
+        
 
         return redirect()->route('access-taxation-history', ['client_id' => $request->client_id]);
+    }
+
+
+    public function access_data_financial_record(Request $request)
+    {
+        $client_id = $this->hashids->decode($request->client_id)[0];
+        $record_id = $this->hashids->decodeHex($request->record_id)[0];
+        $record = TaxationHistory::find($record_id)->first();
+        $client = Client::find($client_id)->first();
+
+
+        return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'record' => $record, 'hashids' => $this->hashids]);  
+    }
+
+    public function save_url_to_database(Request $request) 
+    {
+        DB::transaction(function () use ($request) {
+            CreatedVideoRecord::create([
+                'user_id' => Auth::user()->id,
+                'client_id' => $request->client,
+                'video_url' => $request->video_url
+            ]);
+        });
+        return url(route('video-list', ['client_id' => $this->hashids->encode($request->client)]));
     }
 }
