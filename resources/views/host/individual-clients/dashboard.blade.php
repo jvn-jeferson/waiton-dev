@@ -98,7 +98,7 @@
                                         @forelse($downloads as $download)
                                            <tr>
                                                <td>{{$download->created_at->format('Y年m月d日')}}</td>
-                                               <td class="text-info">{{$download->file->name}}</td>
+                                               <td class="text-info">{{$download->file->name ?? ''}}</td>
                                                <td>
                                                    @switch($download->status)
                                                         @case(1)
