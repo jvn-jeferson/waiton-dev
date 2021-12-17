@@ -233,6 +233,8 @@
                     $('#is_admin').checked = false
                    } 
                 })
+
+                window.location.reload()
             }).catch(function(error) {
                 Swal.fire({
                     icon: 'error',
