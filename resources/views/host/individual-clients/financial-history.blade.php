@@ -28,15 +28,28 @@
                                     @forelse($archives as $archive)
                                         <tr>
                                             <td>
-                                                {{$archive->kinds}} <br>
+                                                {{$archive->kinds ?? "" }} <br>
                                                 <a class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="top" title="ACCESS FILE" href="{{route('access-data-financial-record', ['record_id' => $hashids->encodeHex($archive->id), 'client_id' => $hashids->encode($client->id)])}}">アクセス</a>
                                             </td>
-                                            <td>{{$archive->settlement_date->format('Y年m月d日')}}</td>
-                                            <td class="text-info">{{$archive->file->name}}</td>
-                                            <td>{{$archive->recognition_date->format('Y年m月d日')}} • {{$archive->proposal_date->format('Y年m月d日')}}</td>
+                                            <td>@if($archive)
+                                            {{$archive->settlement_date->format('Y年m月d日')}}
+                                                @endif
+                                            </td>
+                                            <td class="text-info">
+                                                @if($archive)
+                                                    {{$archive->file->name}}        
+                                                @endif 
+                                            </td>
+                                            <td>
+                                                @if(@archive)
+                                                {{$archive->recognition_date->format('Y年m月d日')}} • {{$archive->proposal_date->format('Y年m月d日')}}
+                                                @endif
+                                            </td>
                                             <td class="align-items-center text-center justify-content-center">
                                                 <video style="width: 25%; border:2px darkgreen dashed; position: relative; display:flex">
-                                                    <source src="{{$archive->video_url}}">
+                                                    <source src="@if($archive)
+                                                        {{$archive->video_url}}
+                                                    @endif">
                                                 </video>
                                             </td>
                                         </tr>
