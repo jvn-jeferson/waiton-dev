@@ -5,7 +5,8 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-8">
-                        <video src="" id="player" class="w-100 h-100" style="border: 1px solid #c6c6c6; background: lightblue"></video>
+                        <video src="" id="player" width="520" height="600" controls style="border: 1px solid #c6c6c6; background: lightblue" autoplay>
+                        </video>
                         <input type="hidden" name="video_player" id="video_player" value="{{$record->video_url}}">
                     </div>
                     <div class="col-4">
@@ -59,9 +60,6 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('extra-scripts')
     <script>
         var video = document.getElementById('player');
         var video_data = document.getElementById('video_player').value;
