@@ -14,6 +14,21 @@ class Client extends Model
 
     protected $table = 'clients';
 
+    public const MONTHS = [
+        '1' => '1月',
+        '2' => '2月',
+        '3' => '3月',
+        '4' => '4月',
+        '5' => '5月',
+        '6' => '6月',
+        '7' => '7月',
+        '8' => '8月',
+        '9' => '9月',
+        '10' => '10月',
+        '11' => '11月',
+        '12' => '12月'
+    ];
+
     protected $fillable = [
         'accounting_office_id',
         'name',
@@ -25,7 +40,12 @@ class Client extends Model
         'tax_filing_month',
     ];
 
-    public function staffs():HasMany
+    function setValue($month)
+    {
+        $this->value = $month;
+    }
+
+    public function staffs(): HasMany
     {
         return $this->hasMany(ClientStaff::class);
     }

@@ -655,7 +655,8 @@ class HostController extends Controller
         $page_title = '各種設定';
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id)->first();
-        return View::make('host.individual-clients.view-registration-info')->with(['page_title' => $page_title, 'client' => $client, 'hashids' => $this->hashids]);
+        $months = Client::MONTHS;
+        return View::make('host.individual-clients.view-registration-info')->with(['months' => $months,'page_title' => $page_title, 'client' => $client, 'hashids' => $this->hashids]);
     }
 
     public function save_notification_archive(Request $request)

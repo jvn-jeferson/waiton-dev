@@ -59,3 +59,9 @@
         </div>
     </div>
 @endsection
+
+@section('extra-scripts')
+    <script>
+
+    </script>
+@endsection
