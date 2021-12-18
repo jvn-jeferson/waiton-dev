@@ -94,7 +94,7 @@
                                 <label for="video_name">名前</label>
                                 <input type="text" id="video_title" name="video_title" class="form-control">
                             </div>
-                            <button class="btn-warning btn btn-block" id="start">録画画面選択</button>
+                            <button class="btn-warning btn btn-block" id="start">録画画面選択／スタート</button>
                             <div class="form-group mt-2">
                                 <label for="tools">描画ツール</label>
                                 <button class="btn btn-block btn-light text-bold" onclick="setPointer()"><i
