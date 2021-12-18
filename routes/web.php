@@ -110,6 +110,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('access-data-financial-record', [HostController::class, 'access_data_financial_record'])->name('access-data-financial-record');
 
             //POST HEAD
+            Route::post('save-settings', [HostController::class, 'save_settings'])->name('save-settings');
             Route::post('message-client', [HostController::class, 'message_client'])->name('message-client');
             Route::post('send-tax-file', [HostController::class, 'file_tax'])->name('send-tax-file');
             Route::post('get-pdf-source', [HostController::class, 'pdf_source'])->name('get-pdf-source');

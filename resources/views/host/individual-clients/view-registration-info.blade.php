@@ -19,7 +19,8 @@
                                         <td class="w-50"><input type="text" name="name" id="name" value="{{$client->name}}" class="form-control" /></td>
                                         <td>
                                             <div class="form-inline">
-
+                                                <input type="radio" name="client_type" id="client_type" value="1" class="mx-auto my-auto">法人
+                                                <input type="radio" name="client_type" id="client_type" value="2" class="mx-auto my-auto">個人
                                             </div>
                                         </td>
                                     </tr>
@@ -46,7 +47,31 @@
                                     </tr>
                                     <tr>
                                         <th rowspan="2" class="bg-gray w-25">消費税の申告義務</th>
-                                        <td colspan="2"></td>
+                                        <td colspan="2">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <input type="checkbox" id="data1" name="data1" value="課税事業者">
+                                                    <label for="data1">課税事業者</label><br>
+                                                </div>
+                                                <div class="col-2">
+                                                    (
+                                                    <input type="checkbox" id="data2" name="data2" value="個別">
+                                                    <label for="data1">個別</label><br>
+                                                </div>
+                                                <div class="col-2">
+                                                    <input type="checkbox" id="data3" name="data3" value="一括">
+                                                    <label for="data1"> 一括</label><br><br>
+                                                </div>
+                                                <div class="col-2">
+                                                    <input type="checkbox" id="data4" name="data4" value="一括">
+                                                    <label for="data1"> 一括 )</label><br><br>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input type="checkbox" id="data5" name="data5" value="免税事業者">
+                                                    <label for="data1"> 免税事業者</label><br><br>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2"></td>
@@ -187,8 +212,19 @@
 @section('extra-scripts')
 <script>
     submit_settings.addEventListener('click', () => {
-    var queryString = $('.various_settings').serializeArray();
-    console.log(queryString);
+    var data = $('.various_settings').serializeArray();
+    var url = "{{route('save-settings')}}";
+    axios.post(url, {
+        data: data,
+    }).then(function(response){
+        Swal.fire({
+            icon: 'success',
+            title: 'Successfully Updated.',
+            text: 'An email has been sent to your registered email address to access the requested information.'
+        })
+    }).catch(function(error){
+        console.log(error.response.data)
+    });
   });
 </script>
 @endsection

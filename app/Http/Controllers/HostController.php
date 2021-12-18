@@ -621,6 +621,16 @@ class HostController extends Controller
         return response()->json($url);
     }
 
+    public function save_settings(Request $request)
+    {
+        $datas = $request->data;
+        $object_data = [];
+        foreach ($datas as $data) {
+            $object_data[$data['name']] = $data['value'];
+        }
+        dd($object_data);
+    }
+
     function getVideo(Request $request)
     {
         $video_url = $request->video_url;
@@ -786,7 +796,7 @@ class HostController extends Controller
             'kinds'=> 'required',
         ]);
 
-    
+
         if($validator->fails()){
             return redirect()->route('create-video', ['client_id' => $request->client_id])
                 ->withErrors($validator)
@@ -816,7 +826,7 @@ class HostController extends Controller
         else {
             DB::transaction(function() use($request) {
                 $client_id = $this->hashids->decode($request->client_id)[0];
-    
+
                 //save file first
                 $file_id = Files::insertGetId([
                     'user_id' => Auth::user()->id,
@@ -826,7 +836,7 @@ class HostController extends Controller
                     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                     'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                 ]);
-    
+
                 if($file_id)
                 {
                     TaxationHistory::create([
@@ -843,12 +853,12 @@ class HostController extends Controller
                         'kinds' => $request->kinds,
                         'video_url' => $request->video_url
                     ]);
-    
-    
+
+
                 }
             });
         }
-        
+
 
         return redirect()->route('access-taxation-history', ['client_id' => $request->client_id]);
     }
@@ -862,10 +872,10 @@ class HostController extends Controller
         $client = Client::find($client_id)->first();
 
 
-        return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'record' => $record, 'hashids' => $this->hashids]);  
+        return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'record' => $record, 'hashids' => $this->hashids]);
     }
 
-    public function save_url_to_database(Request $request) 
+    public function save_url_to_database(Request $request)
     {
         DB::transaction(function () use ($request) {
             CreatedVideoRecord::create([
