@@ -53,11 +53,11 @@
               </p>
 
               <ul class="list-group list-group-unbordered mb-3">
-                
+
               </ul>
 
               <a href="{{route('view-registration-information', ['client_id' => $hashids->encode($client->id)])}}" class="btn btn-primary btn-block"><b>Client Profile</b></a>
-              
+
               <a href="{{route('home')}}" class="btn btn-danger btn-block"><b>Back to Home</b></a>
             </div>
             <!-- /.card-body -->
@@ -110,7 +110,7 @@
               </p>
             </a>
           </li>
-          
+
           <li class="nav-header mt-3">文書</li>
           <li class="nav-item">
             <a href="{{route('access-inbox', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'access-inbox') active  @endif">
@@ -128,7 +128,7 @@
               </p>
             </a>
           </li>
-          
+
           <li class="nav-header mt-3">記録</li>
           <li class="nav-item">
             <a href="{{route('access-taxation-history', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'access-taxation-history')  active  @endif">
@@ -142,12 +142,12 @@
             <a href="{{route('access-notification-history', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'access-notification-history') active  @endif">
                 <i class="nav-icon fas fa-bell"></i>
                 <p>
-                通知
+                届出
                 </p>
               </a>
           </li>
 
-          
+
           <li class="nav-header mt-3">ツール</li>
           <li class="nav-item">
             <a href="{{route('video-creation', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'create-video') active  @endif">

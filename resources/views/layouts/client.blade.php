@@ -140,8 +140,7 @@
             <a href="notification-history" class="nav-link @if(request()->route()->getName() == 'notification-history') active  @endif">
                 <i class="nav-icon fas fa-bell"></i>
                 <p>
-                通知
-
+                届出
                 </p>
               </a>
           </li>
