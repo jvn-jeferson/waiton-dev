@@ -26,11 +26,7 @@
                                                 {{$message}}
                                             </span>
                                         @enderror
-<<<<<<< HEAD
                                         <video style="width: 100%; border:2px darkgreen dashed; position: relative; display:flex" class="mt-2" id="video-player" controls><source src="@if($record){{$record->video_url}}@endif"></video>
-=======
-                                        <video style="width: 100%; border:2px darkgreen dashed; position: relative; display:flex" class="mt-2" id="video-player" controls><source id="vidsrc" type="video/mp4"></video>
->>>>>>> final-revisions
                                     </div>
                                     <div class="col-5">
                                         <h4 class="text-bold">
@@ -53,11 +49,7 @@
                                                     <tr>
                                                         <th>決算日</th>
                                                         <td class="bg-light">
-<<<<<<< HEAD
                                                             <input type="date" class="form-control" name="settlement_date" id="settlement_date" value="{{$record != null ? $record->settlement_date->format('Y-m-d') :''}}">
-=======
-                                                            <input type="date" class="form-control" name="settlement_date" id="settlement_date" value="{{old('settlement_date')}} ">
->>>>>>> final-revisions
                                                             @error('settlement_date')
                                                             <span class="text-danger">
                                                                 {{$message}}
@@ -190,13 +182,8 @@
             var ci = document.getElementById('video-player')
             var vidSrc = document.getElementById('vidsrc');
             if(isValidHttpUrl(url)){
-<<<<<<< HEAD
                 $('source').attr('src',url)
                 video_player.load()
-=======
-                vidsrc.setAttribute('src',url)
-                ci.load();
->>>>>>> final-revisions
             }
             else {
                 console.log('ERROR')
