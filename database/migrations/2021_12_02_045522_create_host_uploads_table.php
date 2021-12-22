@@ -20,7 +20,8 @@ class CreateHostUploadsTable extends Migration
             $table->foreignId('file_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->tinyInteger('status');
             $table->tinyInteger('priority');
-            $table->string('details');
+            $table->string('details')->nullable();
+            $table->string('video_url')->nullable();
             $table->bigInteger('modified_by_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -37,8 +37,8 @@
                                             </td>
                                             <td class="text-info">
                                                 @if($archive)
-                                                    {{$archive->file->name}}        
-                                                @endif 
+                                                    {{$archive->file->name}}
+                                                @endif
                                             </td>
                                             <td>
                                                 @if($archive)

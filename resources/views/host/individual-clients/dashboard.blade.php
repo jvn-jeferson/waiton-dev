@@ -58,7 +58,7 @@
                                         @forelse($uploads as $upload)
                                             <tr>
                                                 <td>{{date_format($upload->created_at, 'Y年m月d日')}}</td>
-                                                <td class="text-primary">{{$upload->file->name}}</td>
+                                                <td class="text-primary"><a href="{{url(Storage::url($upload->file->path))}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
                                                 <td>をアップロードしました。</td>
                                                 <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日')}}</td>
                                             </tr>
@@ -158,7 +158,7 @@
                                         @forelse($uploads as $upload)
                                             <tr>
                                                 <td>{{$upload->created_at->format('Y年m月d日')}}</td>
-                                                <td>{{$upload->file->name}}</td>
+                                                <td><a href="{{url(Storage::url($upload->file->path))}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
                                                 <td>が保存されました。</td>
                                             </tr>
                                         @empty

@@ -26,7 +26,11 @@
                                                 {{$message}}
                                             </span>
                                         @enderror
+<<<<<<< HEAD
                                         <video style="width: 100%; border:2px darkgreen dashed; position: relative; display:flex" class="mt-2" id="video-player" controls><source src="@if($record){{$record->video_url}}@endif"></video>
+=======
+                                        <video style="width: 100%; border:2px darkgreen dashed; position: relative; display:flex" class="mt-2" id="video-player" controls><source id="vidsrc" type="video/mp4"></video>
+>>>>>>> final-revisions
                                     </div>
                                     <div class="col-5">
                                         <h4 class="text-bold">
@@ -49,7 +53,11 @@
                                                     <tr>
                                                         <th>決算日</th>
                                                         <td class="bg-light">
+<<<<<<< HEAD
                                                             <input type="date" class="form-control" name="settlement_date" id="settlement_date" value="{{$record != null ? $record->settlement_date->format('Y-m-d') :''}}">
+=======
+                                                            <input type="date" class="form-control" name="settlement_date" id="settlement_date" value="{{old('settlement_date')}} ">
+>>>>>>> final-revisions
                                                             @error('settlement_date')
                                                             <span class="text-danger">
                                                                 {{$message}}
@@ -71,7 +79,7 @@
                                                                 <input type="text" name="file" id="file" class="form-control" readonly value="{{$record != null ? $record->file->name:''}}">
                                                             @endif
                                                         </td>
-                                                        
+
                                                     </tr>
                                                     <tr>
                                                         <th>承認日</th>
@@ -177,11 +185,18 @@
         var video_player = document.querySelector('#video-player')
         var src_input = document.querySelector('#video-url')
 
-        $('#video-url').change(function() {
+        $('#video-url').keyup(function() {
             var url = src_input.value;
+            var ci = document.getElementById('video-player')
+            var vidSrc = document.getElementById('vidsrc');
             if(isValidHttpUrl(url)){
+<<<<<<< HEAD
                 $('source').attr('src',url)
                 video_player.load()
+=======
+                vidsrc.setAttribute('src',url)
+                ci.load();
+>>>>>>> final-revisions
             }
             else {
                 console.log('ERROR')
@@ -190,11 +205,11 @@
 
         function isValidHttpUrl(string) {
             let url;
-            
+
             try {
                 url = new URL(string);
             } catch (_) {
-                return false;  
+                return false;
             }
 
             return url.protocol === "http:" || url.protocol === "https:";
@@ -214,7 +229,7 @@
             var accounting_office_staff = document.querySelector('input#accounting_office_staff')
             var video_contributor = document.querySelector('input#video_contributor')
             var comment = document.querySelector('input#comment')
-            
+
 
         }
     </script>

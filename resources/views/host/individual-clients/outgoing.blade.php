@@ -38,6 +38,10 @@
                                                     <td class="text-center bg-light">コメント</td>
                                                     <td colspan="2"><input type="text" name="comment" id="comment" class="form-control"></td>
                                                 </tr>
+                                                <tr>
+                                                    <td class="text-center bg-light">ビデオのURL</td>
+                                                    <td colspan="2"><input type="text" name="vid_url" id="vid_url" class="form-control"></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <input type="submit" value="アップロード" class="btn btn-primary btn-block mt-2 col-3 float-right">

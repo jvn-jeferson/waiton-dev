@@ -157,7 +157,7 @@
                                                                 <td>
                                                                     @if($record)
                                                                         {{$record->settlement_date->format('Y-m-d')}}
-                                                                    
+
                                                                     @endif
                                                                 </td>
                                                             </tr>
@@ -173,7 +173,7 @@
                                                                 <th>承認日 | 提出日</th>
                                                                 <td>@if($record)
                                                                         {{$record->proposal_date->format('Y-m-d')}} | {{$record->recognition_date->format('Y-m-d')}}
-                                                                    
+
                                                                     @endif</td>
                                                             </tr>
                                                             <tr>
@@ -529,7 +529,7 @@
                 return;
             }
             console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-            
+
             stopButton.disabled = false;
             mediaRecorder.onstop = (event) => {
                 console.log('Recorder stopped: ', event);
@@ -566,9 +566,9 @@
             try {
                 const stream = await navigator.mediaDevices.getDisplayMedia(constraints);
                 handleSuccess(stream);
-                
+
             } catch (e) {
-                
+
                 errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
             }
         }
@@ -583,7 +583,7 @@
             console.log('Using media constraints:', constraints);
             await init(constraints);
 
-            
+
         });
         var formData = new FormData();
         const fileInput = document.querySelector('#pdfSource')

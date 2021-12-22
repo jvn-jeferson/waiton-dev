@@ -546,7 +546,8 @@ class HostController extends Controller
                 'file_id' => $file_id,
                 'status' => 0,
                 'priority' => $request->input('require_action'),
-                'details' => $request->input('comment')
+                'details' => $request->input('comment'),
+                'video_url' => $request->input('vid_url')
             ]);
 
 
