@@ -38,6 +38,10 @@
                                                     <td class="text-center bg-light">コメント</td>
                                                     <td colspan="2"><input type="text" name="comment" id="comment" class="form-control"></td>
                                                 </tr>
+                                                <tr>
+                                                    <td class="text-center bg-light">ビデオのURL</td>
+                                                    <td colspan="2"><input type="text" name="vid_url" id="vid_url" class="form-control"></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <input type="submit" value="アップロード" class="btn btn-primary btn-block mt-2 col-3 float-right">
@@ -96,7 +100,7 @@
                                                                 @endif
                                                             </td>
                                                             <td>@if($upload->modified_by_user_id){{$upload->updated_at->format('Y年m月d日')}} • {{$upload->editor->name}} • @if($upload->status == 1) 承認 @else 保留 @endif @endif </td>
-                                                            <td class="text-info">{{$upload->file->name}}</td>
+                                                            <td class="text-info"><a href="{{url(Storage::url($upload->file->path))}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
                                                             <td>{{$upload->details}}</td>
                                                         </tr>
                                                     @empty
