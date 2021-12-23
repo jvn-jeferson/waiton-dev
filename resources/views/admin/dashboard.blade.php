@@ -16,7 +16,7 @@
                                 <thead class="thead-dark">
                                     <th></th>
                                     <th>{{date('F')}}</th>
-                                    <th><?php 
+                                    <th><?php
                                             $now = date('Y-m-d H:i:s');
                                             $dt = new DateTimeImmutable($now, new DateTimeZone('Asia/Manila'));
                                             $dt = $dt->modify('-1 month');
@@ -24,7 +24,7 @@
                                         ?>
                                     </th>
                                     <th>
-                                        <?php 
+                                        <?php
                                             $now = date('Y-m-d H:i:s');
                                             $dt = new DateTimeImmutable($now, new DateTimeZone('Asia/Manila'));
                                             $dt = $dt->modify('-2 month');
@@ -92,7 +92,7 @@
                                 <tbody>
                                     @forelse($accounting_firms as $firm)
                                         <tr>
-                                            <td><a href="{{route('admin-registration-status', ['office' => $firm->name])}}">{{$firm->name}}</a></td>
+                                            <td><a href="{{route('admin-registration-status', ['office' => $firm->id])}}">{{$firm->name}}</a></td>
                                             <td>{{$firm->id}}</td>
                                             <td>{{$firm->clients->count()}}</td>
                                             <td>{{1 ?? $firm->subscription->subscription_plan->max_clients}}</td>

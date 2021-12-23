@@ -91,7 +91,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{route('admin-registration-status')}}" class="nav-link" class="@if(request()->route()->getName() == 'admin-registration-status') active  @endif">
+                    <a href="#" class="nav-link" class="@if(request()->route()->getName() == 'admin-registration-status') active  @endif">
                         <p>
                             登録状況
                         </p>

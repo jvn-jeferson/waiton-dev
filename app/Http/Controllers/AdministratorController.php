@@ -22,7 +22,7 @@ class AdministratorController extends Controller
     public function registration_status(Request $request)
     {
         $id = $request->office;
-        $office = AccountingOffice::where('name', $id)->first();
+        $office = AccountingOffice::findOrFail($id);
         $clients = Client::where('accounting_office_id', $office->id);
         return view('admin.registration-status')->with(['office'=>$office, 'clients'=>$clients]);
     }
