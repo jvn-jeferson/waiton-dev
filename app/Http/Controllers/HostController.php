@@ -665,6 +665,7 @@ class HostController extends Controller
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
+
         return View::make('host.individual-clients.access-historical-file', ['client' => $client, 'hashids' => $this->hashids]);
     }
 
@@ -869,8 +870,8 @@ class HostController extends Controller
     {
         $client_id = $this->hashids->decode($request->client_id)[0];
         $record_id = $this->hashids->decodeHex($request->record_id)[0];
-        $record = TaxationHistory::find($record_id)->first();
-        $client = Client::find($client_id)->first();
+        $record = TaxationHistory::find($record_id);
+        $client = Client::find($client_id);
 
 
         return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'record' => $record, 'hashids' => $this->hashids]);
