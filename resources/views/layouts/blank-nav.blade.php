@@ -73,7 +73,7 @@
     <!-- Brand Logo -->
     <a href="client-home" class="brand-link">
       <img src="{{asset('img/w-logo-green.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <p class="brand-text font-weight-light">Waiton</p>
+      <p class="brand-text font-weight-light">Upfiling</p>
     </a>
 
     <!-- Sidebar -->
