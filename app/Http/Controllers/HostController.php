@@ -406,7 +406,7 @@ class HostController extends Controller
     public function view_client(Request $request)
     {
         $id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($id)->first();
+        $client = Client::find($id);
         $client_user_ids = [];
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
         foreach ($users as $user) {
