@@ -425,7 +425,7 @@ class HostController extends Controller
     public function contact_client(Request $request)
     {
         $id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($id)->first();
+        $client = Client::find($id);
         $messages = Message::where('targeted_at', $id)->get();
 
         return View::make('host.individual-clients.message-client', ['hashids' => $this->hashids, 'client' => $client, 'messages' => $messages]);
@@ -485,7 +485,7 @@ class HostController extends Controller
     public function from_client(Request $request)
     {
         $id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($id)->first();
+        $client = Client::find($id);
         $client_user_ids = [];
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
         foreach ($users as $user) {
@@ -510,7 +510,7 @@ class HostController extends Controller
     public function to_client(Request $request)
     {
         $id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($id)->first();
+        $client = Client::find($id);
         $uploads = HostUpload::where('client_id', $id)->get();
 
         return View::make('host.individual-clients.outgoing')->with(['hashids' => $this->hashids, 'client' => $client, 'uploads' => $uploads]);
@@ -568,7 +568,7 @@ class HostController extends Controller
     public function create_video_client(Request $request)
     {
         $client_id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($client_id)->first();
+        $client = Client::find($client_id);
         $staff = Auth::user()->accountingOfficeStaff;
 
         if($request->record_id)
@@ -584,7 +584,7 @@ class HostController extends Controller
     public function video_creation(Request $request)
     {
         $client_id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($client_id)->first();
+        $client = Client::find($client_id);
         $staff = Auth::user()->accountingOfficeStaff;
         if($request->record_id == 0)
         {
@@ -656,7 +656,7 @@ class HostController extends Controller
     public function view_video_list(Request $request)
     {
         $id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($id)->first();
+        $client = Client::find($id);
         $videos = CreatedVideoRecord::where('client_id', $client->id)->get();
         return View::make('host.individual-clients.video-list', ['client' => $client, 'hashids' => $this->hashids, 'videos' => $videos]);
     }
@@ -664,7 +664,7 @@ class HostController extends Controller
     public function access_files_client(Request $request)
     {
         $id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($id)->first();
+        $client = Client::find($id);
         return View::make('host.individual-clients.access-historical-file', ['client' => $client, 'hashids' => $this->hashids]);
     }
 
@@ -672,7 +672,7 @@ class HostController extends Controller
     {
         $page_title = "届出";
         $id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($id)->first();
+        $client = Client::find($id);
         $notification_archives = PastNotification::where(['client_id' => $id])->get();
         return View::make('host.individual-clients.notification-history')->with(['page_title', $page_title, 'hashids' => $this->hashids, 'client' => $client, 'archives' => $notification_archives]);
     }
@@ -681,7 +681,7 @@ class HostController extends Controller
     {
         $page_title = '各種設定';
         $id = $this->hashids->decode($request->client_id)[0];
-        $client = Client::find($id)->first();
+        $client = Client::find($id);
         $months = Client::MONTHS;
         return View::make('host.individual-clients.view-registration-info')->with(['months' => $months,'page_title' => $page_title, 'client' => $client, 'hashids' => $this->hashids]);
     }
