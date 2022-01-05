@@ -629,7 +629,6 @@ class HostController extends Controller
         foreach ($datas as $data) {
             $object_data[$data['name']] = $data['value'];
         }
-        dd($object_data);
     }
 
     function getVideo(Request $request)
@@ -658,6 +657,7 @@ class HostController extends Controller
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
         $videos = CreatedVideoRecord::where('client_id', $client->id)->get();
+
         return View::make('host.individual-clients.video-list', ['client' => $client, 'hashids' => $this->hashids, 'videos' => $videos]);
     }
 
@@ -882,7 +882,8 @@ class HostController extends Controller
         CreatedVideoRecord::create([
             'user_id' => Auth::user()->id,
             'client_id' => $request->client,
-            'video_url' => $request->video_url
+            'video_url' => $request->video_url,
+            'name' => $request->name
         ]);
         return url(route('video-list', ['client_id' => $this->hashids->encode($request->client)]));
     }

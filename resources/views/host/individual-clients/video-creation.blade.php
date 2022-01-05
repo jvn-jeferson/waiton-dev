@@ -431,11 +431,13 @@
         completion.addEventListener('click', () => {
             var vid_url = $('#file_url').val();
             var client_id = "{{ $client->id }}"
+            var video_title = $("#video_title").val();
             if (vid_url != '') {
                 var url = "{{ route('save-url-to-database') }}"
                 axios.post(url, {
                     video_url: vid_url,
-                    client: client_id
+                    client: client_id,
+                    name: video_title
                 }).then(function(response) {
                     Swal.fire({
                         icon: 'success',

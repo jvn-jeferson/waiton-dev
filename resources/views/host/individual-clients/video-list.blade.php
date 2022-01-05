@@ -24,8 +24,12 @@
                                     @forelse($videos as $video)
                                         <tr class="text-center">
                                             <td><input type="checkbox" name="" id=""></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{$video->name ?? ''}}</td>
+                                            <td>
+                                                <video style="width: 70%; border:2px darkgreen dashed; position: relative; display:flex">
+                                                    <source src="{{$video->video_url}}">
+                                                </video>
+                                            </td>
                                             <td>{{$video->created_at->format('Y-m-d')}}</td>
                                             <td>
                                                 <div class="container-fluid">
@@ -41,9 +45,9 @@
                                                         <div class="col-2"></div>
                                                         <button class="btn btn-warning col-2 mx-2" type="button" onclick="changeVSOURCE('{{$video->video_url}}')">PREVIEW</button>
                                                         <div class="col-2"> </div>
-                                                        <button class="btn btn-danger col-2 mx-2">DELETE</button> 
-                                                    </div> 
-                                                </div>   
+                                                        <button class="btn btn-danger col-2 mx-2">DELETE</button>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     @empty
@@ -113,6 +117,6 @@
    }
 
 
-    
+
 </script>
 @endsection

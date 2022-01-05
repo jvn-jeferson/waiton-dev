@@ -17,6 +17,7 @@ class CreatedVideoRecord extends Model
         'user_id',
         'client_id',
         'video_url',
+        'name'
     ];
 
     protected $dates = ['deleted_at'];
