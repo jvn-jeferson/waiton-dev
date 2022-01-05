@@ -12,7 +12,7 @@
 
                 <h4 class="lead my-2">メールに記載されたIDを入力してください。</h4>
                 <div class="form-group">
-                    <input type="text" name="login_id" id="login_id" placeholder="新しいパスワード" value="{{ old('login_id') }}" class="form-control @error('login_id') is-invalid @enderror" />
+                    <input type="text" name="login_id" id="login_id" placeholder="ID" value="{{ old('login_id') }}" class="form-control @error('login_id') is-invalid @enderror" />
                     @error('login_id')
                         <span class="text-danger">
                             {{$message}}
@@ -30,7 +30,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" id="password" placeholder="新パスワード" class="form-control @error('password') is-invalid @enderror"/>
+                    <input type="password" name="password" id="password" placeholder="新しいパスワード" class="form-control @error('password') is-invalid @enderror"/>
                     @error('password')
                         <span class="text-danger">
                             {{$message}}
@@ -38,7 +38,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password_confirmation" id="password_confirmation" placeholder="新パスワード（確認用）" class="form-control @error('password_confirmation') is-invalid @enderror"/>
+                    <input type="password" name="password_confirmation" id="password_confirmation" placeholder="新しいパスワード（確認用）" class="form-control @error('password_confirmation') is-invalid @enderror"/>
                     @error('password_confirmation')
                         <span class="text-danger">
                             {{$message}}

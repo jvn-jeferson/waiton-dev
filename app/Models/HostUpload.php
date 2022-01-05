@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class HostUpload extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'host_uploads';
 

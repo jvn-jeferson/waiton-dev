@@ -12,9 +12,6 @@ use App\Http\Controllers\Tests\MailController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\UserController;
 
-use App\Controllers\DataTables\ClientDatatablesController;
-
-
 Auth::routes();
 //Routes accessible to guest users
 //GET HEAD
@@ -68,7 +65,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('one-time-access', [ClientController::class, 'one_time_access'])->name('one-time-access');
 
         //DataTables routes
-        Route::get('messages-data', [ClientDatatablesController::class, 'messages_data'])->name('messages-data');
+        // Route::get('messages-data', [ClientDatatablesController::class, 'messages_data'])->name('messages-data');
 
     });
 
@@ -115,6 +112,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('send-tax-file', [HostController::class, 'file_tax'])->name('send-tax-file');
             Route::post('get-pdf-source', [HostController::class, 'pdf_source'])->name('get-pdf-source');
             Route::post('save-video', [HostController::class, 'save_video'])->name('save-video');
+            Route::post('delete-file-from', [HostController::class, 'delete_file_from'])->name('delete-file-from');
             Route::post('save-taxation-history', [HostController::class, 'save_taxation_archive'])->name('save-taxation-history');
             Route::post('save-notification-history', [HostController::class, 'save_notification_archive'])->name('save-notification-archive');
             Route::post('save-url-to-database', [HostController::class, 'save_url_to_database'])->name('save-url-to-database');

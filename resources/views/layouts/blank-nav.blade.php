@@ -71,7 +71,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="client-home" class="brand-link">
+    <a href="{{route('access-dashboard', ['client_id' => $hashids->encode($client->id)])}}" class="brand-link">
       <img src="{{asset('img/w-logo-green.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <p class="brand-text font-weight-light">Upfiling</p>
     </a>
@@ -84,7 +84,7 @@
           <img src="{{asset('img/user-icon.png')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="various-settings" class="d-block">{{$client->name}}</a>
+          <a href="{{route('view-registration-information', ['client_id' => $hashids->encode($client->id)])}}" class="d-block">{{$client->name}}</a>
         </div>
       </div>
 

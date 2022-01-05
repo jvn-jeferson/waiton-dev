@@ -59,6 +59,9 @@
                 transform: rotate(360deg);
             }
         }
+        .change-cursor {
+            cursor: url("{{asset('img/pointer.cur')}}"), auto;
+        }
 
     </style>
 @endsection
@@ -150,13 +153,13 @@
                                                         <table class="table table-striped">
                                                             <tr>
                                                                 <th>種類</th>
-                                                                <td>{{$record->kind ?? ""}}</td>
+                                                                <td>{{ $record->kind ?? '' }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>決算日</th>
                                                                 <td>
-                                                                    @if($record)
-                                                                        {{$record->settlement_date->format('Y-m-d')}}
+                                                                    @if ($record)
+                                                                        {{ $record->settlement_date->format('Y-m-d') }}
 
                                                                     @endif
                                                                 </td>
@@ -164,40 +167,44 @@
                                                             <tr>
                                                                 <th>提出済み申告書一式</th>
                                                                 <td>
-                                                                    @if($record)
-                                                                        {{$record->file->name }}
+                                                                    @if ($record)
+                                                                        {{ $record->file->name }}
                                                                     @endif
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>承認日 | 提出日</th>
-                                                                <td>@if($record)
-                                                                        {{$record->proposal_date->format('Y-m-d')}} | {{$record->recognition_date->format('Y-m-d')}}
+                                                                <td>
+                                                                    @if ($record)
+                                                                        {{ $record->proposal_date->format('Y-m-d') }} |
+                                                                        {{ $record->recognition_date->format('Y-m-d') }}
 
-                                                                    @endif</td>
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>会社担当者</th>
-                                                                <td>{{$record->company_representative ?? ''}}</td>
+                                                                <td>{{ $record->company_representative ?? '' }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>会計事務所担当者</th>
-                                                                <td>{{$record->accounting_office_staff ?? ''}}</td>
+                                                                <td>{{ $record->accounting_office_staff ?? '' }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>動画投稿者</th>
-                                                                <td>{{$record->video_contributor ?? ''}}</td>
+                                                                <td>{{ $record->video_contributor ?? '' }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>閲覧期限</th>
-                                                                <td>@if($record)
-                                                                        {{$record->created_at->modify('+7 years')->format('Y-m-d') }}
+                                                                <td>
+                                                                    @if ($record)
+                                                                        {{ $record->created_at->modify('+7 years')->format('Y-m-d') }}
                                                                     @endif
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>コメント</th>
-                                                                <td>{{$record->comment ?? ''}}</td>
+                                                                <td>{{ $record->comment ?? '' }}</td>
                                                             </tr>
                                                         </table>
                                                     </div>
@@ -299,7 +306,6 @@
         let stroke_color = 'black'
         let stroke_width = "2"
         let is_drawing = false
-
         function change_color(element) {
             stroke_color = element.style.background;
         }
@@ -308,12 +314,28 @@
             stroke_width = element.innerHTML
         }
 
+        function setPointer() {
+            if (is_drawing) {
+                context.stroke();
+                context.closePath();
+                is_drawing = false;
+            }
+            event.preventDefault();
+            if(canvas.classList.contains('change-cursor')){
+                canvas.classList.remove('change-cursor');
+            }else {
+                canvas.classList.add('change-cursor');
+            }
+        }
+
         function setPencil() {
+            canvas.classList.remove('change-cursor');
             stroke_color = 'black'
             strocke_width = "2"
         }
 
         function setMarker() {
+            canvas.classList.remove('change-cursor');
             stroke_color = 'yellow'
             stroke_width = "10"
             context.fillStyle = 'hsla(0, 0%, 40%, 0)'
@@ -408,10 +430,9 @@
 
         completion.addEventListener('click', () => {
             var vid_url = $('#file_url').val();
-            var client_id = "{{$client->id}}"
-            if (vid_url != '')
-            {
-                var url = "{{route('save-url-to-database')}}"
+            var client_id = "{{ $client->id }}"
+            if (vid_url != '') {
+                var url = "{{ route('save-url-to-database') }}"
                 axios.post(url, {
                     video_url: vid_url,
                     client: client_id
@@ -421,7 +442,7 @@
                         title: "SUCCESS",
                         text: "video recording entry has been completed."
                     }).then((result) => {
-                        var target= response.data
+                        var target = response.data
                         window.location = target;
                     })
                 }).catch(function(error) {
@@ -451,7 +472,7 @@
         //CHANGE TO UPLOAD TO GOOGLE DRIVE
         //RETURN GDRIVE LINKS
         downloadButton.addEventListener('click', () => {
-            $("#overlay").fadeIn(300);　
+            $("#overlay").fadeIn(300);
             const blob = new Blob(recordedBlobs, {
                 type: 'video/mp4'
             });
@@ -473,9 +494,9 @@
                     })
                 })
                 .then((response) => {
-                    setTimeout(function(){
+                    setTimeout(function() {
                         $("#overlay").fadeOut(300);
-                    },500);
+                    }, 500);
                     $("#file_url").val(response.data);
                 })
                 .catch(err => console.log(err));

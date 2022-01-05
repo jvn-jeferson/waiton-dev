@@ -594,7 +594,7 @@ class HostController extends Controller
             $record = TaxationHistory::find($request->record_id);
         }
 
-        return View::make('host.individual-clients.video-creation')->with(['client' => $client, 'hashids' => $this, 'record' => $record]);
+        return View::make('host.individual-clients.video-creation')->with(['client' => $client, 'hashids' => $this->hashids, 'record' => $record]);
     }
 
     public function save_video(Request $request)
@@ -879,13 +879,20 @@ class HostController extends Controller
 
     public function save_url_to_database(Request $request)
     {
-        DB::transaction(function () use ($request) {
-            CreatedVideoRecord::create([
-                'user_id' => Auth::user()->id,
-                'client_id' => $request->client,
-                'video_url' => $request->video_url
-            ]);
-        });
+        CreatedVideoRecord::create([
+            'user_id' => Auth::user()->id,
+            'client_id' => $request->client,
+            'video_url' => $request->video_url
+        ]);
         return url(route('video-list', ['client_id' => $this->hashids->encode($request->client)]));
+    }
+    public function delete_file_from(Request $request)
+    {
+        $datas = [];
+        $datas = $request->data;
+        foreach ($datas as $data){
+            HostUpload::find($data)->delete();
+        }
+        return response()->json($datas);
     }
 }
