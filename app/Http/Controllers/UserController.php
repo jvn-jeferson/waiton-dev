@@ -51,6 +51,7 @@ class UserController extends Controller
             if($user_id)
             {
               $user = User::findOrFail($user_id);
+              $login_id = "A".date('Y').$user->role_id.$user_id."";
               $user->update([
                 'login_id' => $hashids->encode($user_id)
               ]);
