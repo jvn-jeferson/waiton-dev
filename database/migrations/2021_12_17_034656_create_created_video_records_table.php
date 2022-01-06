@@ -18,6 +18,7 @@ class CreateCreatedVideoRecordsTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('client_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('video_url');
+            $table->string('name')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

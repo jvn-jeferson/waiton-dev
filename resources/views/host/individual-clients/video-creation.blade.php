@@ -442,7 +442,9 @@
                     Swal.fire({
                         icon: 'success',
                         title: "SUCCESS",
-                        text: "video recording entry has been completed."
+                        text: "video recording entry has been completed.",
+                        showConfirmButton: false,
+                        timer: 1000
                     }).then((result) => {
                         var target = response.data
                         window.location = target;
@@ -512,22 +514,26 @@
             if (isRecording) {
                 mediaRecorder.pause();
                 isRecording = false;
-                pause_play.innerHTML = '一時停止';
+                pause_play.innerHTML = '再開';
 
                 Swal.fire({
                     icon: 'info',
                     title: 'NOTICE!',
-                    text: 'Recording is paused'
+                    text: 'Recording is paused',
+                    showConfirmButton: false,
+                    timer: 1000
                 })
             } else {
-                mediaRecorder.resume();
-                isRecording = true;
-                pause_play.innerHTML = "継続する";
-
                 Swal.fire({
                     icon: 'info',
                     title: 'NOTICE!',
-                    text: 'Recording will continue'
+                    text: 'Recording will continue',
+                    showConfirmButton: false,
+                    timer: 1000
+                }).then((result) => {
+                    mediaRecorder.resume();
+                    isRecording = true;
+                    pause_play.innerHTML = "一旦停止";
                 })
             }
         })
@@ -548,7 +554,6 @@
                 mediaRecorder = new MediaRecorder(window.stream, options);
             } catch (e) {
                 console.error('Exception while creating MediaRecorder:', e);
-                errorMsgElement.innerHTML = `Exception while creating MediaRecorder: ${JSON.stringify(e)}`;
                 return;
             }
             console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
@@ -570,19 +575,15 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Warning',
-                text: 'Recording has ended.'
+                text: 'Recording has ended.',
+                showConfirmButton: false,
+                timer: 1000
             })
         }
 
         function handleSuccess(stream) {
             console.log('getUserMedia() got stream:', stream);
             window.stream = stream;
-
-            Swal.fire({
-                icon: 'success',
-                title: "SUCCESS",
-                text: 'Recording will now begin.'
-            })
             startRecording();
         }
         async function init(constraints) {
@@ -592,20 +593,25 @@
 
             } catch (e) {
 
-                errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
             }
         }
         document.querySelector('button#start').addEventListener('click', async () => {
-            const constraints = {
-                audio: false,
-                video: {
-                    width: 1280,
-                    height: 720
-                }
-            };
-            console.log('Using media constraints:', constraints);
-            await init(constraints);
+            Swal.fire({
+                icon: 'success',
+                title: "SUCCESS",
+                text: 'Recording will now begin.',
+                showConfirmButton: false,
+                timer: 1000
+            })
 
+            const constraints = {
+                    audio: true,
+                    video: {
+                        width: 1280,
+                        height: 720
+                    }
+                };
+            await init(constraints);
 
         });
         var formData = new FormData();

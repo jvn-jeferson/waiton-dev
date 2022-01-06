@@ -307,8 +307,8 @@ class HostController extends Controller
                 ]);
 
                 if ($manager_id) {
-                    $manager_login_id = $hashids->encode($manager_id);
                     $manager = User::findOrFail($manager_id);
+                    $manager_login_id = "C".date('Y').$manager->role_id.$manager->id."";
                     $manager->update([
                         'login_id' => $manager_login_id
                     ]);
@@ -335,8 +335,8 @@ class HostController extends Controller
                         ]);
 
                         if ($user1_id) {
-                            $user1_login_id = $hashids->encode($user1_id);
                             $user1 = User::findOrFail($user1_id);
+                            $user1_login_id = "C".date('Y').$user1->role_id.$user1->id."";
                             $user1->update([
                                 'login_id' => $user1_login_id
                             ]);
@@ -365,8 +365,8 @@ class HostController extends Controller
                         ]);
 
                         if ($user2_id) {
-                            $user2_login_id = $hashids->encode($user2_id);
                             $user2 = User::findOrFail($user2_id);
+                            $user2_login_id = "C".date('Y').$user2->role_id.$user2->id."";
                             $user2->update([
                                 'login_id' => $user2_login_id
                             ]);
