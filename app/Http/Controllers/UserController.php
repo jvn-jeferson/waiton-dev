@@ -34,7 +34,7 @@ class UserController extends Controller
             'telephone' => 'required|unique:accounting_offices,telephone',
             'email' => 'required|unique:users,email|email:rfc,dns',
           ]);
-          
+
           DB::transaction(function () use ($request) {
             $pw = Str::random(8);
             $hashids = new Hashids(config('hashids.login_salt'), 10);
@@ -47,16 +47,16 @@ class UserController extends Controller
               'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
               'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
-      
+
             if($user_id)
             {
               $user = User::findOrFail($user_id);
               $login_id = "A".date('Y').$user->role_id.$user_id."";
               $user->update([
-                'login_id' => $hashids->encode($user_id)
+                'login_id' => $login_id
               ]);
               $user->save();
-      
+
               $accountingId = AccountingOffice::insertGetId([
                 'user_id' => $user_id,
                 'name' => $request->input('name'),
@@ -67,7 +67,7 @@ class UserController extends Controller
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
               ]);
-      
+
               $staff_id = AccountingOfficeStaff::insertGetId([
                 'accounting_office_id' => $accountingId,
                 'user_id' => $user_id,
@@ -76,13 +76,13 @@ class UserController extends Controller
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
               ]);
-      
+
               $user = User::findOrFail($user_id);
               $token = $user->createToken();
               $this->sendAORegistrationEmail($token, $user, $pw);
             }
           });
-      
+
           return View::make('main.payment_success');
     }
 
@@ -118,10 +118,10 @@ class UserController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        
+
         //here send a password reset link
         $user = User::where('email', $request->email)->first();
-        
+
         $this->sendEmail($user);
 
         return View::make('auth.passwords.reset-notif');
@@ -148,7 +148,7 @@ class UserController extends Controller
     {
 
         $validator = Validator::make($request->all(), ['password' => 'required|confirmed']);
-        
+
         if($validator->fails()) {
             return redirect()->route('update-password', ['login_id' => $request->login_id])
                         ->withErrors($validator)
