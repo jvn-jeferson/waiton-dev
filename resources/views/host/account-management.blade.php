@@ -11,7 +11,7 @@
                                 <h3 class="card-title">登録情報</h3>
                                 <div class="card-tools">
                                     @if(Auth::user()->role_id == 2)
-                                        <button class="btn btn-warning btn-tool text-light" id="btn-swal">変更・登録</button>
+                                        <button class="btn btn-warning btn-tool text-light" data-toggle="modal" data-target="#updateModal" id="btn-swal">変更・登録</button>
                                     @endif
                                 </div>
                             </div>
@@ -143,7 +143,7 @@
                                         <tbody>
                                             <tr>
                                                 <td class="text-center">
-                                                    <button class="btn btn-warning" role="button" data-toggle="tooltip" data-placement="top" data-tooltip="Edit">編集</button>
+                                                    <button class="btn btn-warning" role="button" data-placement="top" data-tooltip="Edit">編集</button>
                                                 </td>
                                                 <td class="text-left">
                                                     ワンタイムパスワードの•送付先メールアドレス
@@ -207,6 +207,45 @@
             </div>
         </section>
     </div>
+
+    <div id="updateModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Registration</h4>
+                    <button class="close" type="button" data-dismiss="modal">&times;</button>
+                </div>
+                <form action="{{route('update-registration-info')}}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>事務所名</th>
+                                    <td><input type="text" class="form-control" value="{{$account->name}}" name="name" id="name"></td>
+                                </tr>
+                                <tr>
+                                    <th>代表者</th>
+                                    <td><input type="text" class="form-control" value="{{$account->representative}}" name="representative" id="representative"></td>
+                                </tr>
+                                <tr>
+                                    <th>所在地</th>
+                                    <td><input type="text" class="form-control" value="{{$account->address}}" name="address" id="address"></td>
+                                </tr>
+                                <tr>
+                                    <th>電話番号</th>
+                                    <td><input type="text" class="form-control" value="{{$account->telephone}}" name="telephone" id="telephone"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary float-right" type="submit">UPDATE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('extra-scripts')
@@ -214,7 +253,6 @@
         
         $("#newUserForm").on('submit', function(event) {
             event.preventDefault()
-            
             var url = "{{route('register-new-staff')}}"
             var is_admin_check = $('#is_admin').val()
             axios.post(url, {
@@ -233,7 +271,6 @@
                     $('#is_admin').checked = false
                    } 
                 })
-
                 window.location.reload()
             }).catch(function(error) {
                 Swal.fire({

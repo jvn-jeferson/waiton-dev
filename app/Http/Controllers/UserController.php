@@ -141,6 +141,9 @@ class UserController extends Controller
     public function update_password(Request $request)
     {
         $user = User::where('login_id', $request->login_id)->first();
+        if(Carbon::now()->greaterThan($user->created_at->addDay())) {
+            abort(403);
+        }
         return View::make('auth.passwords.update_password')->with(['login_id' => $user->login_id]);
     }
 

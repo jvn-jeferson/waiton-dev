@@ -86,6 +86,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('send-notification', [HostController::class, 'send_notification'])->name('send-notification');
         Route::post('register-new-staff', [HostController::class, 'register_new_staff'])->name('register-new-staff');
         Route::post('download-client', [HostController::class, 'download_client'])->name('download-client');
+        Route::post('update-registration-info', [HostController::class, 'update_registration_info'])->name('update-registration-info');
         // End Accounting Office routes
         Route::post('download-file', [HostController::class, 'download_file'])->name('download-file');
         Route::post('send-host-inquiry', [HostController::class, 'send_inquiry'])->name('send-host-inquiry');

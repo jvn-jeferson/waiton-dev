@@ -896,4 +896,33 @@ class HostController extends Controller
         }
         return response()->json($datas);
     }
+
+    public function update_registration_info(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'=> 'required',
+            'representative' => 'required',
+            'address' => 'required',
+            'telephone' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back();
+        }
+
+        $validated = $validator->validate();
+
+        DB::transaction(function () use ($request) {
+            $accounting_office = AccountingOffice::find(Auth::user()->accountingOfficeStaff->accountingOffice->id);
+            $accounting_office->update([
+                'name' => $request->name,
+                'representative' => $request->representative,
+                'adrress' => $request->adrress,
+                'telephone' => $request->telephone
+            ]);
+            $accounting_office->save();
+        });
+
+        return $this->account_management();
+    }
 }
