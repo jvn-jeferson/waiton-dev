@@ -79,7 +79,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <textarea name="contents" id="contents" rows="3" class="form-control" placeholder="コメントを投稿（任意)"></textarea>
+                                                    <textarea required name="contents" id="contents" rows="3" class="form-control" placeholder="コメントを投稿（任意)"></textarea>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">

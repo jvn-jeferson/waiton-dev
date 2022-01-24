@@ -522,7 +522,9 @@ class HostController extends Controller
         $id = $request->client_id;
         $request->validate(
             [
-                'file' => 'required|mimes:doc,docx,pdf,csv'
+                'file' => 'required|mimes:doc,docx,pdf,csv',
+                'comment' => 'required',
+                'require_action' => 'required'
             ]
         );
 
@@ -900,30 +902,57 @@ class HostController extends Controller
 
     public function update_registration_info(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name'=> 'required',
-            'representative' => 'required',
-            'address' => 'required',
-            'telephone' => 'required'
-        ]);
-
-        if($validator->fails()){
-            return redirect()->back();
-        }
-
-        $validated = $validator->validate();
-
         DB::transaction(function () use ($request) {
             $accounting_office = AccountingOffice::find(Auth::user()->accountingOfficeStaff->accountingOffice->id);
             $accounting_office->update([
                 'name' => $request->name,
                 'representative' => $request->representative,
-                'adrress' => $request->adrress,
+                'address' => $request->address,
                 'telephone' => $request->telephone
             ]);
             $accounting_office->save();
         });
 
         return $this->account_management();
+    }
+
+    public function get_user(Request $request)
+    {
+        $user_id = $request->id;
+
+        $staff = AccountingOfficeStaff::where('user_id', $user_id)->first();
+        $user = User::find($user_id);
+
+        $data = array(
+            'name' => $staff->name,
+            'email' => $user->email,
+            'token' => $user->remember_token,
+            'login_id' => $user->login_id,
+            'id' => $user->id
+        );
+        return $data;
+    }
+
+    public function update_staff(Request $request)
+    {
+        DB::transaction(function () use ($request){
+            $user = User::find($request->userID);
+            $staff = AccountingOfficeStaff::where('user_id', $user->id)->first();
+
+            $user->update([
+                'email' => $request->userEmail,
+                'password' => Hash::make($request->userPassword)
+            ]);
+
+            $user->save();
+
+            $staff->update([
+                'name' => $request->userName,
+            ]);
+
+            $staff->save();
+        });
+
+        return redirect()->route('account');
     }
 }

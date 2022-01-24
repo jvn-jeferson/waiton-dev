@@ -35,7 +35,9 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><input type="radio" name="require_action" id="off" value="1">承認要求なし
+                                                    <td>
+                                                        <input type="radio" name="require_action" id="off" value="1">承認要求なし
+
                                                     </td>
                                                 </tr>
                                                 <tr>
