@@ -113,8 +113,9 @@
                                                             </td>
                                                             <td>@if ($upload->modified_by_user_id){{ $upload->updated_at->format('Y年m月d日') }} • {{ $upload->editor->name }} • @if ($upload->status == 1) 承認 @else 保留 @endif @endif </td>
                                                             <td class="text-info"><a
-                                                                    href="{{ url(Storage::url($upload->file->path ?? '')) }}"
-                                                                    download="{{ $upload->file->name ?? '' }}">{{ $upload->file->name ?? ''}}</a>
+                                                                    href="{{ Storage::disk('gcs')->url($upload->file->path) ?? '' }}"
+                                                                    download>{{ $upload->file->name ?? ''}}
+                                                                </a>
                                                             </td>
                                                             <td>{{ $upload->details }}</td>
                                                         </tr>

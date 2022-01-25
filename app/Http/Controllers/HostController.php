@@ -151,12 +151,11 @@ class HostController extends Controller
         } else {
             $messages = Message::where('user_id', $this->user->id)->get();
         }
-        foreach($messages as $message) {
+        foreach ($messages as $message) {
             $file_names = '';
-            if($message->file_id)
-            {
+            if ($message->file_id) {
                 $files = explode(',', $message->file_id);
-                foreach($files as $file) {
+                foreach ($files as $file) {
                     $file_names .= Files::find($file)->name . " • ";
                 }
             }
@@ -175,10 +174,10 @@ class HostController extends Controller
             foreach ($clients as $client) {
                 $client_name = $client ? str_replace(' ', '', $client->name) : '';
                 $fileName = trim($client_name) . '.zip';
-                $directory = public_path('storage/zip_files/upload/'.$fileName);
-                $file_url = asset('storage/zip_files/upload/'.$fileName);
+                $directory = public_path('storage/zip_files/upload/' . $fileName);
+                $file_url = asset('storage/zip_files/upload/' . $fileName);
                 if ($zip->open($directory, ZipArchive::CREATE) === TRUE) {
-                    $files =  Storage::disk('public')->files('files/upload/'.$client->id);
+                    $files =  Storage::disk('public')->files('files/upload/' . $client->id);
                     foreach ($files as $file) {
                         $relativeNameInZipFile = explode('/', $file)[3];
                         $zip->addFile(Storage::path('public/' . $file), $relativeNameInZipFile);
@@ -186,7 +185,7 @@ class HostController extends Controller
                     $zip->close();
                 }
                 $data[] = array(
-                    'file_url'=>$file_url,
+                    'file_url' => $file_url,
                     'file_name' => $fileName
                 );
             }
@@ -240,7 +239,7 @@ class HostController extends Controller
 
                 $user = User::findorFail($user_id);
                 Mail::to($user->email)->send(new PasswordResetMail($user));
-                if(Mail::failures()){
+                if (Mail::failures()) {
                     $result = "failure";
                 }
 
@@ -309,7 +308,7 @@ class HostController extends Controller
 
                 if ($manager_id) {
                     $manager = User::findOrFail($manager_id);
-                    $manager_login_id = "C".date('Y').$manager->role_id.$manager->id."";
+                    $manager_login_id = "C" . date('Y') . $manager->role_id . $manager->id . "";
                     $manager->update([
                         'login_id' => $manager_login_id
                     ]);
@@ -337,7 +336,7 @@ class HostController extends Controller
 
                         if ($user1_id) {
                             $user1 = User::findOrFail($user1_id);
-                            $user1_login_id = "C".date('Y').$user1->role_id.$user1->id."";
+                            $user1_login_id = "C" . date('Y') . $user1->role_id . $user1->id . "";
                             $user1->update([
                                 'login_id' => $user1_login_id
                             ]);
@@ -367,7 +366,7 @@ class HostController extends Controller
 
                         if ($user2_id) {
                             $user2 = User::findOrFail($user2_id);
-                            $user2_login_id = "C".date('Y').$user2->role_id.$user2->id."";
+                            $user2_login_id = "C" . date('Y') . $user2->role_id . $user2->id . "";
                             $user2->update([
                                 'login_id' => $user2_login_id
                             ]);
@@ -397,7 +396,7 @@ class HostController extends Controller
     {
         Mail::to($user->email)->send(new ClientRegistrationMail($token, $user, $password));
 
-        if(Mail::failures()) {
+        if (Mail::failures()) {
             abort(403);
         }
 
@@ -530,13 +529,14 @@ class HostController extends Controller
 
         DB::transaction(function () use ($request, $id) {
 
-            $path = $request->file('file')->store('public/files/' . Auth::user()->accountingOffice->id);
-            $name = $request->file('file')->getClientOriginalName();
-            $size = $request->file('file')->getSize();
+            $files = $request->file('file');
+            $size = $files->getSize();
+            $name = $files->getClientOriginalName();
+            $path = Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/" . $name, file_get_contents($files));
 
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
-                'path' => $path,
+                'path' => Auth::user()->accountingOffice->id . "/" . $name,
                 'name' => $name,
                 'size' => $size,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -552,8 +552,6 @@ class HostController extends Controller
                 'details' => $request->input('comment'),
                 'video_url' => $request->input('vid_url')
             ]);
-
-
         });
 
         return redirect()->route('access-outbox', ['client_id' => $this->hashids->encode($id)]);
@@ -574,11 +572,9 @@ class HostController extends Controller
         $client = Client::find($client_id);
         $staff = Auth::user()->accountingOfficeStaff;
 
-        if($request->record_id)
-        {
+        if ($request->record_id) {
             $record = TaxationHistory::find($this->hashids->decodeHex($request->record_id)[0]);
-        }
-        else {
+        } else {
             $record = null;
         }
         return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'hashids' => $this->hashids, 'record' => $record]);
@@ -589,11 +585,9 @@ class HostController extends Controller
         $client_id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($client_id);
         $staff = Auth::user()->accountingOfficeStaff;
-        if($request->record_id == 0)
-        {
+        if ($request->record_id == 0) {
             $record = null;
-        }
-        else {
+        } else {
             $record = TaxationHistory::find($request->record_id);
         }
 
@@ -608,8 +602,8 @@ class HostController extends Controller
         } else {
             $name = time() . '.mp4';
         }
-        Storage::disk('google')->put($name,  file_get_contents($url->getRealPath()));
-        $url = Storage::disk('google')->url($name);
+        Storage::disk('gcs')->put($name,  file_get_contents($url->getRealPath()));
+        $url = Storage::disk('gcs')->url($name);
         $user_id = Auth::user()->id;
         $staff = ClientStaff::where('user_id', $user_id)->first();
 
@@ -687,7 +681,7 @@ class HostController extends Controller
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
         $months = Client::MONTHS;
-        return View::make('host.individual-clients.view-registration-info')->with(['months' => $months,'page_title' => $page_title, 'client' => $client, 'hashids' => $this->hashids]);
+        return View::make('host.individual-clients.view-registration-info')->with(['months' => $months, 'page_title' => $page_title, 'client' => $client, 'hashids' => $this->hashids]);
     }
 
     public function save_notification_archive(Request $request)
@@ -698,24 +692,23 @@ class HostController extends Controller
             'file' => 'required'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->route('access-notification-history', ['client_id' => $request->client_id])
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        DB::transaction (function () use ($request){
+        DB::transaction(function () use ($request) {
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
-                'path' => $request->file('file')->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($request->client_id)->name),
+                'path' => $request->file('file')->store('public/files/' . Auth::user()->accountingOfficeStaff->accountingOffice->name . '/' . Client::find($request->client_id)->name),
                 'name' => $request->file('file')->getClientOriginalName(),
                 'size' => $request->file('file')->getSize(),
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
 
-            if($file_id)
-            {
+            if ($file_id) {
                 PastNotification::create([
                     'user_id' => Auth::user()->id,
                     'client_id' => $request->client_id,
@@ -762,7 +755,7 @@ class HostController extends Controller
                     'contents' => $request->input('contents'),
                     'file_id' => implode(',', $file_ids)
                 ]);
-            }else {
+            } else {
                 Message::create([
                     'user_id' => Auth::user()->id,
                     'is_global' => $request->input('is_global'),
@@ -781,9 +774,9 @@ class HostController extends Controller
     {
         Mail::to('jvncgs.info@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
 
-        if(Mail::failures()){
+        if (Mail::failures()) {
             return 'failure';
-        }else {
+        } else {
             return 'success';
         }
     }
@@ -798,19 +791,18 @@ class HostController extends Controller
             'company_representative' => 'required',
             'accounting_office_staff' => 'required',
             'video_contributor' => 'required',
-            'kinds'=> 'required',
+            'kinds' => 'required',
         ]);
 
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->route('create-video', ['client_id' => $request->client_id])
                 ->withErrors($validator)
                 ->withInput();
         }
 
 
-        if($request->input('record_id'))
-        {
+        if ($request->input('record_id')) {
             $record = TaxationHistory::find($request->record_id);
 
             $record->update([
@@ -826,24 +818,21 @@ class HostController extends Controller
             ]);
 
             $record->save();
-
-        }
-        else {
-            DB::transaction(function() use($request) {
+        } else {
+            DB::transaction(function () use ($request) {
                 $client_id = $this->hashids->decode($request->client_id)[0];
 
                 //save file first
                 $file_id = Files::insertGetId([
                     'user_id' => Auth::user()->id,
-                    'path' => $request->file('file')->store('public/files/'.Auth::user()->accountingOfficeStaff->accountingOffice->name.'/'.Client::find($client_id)->name),
+                    'path' => $request->file('file')->store('public/files/' . Auth::user()->accountingOfficeStaff->accountingOffice->name . '/' . Client::find($client_id)->name),
                     'name' => $request->file('file')->getClientOriginalName(),
                     'size' => $request->file('file')->getSize(),
                     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                     'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                 ]);
 
-                if($file_id)
-                {
+                if ($file_id) {
                     TaxationHistory::create([
                         'user_id' => Auth::user()->id,
                         'client_id' => $client_id,
@@ -858,8 +847,6 @@ class HostController extends Controller
                         'kinds' => $request->kinds,
                         'video_url' => $request->video_url
                     ]);
-
-
                 }
             });
         }
@@ -894,7 +881,7 @@ class HostController extends Controller
     {
         $datas = [];
         $datas = $request->data;
-        foreach ($datas as $data){
+        foreach ($datas as $data) {
             HostUpload::find($data)->delete();
         }
         return response()->json($datas);
@@ -935,7 +922,7 @@ class HostController extends Controller
 
     public function update_staff(Request $request)
     {
-        DB::transaction(function () use ($request){
+        DB::transaction(function () use ($request) {
             $user = User::find($request->userID);
             $staff = AccountingOfficeStaff::where('user_id', $user->id)->first();
 

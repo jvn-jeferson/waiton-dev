@@ -33,13 +33,13 @@ Route::post('change-existing-password', [UserController::class, 'change_password
 Route::post('update-credentials', [UserController::class, 'update_credentials'])->name('update-credentials');
 
 //Routes only accessible to logged in users
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
 
     //Global routes
 
 
     // Client routes
-    Route::group(['middleware' => 'client_staff'], function() {
+    Route::group(['middleware' => 'client_staff'], function () {
 
         //GET HEAD
         Route::get('client-home', [ClientController::class, 'index'])->name('client-home');
@@ -70,7 +70,7 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     //Accounting Office
-    Route::group(['middleware'=> 'accounting_office_staff', 'prefix' => 'accounting_office'], function () {
+    Route::group(['middleware' => 'accounting_office_staff', 'prefix' => 'accounting_office'], function () {
 
         //GET HEAD
         Route::get('/', [HostController::class, 'index'])->name('home');
@@ -94,7 +94,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('send-host-inquiry', [HostController::class, 'send_inquiry'])->name('send-host-inquiry');
 
         //Accounting Office Individual Routes
-        Route::group(['prefix' => 'access-client'], function() {
+        Route::group(['prefix' => 'access-client'], function () {
             //GET HEAD
             Route::get('dashboard', [HostController::class, 'view_client'])->name('access-dashboard');
             Route::get('contact', [HostController::class, 'contact_client'])->name('access-contact');
@@ -134,5 +134,3 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('link-change', [AdministratorController::class, 'link_change'])->name('admin-link-change');
     });
 });
-
-

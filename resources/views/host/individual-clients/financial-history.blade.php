@@ -41,7 +41,7 @@
                                                 </td>
                                                 <td class="text-info">
                                                     @if ($archive)
-                                                        {{ $archive->file->name }}
+                                                        {{ $archive->file->name ?? '' }}
                                                     @endif
                                                 </td>
                                                 <td>

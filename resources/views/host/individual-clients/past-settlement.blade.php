@@ -68,7 +68,7 @@
                                                                 </span>
                                                                 @enderror
                                                             @else
-                                                                <input type="text" name="file" id="file" class="form-control" readonly value="{{$record != null ? $record->file->name:''}}">
+                                                                <input type="text" name="file" id="file" class="form-control" readonly value="{{ $record->file->name ?? ''}}">
                                                             @endif
                                                         </td>
 
