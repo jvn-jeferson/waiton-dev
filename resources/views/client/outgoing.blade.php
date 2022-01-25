@@ -15,7 +15,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title text-success">
-                            経理部にデータを送信（閲覧期限1ヶ月)
+                            会計事務所（閲覧期限1ヶ月)
                         </h3>
                         
                     </div>
