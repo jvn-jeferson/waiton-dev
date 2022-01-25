@@ -99,7 +99,6 @@ class UserController extends Controller
     public function first_time_login(Request $request)
     {
         $user = User::where('remember_token', $request->token)->first();
-        dd($user);
         if (isset($user->email_verified_at)) {
             return abort(403);
         }

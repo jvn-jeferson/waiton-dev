@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('role_id')->default(1);
             $table->tinyInteger('is_online')->default(0);
             $table->string('remember_token')->default(Str::random(60));
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
