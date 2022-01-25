@@ -141,6 +141,9 @@
                                     placeholder="動画のURLを表示" readonly>
                             </div>
                             <button class="btn btn-block btn-warning mt-5" id="completion">完了</button>
+
+                            <button class="btn btn-danger btn-block" onclick="window.location = '{{route('access-dashboard', ['client_id'=>$hashids->encode($client->id)])}}'">キャンセル
+                            </button>
                             <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
                                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-xl">
@@ -235,6 +238,20 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        function returnToHome(id)
+        {
+            Swal.fire({
+                icon: 'info',
+                title: "録画保存に完了しました",
+            }).then((result) => {
+                if(result.isConfirmed){
+                    
+                }
+                
+            })
+        }
+
+
         var pdf_file = '';
         var imageData_store = [];
         let restore_array = [];
@@ -454,8 +471,7 @@
                 }).then(function(response) {
                     Swal.fire({
                         icon: 'success',
-                        title: "SUCCESS",
-                        text: "video recording entry has been completed.",
+                        title: "録画保存に完了しました",
                         showConfirmButton: false,
                         timer: 1000
                     }).then((result) => {
@@ -531,16 +547,14 @@
 
                 Swal.fire({
                     icon: 'info',
-                    title: 'NOTICE!',
-                    text: 'Recording is paused',
+                    title: '一時停止中!',
                     showConfirmButton: false,
                     timer: 1000
                 })
             } else {
                 Swal.fire({
                     icon: 'info',
-                    title: 'NOTICE!',
-                    text: 'Recording will continue',
+                    title: '録画再開中!',
                     showConfirmButton: false,
                     timer: 1000
                 }).then((result) => {
@@ -587,8 +601,7 @@
             isRecording = false;
             Swal.fire({
                 icon: 'warning',
-                title: 'Warning',
-                text: 'Recording has ended.',
+                title: '録画完了',
                 showConfirmButton: false,
                 timer: 1000
             })
