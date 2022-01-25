@@ -56,7 +56,7 @@
 
                 </ul>
 
-                <a href="{{ route('accounting-profile') }}" class="btn btn-primary btn-block"><b>顧客情報</b></a>
+                <a href="{{ route('account') }}" class="btn btn-primary btn-block"><b>顧客情報</b></a>
 
                 <a  href="{{ url('/logout') }}" class="btn btn-danger btn-block"><b>ログアウト</b></a>
               </div>
@@ -142,7 +142,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="{{route('subscription')}}" class="nav-link @if(request()->route()->getName() == 'subscription') active  @endif">
+              <a href="{{route('account')}}" class="nav-link @if(request()->route()->getName() == 'accounting-profile') active  @endif">
                 <i class="nav-icon fas fa-calendar"></i>
                 <p>
                   プラン確認・変更
@@ -181,8 +181,8 @@
   </div>
   <!-- ./wrapper -->
 
-  
-  
+
+
   <script type="text/javascript" src="{{ asset('js/app.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -176,11 +176,11 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="text-center">
-                                                        <button class="btn btn-warning" role="button" data-toggle="tooltip" data-placement="top" data-tooltip="Edit">編集</button>
+                                                        <button class="btn btn-warning" role="button" data-toggle="tooltip" data-placement="top" data-tooltip="Edit" onclick="editUser({{$staff->user->id}})">編集</button>
                                                     </td>
-                                                    <td>パスワード</td>
+                                                    <td>ユーザーID</td>
                                                     <td>
-                                                        <input type="password" name="password" id="password" class="form-control" value="**********" readonly>
+                                                        <input type="text" name="user_id" id="user_id" class="form-control" value="{{$staff->user->login_id}}" readonly>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -246,11 +246,70 @@
             </div>
         </div>
     </div>
+
+    <div class="modal face" id="userModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Update User Information
+                    </h4>
+                    <button class="close" type="button" data-dismiss="modal">&times;</button>
+                </div>
+                <form action="{{route('update-staff')}}" method="post">
+                    <input type="hidden" name="userID" id="userID">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            名前
+                                        </th>
+                                        <td>
+                                            <input type="text" class="form-control" id="userName" name="userName">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            メールアドレス
+                                        </th>
+                                        <td>
+                                            <input type="email" class="form-control" id="userEmail" name="userEmail">
+                                        </td>
+                                    </tr>   
+                                    <tr>
+                                        <th>
+                                            ユーザーID
+                                        </th>
+                                        <td>
+                                            <input type="text" class="form-control" id="userLogin" name="userLogin" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>New Password</th>
+                                        <td>
+                                            <input type="password" name="userPassword" id="userPassword" class="form-control">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="float-right btn btn-primary" type="submit">Save</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('extra-scripts')
     <script>
-        
+        //create new user
         $("#newUserForm").on('submit', function(event) {
             event.preventDefault()
             var url = "{{route('register-new-staff')}}"
@@ -280,5 +339,31 @@
                 })
             })
         });
+
+        //update user
+        function editUser(user_id)
+        {
+            var url = "{{route('get-user')}}";
+            var name, email;
+            var userModal = $('#userModal');
+            axios.post(url, {
+                id: user_id, 
+            }).then(function(response) {
+                name = response.data['name']
+                email = response.data['email']
+                id = response.data['id']
+                login_id = response.data['login_id']
+                remember_token = response.data['token']
+
+                $('#userName').val(name)
+                $('#userEmail').val(email)
+                $('#userLogin').val(login_id)
+                $('#userID').val(id)
+                userModal.modal('show');
+
+            }).catch(function(error) {
+                console.log(error.response.data)
+            })
+        }
     </script>
 @endsection

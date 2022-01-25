@@ -4,6 +4,13 @@
     <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.10.377/build/pdf.min.js"></script>
 
     <style>
+        .active {
+            background-color: green !important;
+            border-color: green;
+            display: inline-block !important;
+            border: none !important;
+        }
+
         #pdf-canvas {
             border: 1px solid black;
         }
@@ -100,11 +107,11 @@
                             <button class="btn-warning btn btn-block" id="start">録画画面選択／スタート</button>
                             <div class="form-group mt-2">
                                 <label for="tools">描画ツール</label>
-                                <button class="btn btn-block btn-light text-bold" onclick="setPointer()"><i
+                                <button class="btn btn-block btn-light text-bold" onclick="setPointer()" id="pointerBtn"><i
                                         class="fas fa-circle text-danger"></i> ポインタ</button>
-                                <button class="btn btn-block btn-light text-bold" onclick="setPencil()" type="button"><i
+                                <button class="btn btn-block btn-light text-bold" onclick="setPencil()" type="button" id="pencilBtn"><i
                                         class="fas fa-pencil-alt"></i> 鉛筆</button>
-                                <button class="btn btn-block btn-light text-bold" onclick="setMarker()" type="button"><i
+                                <button class="btn btn-block btn-light text-bold" onclick="setMarker()" type="button" id="markerBtn"><i
                                         class="fas fa-marker text-warning"></i> マーカー</button>
                             </div>
                             <div class="form-row mt-2 text-center align-items-center">
@@ -326,6 +333,7 @@
             }else {
                 canvas.classList.add('change-cursor');
             }
+
         }
 
         function setPencil() {
@@ -340,6 +348,11 @@
             stroke_width = "10"
             context.fillStyle = 'hsla(0, 0%, 40%, 0)'
         }
+
+        $('button').click(function() {
+            $('button').removeClass('active')
+            $(this).addClass('active')
+        })
 
         function start(event) {
             is_drawing = true;
