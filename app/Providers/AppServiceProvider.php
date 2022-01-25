@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Cashier::ignoreMigrations();
+        date_default_timezone_set('Asia/Tokyo');
     }
 
     /**

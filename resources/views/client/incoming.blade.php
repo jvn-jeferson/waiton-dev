@@ -25,16 +25,16 @@
                             <tr>
                                 <td rowspan="2">
                                     <p class="text-dark">
-                                        {{$host_upload->created_at->format('Y年m月d日 g:i A')}}
+                                        {{$host_upload->created_at->format('Y年m月d日 H:i')}}
                                     </p>
                                     <button class="btn btn-block btn-primary" onclick="downloadFile(this, {{$host_upload->file_id}})">資料のダウンロード</button>
                                 </td>
                                 <td rowspan="2">
                                     <p class="text-dark">
-                                        {{$host_upload->created_at->modify('+1 month')->format('Y年m月d日 g:i A')}}
+                                        {{$host_upload->created_at->modify('+1 month')->format('Y年m月d日 H:i')}}
                                     </p>
                                 </td>
-                                <td rowspan="2" class="text-info">{{$host_upload->file->name}}</td>
+                                <td rowspan="2" class="text-info"><a href="{{$host_upload->file->path}}" download="{{$host_upload->file->name}}">{{$host_upload->file->name}}</a></td>
                                 <td class="text-center
                                     @switch($host_upload->status)
                                         @case(1)

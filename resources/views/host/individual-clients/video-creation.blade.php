@@ -238,20 +238,6 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        function returnToHome(id)
-        {
-            Swal.fire({
-                icon: 'info',
-                title: "録画保存に完了しました",
-            }).then((result) => {
-                if(result.isConfirmed){
-                    
-                }
-                
-            })
-        }
-
-
         var pdf_file = '';
         var imageData_store = [];
         let restore_array = [];

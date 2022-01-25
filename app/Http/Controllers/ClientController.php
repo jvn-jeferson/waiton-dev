@@ -43,7 +43,7 @@ class ClientController extends Controller
     }
     public function index()
     {
-        $messages = Message::where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->limit(5)->get();
+        $messages = Message::where('created_at', '>=', Carbon::now())->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->limit(5)->get();
         $uploads = ClientUpload::where('user_id', Auth::user()->id)->get();
         $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
         $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->get();
