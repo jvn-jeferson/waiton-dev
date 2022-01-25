@@ -54,7 +54,7 @@
                                             @break
                                     @endswitch
                                 ">
-                                    @if($host_upload->priority == 1)
+                                    @if($host_upload->priority == 0)
                                         承認
                                     @else
                                         ---
@@ -81,7 +81,7 @@
                                             @break
                                     @endswitch
                                 ">
-                                    @if($host_upload->priority == 1)
+                                    @if($host_upload->priority == 0)
                                         保留
                                     @else
                                         ---
@@ -96,7 +96,7 @@
                                     {{$host_upload->details}}
                                 </td>
                                 <td>
-                                    @if ($host_upload->priority == 1 && $host_upload->status <= 0)
+                                    @if ($host_upload->priority == 0 && $host_upload->status <= 0)
                                         <button class="btn btn-flat btn-block btn-primary" role="button" onclick="admitFile({{$host_upload->id}})">
                                             決定
                                         </button>
