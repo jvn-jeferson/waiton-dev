@@ -141,8 +141,11 @@
                                     placeholder="動画のURLを表示" readonly>
                             </div>
                             <button class="btn btn-block btn-warning mt-5" id="completion">完了</button>
-
-                            <button class="btn btn-danger btn-block" onclick="window.location = '{{route('access-dashboard', ['client_id'=>$hashids->encode($client->id)])}}'">キャンセル
+                            @php
+                                $client_id = $hashids->encode($client->id);
+                            @endphp
+                            <button class="btn btn-danger btn-block" onclick=
+                            'cancelButton("{{$client_id}}")'>キャンセル
                             </button>
                             <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
                                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -245,9 +248,9 @@
                 title: "録画保存に完了しました",
             }).then((result) => {
                 if(result.isConfirmed){
-                    
+
                 }
-                
+
             })
         }
 
@@ -564,6 +567,18 @@
                 })
             }
         })
+
+        function cancelButton(id)
+        {
+               Swal.fire({
+                    icon: 'info',
+                    title: '録画をキャンセルしてよろしいですか？',
+                }).then((result) => {
+                    var current_url = "{{dirname(url()->current())}}";
+                    var url = current_url+"/dashboard?client_id="+id;
+                    window.location = url;
+                })
+        }
 
         function handleDataAvailable(event) {
             console.log('handleDataAvailable', event);
