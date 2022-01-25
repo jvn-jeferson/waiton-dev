@@ -77,7 +77,7 @@ class UserController extends Controller
                 ]);
 
                 $user = User::findOrFail($user_id);
-                $token = $user->createToken();
+                $token = $user->remember_token;
                 $this->sendAORegistrationEmail($token, $user, $pw);
             }
         });
