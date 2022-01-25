@@ -30,7 +30,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
-        'is_online'
+        'is_online',
+        'email_verified_at'
     ];
 
     /**
@@ -62,7 +63,8 @@ class User extends Authenticatable
         return $this->hasOne(AccountingOffice::class);
     }
 
-    public function role(): HasOne {
+    public function role(): HasOne
+    {
         return $this->hasOne(Role::class, 'id', 'role_id');
     }
 

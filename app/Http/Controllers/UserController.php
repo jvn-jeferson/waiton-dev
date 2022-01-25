@@ -98,6 +98,10 @@ class UserController extends Controller
 
     public function first_time_login(Request $request)
     {
+        $user = User::where('remember_token', $request->token)->first();
+        if (isset($user->email_verified_at)) {
+            return abort(403);
+        }
         return View::make('auth.passwords.reset')->with('token', $request->token);
     }
     public function forgot_password()
@@ -140,7 +144,7 @@ class UserController extends Controller
     public function update_password(Request $request)
     {
         $user = User::where('login_id', $request->login_id)->first();
-        if (Carbon::now()->greaterThan($user->created_at->addDay())) {
+        if (isset($user->email_verified_at)) {
             return abort(403);
         }
         return View::make('auth.passwords.update_password')->with(['login_id' => $user->login_id]);
@@ -158,13 +162,10 @@ class UserController extends Controller
 
         $user = User::where('login_id', $request->input('login_id'))->first();
 
-        if (Carbon::now()->greaterThan($user->created_at->addDay())) {
-            return abort(403);
-        }
-
         $user->createToken();
         $user->update([
-            'password' => Hash::make($request->input('password'))
+            'password' => Hash::make($request->input('password')),
+            'email_verified_at' => Carbon::now()
         ]);
         $user->save();
 
@@ -189,7 +190,8 @@ class UserController extends Controller
 
         $user->createToken();
         $user->update([
-            'password' => Hash::make($request->input('password'))
+            'password' => Hash::make($request->input('password')),
+            'email_verified_at' => Carbon::now()
         ]);
         $user->save();
 
