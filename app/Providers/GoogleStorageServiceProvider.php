@@ -26,15 +26,15 @@ class GoogleStorageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // \Storage::extend('gcs', function($app, $config) {
-        //     $storageClient = new StorageClient([
-        //         'projectId' => $config['project_id'],
-        //         'keyFilePath' => $config['key_file'],
-        //     ]);
-        //     $bucket = $storageClient->bucket($config['bucket']);
-        //     $adapter = new GoogleStorageAdapter($storageClient, $bucket);
+        \Storage::extend('gcs', function ($app, $config) {
+            $storageClient = new StorageClient([
+                'projectId' => $config['project_id'],
+                'keyFilePath' => $config['key_file'],
+            ]);
+            $bucket = $storageClient->bucket($config['bucket']);
+            $adapter = new GoogleStorageAdapter($storageClient, $bucket);
 
-        //     return new Filesystem($adapter);
-        // });
+            return new Filesystem($adapter);
+        });
     }
 }

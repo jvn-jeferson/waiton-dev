@@ -161,8 +161,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        App\Providers\GoogleDriveServiceProvider::class,
-        // App\Providers\GoogleStorageServiceProvider::class,
+        // App\Providers\GoogleDriveServiceProvider::class,
+        App\Providers\GoogleStorageServiceProvider::class,
 
 
         /*

@@ -33,64 +33,63 @@ class UserController extends Controller
             'address' => 'required',
             'telephone' => 'required|unique:accounting_offices,telephone',
             'email' => 'required|unique:users,email|email:rfc,dns',
-          ]);
+        ]);
 
-          DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($request) {
             $pw = Str::random(8);
             $hashids = new Hashids(config('hashids.login_salt'), 10);
             $user_id = User::insertGetId([
-              'email' => $request->input('email'),
-              'password' => Hash::make($pw),
-              'role_id' => 2,
-              'is_online' => 0,
-              'remember_token' => Str::random(60),
-              'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-              'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                'email' => $request->input('email'),
+                'password' => Hash::make($pw),
+                'role_id' => 2,
+                'is_online' => 0,
+                'remember_token' => Str::random(60),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
 
-            if($user_id)
-            {
-              $user = User::findOrFail($user_id);
-              $login_id = "A".date('Y').$user->role_id.$user_id."";
-              $user->update([
-                'login_id' => $login_id
-              ]);
-              $user->save();
+            if ($user_id) {
+                $user = User::findOrFail($user_id);
+                $login_id = "A" . date('Y') . $user->role_id . $user_id . "";
+                $user->update([
+                    'login_id' => $login_id
+                ]);
+                $user->save();
 
-              $accountingId = AccountingOffice::insertGetId([
-                'user_id' => $user_id,
-                'name' => $request->input('name'),
-                'representative' => $request->input('representative'),
-                'address' => $request->input('address'),
-                'telephone' => $request->input('telephone'),
-                'contact_email' => $request->input('email'),
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-              ]);
+                $accountingId = AccountingOffice::insertGetId([
+                    'user_id' => $user_id,
+                    'name' => $request->input('name'),
+                    'representative' => $request->input('representative'),
+                    'address' => $request->input('address'),
+                    'telephone' => $request->input('telephone'),
+                    'contact_email' => $request->input('email'),
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ]);
 
-              $staff_id = AccountingOfficeStaff::insertGetId([
-                'accounting_office_id' => $accountingId,
-                'user_id' => $user_id,
-                'name' => $request->input('representative'),
-                'is_admin' => 1,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-              ]);
+                $staff_id = AccountingOfficeStaff::insertGetId([
+                    'accounting_office_id' => $accountingId,
+                    'user_id' => $user_id,
+                    'name' => $request->input('representative'),
+                    'is_admin' => 1,
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ]);
 
-              $user = User::findOrFail($user_id);
-              $token = $user->createToken();
-              $this->sendAORegistrationEmail($token, $user, $pw);
+                $user = User::findOrFail($user_id);
+                $token = $user->createToken();
+                $this->sendAORegistrationEmail($token, $user, $pw);
             }
-          });
+        });
 
-          return View::make('main.payment_success');
+        return View::make('main.payment_success');
     }
 
     public function sendAORegistrationEmail($token, User $user, $password)
     {
         Mail::to($user->email)->send(new AccountingOfficeRegistrationMail($token, $user, $password));
 
-        if(Mail::failures()) {
+        if (Mail::failures()) {
             abort(403);
         }
 
@@ -113,7 +112,7 @@ class UserController extends Controller
             'email' => 'required|email:rfc,dns|exists:users'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->route('forgot-password')
                 ->withErrors($validator)
                 ->withInput();
@@ -131,7 +130,7 @@ class UserController extends Controller
     {
         Mail::to($user->email)->send(new PasswordResetMail($user));
 
-        if(Mail::failures()) {
+        if (Mail::failures()) {
             return response()->Fail('Sorry! Please try again later.');
         }
 
@@ -141,24 +140,27 @@ class UserController extends Controller
     public function update_password(Request $request)
     {
         $user = User::where('login_id', $request->login_id)->first();
-        if(Carbon::now()->greaterThan($user->created_at->addDay())) {
-            abort(403);
+        if (Carbon::now()->greaterThan($user->created_at->addDay())) {
+            return abort(403);
         }
         return View::make('auth.passwords.update_password')->with(['login_id' => $user->login_id]);
     }
 
     public function change_password(Request $request)
     {
-
         $validator = Validator::make($request->all(), ['password' => 'required|confirmed']);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->route('update-password', ['login_id' => $request->login_id])
-                        ->withErrors($validator)
-                        ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $user = User::where('login_id', $request->input('login_id'))->first();
+
+        if (Carbon::now()->greaterThan($user->created_at->addDay())) {
+            return abort(403);
+        }
 
         $user->createToken();
         $user->update([
@@ -177,7 +179,7 @@ class UserController extends Controller
             'password' => 'required|confirmed'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->route('first-time-login')
                 ->withErrors($validator)
                 ->withInput();
