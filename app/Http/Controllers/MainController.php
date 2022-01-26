@@ -46,6 +46,9 @@ class MainController extends Controller
   public function signin(Request $request)
   {
     $user_type = $request->user_type;
+    if($user_type == null){
+      $user_type = '会計事務所';
+    }
 
     return View::make('auth/login')->with(['user_type' => $user_type]);
   }

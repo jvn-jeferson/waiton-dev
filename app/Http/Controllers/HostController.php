@@ -41,6 +41,7 @@ use View;
 use Session;
 use DateTime;
 use Mail;
+use App\Mail\UploadNotification;
 
 
 use App\Mail\ClientRegistrationMail;
@@ -534,7 +535,7 @@ class HostController extends Controller
 
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
-                'path' => Auth::user()->accountingOffice->id . "/" . $name,
+                'path' => Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . $name,
                 'name' => $name,
                 'size' => $size,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -550,9 +551,27 @@ class HostController extends Controller
                 'details' => $request->input('comment'),
                 'video_url' => $request->input('vid_url')
             ]);
+
+            $client = Client::find($id);
+            $office = AccountingOffice::find(Auth::user()->accountingOfficeStaff->accountingOffice->id);
+
+            $this->sendUploadNotification($client->contact_email, $office->name, "Successfully uploaded file");
+            $this->sendUploadNotification($office->contact_email, $office->name, "One of your clients has uploaded a file. It is ready for download on your dashboard.");
         });
 
         return redirect()->route('access-outbox', ['client_id' => $this->hashids->encode($id)]);
+    }
+
+    public function sendUploadNotification($email, $target, $message)
+    {
+        Mail::to($email)->send(new UploadNotification($target, $message));
+
+        if(Mail::failures())
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public function financial_history_client(Request $request)

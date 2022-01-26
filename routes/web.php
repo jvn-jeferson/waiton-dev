@@ -23,6 +23,7 @@ Route::get('update-password', [UserController::class, 'update_password'])->name(
 Route::get('first-time-login', [UserController::class, 'first_time_login'])->name('first-time-login');
 Route::get('access-record-verification', [MainController::class, 'access_record_verification'])->name('access-record-verification');
 Route::get('signin', [MainController::class, 'signin'])->name('signin');
+Route::get('login', [MainController::class, 'signin'])->name('login');
 
 
 

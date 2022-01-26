@@ -44,7 +44,7 @@ class ConfirmPasswordController extends Controller
                 return '/client-home';
                 break;
             default:
-                return '/login';
+                return '/';
         }
     }
 
