@@ -267,7 +267,7 @@ class HostController extends Controller
             'address' => 'required|max:255',
             'representative' => 'required',
             'representative_address' => 'required',
-            'email' => 'required|email:rfc,dns|unique:users,email',
+            'email' => 'required|email:rfc,dns|unique:accounting_offices,contact_email',
             'tax_filing_month' => 'required',
             'manager_name' => 'required',
             'user1_email' => 'unique:users,email',
