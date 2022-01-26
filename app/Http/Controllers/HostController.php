@@ -270,8 +270,6 @@ class HostController extends Controller
             'email' => 'required|email:rfc,dns|unique:users,email',
             'tax_filing_month' => 'required',
             'manager_name' => 'required',
-            'user1_email' => 'email:rfc,dns|unique:users,email',
-            'user2_email' => 'email:rfc,dns|unique:users,email',
             'manager_email' => 'required',
         ]);
 
