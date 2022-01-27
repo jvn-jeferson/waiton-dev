@@ -36,7 +36,7 @@ class ClientRegistrationMail extends Mailable
         $url = url(route('first-time-login', ['token' => $this->user->remember_token]));
 
         return $this->from(config('mail.from.address'), config('mail.from.name'))
-                    ->subject('Registration Success')
+                    ->subject('題名　会計事務所名様からのご招待メール')
                     ->markdown('email.client-registration-success-mail', ['url' => $url]);
     }
 }
