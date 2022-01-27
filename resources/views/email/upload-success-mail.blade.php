@@ -1,5 +1,7 @@
 @component('mail::message')
-# Your files were uploaded successfully.
+
+
+UpFiling.jpをご利用いただきありがとうございます。
 
 {{$message}}
 

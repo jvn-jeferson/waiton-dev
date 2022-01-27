@@ -25,4 +25,10 @@ UpFiling.jpをご利用いただきありがとうございます。<br>
 完全な登録
 @endcomponent
 
+@component('mail:promotion')
+このメールは送信専用です。<br>
+ご不明点等は、当行WEBサイトよりお問い合わせください。<br>
+アップファイリング　https://upfiling.jp/
+@endcomponent
+
 @endcomponent
