@@ -32,7 +32,7 @@ class UploadNotification extends Mailable
     public function build()
     {
         return $this->from(config('mail.from.address'), config('mail.from.name'))
-                    ->subject('Upload Successful')
+                    ->subject('アップロードに成功')
                     ->markdown('email.upload-success-mail');
     }
 }
