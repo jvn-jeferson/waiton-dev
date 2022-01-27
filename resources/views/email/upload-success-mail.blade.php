@@ -1,10 +1,8 @@
 @component('mail::message')
 
-
 UpFiling.jpをご利用いただきありがとうございます。
 
 {{$message}}
-
 
 <br>
 
