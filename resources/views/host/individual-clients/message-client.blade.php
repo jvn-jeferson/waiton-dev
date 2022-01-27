@@ -67,8 +67,8 @@
                                                     <td>{{$message->scheduled_at->format('Y年m月d日')}}</td>
                                                     <td>{{$message->contents}}</td>
                                                     <td class="text-info">
-                                                        @if($message->file->name)
-                                                        <a href="{{url(Storage::url($message->file->path))}}" download="{{$message->file->name}}">{{$message->file->name}}</a>
+                                                        @if($message->file)
+                                                            <a href="{{url(Storage::url($message->file->path))}}" download="{{$message->file->name}}">{{$message->file->name}}</a>
                                                         @endif
                                                     </td>
                                                 </tr>
