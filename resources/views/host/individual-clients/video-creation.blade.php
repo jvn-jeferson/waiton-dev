@@ -328,12 +328,7 @@
         }
 
         function setPointer() {
-            if (is_drawing) {
-                context.stroke();
-                context.closePath();
-                is_drawing = false;
-            }
-            event.preventDefault();
+            stroke_color = 'transparent'
             if(canvas.classList.contains('change-cursor')){
                 canvas.classList.remove('change-cursor');
             }else {
@@ -345,7 +340,7 @@
         function setPencil() {
             canvas.classList.remove('change-cursor');
             stroke_color = 'black'
-            strocke_width = "2"
+            stroke_width = "2"
         }
 
         function setMarker() {
@@ -615,7 +610,10 @@
         }
         async function init(constraints) {
             try {
-                const stream = await navigator.mediaDevices.getDisplayMedia(constraints);
+                const displayStream  = await navigator.mediaDevices.getDisplayMedia(constraints);
+                const voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                let tracks = [...displayStream.getTracks(), ...voiceStream.getAudioTracks()]
+                const stream = new MediaStream(tracks);
                 handleSuccess(stream);
 
             } catch (e) {
@@ -632,7 +630,6 @@
             })
 
             const constraints = {
-                    audio: true,
                     video: {
                         width: 1280,
                         height: 720
