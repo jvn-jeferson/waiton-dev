@@ -32,7 +32,7 @@
                                             </td>
                                             <td>
                                                 {{$record->file->name}} <br>
-                                                <a class="btn btn-warning btn-block" type="button" href="{{ url(Storage::url($record->file->path))}}" download="{{$record->file->name}}">ダウンロード </a>
+                                                <a class="btn btn-warning btn-block" type="button" href="{{ url(Storage::disk('gcs')->url($record->file->path))}}" download="{{$record->file->name}}">ダウンロード </a>
                                             </td>
                                         </tr>
                                     @empty

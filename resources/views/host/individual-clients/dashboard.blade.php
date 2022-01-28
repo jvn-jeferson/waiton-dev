@@ -158,7 +158,7 @@
                                         @forelse($uploads as $upload)
                                             <tr>
                                                 <td>{{$upload->created_at->format('Y年m月d日')}}</td>
-                                                <td><a href="{{url(Storage::url($upload->file->path))}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
+                                                <td><a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
                                                 <td>が保存されました。</td>
                                             </tr>
                                         @empty

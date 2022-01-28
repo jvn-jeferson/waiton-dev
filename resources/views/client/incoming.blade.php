@@ -34,7 +34,11 @@
                                         {{$host_upload->created_at->modify('+1 month')->format('Y年m月d日 H:i')}}
                                     </p>
                                 </td>
-                                <td rowspan="2" class="text-info"><a href="{{$host_upload->file->path}}" download="{{$host_upload->file->name}}">{{$host_upload->file->name}}</a></td>
+                                <td rowspan="2" class="text-info">
+                                    @if($host_upload->file)
+                                    <a href="{{Storage::disk('gcs')->url($host_upload->file->path)}}" download="{{$host_upload->file->name}}">{{$host_upload->file->name}}</a>
+                                    @endif
+                                </td>
                                 <td class="text-center
                                     @switch($host_upload->status)
                                         @case(1)
@@ -95,12 +99,20 @@
                                 <td colspan="2">
                                     {{$host_upload->details}}
                                 </td>
-                                <td>
+                                <td rowspan="2">
                                     @if ($host_upload->priority == 0 && $host_upload->status <= 0)
                                         <button class="btn btn-flat btn-block btn-primary" role="button" onclick="admitFile({{$host_upload->id}})">
                                             決定
                                         </button>
                                     @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bg-light">
+                                    URL
+                                </td>
+                                <td colspan="2">
+                                    <a href="{{$host_upload->video_url}}">{{$host_upload->video_url}}</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -133,23 +145,17 @@
             //axios get file
             //response
             if(result.isConfirmed) {
-                Swal.fire(
-                    'File Download will begin shortly.',
-                    'Your file is ready for download.',
-                    'success'
-                ).then((result) => {
-                    var url = "{{route('download')}}";
-                    axios.post(url, {
-                        file_id: file
-                    }).then(function (response) {
-                        const link = document.createElement('a')
-                        link.href = response.data[0]
-                        link.setAttribute('download', response.data[1]);
-                        link.click();
-                        document.removeChild(link);
-                    }).catch(function (response) {
-                        console.log(response.error.data);
-                    })
+                var url = "{{route('download')}}";
+                axios.post(url, {
+                    file_id: file
+                }).then(function (response) {
+                    const link = document.createElement('a')
+                    link.href = response.data[0]
+                    link.setAttribute('download', response.data[1]);
+                    link.click();
+                    document.removeChild(link);
+                }).catch(function (response) {
+                    console.log(response.error.data);
                 })
             }
         })
@@ -161,29 +167,23 @@
         Swal.fire({
             icon: 'question',
             title: 'Consider',
-            text: 'Would you like to admit or reserve this statement?',
-            confirmButtonText: 'Admit',
-            cancelButtonText: 'Reserve',
+            text: '承認処理してアップロードしてよろしいですか?',
+            confirmButtonText: '承認',
+            cancelButtonText: '保留',
             showCancelButton: true
         }).then((result) => {
             var status = 0;
             if(result.isConfirmed){
                 status = 1
             }else {
-                status = 2
+                status = 0
             }
 
             axios.post(url, {
                 id: post_id,
                 status: status
             }).then(function(response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Action Completed',
-                    text: response.data,
-                }).then((result) => {
-                    window.location.reload();
-                })
+                window.location.reload();
             }).catch(function(error) {
                 console.log(error.response.data);
             })

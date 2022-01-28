@@ -41,7 +41,7 @@
                                         <td colspan="">
                                             <select name="final_accounts_month" id="final_accounts_month" class="col-2 form-control w-25">
                                                 @foreach($months as $key => $month)
-                                                     <option value="{{ $month }}" {{ $month == $client->tax_filing_month ? 'selected' : '' }}>{{ $month }}</option>
+                                                     <option value="{{ $month }}" {{ $month == $client->tax_filing_month.'月' ? 'selected' : '' }}>{{ $month }}</option>
                                                 @endforeach
                                         </td>
                                     </tr>

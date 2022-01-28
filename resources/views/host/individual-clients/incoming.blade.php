@@ -30,7 +30,7 @@
                                                     <td>{{$upload->created_at->format('Y年m月d日 H:i')}}</td>
                                                     <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日 H:i')}}</td>
                                                     <td>{{$upload->user->clientStaff->name}}</td>
-                                                    <td class="text-info"><a href="{{url(Storage::url($upload->file->path))}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
+                                                    <td class="text-info"><a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
                                                     <td>{{$upload->comment}}</td>
                                                 </tr>
                                             @empty

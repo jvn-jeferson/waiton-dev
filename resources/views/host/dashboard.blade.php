@@ -86,12 +86,14 @@
                       {{-- @foreach($companies as $company) --}}
   
                       @forelse(Auth::user()->accountingOffice->clients as $client)
-                        <tr>
-                          <td>{{$client->name}}</td>
-                          <td>{{$client->tax_filing_month.'月'}}</td>
-                          <td></td>
-                          <td>@if($client->business_type_id == 1) 個人 @else 法人 @endif</td>
-                        </tr>
+                        @if($client->tax_filing_month == date('m'))
+                          <tr>
+                            <td>{{$client->name}}</td>
+                            <td>{{$client->tax_filing_month.'月'}}</td>
+                            <td></td>
+                            <td>@if($client->business_type_id == 1) 個人 @else 法人 @endif</td>
+                          </tr>
+                        @endif
                       @empty
                         <tr>
                           <td colspan="4">

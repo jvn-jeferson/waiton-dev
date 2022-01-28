@@ -59,7 +59,7 @@
                           @forelse($uploads as $upload)
                             <tr>
                               <td>{{$upload->created_at->format('Y年m月d日')}}</td>
-                              <td class="text-info"><a href="{{url(Storage::url($upload->file->path))}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
+                              <td class="text-info"><a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
                               <td>アップロード</td>
                               <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日')  }}</td>
                             </tr>
@@ -97,7 +97,11 @@
                           @forelse($downloads as $download)
                             <tr>
                               <td>{{$download->created_at->format('Y年m月d日')}}</td>
-                              <td class="text-info">{{$download->file->name ?? ''}}</td>
+                              <td class="text-info">
+                                @if($download->file)
+                                <a href="{{Storage::disk('gcs')->url($download->file->path)}}" download="{{$download->file->name}}">{{$download->file->name ?? ''}}</a>
+                                @endif
+                              </td>
                               <td>
                                 @switch($download->status)
                                   @case(1)
@@ -149,7 +153,7 @@
                           @forelse($files as $file)
                             <tr>
                               <td>{{$file->created_at->format('Y年m月d日')}}</td>
-                              <td class="text-info"><a href="{{url(Storage::url($file->path))}}" download="{{$file->name}}">{{$file->name}}</a></td>
+                              <td class="text-info"><a href="{{url(Storage::disk('gcs')->url($file->path))}}" download="{{$file->name}}">{{$file->name}}</a></td>
                               <td>
                                 @if($file->deleted_at)
                                   アーカイブされました。

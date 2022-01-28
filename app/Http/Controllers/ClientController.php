@@ -227,7 +227,7 @@ class ClientController extends Controller
     {
         $file_db = Files::find($request->file_id);
 
-        $file = Storage::url($file_db->path);
+        $file = Storage::disk('gcs')->url($file_db->path);
         $name = $file_db->name;
         return array(url($file), $name);
     }
