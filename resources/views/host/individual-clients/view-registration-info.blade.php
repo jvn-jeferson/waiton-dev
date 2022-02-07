@@ -7,7 +7,7 @@
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title text-dark text-bold">顧客の情報</h3>
-                        <button id="submit_settings" class="btn btn-warning btn-block col-1 float-right">変更・登録</button>
+                        <button id="submit_settings" class="btn btn-warning btn-block col-1 float-right" data-toggle="modal" data-target="#changeRegistrationInfoModal">変更・登録</button>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -16,30 +16,30 @@
                                 <tbody>
                                     <tr>
                                         <th class="bg-gray w-25">社名</th>
-                                        <td class="w-50"><input type="text" name="name" id="name" value="{{$client->name}}" class="form-control" /></td>
+                                        <td class="w-50"><input type="text" name="name" id="name" value="{{$client->name}}" class="form-control" readonly/></td>
                                         <td>
                                             <div class="form-inline">
-                                                <input type="radio" name="client_type" id="client_type" value="1" class="mx-auto my-auto">法人
-                                                <input type="radio" name="client_type" id="client_type" value="2" class="mx-auto my-auto">個人
+                                                <input type="radio" name="client_type" id="client_type" value="1" class="mx-auto my-auto" @if($client->business_type_id == 1) checked @endif disabled>法人
+                                                <input type="radio" name="client_type" id="client_type" value="2" class="mx-auto my-auto" @if($client->business_type_id == 2) checked @endif disabled>個人
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">本店所在地</th>
-                                        <td colspan="2"><input type="text" name="address" id="address" value="{{$client->address}}" class="form-control" /></td>
+                                        <td colspan="2"><input type="text" name="address" id="address" value="{{$client->address}}" class="form-control" readonly/></td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">代表者</th>
-                                        <td colspan="2"><input type="text" name="representative" id="representative" value="{{$client->representative}}" class="form-control" /></td>
+                                        <td colspan="2"><input type="text" name="representative" id="representative" value="{{$client->representative}}" class="form-control" readonly /></td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">代表者住所</th>
-                                        <td colspan="2"><input type="text" name="representative_address" id="representative_address" value="{{$client->representative_address}}" class="form-control"/></td>
+                                        <td colspan="2"><input type="text" name="representative_address" id="representative_address" value="{{$client->representative_address}}" class="form-control" readonly/></td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">決算月</th>
                                         <td colspan="">
-                                            <select name="final_accounts_month" id="final_accounts_month" class="col-2 form-control w-25">
+                                            <select name="final_accounts_month" id="final_accounts_month" class="col-2 form-control w-25" disabled>
                                                 @foreach($months as $key => $month)
                                                      <option value="{{ $month }}" {{ $month == $client->tax_filing_month.'月' ? 'selected' : '' }}>{{ $month }}</option>
                                                 @endforeach
@@ -207,10 +207,159 @@
             </div>
         </section>
     </div>
+
+
+    <div class="modal fade " tabindex="-1" role="dialog" id="changeRegistrationInfoModal">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-bold">
+                        顧客の情報
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="tabContent">
+                        <li class="nav-item">
+                            <a href="#registration_info" data-toggle="tab" class="nav-link active">Company Information</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#checkboxes" data-toggle="tab" class="nav-link">Notification Toggles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#taxation_credentials" data-toggle="tab" class="nav-link">Taxation Credentials</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="registration_info">
+                            <form action="" method="post">
+                                <div class="p-3 table-responsive">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th class="bg-gray w-25">社名</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">本店所在地</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">代表者</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">代表者住所</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">決算月</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button type="submit" class="btn btn-success float-right">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="checkboxes">
+                            <form action="" method="post">
+                                <div class="p-3 table-responsive">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th class="bg-gray w-25">社名</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">本店所在地</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">代表者</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">代表者住所</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">決算月</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button type="submit" class="btn btn-success float-right">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="taxation_credentials">
+                            <form action="" method="post">
+                                <div class="p-3 table-responsive">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th class="bg-gray w-25">国税庁識別番号</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">パスワード</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">E-tax納税者番号</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">国税庁識別番号</th>
+                                                <td>
+                                                    <input type="text" name="name" id="name" class="form-control">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button type="submit" class="btn btn-success float-right">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('extra-scripts')
-<script>
+{{-- <script>
     submit_settings.addEventListener('click', () => {
     var data = $('.various_settings').serializeArray();
     var url = "{{route('save-settings')}}";
@@ -226,5 +375,5 @@
         console.log(error.response.data)
     });
   });
-</script>
+</script> --}}
 @endsection
