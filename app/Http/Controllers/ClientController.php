@@ -71,11 +71,16 @@ class ClientController extends Controller
                     $staff = ClientStaff::where('user_id', $user_id)->first();
 
                     //TO FIX upload path:
+                    $name = $request->file('file')[$key]->getClientOriginalName();
+                    $file = $request->file('file')[$key];
+                    Storage::disk('gcs')->put(Auth::user()->clientStaff->client->id . "/" . $name, file_get_contents($file));
+                    $path = Auth::user()->clientStaff->client->id . "/" . $name;
+                    
 
                     $file_id = Files::insertGetId([
                         'user_id' => $user_id,
-                        'path' => $request->file('file')[$key]->store('public/files/uploads/'.$client_id),
-                        'name' => $request->file('file')[$key]->getClientOriginalName(),
+                        'path' => $path, 
+                        'name' => $name,
                         'size' => $request->file('file')[$key]->getSize(),
                         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                         'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
