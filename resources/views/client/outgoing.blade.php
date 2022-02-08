@@ -143,7 +143,7 @@
                                         <td>{{$upload->user->clientStaff->name}}</td>
                                         <td>
                                             @if($upload->file)
-                                            <a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a>
+                                            <a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}" target="_blank">{{$upload->file->name}}</a>
                                             @endif
                                         </td>
                                         <td>{{$upload->comment}}</td>

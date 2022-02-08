@@ -46,7 +46,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th rowspan="2" class="bg-gray w-25">消費税の申告義務</th>
+                                        <th class="bg-gray w-25">消費税の申告義務</th>
                                         <td colspan="2">
                                             <div class="row">
                                                 <div class="col-3">
@@ -72,9 +72,6 @@
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"></td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">国税庁識別番号</th>
@@ -235,38 +232,53 @@
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="registration_info">
-                            <form action="" method="post">
+                            <form action="{{route('update-client-info')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" id="id" value="{{$client->id}}">
                                 <div class="p-3 table-responsive">
                                     <table class="table table-bordered">
                                         <tbody>
                                             <tr>
                                                 <th class="bg-gray w-25">社名</th>
                                                 <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
+                                                    <input type="text" name="name" id="name" class="form-control" value="{{$client->name}}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">本店所在地</th>
                                                 <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
+                                                    <input type="text" name="address" id="address" class="form-control" value="{{$client->address}}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">代表者</th>
                                                 <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
+                                                    <input type="text" name="representative" id="representative" class="form-control" value="{{$client->representative}}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">代表者住所</th>
                                                 <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
+                                                    <input type="text" name="representative_address" id="representative_address" class="form-control" value="{{$client->representative_address}}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">決算月</th>
                                                 <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
+                                                    <select name="tax_filing_month" id="tax_filing_month" class="form-control">
+                                                        <option value="1">January</option>
+                                                        <option value="2">Februrary</option>
+                                                        <option value="3">March</option>
+                                                        <option value="4">April</option>
+                                                        <option value="5">May</option>
+                                                        <option value="6">June</option>
+                                                        <option value="7">July</option>
+                                                        <option value="8">August</option>
+                                                        <option value="9">September</option>
+                                                        <option value="10">October</option>
+                                                        <option value="11">November</option>
+                                                        <option value="12">December</option>
+                                                    </select>
                                                 </td>
                                             </tr>
                                         </tbody>

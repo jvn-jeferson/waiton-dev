@@ -961,4 +961,38 @@ class HostController extends Controller
 
         return redirect()->route('account');
     }
+
+
+    //client info update
+
+    public function update_client_info(Request $request)
+    {
+        $client = Client::findorFail($request->id);
+
+        if($client){
+            $client->update([
+                'name' => $request->name,
+                'address' => $request->address,
+                'representative' => $request->representative,
+                'representative_address' => $request->representative_address,
+                'tax_filing_month ' => $request->tax_filing_month
+            ]);
+
+            $client->save();
+
+            return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->id)]);
+        }
+
+        abort(403);
+    }
+
+    public function update_notification_settings(Request $request)
+    {
+
+    }
+
+    public function update_taxation_credentials(Request $request)
+    {
+        
+    }
 }
