@@ -77,17 +77,18 @@ class UserController extends Controller
                 ]);
 
                 $user = User::findOrFail($user_id);
+                $accountingOffice = AccountingOffice::findOrFail($accountingId);
                 $token = $user->remember_token;
-                $this->sendAORegistrationEmail($token, $user, $pw);
+                $this->sendAORegistrationEmail($token, $user, $pw, $accountingOffice);
             }
         });
 
         return View::make('main.payment_success');
     }
 
-    public function sendAORegistrationEmail($token, User $user, $password)
+    public function sendAORegistrationEmail($token, User $user, $password, $accountingOffice)
     {
-        Mail::to($user->email)->send(new AccountingOfficeRegistrationMail($token, $user, $password));
+        Mail::to($user->email)->send(new AccountingOfficeRegistrationMail($token, $user, $password, $accountingOffice));
 
         if (Mail::failures()) {
             abort(403);

@@ -70,6 +70,8 @@ class ClientController extends Controller
                     $client_id = Auth::user()->clientStaff->client->id;
                     $staff = ClientStaff::where('user_id', $user_id)->first();
 
+                    //TO FIX upload path:
+
                     $file_id = Files::insertGetId([
                         'user_id' => $user_id,
                         'path' => $request->file('file')[$key]->store('public/files/uploads/'.$client_id),

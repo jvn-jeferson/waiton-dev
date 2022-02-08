@@ -133,6 +133,7 @@
         </section>
     </div>
 
+
 {{-- New Notification Modal --}}
 <div class="modal fade" id="newNotificationModal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="newNotificationModalLabel">
     <div class="modal-dialog modal-lg" role="document">
