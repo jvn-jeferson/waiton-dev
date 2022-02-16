@@ -47,6 +47,7 @@ use App\Mail\UploadNotification;
 use App\Mail\ClientRegistrationMail;
 use App\Mail\PasswordResetMail;
 use App\Mail\InquiryMail;
+use App\Models\TaxingCredentials;
 
 class HostController extends Controller
 {
@@ -991,8 +992,38 @@ class HostController extends Controller
 
     }
 
-    public function update_taxation_credentials(Request $request)
+    public function update_client_credentials(Request $request)
     {
-        
+        $client = Client::findorFail($request->id);
+
+        if($client) {
+            $taxing_credentials = TaxingCredentials::where('client_id', $request->id)->first();
+
+            if($taxing_credentials)
+            {
+                $taxing_credentials->update([
+                    'nta_id' => $request->nta_num,
+                    'nta_password' => $request->nta_password,
+                    'el_tax_id' => $request->el_tax_num,
+                    'el_tax_password' => $request->el_tax_password
+                ]);
+
+                $taxing_credentials->save();
+            }
+            else {
+                TaxingCredentials::create(
+                    [
+                        'client_id' => $request->id,
+                        'nta_id' => $request->nta_number,
+                        'nta_password' => $request->nta_password,
+                        'el_tax_id' => $request->el_tax_num,
+                        'el_tax_password' => $request->el_tax_password
+                    ]
+                    );
+            }
+            return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->id)]);
+        }
+
+        abort(403);
     }
 }

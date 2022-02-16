@@ -121,6 +121,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('save-notification-history', [HostController::class, 'save_notification_archive'])->name('save-notification-archive');
             Route::post('save-url-to-database', [HostController::class, 'save_url_to_database'])->name('save-url-to-database');
             Route::post('update-client-info', [HostController::class, 'update_client_info'])->name('update-client-info');
+            Route::post('update-client-credentials', [HostController::class, 'update_client_credentials'])->name('update-client-credentials');
         });
     });
 

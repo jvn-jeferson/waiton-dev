@@ -5,7 +5,7 @@
         <section class="content">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title text-bold">
                                 連絡事項
@@ -78,7 +78,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-info">
+                    <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">
                                 From会計事務所
@@ -140,7 +140,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-danger">
+                    <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title text-bold">
                                 資料の保管

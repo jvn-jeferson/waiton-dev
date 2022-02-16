@@ -75,11 +75,11 @@
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">国税庁識別番号</th>
-                                        <td colspan="2"><input type="text" name="nta_num" id="nta_num" class="form-control"></td>
+                                        <td colspan="2"><input type="text" name="nta_num" id="nta_num" class="form-control" value="{{$client->credentials->nta_id}}" readonly></td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">パスワード</th>
-                                        <td colspan="2"><input type="text" name="nta_pw" id="nta_pw" class="form-control"></td>
+                                        <td colspan="2"><input type="text" name="nta_pw" id="nta_pw" class="form-control" value="{{$client->credentials->nta_password}}" readonly></td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">E-tax納税者番号</th>
@@ -293,33 +293,18 @@
                                     <table class="table table-bordered">
                                         <tbody>
                                             <tr>
-                                                <th class="bg-gray w-25">社名</th>
-                                                <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th class="bg-gray w-25">本店所在地</th>
-                                                <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th class="bg-gray w-25">代表者</th>
-                                                <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th class="bg-gray w-25">代表者住所</th>
-                                                <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th class="bg-gray w-25">決算月</th>
-                                                <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
+                                                <th class="bg-gray w-25">消費税の申告義務</th>
+                                                <td class="text-center">
+                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                        <label class="btn btn-light">
+                                                            <input type="radio" name="is_taxable" id="option" value="1">
+                                                            課税事業者
+                                                        </label>
+                                                        <label class="btn btn-light">
+                                                            <input type="radio" name="is_taxable" id="option1" value="0">
+                                                            免税事業者
+                                                        </label>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -329,32 +314,34 @@
                             </form>
                         </div>
                         <div class="tab-pane" id="taxation_credentials">
-                            <form action="" method="post">
+                            <form action="{{route('update-client-credentials')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" id="id" value="{{$client->id}}">
                                 <div class="p-3 table-responsive">
                                     <table class="table table-bordered">
                                         <tbody>
                                             <tr>
                                                 <th class="bg-gray w-25">国税庁識別番号</th>
                                                 <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
+                                                    <input type="text" name="nta_number" id="nta_number" class="form-control">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">パスワード</th>
                                                 <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
+                                                    <input type="text" name="nta_password" id="nta_password" class="form-control">
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th class="bg-gray w-25">E-tax納税者番号</th>
+                                                <th class="bg-gray w-25">EL-tax納税者番号</th>
                                                 <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
+                                                    <input type="text" name="el_tax_num" id="el_tax_num" class="form-control">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">国税庁識別番号</th>
                                                 <td>
-                                                    <input type="text" name="name" id="name" class="form-control">
+                                                    <input type="text" name="el_tax_password" id="el_tax_password" class="form-control">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -388,4 +375,10 @@
     });
   });
 </script> --}}
+
+<script>
+    $('#option').on('change', function() {
+        var option = $('#option')
+    })
+</script>
 @endsection

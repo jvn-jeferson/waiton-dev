@@ -22,6 +22,7 @@
                                             <th>投稿者</th>
                                             <th>投稿資料</th>
                                             <th>コメント</th>
+                                            <th>Options</th>
                                         </thead>
                                         <tbody>
                                             @forelse($uploads as $upload)
@@ -32,6 +33,7 @@
                                                     <td>{{$upload->user->clientStaff->name}}</td>
                                                     <td class="text-info"><a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
                                                     <td>{{$upload->comment}}</td>
+                                                    <td class="text-center"><button class="btn btn-primary" onclick="markAsRead({{$upload->id}})" role="button">Mark as read</button></td>
                                                 </tr>
                                             @empty
                                                 <tr>
@@ -78,5 +80,10 @@
                 }
             }
         })
+
+        function markAsRead(target)
+        {
+
+        }
     </script>
 @endsection

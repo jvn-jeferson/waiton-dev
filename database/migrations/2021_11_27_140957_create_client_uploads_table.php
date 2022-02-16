@@ -17,6 +17,7 @@ class CreateClientUploadsTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('file_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->boolean('is_viewed')->nullable()->default(false);
             $table->string('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
