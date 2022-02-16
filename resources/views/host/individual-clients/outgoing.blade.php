@@ -42,8 +42,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="text-center bg-light">コメント</td>
-                                                    <td colspan="2"><input type="text" name="comment" id="comment"
-                                                            class="form-control"></td>
+                                                    <td colspan="2"><textarea name="comment" id="comment"
+                                                            class="form-control" rows="5"></textarea></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="text-center bg-light">ビデオのURL</td>
