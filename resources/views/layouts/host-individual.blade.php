@@ -117,6 +117,9 @@
               <i class="nav-icon fas fa-upload"></i>
               <p>
               To　会計事務所
+              @if($unviewed > 0)
+              <span class="badge badge-danger right">{{$unviewed}}</span>
+              @endif
               </p>
             </a>
           </li>

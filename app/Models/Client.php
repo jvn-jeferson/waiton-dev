@@ -55,6 +55,10 @@ class Client extends Model
         return $this->hasOne(TaxingCredentials::class);
     }
 
+    public function notifs() : HasOne
+    {
+        return $this->hasOne(ClientMajorNotification::class);
+    }
     public function host(): hasOne
     {
         return $this->hasOne(AccountingOffice::class, 'id', 'accounting_office_id');

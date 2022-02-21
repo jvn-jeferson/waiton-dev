@@ -122,6 +122,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('save-url-to-database', [HostController::class, 'save_url_to_database'])->name('save-url-to-database');
             Route::post('update-client-info', [HostController::class, 'update_client_info'])->name('update-client-info');
             Route::post('update-client-credentials', [HostController::class, 'update_client_credentials'])->name('update-client-credentials');
+            Route::post('update-notification-settings', [HostController::class, 'update_notification_settings'])->name('update-notification-settings');
+            Route::post('mark-as-read', [HostController::class, 'mark_as_read'])->name('mark-as-read');
+            Route::post('new-client-user', [HostController::class, 'register_new_client_access'])->name('new-client-user');
+            Route::post('change-contact-email', [HostController::class, 'change_contact_email'])->name('change-contact-email');
         });
     });
 

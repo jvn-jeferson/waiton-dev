@@ -75,19 +75,19 @@
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">国税庁識別番号</th>
-                                        <td colspan="2"><input type="text" name="nta_num" id="nta_num" class="form-control" value="{{$client->credentials->nta_id}}" readonly></td>
+                                        <td colspan="2"><input type="text" name="nta_num" id="nta_num" class="form-control" value="{{$client->credentials->nta_id ?? ''}}" readonly></td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">パスワード</th>
-                                        <td colspan="2"><input type="text" name="nta_pw" id="nta_pw" class="form-control" value="{{$client->credentials->nta_password}}" readonly></td>
+                                        <td colspan="2"><input type="text" name="nta_pw" id="nta_pw" class="form-control" value="{{$client->credentials->nta_password ?? ''}}" readonly></td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">E-tax納税者番号</th>
-                                        <td colspan="2"><input type="text" name="el_tax_num" id="el_tax_num" class="form-control"></td>
+                                        <td colspan="2"><input type="text" name="el_tax_num" id="el_tax_num" class="form-control" value="{{$client->credentials->el_tax_id ?? ''}}" readonly></td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">国税庁識別番号</th>
-                                        <td colspan="2"><input type="text" name="el_tax_pw" id="el_tax_pw" class="form-control"></td>
+                                        <td colspan="2"><input type="text" name="el_tax_pw" id="el_tax_pw" class="form-control" value="{{$client->credentials->el_tax_password ?? ''}}" readonly></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -96,37 +96,59 @@
                     </div>
                 </div>
                 <div class="card card-dark card-outline">
-                    <div class="card-header">
-                        <h3 class="card-title text-dark text-bold">
-                            新規登録
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th class="bg-gray w-25">
-                                    <label for="" class="h4">
-                                        <input type="radio" name="is_admin" id="is_admin" value="0"> 利用者
-                                    </label>
-                                </th>
-                                <td class="w-25 text-center">名前</td>
-                                <td class="bg-gray">
-                                    <input type="text" name="" id="staff_name" class="form-control">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-gray w-25">
-                                    <label for="" class="h4">
-                                        <input type="radio" name="is_admin" id="is_admin" value="1"> 管理者
-                                    </label>
-                                </th>
-                                <td class="w-25 text-center">メールアドレス</td>
-                                <td class="bg-gray">
-                                    <input type="text" name="staff_email" id="staff_email" class="form-control">
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                    <form action="{{route('new-client-user')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="client_id" id="client_id" value="{{$client->id}}">
+                        <div class="card-header">
+                            <h3 class="card-title text-dark text-bold">
+                                新規登録
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th class="bg-gray w-25">
+                                        <label for="" class="h4">
+                                            <input type="radio" name="is_admin" id="is_admin" value="0"> 利用者
+                                        </label>
+                                    </th>
+                                    <td class="w-25 text-center">名前</td>
+                                    <td class="bg-gray">
+                                        <input type="text" name="staff_name" id="staff_name" class="form-control">
+                                        @error('staff_name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-gray w-25">
+                                        <label for="" class="h4">
+                                            <input type="radio" name="is_admin" id="is_admin" value="1"> 管理者
+                                        </label>
+                                        @error('is_admin')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </th>
+                                    <td class="w-25 text-center">メールアドレス</td>
+                                    <td class="bg-gray">
+                                        <input type="text" name="staff_email" id="staff_email" class="form-control">
+                                        @error('staff_email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary float-right btn-submit" type="submit">登録</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="card card-dark card-outline">
                     <div class="card-header">
@@ -138,7 +160,7 @@
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <tr>
-                                    <td class="text-center"><button class="btn btn-warning">編集</button></td>
+                                    <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#changeContactEmailModal">編集</button></td>
                                     <td class="w-25">ワンタイムパスワードの • 送付先メールアドレス</td>
                                     <td>{{$client->contact_email}}</td>
                                 </tr>
@@ -159,29 +181,33 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-center">
-                                            @if($staff->is_admin == 1)
+                                        <td class="text-center bg-gray">
+                                            @if(Auth::user()->role_id == 2)
                                                 <button class="btn btn-warning">編集</button>
                                             @endif
                                         </td>
-                                        <td>
+                                        <th class="bg-gray">
                                             名前
-                                        </td>
-                                        <td>
+                                        </th>
+                                        <td class="bg-gray">
                                             {{$staff->name}}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">
-                                            @if($staff->is_admin == 1)
+                                            @if(Auth::user()->role_id == 2)
                                                 <button class="btn btn-danger">削除</button>
                                             @endif
                                         </td>
                                         <td>
-                                            パスワード
+                                            アクセスレベル
                                         </td>
                                         <td>
-                                            ************
+                                            @if($staff->is_admin == 0)
+                                            利用者
+                                            @else
+                                            管理者
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
@@ -351,6 +377,39 @@
                             </form>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="changeContactEmailModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-bold">
+                        送付先メールアドレス
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('change-contact-email')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="client_id" id="client_id" value="{{$client->id}}" />
+                        <div class="table-responsive">
+                            <table class="table-bordered table">
+                                <tr>
+                                    <th>Email</th>
+                                    <td class="bg-dark">
+                                        <input type="email" name="contact_email" id="contact_email" value="{{$client->contact_email}}" class="form-control">
+                                    </td>
+                                    <td><button type="submit" class="btn btn-success btn-block">編集</button></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

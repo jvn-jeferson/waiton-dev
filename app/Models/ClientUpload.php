@@ -16,12 +16,14 @@ class ClientUpload extends Model
     protected $fillable = [
         'user_id',
         'file_id',
+        'is_viewed',
         'comment'
     ];
 
     protected $filterable = [
         'user_id',
         'file_id',
+        'is_viewed',
         'comment'
     ];
 

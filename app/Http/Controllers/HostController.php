@@ -26,6 +26,7 @@ use App\Models\HostUpload;
 use App\Models\TaxationHistory;
 use App\Models\PastNotification;
 use App\Models\CreatedVideoRecord;
+use App\Models\ClientMajorNotification;
 
 use Carbon\Carbon;
 use Hashids\Hashids;
@@ -353,7 +354,6 @@ class HostController extends Controller
                             $this->sendClientRegistrationEmail($user1->remember_token, $user1, $user1_pw);
                         }
                     }
-
                     if ($request->user2_name != '' && $request->user2_email != '') {
                         $user2_pw = Str::random(8);
                         $user2_id = User::insertGetId([
@@ -409,19 +409,21 @@ class HostController extends Controller
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
-        $client_user_ids = [];
+        $client_user_ids = array();
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
         foreach ($users as $user) {
             if ($user->clientStaff->client->id == $id) {
                 array_push($client_user_ids, $user->id);
             }
         }
+        
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
 
         $messages = Message::where('targeted_at', '=', $id)->orWhere('is_global', '=', 1)->latest()->limit(5)->get();
         $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->get();
         $downloads = HostUpload::where('client_id', '=', $id)->get();
 
-        return View::make('host.individual-clients.dashboard', ['hashids' => $this->hashids, 'client' => $client, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads]);
+        return View::make('host.individual-clients.dashboard', ['hashids' => $this->hashids, 'client' => $client, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads, 'unviewed' => $unviewed]);
     }
 
     public function contact_client(Request $request)
@@ -429,8 +431,17 @@ class HostController extends Controller
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
         $messages = Message::where('targeted_at', $id)->get();
-
-        return View::make('host.individual-clients.message-client', ['hashids' => $this->hashids, 'client' => $client, 'messages' => $messages]);
+        $client_user_ids = array();
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
+            }
+        }
+        
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+        
+        return View::make('host.individual-clients.message-client', ['hashids' => $this->hashids, 'client' => $client, 'messages' => $messages, 'unviewed' => $unviewed]);
     }
 
     public function message_client(Request $request)
@@ -496,8 +507,10 @@ class HostController extends Controller
             }
         }
         $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->get();
-
-        return View::make('host.individual-clients.incoming')->with(['hashids' => $this->hashids, 'client' => $client, 'uploads' => $uploads]);
+        
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+        
+        return View::make('host.individual-clients.incoming')->with(['hashids' => $this->hashids, 'client' => $client, 'uploads' => $uploads, 'unviewed' => $unviewed]);
     }
 
     public function download_file(Request $request)
@@ -514,8 +527,17 @@ class HostController extends Controller
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
         $uploads = HostUpload::where('client_id', $id)->get();
-
-        return View::make('host.individual-clients.outgoing')->with(['hashids' => $this->hashids, 'client' => $client, 'uploads' => $uploads]);
+        $client_user_ids = array();
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
+            }
+        }
+        
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+        
+        return View::make('host.individual-clients.outgoing')->with(['hashids' => $this->hashids, 'client' => $client, 'uploads' => $uploads, 'unviewed' => $unviewed]);
     }
 
     public function file_tax(Request $request)
@@ -582,8 +604,17 @@ class HostController extends Controller
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
         $taxation_archive = TaxationHistory::where('client_id', $client->id)->get();
-
-        return View::make('host.individual-clients.financial-history', ['client' => $client, 'hashids' => $this->hashids, 'archives' => $taxation_archive]);
+        $client_user_ids = array();
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
+            }
+        }
+        
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+        
+        return View::make('host.individual-clients.financial-history', ['client' => $client, 'hashids' => $this->hashids, 'archives' => $taxation_archive, 'unviewed' => $unviewed]);
     }
 
     public function create_video_client(Request $request)
@@ -591,13 +622,22 @@ class HostController extends Controller
         $client_id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($client_id);
         $staff = Auth::user()->accountingOfficeStaff;
-
+        $client_user_ids = array();
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
+            }
+        }
+        
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+        
         if ($request->record_id) {
             $record = TaxationHistory::find($this->hashids->decodeHex($request->record_id)[0]);
         } else {
             $record = null;
         }
-        return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'hashids' => $this->hashids, 'record' => $record]);
+        return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'hashids' => $this->hashids, 'record' => $record, 'unviewed' => $unviewed]);
     }
 
     public function video_creation(Request $request)
@@ -674,16 +714,33 @@ class HostController extends Controller
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
         $videos = CreatedVideoRecord::where('client_id', $client->id)->get();
-
-        return View::make('host.individual-clients.video-list', ['client' => $client, 'hashids' => $this->hashids, 'videos' => $videos]);
+        $client_user_ids = array();
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
+            }
+        }
+        
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+        return View::make('host.individual-clients.video-list', ['client' => $client, 'hashids' => $this->hashids, 'videos' => $videos, 'unviewed' => $unviewed]);
     }
 
     public function access_files_client(Request $request)
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
+        $client_user_ids = array();
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
+            }
+        }
+        
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
 
-        return View::make('host.individual-clients.access-historical-file', ['client' => $client, 'hashids' => $this->hashids]);
+        return View::make('host.individual-clients.access-historical-file', ['client' => $client, 'hashids' => $this->hashids,'unviewed' => $unviewed]);
     }
 
     public function notification_history_client(Request $request)
@@ -691,8 +748,17 @@ class HostController extends Controller
         $page_title = "届出";
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
-        $notification_archives = PastNotification::where(['client_id' => $id])->get();
-        return View::make('host.individual-clients.notification-history')->with(['page_title', $page_title, 'hashids' => $this->hashids, 'client' => $client, 'archives' => $notification_archives]);
+        $notification_archives = PastNotification::where(['client_id' => $id])->get();$client_user_ids = array();
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
+            }
+        }
+        
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+        
+        return View::make('host.individual-clients.notification-history')->with(['page_title', $page_title, 'hashids' => $this->hashids, 'client' => $client, 'archives' => $notification_archives, 'unviewed' => $unviewed]);
     }
 
     public function view_registration_information(Request $request)
@@ -701,7 +767,17 @@ class HostController extends Controller
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
         $months = Client::MONTHS;
-        return View::make('host.individual-clients.view-registration-info')->with(['months' => $months, 'page_title' => $page_title, 'client' => $client, 'hashids' => $this->hashids]);
+        $client_user_ids = array();
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
+            }
+        }
+        
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+        
+        return View::make('host.individual-clients.view-registration-info')->with(['months' => $months, 'page_title' => $page_title, 'client' => $client, 'hashids' => $this->hashids, 'unviewed' => $unviewed]);
     }
 
     public function save_notification_archive(Request $request)
@@ -989,7 +1065,42 @@ class HostController extends Controller
 
     public function update_notification_settings(Request $request)
     {
+        $client_id = $request->client_id;
 
+        $notifs = ClientMajorNotification::where('client_id', $client_id)->first();
+
+
+        if($notifs){
+            $notifs->update([
+                'establishment_notification' => $request->establishment_notification,
+                'blue_declaration' => $request->blue_declaration,
+                'withholding_tax' => $request->holding_tax,
+                'salary_payment' => $request->salary_payment,
+                'extension_filing_deadline' => $request->extension_filing_deadline,
+                'consumption_tax' => $request->consumption_tax,
+                'consumption_tax_excemption' => $request->consumption_tax_excemption,
+                'consumption_tax_selection' => $request->consumption_tax_selection,
+            ]);
+
+            $notifs->save();
+        }
+        else {
+            ClientMajorNotification::create([
+                'client_id' => $client_id,
+                'establishment_notification' => $request->establishment_notification,
+                'blue_declaration' => $request->blue_declaration,
+                'withholding_tax' => $request->holding_tax,
+                'salary_payment' => $request->salary_payment,
+                'extension_filing_deadline' => $request->extension_filing_deadline,
+                'consumption_tax' => $request->consumption_tax,
+                'consumption_tax_excemption' => $request->consumption_tax_excemption,
+                'consumption_tax_selection' => $request->consumption_tax_selection,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]);
+        }
+
+        return redirect()->route('access-notification-history', ['client_id' => $this->hashids->encode($request->client_id)]);
     }
 
     public function update_client_credentials(Request $request)
@@ -1025,5 +1136,90 @@ class HostController extends Controller
         }
 
         abort(403);
+    }
+
+    public function mark_as_read(Request $request)
+    {
+        $record = ClientUpload::find($request->record_id);
+        $record->update([
+            'is_viewed' => 1
+        ]);
+        $record->save();
+
+        return true;
+    }
+
+    public function register_new_client_access(Request $request)
+    {
+        $page_title = '各種設定';
+        $id = $request->client_id;
+        $client = Client::find($id);
+        $months = Client::MONTHS;
+        $client_user_ids = array();
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
+            }
+        }
+        
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+        
+        $validator = Validator::make($request->all(), [
+            'is_admin' => 'required',
+            'staff_name' => 'required',
+            'staff_email' => 'required|unique:users,email|email:rfc,dns'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->client_id)])
+            ->withErrors($validator)
+            ->withInput();
+        }
+        else {
+            DB::transaction(function () use ($request){
+                $role = 5 - $request->is_admin;
+                $pw = Str::random(8);
+                $user = User::create([
+                    'email' => $request->staff_email,
+                    'password' => Hash::make($pw),
+                    'role_id' => $role,
+                    'remember_token' => Str::random(60)
+                ]);
+
+                $login_id = "C" . date('Y') . $role . $user->id . "";
+                $user->update(['login_id', $login_id]);
+                $user->save();
+
+                if($user)
+                {
+                    ClientStaff::create([
+                        'client_id' => $request->client_id,
+                        'user_id' => $user->id,
+                        'name' => $request->staff_name,
+                        'is_admin' => $request->is_admin
+                    ]);
+                }
+
+                $this->sendClientRegistrationEmail($user->remember_token, $user, $pw);
+            });
+            return back()->with('success', 'User successfully created.');
+        }
+    }
+
+    public function change_contact_email(Request $request)
+    {
+        $client = Client::findOrFail($request->client_id);
+
+        if($client)
+        {
+            $client->update([
+                'contact_email' => $request->contact_email
+            ]);
+
+            $client->save();
+        }
+
+        return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->client_id)]);
     }
 }

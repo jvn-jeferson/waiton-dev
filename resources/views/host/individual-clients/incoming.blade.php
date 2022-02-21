@@ -33,7 +33,7 @@
                                                     <td>{{$upload->user->clientStaff->name}}</td>
                                                     <td class="text-info"><a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
                                                     <td>{{$upload->comment}}</td>
-                                                    <td class="text-center"><button class="btn btn-primary" onclick="markAsRead({{$upload->id}})" role="button">Mark as read</button></td>
+                                                    <td class="text-center">@if($upload->is_viewed == 0) <button class="btn btn-primary" onclick="markAsRead({{$upload->id}}, this)" role="button">Mark as read</button>@endif</td>
                                                 </tr>
                                             @empty
                                                 <tr>
@@ -81,9 +81,17 @@
             }
         })
 
-        function markAsRead(target)
+        function markAsRead(target, button)
         {
+            var url = "{{route('mark-as-read')}}"
 
+            axios.post(url, {
+                record_id: target
+            }).then(function(response) {
+                button.disabled = 'disabled'
+            }).catch(function(error) {
+                console.log(error.response);
+            })
         }
     </script>
 @endsection
