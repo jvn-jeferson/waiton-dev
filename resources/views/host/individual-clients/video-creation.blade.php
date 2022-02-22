@@ -66,8 +66,9 @@
                 transform: rotate(360deg);
             }
         }
+
         .change-cursor {
-            cursor: url("{{asset('img/pointer.cur')}}"), auto;
+            cursor: url("{{ asset('img/pointer.cur') }}"), auto;
         }
 
     </style>
@@ -109,10 +110,10 @@
                                 <label for="tools">描画ツール</label>
                                 <button class="btn btn-block btn-light text-bold" onclick="setPointer()" id="pointerBtn"><i
                                         class="fas fa-circle text-danger"></i> ポインタ</button>
-                                <button class="btn btn-block btn-light text-bold" onclick="setPencil()" type="button" id="pencilBtn"><i
-                                        class="fas fa-pencil-alt"></i> 鉛筆</button>
-                                <button class="btn btn-block btn-light text-bold" onclick="setMarker()" type="button" id="markerBtn"><i
-                                        class="fas fa-marker text-warning"></i> マーカー</button>
+                                <button class="btn btn-block btn-light text-bold" onclick="setPencil()" type="button"
+                                    id="pencilBtn"><i class="fas fa-pencil-alt"></i> 鉛筆</button>
+                                <button class="btn btn-block btn-light text-bold" onclick="setMarker()" type="button"
+                                    id="markerBtn"><i class="fas fa-marker text-warning"></i> マーカー</button>
                             </div>
                             <div class="form-row mt-2 text-center align-items-center">
                                 <div class="col-6">
@@ -134,7 +135,9 @@
                                 収録終了</button>
                             <button class="btn btn-block btn-warning mt-5" id="preview" data-toggle="modal"
                                 data-target=".bd-example-modal-lg">プレビュー</button>
-                            <button class="btn btn-block btn-warning mt-2" id="download">保存</button>
+                            <button class="btn btn-block btn-warning mt-2" id="mute">
+                                <i class="fa fa-microphone" aria-hidden="true"></i>
+                            </button>
                             <div class="form-group">
                                 <button class="btn btn-block btn-warning mt-5" id="copy_url">URLをコピー</button>
                                 <input type="text" id="file_url" name="file_url" class="form-control"
@@ -144,8 +147,7 @@
                             @php
                                 $client_id = $hashids->encode($client->id);
                             @endphp
-                            <button class="btn btn-danger btn-block" onclick=
-                            'cancelButton("{{$client_id}}")'>キャンセル
+                            <button class="btn btn-danger btn-block" onclick='cancelButton("{{ $client_id }}")'>キャンセル
                             </button>
                             <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
                                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -173,7 +175,6 @@
                                                                 <td>
                                                                     @if ($record)
                                                                         {{ $record->settlement_date->format('Y-m-d') }}
-
                                                                     @endif
                                                                 </td>
                                                             </tr>
@@ -191,7 +192,6 @@
                                                                     @if ($record)
                                                                         {{ $record->proposal_date->format('Y-m-d') }} |
                                                                         {{ $record->recognition_date->format('Y-m-d') }}
-
                                                                     @endif
                                                                 </td>
                                                             </tr>
@@ -233,11 +233,9 @@
                 </div>
         </section>
     </div>
-
 @endsection
 
 @section('extra-scripts')
-
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -319,6 +317,7 @@
         let stroke_color = 'black'
         let stroke_width = "2"
         let is_drawing = false
+
         function change_color(element) {
             stroke_color = element.style.background;
         }
@@ -329,9 +328,9 @@
 
         function setPointer() {
             stroke_color = 'transparent'
-            if(canvas.classList.contains('change-cursor')){
+            if (canvas.classList.contains('change-cursor')) {
                 canvas.classList.remove('change-cursor');
-            }else {
+            } else {
                 canvas.classList.add('change-cursor');
             }
 
@@ -347,7 +346,8 @@
             canvas.classList.remove('change-cursor');
             stroke_color = 'yellow'
             stroke_width = "10"
-            context.fillStyle = 'hsla(0, 0%, 40%, 0)'
+            context.globalCompositeOperation = "multiply";
+            context.fillStyle = '#ff0'
         }
 
         $('button').click(function() {
@@ -441,6 +441,7 @@
         const downloadButton = document.querySelector('button#download');
         const pause_play = document.querySelector('button#pause');
         const completion = document.querySelector('button#completion');
+        const muteButton = document.querySelector('button#mute');
 
         completion.addEventListener('click', () => {
             var vid_url = $('#file_url').val();
@@ -471,24 +472,6 @@
         stopButton.addEventListener('click', () => {
             stopRecording();
             window.stream = null;
-        })
-        //File URL
-        copy_url.addEventListener('click', () => {
-            var textBox = document.getElementById("file_url");
-            textBox.select();
-            document.execCommand("copy");
-        })
-        //Preview
-        preview.addEventListener('click', () => {
-            const blob = new Blob(recordedBlobs, {
-                type: 'video/mp4'
-            });
-            var video = document.getElementById("video");
-            video.src = window.URL.createObjectURL(blob);
-        });
-        //CHANGE TO UPLOAD TO GOOGLE DRIVE
-        //RETURN GDRIVE LINKS
-        downloadButton.addEventListener('click', () => {
             $("#overlay").fadeIn(300);
             const blob = new Blob(recordedBlobs, {
                 type: 'video/mp4'
@@ -521,6 +504,27 @@
             setTimeout(() => {
                 document.body.removeChild(a);
             }, 100);
+        })
+
+        muteButton.addEventListener('click', () => {
+            $('body video, body audio').each(function(){
+             /*** Do it here globally ***/
+             $(this).prop('muted', true);
+          });
+        });
+        //File URL
+        copy_url.addEventListener('click', () => {
+            var textBox = document.getElementById("file_url");
+            textBox.select();
+            document.execCommand("copy");
+        })
+        //Preview
+        preview.addEventListener('click', () => {
+            const blob = new Blob(recordedBlobs, {
+                type: 'video/mp4'
+            });
+            var video = document.getElementById("video");
+            video.src = window.URL.createObjectURL(blob);
         });
 
         pause_play.addEventListener('click', function() {
@@ -549,16 +553,15 @@
             }
         })
 
-        function cancelButton(id)
-        {
-               Swal.fire({
-                    icon: 'info',
-                    title: '録画をキャンセルしてよろしいですか？',
-                }).then((result) => {
-                    var current_url = "{{dirname(url()->current())}}";
-                    var url = current_url+"/dashboard?client_id="+id;
-                    window.location = url;
-                })
+        function cancelButton(id) {
+            Swal.fire({
+                icon: 'info',
+                title: '録画をキャンセルしてよろしいですか？',
+            }).then((result) => {
+                var current_url = "{{ dirname(url()->current()) }}";
+                var url = current_url + "/dashboard?client_id=" + id;
+                window.location = url;
+            })
         }
 
         function handleDataAvailable(event) {
@@ -610,8 +613,11 @@
         }
         async function init(constraints) {
             try {
-                const displayStream  = await navigator.mediaDevices.getDisplayMedia(constraints);
-                const voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                const displayStream = await navigator.mediaDevices.getDisplayMedia(constraints);
+                const voiceStream = await navigator.mediaDevices.getUserMedia({
+                    audio: true,
+                    video: false
+                });
                 let tracks = [...displayStream.getTracks(), ...voiceStream.getAudioTracks()]
                 const stream = new MediaStream(tracks);
                 handleSuccess(stream);
@@ -630,11 +636,11 @@
             })
 
             const constraints = {
-                    video: {
-                        width: 1280,
-                        height: 720
-                    }
-                };
+                video: {
+                    width: 1280,
+                    height: 720
+                }
+            };
             await init(constraints);
 
         });
@@ -667,5 +673,4 @@
                 })
         }
     </script>
-
 @endsection
