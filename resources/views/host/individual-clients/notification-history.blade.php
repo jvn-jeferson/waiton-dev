@@ -18,16 +18,16 @@
                                     <td class="w-25 text-bold" rowspan="5">主要な届出等の状況</td>
                                     <td class="bg-gray">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="defaultCheck1" @if($client->notifs) @if($client->notifs->establishment_notification) checked @endif @endif>
-                                            <label class="form-check-label" for="defaultCheck1">
+                                            <input class="form-check-input" disabled type="checkbox" id="defaultCheck1" disabled @if($client->notifs) @if($client->notifs->establishment_notification) checked @endif @endif>
+                                            <label for="defaultCheck1">
                                                 設立（開業）届出書
                                             </label>
                                         </div>
                                     </td>
                                     <td class="bg-gray">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" @if($client->notifs)  @if($client->notifs->blue_declaration) checked @endif @endif>
-                                            <label class="form-check-label" for="defaultCheck1">
+                                            <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs)  @if($client->notifs->blue_declaration) checked @endif @endif>
+                                            <label for="defaultCheck1">
                                                 青色申告の申請
                                             </label>
                                         </div>
@@ -36,16 +36,16 @@
                                 <tr>
                                     <td class="bg-gray">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->withholding_tax) checked @endif @endif>
-                                            <label class="form-check-label" for="defaultCheck1">
+                                            <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->withholding_tax) checked @endif @endif>
+                                            <label for="defaultCheck1">
                                                 源泉所得税の納期の特例
                                             </label>
                                         </div>
                                     </td>
                                     <td class="bg-gray">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->salary_payment) checked @endif @endif>
-                                            <label class="form-check-label" for="defaultCheck1">
+                                            <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->salary_payment) checked @endif @endif>
+                                            <label for="defaultCheck1">
                                                 給与支払事務所等の届出
                                             </label>
                                         </div>
@@ -54,8 +54,8 @@
                                 <tr>
                                     <td class="bg-gray">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->extension_filing_deadline) checked @endif @endif>
-                                            <label class="form-check-label" for="defaultCheck1">
+                                            <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->extension_filing_deadline) checked @endif @endif>
+                                            <label for="defaultCheck1">
                                                 申告期限の延長申請
                                             </label>
                                         </div>
@@ -67,16 +67,16 @@
                                 <tr>
                                     <td class="bg-gray">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->consumption_tax) checked @endif @endif>
-                                            <label class="form-check-label" for="defaultCheck1">
+                                            <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->consumption_tax) checked @endif @endif>
+                                            <label for="defaultCheck1">
                                                 消費税の課税事業者
                                             </label>
                                         </div>
                                     </td>
                                     <td class="bg-gray">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->consumption_tax_excemption) checked @endif @endif>
-                                            <label class="form-check-label" for="defaultCheck1">
+                                            <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->consumption_tax_excemption) checked @endif @endif>
+                                            <label for="defaultCheck1">
                                                 消費税の免税事業者の届出
                                             </label>
                                         </div>
@@ -85,8 +85,8 @@
                                 <tr>
                                     <td class="bg-gray">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->consumption_tax_selection) checked @endif @endif>
-                                            <label class="form-check-label" for="defaultCheck1">
+                                            <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->consumption_tax_selection) checked @endif @endif>
+                                            <label for="defaultCheck1">
                                                 消費税の課税事業者の選択届出書
                                             </label>
                                         </div>
@@ -154,20 +154,20 @@
                                         <label class="text-bold" for="notification_type">種類</label>
                                         <div class="form-group px-auto">
                                             <div class="form-check form-check-inline mr-5">
-                                                <input class="form-check-input" type="radio" id="notification_type1" name="notification_type" value="option1">
-                                                <label class="form-check-label" for="notification_type1">異動届</label>
+                                                <input class="form-check-input"  type="radio" id="notification_type1" name="notification_type" value="option1">
+                                                <label for="notification_type1">異動届</label>
                                             </div>
                                             <div class="form-check form-check-inline mx-5">
-                                                <input class="form-check-input" type="radio" id="notification_type2" name="notification_type" value="option1">
-                                                <label class="form-check-label" for="notification_type2">届出</label>
+                                                <input class="form-check-input"  type="radio" id="notification_type2" name="notification_type" value="option1">
+                                                <label for="notification_type2">届出</label>
                                             </div>
                                             <div class="form-check form-check-inline mx-5">
-                                                <input class="form-check-input" type="radio" id="notification_type3" name="notification_type" value="option1">
-                                                <label class="form-check-label" for="notification_type3">申請</label>
+                                                <input class="form-check-input"  type="radio" id="notification_type3" name="notification_type" value="option1">
+                                                <label for="notification_type3">申請</label>
                                             </div>
                                             <div class="form-check form-check-inline mx-5">
-                                                <input class="form-check-input" type="radio" id="notification_type4" name="notification_type" value="option1">
-                                                <label class="form-check-label" for="notification_type4">その他</label>
+                                                <input class="form-check-input"  type="radio" id="notification_type4" name="notification_type" value="option1">
+                                                <label for="notification_type4">その他</label>
                                             </div>
                                         </div>
                                     </td>
@@ -234,7 +234,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="establishment_notification" id="establishment_notification" value="1" >
-                                        <label class="form-check-label" for="establishment_notification">
+                                        <label for="establishment_notification">
                                             設立（開業）届出書
                                         </label>
                                     </div>
@@ -242,7 +242,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="blue_declaration" id="blue_declaration" value="1" >
-                                        <label class="form-check-label" for="blue_declaration">
+                                        <label for="blue_declaration">
                                             青色申告の申請
                                         </label>
                                     </div>
@@ -252,7 +252,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="withholding_tax" id="withholding_tax" value="1" >
-                                        <label class="form-check-label" for="withholding_tax">
+                                        <label for="withholding_tax">
                                             源泉所得税の納期の特例
                                         </label>
                                     </div>
@@ -260,7 +260,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="salary_payment" id="salary_payment" value="1" >
-                                        <label class="form-check-label" for="salary_payment">
+                                        <label for="salary_payment">
                                             給与支払事務所等の届出
                                         </label>
                                     </div>
@@ -270,7 +270,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="extension_filing_deadline" id="extension_filing_deadline" value="1" >
-                                        <label class="form-check-label" for="extension_filing_deadline">
+                                        <label for="extension_filing_deadline">
                                             申告期限の延長申請
                                         </label>
                                     </div>
@@ -283,7 +283,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="consumption_tax" id="consumption_tax" value="1" >
-                                        <label class="form-check-label" for="consumption_tax">
+                                        <label for="consumption_tax">
                                             消費税の課税事業者
                                         </label>
                                     </div>
@@ -291,7 +291,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="consumption_tax_excemption" id="consumption_tax_excemption" value="1">
-                                        <label class="form-check-label" for="consumption_tax_excemption">
+                                        <label for="consumption_tax_excemption">
                                             消費税の免税事業者の届出
                                         </label>
                                     </div>
@@ -301,7 +301,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="consumption_tax_selection" id="consumption_tax_selection" value="1">
-                                        <label class="form-check-label" for="consumption_tax_selection">
+                                        <label for="consumption_tax_selection">
                                             消費税の課税事業者の選択届出書
                                         </label>
                                     </div>
