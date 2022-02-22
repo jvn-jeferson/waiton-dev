@@ -75,7 +75,7 @@
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">国税庁識別番号</th>
-                                        <td colspan="2"><input type="text" name="nta_num" id="nta_num" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_id}}" @endif readonly></td>
+                                        <td colspan="2"><input type="text" name="nta_num" id="nta_num" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_id ?? ''}}" @endif readonly></td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">パスワード</th>
@@ -285,7 +285,7 @@
                                             <tr>
                                                 <th class="bg-gray w-25">代表者住所</th>
                                                 <td>
-                                                    <input type="text" name="representative_address" id="representative_address" class="form-control" value="{{$client->representative_address}}">
+                                                    <input type="text" name="representative_address" id="representative_address" class="form-control" value="{{$client->representative_address ?? ''}}">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -349,25 +349,25 @@
                                             <tr>
                                                 <th class="bg-gray w-25">国税庁識別番号</th>
                                                 <td>
-                                                    <input type="text" name="nta_number" id="nta_number" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_id}}" @endif>
+                                                    <input type="text" name="nta_number" id="nta_number" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_id ?? ''}}" @endif>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">パスワード</th>
                                                 <td>
-                                                    <input type="text" name="nta_password" id="nta_password" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_password}}" @endif>
+                                                    <input type="text" name="nta_password" id="nta_password" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_password ?? ''}}" @endif>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">EL-tax納税者番号</th>
                                                 <td>
-                                                    <input type="text" name="el_tax_num" id="el_tax_num" class="form-control" @if($client->credentials) value="{{$client->credentials->el_tax_id}}" @endif>
+                                                    <input type="text" name="el_tax_num" id="el_tax_num" class="form-control" @if($client->credentials) value="{{$client->credentials->el_tax_id ?? ''}}" @endif>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">国税庁識別番号</th>
                                                 <td>
-                                                    <input type="text" name="el_tax_password" id="el_tax_password" class="form-control" @if($client->credetials) value="{{$client->credentials->nta_password}}" @endif>
+                                                    <input type="text" name="el_tax_password" id="el_tax_password" class="form-control" @if($client->credetials) value="{{$client->credentials->nta_password ?? ''}}" @endif>
                                                 </td>
                                             </tr>
                                         </tbody>
