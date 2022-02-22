@@ -13,10 +13,11 @@ use App\Notifications\SendPasswordNotification;
 use App\Notifications\ChangePasswordNotification;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $table = 'users';
 
@@ -43,6 +44,8 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that should be cast.

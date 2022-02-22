@@ -416,7 +416,7 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-        
+
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
 
         $messages = Message::where('targeted_at', '=', $id)->orWhere('is_global', '=', 1)->latest()->limit(5)->get();
@@ -438,9 +438,9 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-        
+
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
-        
+
         return View::make('host.individual-clients.message-client', ['hashids' => $this->hashids, 'client' => $client, 'messages' => $messages, 'unviewed' => $unviewed]);
     }
 
@@ -507,9 +507,9 @@ class HostController extends Controller
             }
         }
         $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->get();
-        
+
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
-        
+
         return View::make('host.individual-clients.incoming')->with(['hashids' => $this->hashids, 'client' => $client, 'uploads' => $uploads, 'unviewed' => $unviewed]);
     }
 
@@ -534,9 +534,9 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-        
+
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
-        
+
         return View::make('host.individual-clients.outgoing')->with(['hashids' => $this->hashids, 'client' => $client, 'uploads' => $uploads, 'unviewed' => $unviewed]);
     }
 
@@ -611,9 +611,9 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-        
+
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
-        
+
         return View::make('host.individual-clients.financial-history', ['client' => $client, 'hashids' => $this->hashids, 'archives' => $taxation_archive, 'unviewed' => $unviewed]);
     }
 
@@ -629,9 +629,9 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-        
+
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
-        
+
         if ($request->record_id) {
             $record = TaxationHistory::find($this->hashids->decodeHex($request->record_id)[0]);
         } else {
@@ -721,7 +721,7 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-        
+
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
         return View::make('host.individual-clients.video-list', ['client' => $client, 'hashids' => $this->hashids, 'videos' => $videos, 'unviewed' => $unviewed]);
     }
@@ -737,7 +737,7 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-        
+
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
 
         return View::make('host.individual-clients.access-historical-file', ['client' => $client, 'hashids' => $this->hashids,'unviewed' => $unviewed]);
@@ -755,9 +755,9 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-        
+
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
-        
+
         return View::make('host.individual-clients.notification-history')->with(['page_title', $page_title, 'hashids' => $this->hashids, 'client' => $client, 'archives' => $notification_archives, 'unviewed' => $unviewed]);
     }
 
@@ -774,9 +774,9 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-        
+
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
-        
+
         return View::make('host.individual-clients.view-registration-info')->with(['months' => $months, 'page_title' => $page_title, 'client' => $client, 'hashids' => $this->hashids, 'unviewed' => $unviewed]);
     }
 
@@ -1162,9 +1162,9 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-        
+
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
-        
+
         $validator = Validator::make($request->all(), [
             'is_admin' => 'required',
             'staff_name' => 'required',
@@ -1221,5 +1221,24 @@ class HostController extends Controller
         }
 
         return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->client_id)]);
+    }
+
+    public function delete_user(Request $request)
+    {
+        $id = $request->user_id;
+
+        DB::transaction(function () use($id){
+
+            $staff = ClientStaff::findOrFail($id);
+
+            $user_id = $staff->user_id;
+
+            $user = User::findOrFail($user_id);
+
+            $staff->delete();
+            $user->delete();
+        });
+
+        return "Deleted!";
     }
 }

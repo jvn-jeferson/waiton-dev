@@ -75,7 +75,7 @@
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">国税庁識別番号</th>
-                                        <td colspan="2"><input type="text" name="nta_num" id="nta_num" class="form-control" value="{{$client->credentials->nta_id ?? ''}}" readonly></td>
+                                        <td colspan="2"><input type="text" name="nta_num" id="nta_num" class="form-control" value="{{$client->credentials->nta_id}}" readonly></td>
                                     </tr>
                                     <tr>
                                         <th class="bg-gray w-25">パスワード</th>
@@ -196,7 +196,7 @@
                                     <tr>
                                         <td class="text-center">
                                             @if(Auth::user()->role_id == 2)
-                                                <button class="btn btn-danger">削除</button>
+                                                <button class="btn btn-danger" onclick="deleteUser({{$staff->id}})">削除</button>
                                             @endif
                                         </td>
                                         <td>
@@ -349,25 +349,25 @@
                                             <tr>
                                                 <th class="bg-gray w-25">国税庁識別番号</th>
                                                 <td>
-                                                    <input type="text" name="nta_number" id="nta_number" class="form-control">
+                                                    <input type="text" name="nta_number" id="nta_number" class="form-control" value="{{$client->credentials->nta_id}}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">パスワード</th>
                                                 <td>
-                                                    <input type="text" name="nta_password" id="nta_password" class="form-control">
+                                                    <input type="text" name="nta_password" id="nta_password" class="form-control" value="{{$client->credentials->nta_password}}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">EL-tax納税者番号</th>
                                                 <td>
-                                                    <input type="text" name="el_tax_num" id="el_tax_num" class="form-control">
+                                                    <input type="text" name="el_tax_num" id="el_tax_num" class="form-control" value="{{$client->credentials->el_tax_id}}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">国税庁識別番号</th>
                                                 <td>
-                                                    <input type="text" name="el_tax_password" id="el_tax_password" class="form-control">
+                                                    <input type="text" name="el_tax_password" id="el_tax_password" class="form-control" value="{{$client->credentials->nta_password}}">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -417,27 +417,37 @@
 @endsection
 
 @section('extra-scripts')
-{{-- <script>
-    submit_settings.addEventListener('click', () => {
-    var data = $('.various_settings').serializeArray();
-    var url = "{{route('save-settings')}}";
-    axios.post(url, {
-        data: data,
-    }).then(function(response){
-        Swal.fire({
-            icon: 'success',
-            title: 'Successfully Updated.',
-            text: 'An email has been sent to your registered email address to access the requested information.'
-        })
-    }).catch(function(error){
-        console.log(error.response.data)
-    });
-  });
-</script> --}}
 
-<script>
-    $('#option').on('change', function() {
-        var option = $('#option')
-    })
-</script>
+    <script>
+        function deleteUser(id)
+        {
+            Swal.fire({
+                title: "その後の動きは、変更しますか？",
+                showCancelButton: true,
+                focusConfirm: false
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    var url = "{{route('delete-user')}}"
+                    axios.post(url, {
+                        user_id : id
+                    }).then(function(response) {
+                        if(response.data == 'Deleted!')
+                        {
+                            Swal.fire({
+                                title: 'Deleted',
+                                icon: 'success'
+                            }).then((result) => {
+                                if(result.isConfirmed)
+                                {
+                                    location.reload()
+                                }
+                            })
+                        }
+                    }).catch(function(error) {
+                        console.log(error.response.data)
+                    })
+                }
+            })
+        }
+    </script>
 @endsection

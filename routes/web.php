@@ -126,6 +126,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('mark-as-read', [HostController::class, 'mark_as_read'])->name('mark-as-read');
             Route::post('new-client-user', [HostController::class, 'register_new_client_access'])->name('new-client-user');
             Route::post('change-contact-email', [HostController::class, 'change_contact_email'])->name('change-contact-email');
+            Route::post('delete-user', [HostController::class, 'delete_user'])->name('delete-user');
         });
     });
 
