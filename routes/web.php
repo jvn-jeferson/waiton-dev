@@ -127,6 +127,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('new-client-user', [HostController::class, 'register_new_client_access'])->name('new-client-user');
             Route::post('change-contact-email', [HostController::class, 'change_contact_email'])->name('change-contact-email');
             Route::post('delete-user', [HostController::class, 'delete_user'])->name('delete-user');
+            Route::post('update-client-stafff', [HostController::class, 'update_client_staff'])->name('update-client-staff');
+            Route::post('get-client-staff', [HostController::class, 'get_client_staff'])->name('get-client-staff');
         });
     });
 

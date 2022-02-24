@@ -184,7 +184,7 @@
                                     <tr>
                                         <td class="text-center bg-gray">
                                             @if(Auth::user()->role_id == 2)
-                                                <button class="btn btn-warning">編集</button>
+                                                <button class="btn btn-warning" role="button" onclick="updateUser({{$staff->id}})">編集</button>
                                             @endif
                                         </td>
                                         <th class="bg-gray">
@@ -415,6 +415,66 @@
             </div>
         </div>
     </div>
+
+    <div class="modal face" id="userModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Update User Information
+                    </h4>
+                    <button class="close" type="button" data-dismiss="modal">&times;</button>
+                </div>
+                <form action="{{route('update-client-staff')}}" method="post">
+                    <input type="hidden" name="userID" id="userID">
+                    <input type="hidden" name="clientID" id="clientID" value="{{$client->id}}">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            名前
+                                        </th>
+                                        <td>
+                                            <input type="text" class="form-control" id="userName" name="userName">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            メールアドレス
+                                        </th>
+                                        <td>
+                                            <input type="email" class="form-control" id="userEmail" name="userEmail">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            ユーザーID
+                                        </th>
+                                        <td>
+                                            <input type="text" class="form-control" id="userLogin" name="userLogin" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>New Password</th>
+                                        <td>
+                                            <input type="password" name="userPassword" id="userPassword" class="form-control">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="float-right btn btn-primary" type="submit">Save</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('extra-scripts')
@@ -449,6 +509,31 @@
                     })
                 }
             })
+        }
+
+        function updateUser(user_id) {
+
+            var url = "{{route('get-client-staff')}}";
+            var userModal = $('#userModal');
+            axios.post(url, {
+                id: user_id,
+            }).then(function(response) {
+                name = response.data['name']
+                email = response.data['email']
+                id = response.data['id']
+                login_id = response.data['login_id']
+                remember_token = response.data['token']
+
+                $('#userName').val(name)
+                $('#userEmail').val(email)
+                $('#userLogin').val(login_id)
+                $('#userID').val(id)
+                userModal.modal('show');
+
+            }).catch(function(error) {
+                console.log(error.response.data)
+            })
+
         }
     </script>
 @endsection

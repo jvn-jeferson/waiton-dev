@@ -22,7 +22,6 @@
                                             <th>投稿者</th>
                                             <th>投稿資料</th>
                                             <th>コメント</th>
-                                            <th>Options</th>
                                         </thead>
                                         <tbody>
                                             @forelse($uploads as $upload)
@@ -31,9 +30,8 @@
                                                     <td>{{$upload->created_at->format('Y年m月d日 H:i')}}</td>
                                                     <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日 H:i')}}</td>
                                                     <td>{{$upload->user->clientStaff->name}}</td>
-                                                    <td class="text-info"><a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
+                                                    <td class="text-info"><a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}" onclick="markAsRead({{$upload->id}}, this)" role="button">{{$upload->file->name}}</a></td>
                                                     <td>{{$upload->comment}}</td>
-                                                    <td class="text-center">@if($upload->is_viewed == 0) <button class="btn btn-primary" onclick="markAsRead({{$upload->id}}, this)" role="button">Mark as read</button>@endif</td>
                                                 </tr>
                                             @empty
                                                 <tr>

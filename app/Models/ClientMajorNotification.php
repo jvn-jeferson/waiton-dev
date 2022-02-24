@@ -23,5 +23,5 @@ class ClientMajorNotification extends Model
         'consumption_tax_selection'
     ];
 
-    
+
 }

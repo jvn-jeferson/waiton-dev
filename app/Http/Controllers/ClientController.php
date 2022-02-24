@@ -43,7 +43,7 @@ class ClientController extends Controller
     }
     public function index()
     {
-        $messages = Message::where('created_at', '>=', Carbon::now())->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->limit(5)->get();
+        $messages = Message::where('created_at', '>=', Carbon::now())->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5)->get();
         $uploads = ClientUpload::where('user_id', Auth::user()->id)->get();
         $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
         $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->get();
@@ -75,11 +75,11 @@ class ClientController extends Controller
                     $file = $request->file('file')[$key];
                     Storage::disk('gcs')->put(Auth::user()->clientStaff->client->id . "/" . $name, file_get_contents($file));
                     $path = Auth::user()->clientStaff->client->id . "/" . $name;
-                    
+
 
                     $file_id = Files::insertGetId([
                         'user_id' => $user_id,
-                        'path' => $path, 
+                        'path' => $path,
                         'name' => $name,
                         'size' => $request->file('file')[$key]->getSize(),
                         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),

@@ -419,7 +419,7 @@ class HostController extends Controller
 
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
 
-        $messages = Message::where('targeted_at', '=', $id)->orWhere('is_global', '=', 1)->latest()->limit(5)->get();
+        $messages = Message::where('created_at', '>=', Carbon::now())->where('is_global', 1)->orWhere('targeted_at', $client->id)->latest()->limit(5)->get();
         $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->get();
         $downloads = HostUpload::where('client_id', '=', $id)->get();
 
@@ -1016,6 +1016,22 @@ class HostController extends Controller
         return $data;
     }
 
+    public function get_client_staff(Request $request)
+    {
+        $staff_id = $request->id;
+        $staff = ClientStaff::findOrFail($staff_id);
+        $user = User::findOrFail($staff->user_id);
+        $data = array(
+            'name' => $staff->name,
+            'email' => $user->email,
+            'token' => $user->remember_token,
+            'login_id' => $user->login_id,
+            'id' => $user->id
+        );
+
+        return $data;
+    }
+
     public function update_staff(Request $request)
     {
         DB::transaction(function () use ($request) {
@@ -1039,6 +1055,30 @@ class HostController extends Controller
         return redirect()->route('account');
     }
 
+    public function update_client_staff(Request $request)
+    {
+        DB::transaction(function () use ($request) {
+            $user = User::find($request->userID);
+            $staff = ClientStaff::where('user_id', $user->id)->first();
+
+            $user->update([
+                'email' => $request->userEmail,
+                'password' => Hash::make($request->userPassword)
+            ]);
+
+            $user->save();
+
+            $staff->update([
+                'name' => $request->userName,
+            ]);
+
+            $staff->save();
+        });
+
+
+
+        return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->clientID)]);
+    }
 
     //client info update
 
@@ -1074,7 +1114,7 @@ class HostController extends Controller
             $notifs->update([
                 'establishment_notification' => $request->establishment_notification,
                 'blue_declaration' => $request->blue_declaration,
-                'withholding_tax' => $request->holding_tax,
+                'withholding_tax' => $request->withholding_tax,
                 'salary_payment' => $request->salary_payment,
                 'extension_filing_deadline' => $request->extension_filing_deadline,
                 'consumption_tax' => $request->consumption_tax,
