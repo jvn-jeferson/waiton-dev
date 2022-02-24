@@ -109,7 +109,7 @@
                                 <tr>
                                     <th class="bg-gray w-25">
                                         <label for="" class="h4">
-                                            <input type="radio" name="is_admin" id="is_admin" value="0"> 利用者
+                                            <input type="radio" name="is_admin" id="is_admin" value="1"> 管理者
                                         </label>
                                     </th>
                                     <td class="w-25 text-center">名前</td>
@@ -124,8 +124,9 @@
                                 </tr>
                                 <tr>
                                     <th class="bg-gray w-25">
+
                                         <label for="" class="h4">
-                                            <input type="radio" name="is_admin" id="is_admin" value="1"> 管理者
+                                            <input type="radio" name="is_admin" id="is_admin" value="0"> 利用者
                                         </label>
                                         @error('is_admin')
                                             <span class="invalid-feedback" role="alert">

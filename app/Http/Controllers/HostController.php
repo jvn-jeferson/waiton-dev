@@ -1052,7 +1052,7 @@ class HostController extends Controller
                 'address' => $request->address,
                 'representative' => $request->representative,
                 'representative_address' => $request->representative_address,
-                'tax_filing_month ' => $request->tax_filing_month
+                'tax_filing_month' => (int) $request->tax_filing_month
             ]);
 
             $client->save();
