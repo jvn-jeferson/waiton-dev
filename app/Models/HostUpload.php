@@ -21,7 +21,8 @@ class HostUpload extends Model
         'status',
         'priority',
         'details',
-        'modified_by_user_id'
+        'modified_by_user_id',
+        'video_url'
     ];
 
     protected $dates = ['deleted_at'];

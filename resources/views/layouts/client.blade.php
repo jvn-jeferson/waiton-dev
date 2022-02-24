@@ -122,7 +122,7 @@
               <i class="nav-icon fas fa-download"></i>
               <p>
               From　会計事務所
-                {{-- <span class="right badge badge-danger">2</span> --}}
+                <span class="right badge badge-danger">{{$for_approval}}</span>
               </p>
             </a>
           </li>

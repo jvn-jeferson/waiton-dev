@@ -34,12 +34,19 @@ use App\Mail\OTPMail;
 
 class ClientController extends Controller
 {
-
     public $hashids;
+    public $for_approval;
 
     public function __construct()
     {
         $this->hashids = new Hashids(config('hashids.loginSalt'), 10);
+    }
+
+    public function get_approval_count()
+    {
+        $client_id = Auth::user()->clientStaff->client->id;
+
+        return HostUpload::where('client_id', $client_id)->where('status', 0)->where('priority', 0)->count();
     }
     public function index()
     {
@@ -48,14 +55,14 @@ class ClientController extends Controller
         $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
         $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->get();
         $page_title = 'ホーム';
-        return View::make('client.dashboard')->with(['page_title' => $page_title, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads, 'files' => $files]);
+        return View::make('client.dashboard')->with(['for_approval' => $this->get_approval_count(),'page_title' => $page_title, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads, 'files' => $files]);
     }
 
     public function going_out()
     {
         $page_title = 'To　会計事務所';
         $uploads = ClientUpload::where('user_id', Auth::user()->id)->latest()->get();
-        return View::make('client.outgoing')->with(['page_title' => $page_title, 'uploads' => $uploads]);
+        return View::make('client.outgoing')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'uploads' => $uploads]);
     }
 
     public function upload_files(Request $request)
@@ -140,14 +147,14 @@ class ClientController extends Controller
         $page_title = 'From　会計事務所';
         $host_uploads = HostUpload::where('client_id', '=', Auth::user()->clientStaff->client->id)->latest()->get();
 
-        return View::make('client.incoming')->with(['page_title' => $page_title, 'host_uploads' => $host_uploads]);
+        return View::make('client.incoming')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'host_uploads' => $host_uploads]);
     }
 
     public function history()
     {
         $page_title = '過去決算';
         $archives = TaxationHistory::where('client_id', Auth::user()->clientStaff->client->id)->get();
-        return View::make('client.history')->with(['page_title' => $page_title, 'archives' => $archives]);
+        return View::make('client.history')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'archives' => $archives]);
     }
 
     public function access_stored_info()
@@ -164,7 +171,7 @@ class ClientController extends Controller
     {
         $page_title = '過去届出';
         $account = Client::find(Auth::user()->clientStaff->client->id);
-        return View::make('client.notif-history')->with(['page_title' => $page_title, 'account' => $account]);
+        return View::make('client.notif-history')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'account' => $account]);
     }
 
     public function send_otp_notif(Request $request)
@@ -210,13 +217,13 @@ class ClientController extends Controller
         $page_title = '各種設定';
         $staffs = ClientStaff::where('client_id', Auth::user()->clientStaff->client_id)->get();
         $account = Client::find(Auth::user()->clientStaff->client->id);
-        return View::make('client.settings')->with(['page_title' => $page_title, 'account' => $account, 'staffs' => $staffs]);
+        return View::make('client.settings')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'account' => $account, 'staffs' => $staffs]);
     }
 
     public function faq()
     {
         $page_title = 'FAQ';
-        return View::make('client.faq')->with(['page_title' => $page_title]);
+        return View::make('client.faq')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title]);
     }
 
     public function send_inquiry(Request $request)
