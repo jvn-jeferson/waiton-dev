@@ -46,8 +46,10 @@ use App\Mail\UploadNotification;
 
 
 use App\Mail\ClientRegistrationMail;
+use App\Mail\DeletedUserMail;
 use App\Mail\PasswordResetMail;
 use App\Mail\InquiryMail;
+use App\Mail\UpdatedLoginCredentialsEmail;
 use App\Models\TaxingCredentials;
 
 class HostController extends Controller
@@ -180,7 +182,7 @@ class HostController extends Controller
                 $directory = public_path('storage/zip_files/upload/' . $fileName);
                 $file_url = asset('storage/zip_files/upload/' . $fileName);
                 if ($zip->open($directory, ZipArchive::CREATE) === TRUE) {
-                    $files =  Storage::disk('public')->files('files/upload/' . $client->id);
+                    $files =  Storage::disk('gcs')->files('files/upload/' . $client->id);
                     foreach ($files as $file) {
                         $relativeNameInZipFile = explode('/', $file)[3];
                         $zip->addFile(Storage::path('public/' . $file), $relativeNameInZipFile);
@@ -783,8 +785,6 @@ class HostController extends Controller
     public function save_notification_archive(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'proposal_date' => 'required',
-            'recognition_date' => 'required',
             'file' => 'required'
         ]);
 
@@ -795,10 +795,16 @@ class HostController extends Controller
         }
 
         DB::transaction(function () use ($request) {
+            $file = $request->file('file');
+
+            $name = $file->getClientOriginalName();
+            $path = Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/notification-archive/". $request->client_id . $name, file_get_contents($file));
+
+
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
-                'path' => $request->file('file')->store('public/files/' . Auth::user()->accountingOfficeStaff->accountingOffice->name . '/' . Client::find($request->client_id)->name),
-                'name' => $request->file('file')->getClientOriginalName(),
+                'path' => Auth::user()->accountingOffice->id . "/notification-archive/". $request->client_id . $name,
+                'name' => $name,
                 'size' => $request->file('file')->getSize(),
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
@@ -1057,27 +1063,31 @@ class HostController extends Controller
 
     public function update_client_staff(Request $request)
     {
+
         DB::transaction(function () use ($request) {
-            $user = User::find($request->userID);
+            $user = User::find($request->id);
             $staff = ClientStaff::where('user_id', $user->id)->first();
 
             $user->update([
-                'email' => $request->userEmail,
-                'password' => Hash::make($request->userPassword)
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
             ]);
 
             $user->save();
 
             $staff->update([
-                'name' => $request->userName,
+                'name' => $request->name,
             ]);
 
             $staff->save();
+
+            Mail::to($user->clientStaff->client->contact_email)->send(new UpdatedLoginCredentialsEmail($user->login_id, $request->name, $request->email, $request->password));
+
+            if (Mail::failures()) {
+                abort(403);
+            }
         });
-
-
-
-        return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->clientID)]);
+        return true;
     }
 
     //client info update
@@ -1228,7 +1238,7 @@ class HostController extends Controller
                 ]);
 
                 $login_id = "C" . date('Y') . $role . $user->id . "";
-                $user->update(['login_id', $login_id]);
+                $user->update(['login_id' => $login_id]);
                 $user->save();
 
                 if($user)
@@ -1270,13 +1280,23 @@ class HostController extends Controller
         DB::transaction(function () use($id){
 
             $staff = ClientStaff::findOrFail($id);
+            $client_email = $staff->client->contact_email;
+
 
             $user_id = $staff->user_id;
 
             $user = User::findOrFail($user_id);
+            $login_id = $user->login_id;
 
             $staff->delete();
             $user->delete();
+
+
+            Mail::to($client_email)->send(new DeletedUserMail($login_id));
+            if(Mail::failures())
+            {
+                abort(403);
+            }
         });
 
         return "Deleted!";

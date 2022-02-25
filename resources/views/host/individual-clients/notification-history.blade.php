@@ -120,7 +120,7 @@
                                             <td></td>
                                             <td>{{$archive->proposal_date->format('Y年m月d日')}}</td>
                                             <td>{{$archive->recognition_date->format('Y年m月d日')}}</td>
-                                            <td class="text-info"><a href="{{Storage::disk('gcs')->url($archive->file->name)}}" download="{{$archive->file->name}}">{{$archive->file->name}}</a></td>
+                                            <td class="text-info"><a href="{{Storage::disk('gcs')->url($archive->file->path)}}" download="{{$archive->file->name}}">{{$archive->file->name}}</a></td>
                                         </tr>
                                     @empty
                                     @endforelse

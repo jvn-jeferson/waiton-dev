@@ -166,6 +166,11 @@
                                     <td>{{$client->contact_email}}</td>
                                 </tr>
                                 @forelse($client->staffs as $staff)
+                                    <tr class="bg-gray">
+                                        <td colspan="3">
+
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td class="text-center">
                                             @if($staff->is_admin == 1)
@@ -182,15 +187,15 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-center bg-gray">
+                                        <td class="text-center">
                                             @if(Auth::user()->role_id == 2)
                                                 <button class="btn btn-warning" role="button" onclick="updateUser({{$staff->id}})">編集</button>
                                             @endif
                                         </td>
-                                        <th class="bg-gray">
+                                        <th class="">
                                             名前
                                         </th>
-                                        <td class="bg-gray">
+                                        <td class="">
                                             {{$staff->name}}
                                         </td>
                                     </tr>
@@ -425,7 +430,7 @@
                     </h4>
                     <button class="close" type="button" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="{{route('update-client-staff')}}" method="post">
+                <form>
                     <input type="hidden" name="userID" id="userID">
                     <input type="hidden" name="clientID" id="clientID" value="{{$client->id}}">
                     @csrf
@@ -468,7 +473,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="float-right btn btn-primary" type="submit">Save</button>
+                        <button class="float-right btn btn-primary" type="button" onclick="processUpdate()">Save</button>
                     </div>
                 </form>
 
@@ -511,9 +516,9 @@
             })
         }
 
-        function updateUser(user_id) {
-
-            var url = "{{route('get-client-staff')}}";
+        function updateUser(user_id)
+        {
+            var url = "{{route('get-client-staff')}}"
             var userModal = $('#userModal');
             axios.post(url, {
                 id: user_id,
@@ -533,7 +538,45 @@
             }).catch(function(error) {
                 console.log(error.response.data)
             })
+        }
 
+        function processUpdate() {
+            Swal.fire({
+                title: "変更しますか？",
+                showCancelButton: true,
+                confirmButtonText: 'はい',
+                cancelButtonText: 'いいえ',
+                focusConfirm: false
+            }).then((result) => {
+
+                var laravelToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                var url = "{{route('update-client-staff')}}"
+
+                axios.post(url, {
+                    id: document.getElementById('userID').value,
+                    name: document.getElementById('userName').value,
+                    email: document.getElementById('userEmail').value,
+                    password: document.getElementById('userPassword').value,
+                }).then(function(response) {
+                    if(response.data == 1)
+                    {
+                        Swal.fire({
+                            title: "ユーザー情報が正常に変更されました。",
+                            text: '更新されたログイン情報については、連絡先の電子メールを確認してください。',
+                            icon: 'success',
+                            showCancelButton: false,
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if(result.isConfirmed)
+                            {
+                                location.reload()
+                            }
+                        })
+                    }
+                }).catch(function(error) {
+                    console.log(error.response.data)
+                })
+            })
         }
     </script>
 @endsection

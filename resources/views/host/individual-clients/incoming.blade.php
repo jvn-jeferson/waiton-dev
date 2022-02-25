@@ -14,7 +14,7 @@
                             <div class="card-body">
                                 <button class="btn btn-primary btn-block col-3 my-2" type="button" id="btnDownload">選択ファイルを一括ダウンロード</button>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
+                                    <table class="table table-bordered table-hover">
                                         <thead class="thead-dark">
                                             <th>選択</th>
                                             <th>投稿日</th>
