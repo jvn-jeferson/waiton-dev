@@ -107,6 +107,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <button class="float-right col-2 button btn-warning btn my-2" type="button" data-toggle="modal" data-target="#newNotificationModal">新規登録</button>
+                            <button class="float-left col-2 btn btn-danger my-2" type="button" onclick="deleteSelected()">消去</button>
                             <table class="table table-bordered text-center">
                                 <thead class="bg-lightblue">
                                     <th>種類</th>
@@ -117,9 +118,9 @@
                                 <tbody>
                                     @forelse($archives as $archive)
                                         <tr>
-                                            <td></td>
-                                            <td>{{$archive->proposal_date->format('Y年m月d日')}}</td>
-                                            <td>{{$archive->recognition_date->format('Y年m月d日')}}</td>
+                                            <td><input type="checkbox" name="archive_id" id="archive_id" value="{{$archive->id}}"></td>
+                                            <td>@if($archive->proposal_date){{$archive->proposal_date->format('Y年m月d日') ?? ''}}@endif</td>
+                                            <td>@if($archive->recognition_date){{$archive->recognition_date->format('Y年m月d日') ?? ''}}@endif</td>
                                             <td class="text-info"><a href="{{Storage::disk('gcs')->url($archive->file->path)}}" download="{{$archive->file->name}}">{{$archive->file->name}}</a></td>
                                         </tr>
                                     @empty
@@ -153,7 +154,7 @@
                                     <td class="w-100">
                                         <label class="text-bold" for="notification_type">種類</label>
                                         <div class="form-group px-auto">
-                                            <div class="form-check form-check-inline mr-5">
+                                            <div class="form-check form-check-inline mx-5">
                                                 <input class="form-check-input"  type="radio" id="notification_type1" name="notification_type" value="option1">
                                                 <label for="notification_type1">異動届</label>
                                             </div>
@@ -169,25 +170,9 @@
                                                 <input class="form-check-input"  type="radio" id="notification_type4" name="notification_type" value="option1">
                                                 <label for="notification_type4">その他</label>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-group form-row">
-                                            <label for="proposal_date" class="col-sm-2 col-form-label">提出日</label>
-                                            <div class="col-sm-10">
-                                                <input type="date" class="form-control" id="proposal_date" name="proposal_date" placeholder="Email">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-group form-row">
-                                            <label for="recognition_date" class="col-sm-2 col-form-label">承認日</label>
-                                            <div class="col-sm-10">
-                                                <input type="date" class="form-control" id="recognition_date" name="recognition_date" placeholder="Email">
+                                            <div class="form-check form-check-inline mx-5">
+                                                <input type="radio" name="notification_type" id="notification_type5" class="form-check-input">
+                                                <label for="notification_type5">決算書</label>
                                             </div>
                                         </div>
                                     </td>
@@ -324,5 +309,53 @@
 @endsection
 
 @section('extra-scripts')
+    <script>
+        function deleteSelected()
+        {
+            var checkedValues = $('#archive_id:checked').map(function() {
+                return this.value;
+            }).get();
 
+            if(checkedValues.length > 0)
+            {
+                Swal.fire({
+                    text: "選択した資料を削除します",
+                    confirmButtonText: 'はい',
+                    cancelButtontext: 'いいえ',
+                    icon: 'warning',
+                    showCancelButton: true
+                }).then((result) => {
+                    if(result.isConfirmed)
+                    {
+                        var url = "{{route('delete-archives')}}";
+
+                        axios.post(url, {
+                            ids: checkedValues
+                        }).then(function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                text: '削除に成功しました',
+                                showConfirmButton: false,
+                                showCancelButton: false,
+                                timer: 2000,
+                                allowOutsideClick: false
+                            }).then((result) => {
+                                if (result.dismiss == Swal.DismissReason.timer) {
+                                    location.reload()
+                                }
+                            })
+                        }).catch(function(error) {
+                            console.log(error.response.data)
+                        })
+                    }
+                })
+            }
+            else {
+                Swal.fire({
+                    text: '消去する資料を選択してください',
+                    icon: 'warning'
+                })
+            }
+        }
+    </script>
 @endsection

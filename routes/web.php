@@ -129,6 +129,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('delete-user', [HostController::class, 'delete_user'])->name('delete-user');
             Route::post('update-client-stafff', [HostController::class, 'update_client_staff'])->name('update-client-staff');
             Route::post('get-client-staff', [HostController::class, 'get_client_staff'])->name('get-client-staff');
+            Route::post('delete-archives', [HostController::class, 'delete_archives'])->name('delete-archives');
         });
     });
 
