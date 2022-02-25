@@ -413,8 +413,6 @@ class HostController extends Controller
         $client = Client::find($id);
         $client_user_ids = array();
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
-
-        dd($users);
         foreach ($users as $user) {
             if ($user->clientStaff->client->id == $id) {
                 array_push($client_user_ids, $user->id);
