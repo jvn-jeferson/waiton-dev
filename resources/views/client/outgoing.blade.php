@@ -1,7 +1,7 @@
 @extends('layouts.client')
 
 @section('extra-css')
-    
+
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
                         <h3 class="card-title text-success">
                             会計事務所（閲覧期限1ヶ月)
                         </h3>
-                        
+
                     </div>
                     <div class="card-body">
                         <p class="text-muted">
@@ -104,7 +104,7 @@
                         </table>
                     </div>
                     <div class="card-footer">
-                        <input class="float-right btn btn-success" type="submit" value="アップロード" name="submit">
+                        <input class="float-right btn btn-success" type="submit" value="アップロード" id="submitBtn" name="submit">
                     </div>
                 </form>
             </div>
@@ -205,5 +205,9 @@
         //TODO show file_name
         var fileName = input.files[0].name
     }
+
+    $('form').on('submit', function () {
+        Swal.showLoading();
+    })
 </script>
 @endsection

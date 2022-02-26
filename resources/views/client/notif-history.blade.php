@@ -12,7 +12,7 @@
             <div class="card card-primary card-outline">
                 <div class="card-header">
                     <h3 class="card-title">
-                        <strong class="text-info">現在の通知ステータス</strong> 
+                        <strong class="text-info">現在の通知ステータス</strong>
                     </h3>
                 </div>
                 <div class="card-body">
@@ -45,49 +45,49 @@
                             <tr>
                                 <td rowspan="8" class="text-bold bg-lightblue">主要な通知の状況など</td>
                                 <td>
-                                    <input type="checkbox" name="" id="" disabled checked>
+                                    <input type="checkbox" name="" id="" disabled @if($account->notifs) @if($account->notifs->establishment_notification == 1)checked @endif @endif>
                                     設立通知フォーム
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" id="" disabled checked>
+                                    <input type="checkbox" name="" id="" disabled @if($account->notifs) @if($account->notifs->blue_declaration == 1)checked @endif @endif>
                                     ブルー宣言の申請
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" id="" disabled checked>
+                                    <input type="checkbox" name="" id="" disabled @if($account->notifs) @if($account->notifs->withholding_tax == 1)checked @endif @endif>
                                     源泉徴収税の特別納期
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" id="" disabled checked>
+                                    <input type="checkbox" name="" id="" disabled @if($account->notifs) @if($account->notifs->salary_payment == 1)checked @endif @endif>
                                     給与支給事務所等への通知
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" id="" disabled>
+                                    <input type="checkbox" name="" id="" @if($account->notifs) @if($account->notifs->extension_filing_deadline == 1)checked @endif @endif>
                                     提出期限延長の申請
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" id="" disabled checked>
+                                    <input type="checkbox" name="" id="" disabled @if($account->notifs) @if($account->notifs->consumption_tax == 1)checked @endif @endif>
                                     消費税課税事業者
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" id="" disabled checked>
+                                    <input type="checkbox" name="" id="" disabled @if($account->notifs) @if($account->notifs->consumption_tax_excemption == 1)checked @endif @endif>
                                     消費税免税事業者への通知
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" id="" disabled checked>
+                                    <input type="checkbox" name="" id="" disabled @if($account->notifs) @if($account->notifs->consumption_tax_selection == 1)checked @endif @endif>
                                     消費税課税事業者選定通知書
                                 </td>
                             </tr>

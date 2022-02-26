@@ -100,7 +100,7 @@
                                     {{$host_upload->details}}
                                 </td>
                                 <td rowspan="2">
-                                    @if ($host_upload->priority == 0 && $host_upload->status <= 0)
+                                    @if ($host_upload->priority == 0 && $host_upload->status != 1)
                                         <button class="btn btn-flat btn-block btn-primary" role="button" onclick="admitFile({{$host_upload->id}})">
                                             決定
                                         </button>
@@ -176,7 +176,7 @@
             if(result.isConfirmed){
                 status = 1
             }else {
-                status = 0
+                status = 2
             }
 
             axios.post(url, {

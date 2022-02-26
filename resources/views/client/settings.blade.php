@@ -45,25 +45,36 @@
                             <tr>
                                 <td class="text-bold bg-lightblue w-25">NTA識別番号</td>
                                 <td>
-                                    {{'' ??$account->credentials->nta_id}}
+                                    @if($account->credentials)
+                                    {{$account->credentials->nta_id}}
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
                                 <td class="text-bold bg-lightblue w-25">パスワード</td>
                                 <td class="text-encrypted">
-                                    {{'' ??$account->credentials->nta_password}}
+
+                                    @if($account->credentials)
+                                    {{$account->credentials->nta_password}}
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
                                 <td class="text-bold bg-lightblue w-25">E-tax納税者番号</td>
                                 <td>
-                                    {{'' ??$account->credentials->el_tax_id}}
+
+                                    @if($account->credentials)
+                                    {{$account->credentials->el_tax_id}}
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
                                 <td class="text-bold bg-lightblue w-25">パスワード</td>
                                 <td class="text-encrypted">
-                                    {{'' ??$account->credentials->el_tax_password}}
+
+                                    @if($account->credentials)
+                                    {{$account->credentials->el_tax_password}}
+                                    @endif
                                 </td>
                             </tr>
                         </tbody>
