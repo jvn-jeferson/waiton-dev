@@ -25,7 +25,7 @@
                                         <td class="text-center">提出済み申告書一式</td>
                                         <td>
                                             {{$record->file->name}} <br>
-                                            <a class="btn btn-block btn-warning" type="button" href="{{url(Storage::url($record->file->path))}}" download="{{$record->file->name}}">ダウンロード</a>
+                                            <a class="btn btn-block btn-warning" type="button" href="{{url(Storage::disk('gcs')->url($record->file->path))}}" download="{{$record->file->name}}">ダウンロード</a>
                                         </td>
                                     </tr>
                                     <tr>

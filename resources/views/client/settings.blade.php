@@ -83,36 +83,61 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <form action="{{route('new-user')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="client_id" value="{{$account->id}}">
+
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tr>
                                 <td class="bg-gray w-25">
-                                    <label for="staff_role" class="h4">
-                                        <input type="radio" name="staff_role" id="staff_role" class="p-1" value="1">  利用者
-                                    </label>
+                                    <label class="h4">ユーザータイプ</label>
+                                    @error('staff_role')
+                                        <span class="text-danger">
+                                            {{$message}}
+                                        </span>
+                                    @enderror
                                 </td>
-                                <td class="text-bold text-dark w-25">
-                                    名前
-                                </td>
-                                <td class="bg-gray">
-                                    <input type="text" name="staff_name" id="staff_name" class="form-control flat">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="bg-gray w-25">
+                                <td>
                                     <label for="staff_role" class="h4">
                                         <input type="radio" name="staff_role" id="staff_role" class="p-1" value="0">  管理者
                                     </label>
                                 </td>
-                                <td class="text-bold text-dark w-25">
-                                    メールアドレス
+                                <td>
+                                    <label for="staff_role" class="h4">
+                                        <input type="radio" name="staff_role" id="staff_role" class="p-1" value="1">  利用者
+                                    </label>
                                 </td>
-                                <td class="bg-gray">
+                            </tr>
+                            <tr>
+                                <td class="text-bold bg-gray w-25">
+                                    名前
+                                    @error('staff_name')
+                                        <span class="text-danger">
+                                            {{$message}}
+                                        </span>
+                                    @enderror
+                                </td>
+                                <td colspan="2">
+                                    <input type="text" name="staff_name" id="staff_name" class="form-control flat">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bg-gray w-25 text-bold">
+                                    メールアドレス
+                                    @error('staff_email')
+                                        <span class="text-danger">
+                                            {{$message}}
+                                        </span>
+                                    @enderror
+                                </td>
+                                <td colspan="2">
                                     <input type="email" name="staff_email" id="staff_email" class="form-control flat">
                                 </td>
                             </tr>
                         </table>
                         <button class="col-2 btn btn-warning btn-block float-right" type="submit" name="submit">新規登録</button>
+                    </form>
                     </div>
                 </div>
             </div>

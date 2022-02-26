@@ -23,6 +23,7 @@ use App\Models\Files;
 use App\Models\TaxationHistory;
 use App\Models\PastNotification;
 use App\Models\OneTimePassword;
+use App\Models\User;
 
 use Carbon\Carbon;
 use Hashids\Hashids;
@@ -31,6 +32,7 @@ use Mail;
 use App\Mail\UploadNotification;
 use App\Mail\InquiryMail;
 use App\Mail\OTPMail;
+use App\Mail\NewClientAccessMail;
 
 class ClientController extends Controller
 {
@@ -316,5 +318,51 @@ class ClientController extends Controller
         $record = TaxationHistory::find($this->hashids->decode($request->id)[0]);
 
         return View::make('client.view_archived_taxation')->with('record', $record);
+    }
+
+
+    public function register_new_access(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'staff_role' => 'required',
+            'staff_name' => 'required',
+            'staff_email' => 'required|unique:users,email|email:rfc,dns'
+        ]);
+
+        if($validator->fails()){
+            return redirect()->route('various-settings')
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        DB::transaction(function () use($request) {
+            $password = Str::random(8);
+            $user = User::create([
+                'email' => $request->staff_email,
+                'password' => Hash::make($password),
+                'role_id' => $request->staff_rol + 4,
+                'remember_token' => Str::random(60),
+            ]);
+
+            if($user)
+            {
+                $id = $user->id;
+                $login_id = 'C' . date('Y') . $id . $user->role_id;
+                $user->update([
+                    'login_id' => $login_id
+                ]);
+                $user->save();
+
+                ClientStaff::create([
+                    'client_id' => $request->client_id,
+                    'user_id' => $id,
+                    'name' => $request->staff_name,
+                    'is_admin' => $request->staff_role
+                ]);
+            }
+
+            Mail::to($request->staff_email)->send(new NewClientAccessMail($login_id, Client::find($request->client_id)->name, $password));
+        });
+        return redirect()->route('various-settings');
     }
 }
