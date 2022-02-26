@@ -99,7 +99,7 @@
             <div class="card">
                 <div class="card-body justify-items-center">
                     <p class="text-dark h2">
-                        過去の通知フォームなどへのアクセス
+                        過去の届出など
                     </p>
                     <button class="btn btn-primary" onclick="confirmAccessRequest({{$account->id}})">ブラウジング</button>
                 </div>
