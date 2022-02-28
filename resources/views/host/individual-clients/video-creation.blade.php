@@ -472,18 +472,17 @@
         stopButton.addEventListener('click', () => {
             stopRecording();
             window.stream = null;
+            setTimeout(() => {
             $("#overlay").fadeIn(300);
             const blob = new Blob(recordedBlobs, {
                 type: 'video/mp4'
             });
             const blobUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-
             fetch(blobUrl).then(response => response.blob())
                 .then(blobs => {
                     const name = $("#video_title").val();
-                    const fd = new FormData();
+                    var form = $('form')[0]; // You need to use standard javascript object here
+                    const fd = new FormData(form);
                     fd.append("file", blobs); // where `.ext` matches file `MIME` type
                     fd.append('fileName', name);
                     var url = "{{ route('save-video') }}"
@@ -500,9 +499,6 @@
                     $("#file_url").val(response.data);
                 })
                 .catch(err => console.log(err));
-            document.body.appendChild(a);
-            setTimeout(() => {
-                document.body.removeChild(a);
             }, 100);
         })
 
