@@ -49,6 +49,7 @@ use App\Mail\ClientRegistrationMail;
 use App\Mail\DeletedUserMail;
 use App\Mail\PasswordResetMail;
 use App\Mail\InquiryMail;
+use App\Mail\NewClientAccessMail;
 use App\Mail\UpdatedLoginCredentialsEmail;
 use App\Models\TaxingCredentials;
 
@@ -226,7 +227,8 @@ class HostController extends Controller
 
         DB::transaction(function () use ($request, $accounting_office_id, $result) {
 
-            $user_id = User::insertGetId([
+            $password = Str::random(8);
+            $user = User::create([
                 'email' => $request->input('email'),
                 'password' => Hash::make(Str::random(8)),
                 'role_id' => 3 - $request->input('is_admin'),
@@ -234,16 +236,25 @@ class HostController extends Controller
                 'remember_token' => Str::random(60)
             ]);
 
-            if ($user_id) {
+
+            if ($user) {
+                $login_id = "A" . date('Y') . $user->role_id . $user->id . "";
+                $user->update([
+                    'login_id' => $login_id
+                ]);
+                $user->save();
+
                 AccountingOfficeStaff::create([
                     'accounting_office_id' => $accounting_office_id,
-                    'user_id' => $user_id,
+                    'user_id' => $user->id,
                     'name' => $request->input('name'),
                     'is_admin' => $request->input('is_admin')
                 ]);
 
-                $user = User::findorFail($user_id);
-                Mail::to($user->email)->send(new PasswordResetMail($user));
+
+                $accounting_office = AccountingOffice::findOrFail($accounting_office_id);
+                $user = User::findorFail($user->id);
+                Mail::to($user->email)->send(new NewClientAccessMail($user, $accounting_office->name, $password, $request->name));
                 if (Mail::failures()) {
                     $result = "failure";
                 }
@@ -398,7 +409,7 @@ class HostController extends Controller
 
     public function sendClientRegistrationEmail($token, $user, $password)
     {
-        Mail::to($user->email)->send(new ClientRegistrationMail($token, $user, $password));
+        Mail::to($user->email)->send(new ClientRegistrationMail($token, $user, $password, Auth::user()->accountingOfficeStaff->accountingOffice));
 
         if (Mail::failures()) {
             abort(403);
@@ -965,8 +976,18 @@ class HostController extends Controller
         $record = TaxationHistory::find($record_id);
         $client = Client::find($client_id);
 
+        $client_user_ids = array();
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client_id = $client->id) {
+                array_push($client_user_ids, $user->id);
+            }
+        }
 
-        return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'record' => $record, 'hashids' => $this->hashids]);
+
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+
+        return View::make('host.individual-clients.past-settlement')->with(['client' => $client, 'record' => $record, 'hashids' => $this->hashids, 'unviewed' => $unviewed]);
     }
 
     public function save_url_to_database(Request $request)
@@ -1309,5 +1330,32 @@ class HostController extends Controller
         });
 
         return $request->all();
+    }
+
+    function delete_staff(Request $request)
+    {
+        $staff_id = $request->id;
+
+        DB::transaction(function () use ($staff_id) {
+            $staff = AccountingOfficeStaff::findOrFail($staff_id);
+            $user = User::findOrFail($staff->user_id);
+            $accountingOffice = AccountingOffice::findOrFail($staff->accounting_office_id);
+            $login_id = $user->login_id;
+
+
+            $staff->delete();
+            $user->delete();
+
+            Mail::to($accountingOffice->contact_email)->send(new DeletedUserMail($login_id));
+
+            if(Mail::failures())
+            {
+                abort(403);
+            }
+
+        });
+
+        return true;
+
     }
 }

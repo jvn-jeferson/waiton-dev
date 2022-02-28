@@ -94,6 +94,7 @@ Route::group(['middleware' => 'auth'], function () {
         // End Accounting Office routes
         Route::post('download-file', [HostController::class, 'download_file'])->name('download-file');
         Route::post('send-host-inquiry', [HostController::class, 'send_inquiry'])->name('send-host-inquiry');
+        ROute::post('delete-ao-staff', [HostController::class, 'delete_staff'])->name('delete-ao-staff');
 
         //Accounting Office Individual Routes
         Route::group(['prefix' => 'access-client'], function () {

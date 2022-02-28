@@ -95,20 +95,27 @@
                                         <table class="mb-2 table table-bordered">
                                             <tbody class="text-center align-items-center">
                                                 <tr>
-                                                    <td class="bg-light" rowspan="2">
+                                                    <td class="text-bold">
+                                                        ユーザータイプ
+                                                    </td>
+                                                    <td>
                                                         <label for="" class="h3">
-                                                            <input type="radio" name="is_admin" id="is_admin" value="1">利用者 
-                                                        </label><br>
-                                                        <label for="" class="h3">
-                                                            <input type="radio" name="is_admin" id="is_admin" value="0">管理者 
+                                                            <input type="radio" name="is_admin" id="is_admin" value="1">管理者
                                                         </label>
                                                     </td>
-                                                    <td>名前</td>
-                                                    <td class="bg-light"><input type="text" name="name" id="name" class="form-control bg-light"></td>
+                                                    <td class="text-bold">
+                                                        <label for="" class="h3">
+                                                            <input type="radio" name="is_admin" id="is_admin" value="0">利用者
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-bold">名前</td>
+                                                    <td class="bg-light" colspan="2"><input type="text" name="name" id="name" class="form-control bg-light"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>メールアドレス</td>
-                                                    <td class="bg-light"><input type="email" name="email" id="email" class="form-control bg-light"></td>
+                                                    <td class="bg-light" colspan="2"><input type="email" name="email" id="email" class="form-control bg-light"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -153,6 +160,9 @@
                                                 </td>
                                             </tr>
                                             @forelse($staffs as $staff)
+                                                <tr class="bg-light">
+                                                    <td colspan="3"></td>
+                                                </tr>
                                                 <tr>
                                                     <td class="text-center" rowspan="2">
                                                         @if($staff->is_admin == 1)
@@ -185,7 +195,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="text-center">
-                                                        <button class="btn btn-danger" role="button" data-toggle="tooltip" data-placement="top" data-tooltip="Delete">削除</button>
+                                                        <button class="btn btn-danger" role="button" data-toggle="tooltip" data-placement="top" data-tooltip="Delete" onclick="deleteStaff({{$staff->id}})">削除</button>
                                                     </td>
                                                     <td>メールアドレス</td>
                                                     <td>
@@ -278,7 +288,7 @@
                                         <td>
                                             <input type="email" class="form-control" id="userEmail" name="userEmail">
                                         </td>
-                                    </tr>   
+                                    </tr>
                                     <tr>
                                         <th>
                                             ユーザーID
@@ -301,7 +311,7 @@
                         <button class="float-right btn btn-primary" type="submit">Save</button>
                     </div>
                 </form>
-                
+
             </div>
         </div>
     </div>
@@ -328,7 +338,7 @@
                     $('#name').val('')
                     $('#email').val('')
                     $('#is_admin').checked = false
-                   } 
+                   }
                 })
                 window.location.reload()
             }).catch(function(error) {
@@ -347,7 +357,7 @@
             var name, email;
             var userModal = $('#userModal');
             axios.post(url, {
-                id: user_id, 
+                id: user_id,
             }).then(function(response) {
                 name = response.data['name']
                 email = response.data['email']
@@ -363,6 +373,43 @@
 
             }).catch(function(error) {
                 console.log(error.response.data)
+            })
+        }
+
+        //delete user
+        function deleteStaff(staff_id)
+        {
+            Swal.fire({
+                title: 'Delete User',
+                text: 'Are you sure you want to delete this user?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'OK',
+                cancelButtonText: 'NO'
+            }).then((result) => {
+                if(result.isConfirmed)
+                {
+                    var url = "{{route('delete-ao-staff')}}"
+
+                    axios.post(url, {
+                        id : staff_id
+                    }).then(function(response) {
+                        Swal.fire({
+                            title: 'Success',
+                            text: 'Staff Credentials have been removed successfully.',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if(result.dismiss == Swal.DismissReason.timer){
+                                location.reload()
+                            }
+                        })
+                    }).catch(function(error) {
+                        console.log(error.response.data)
+                    })
+                }
             })
         }
     </script>

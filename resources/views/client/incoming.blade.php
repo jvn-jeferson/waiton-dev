@@ -27,7 +27,6 @@
                                     <p class="text-dark">
                                         {{$host_upload->created_at->format('Y年m月d日 H:i')}}
                                     </p>
-                                    <button class="btn btn-block btn-primary" onclick="downloadFile(this, {{$host_upload->file_id}})">資料のダウンロード</button>
                                 </td>
                                 <td rowspan="2">
                                     <p class="text-dark">
@@ -174,19 +173,42 @@
         }).then((result) => {
             var status = 0;
             if(result.isConfirmed){
-                status = 1
+                Swal.fire({
+                title: "Confirm Approve",
+                confirmButtonText: 'はい',
+                cancelButtonText: 'いいえ',
+                showCancelButton: true
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        axios.post(url, {
+                            id: post_id,
+                            status: 1
+                        }).then(function(response) {
+                            window.location.reload();
+                        }).catch(function(error) {
+                            console.log(error.response.data);
+                        })
+                    }
+                })
             }else {
-                status = 2
+                Swal.fire({
+                title: "Confirm Deny",
+                confirmButtonText: 'はい',
+                cancelButtonText: 'いいえ',
+                showCancelButton: true
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        axios.post(url, {
+                            id: post_id,
+                            status: 2
+                        }).then(function(response) {
+                            window.location.reload();
+                        }).catch(function(error) {
+                            console.log(error.response.data);
+                        })
+                    }
+                })
             }
-
-            axios.post(url, {
-                id: post_id,
-                status: status
-            }).then(function(response) {
-                window.location.reload();
-            }).catch(function(error) {
-                console.log(error.response.data);
-            })
         })
     }
 </script>
