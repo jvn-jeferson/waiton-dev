@@ -69,7 +69,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" id="" @if($account->notifs) @if($account->notifs->extension_filing_deadline == 1)checked @endif @endif>
+                                    <input type="checkbox" name="" id="" disabled @if($account->notifs) @if($account->notifs->extension_filing_deadline == 1)checked @endif @endif>
                                     提出期限延長の申請
                                 </td>
                             </tr>

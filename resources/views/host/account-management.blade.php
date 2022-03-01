@@ -57,7 +57,7 @@
                                             </tr>
                                             <tr>
                                                 <td>利用者数</td>
-                                                <td>{{$account->staff->count()}} 社</td>
+                                                <td>{{$account->clients->count()}} 社 | {{$account->staff->count()}} ユーザー</td>
                                             </tr>
                                             <tr>
                                                 <td>ご利用期日</td>
