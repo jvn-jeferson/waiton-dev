@@ -155,77 +155,75 @@
                 cancelButtonText: '保留',
                 showCancelButton: true
             }).then((result) => {
-                    var status = 0;
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: "承認しますか？",
-                            icon: 'question',
-                            confirmButtonText: 'はい',
-                            cancelButtonText: 'いいえ',
-                            showCancelButton: true
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                axios.post(url, {
-                                    id: post_id,
-                                    status: 1
-                                }).then(function(response) {
-                                    window.location.reload();
-                                }).catch(function(error) {
-                                    console.log(error.response.data);
-                                })
-                            }
-                        })
-                    } else {
-                        Swal.fire({
-                            title: "保留しますか？",
-                            icon: 'warning',
-                            confirmButtonText: 'はい',
-                            cancelButtonText: 'いいえ',
-                            showCancelButton: true
-                        }).then((result) => {
-                            var status = 0;
-                            if (result.isConfirmed) {
-                                Swal.fire({
-                                    title: "Confirm Approve",
-                                    confirmButtonText: 'はい',
-                                    cancelButtonText: 'いいえ',
-                                    showCancelButton: true
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        axios.post(url, {
-                                            id: post_id,
-                                            status: 1
-                                        }).then(function(response) {
-                                            window.location.reload();
-                                        }).catch(function(error) {
-                                            console.log(error.response.data);
-                                        })
-                                    }
-                                })
-                            } else {
-                                Swal.fire({
-                                    title: "Confirm Deny",
-                                    confirmButtonText: 'はい',
-                                    cancelButtonText: 'いいえ',
-                                    showCancelButton: true
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        axios.post(url, {
-                                            id: post_id,
-                                            status: 2
-                                        }).then(function(response) {
-                                            window.location.reload();
-                                        }).catch(function(error) {
-                                            console.log(error.response.data);
-                                        })
-                                    }
-                                })
-                            }
-                        })
-                    }
+                var status = 0;
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "承認しますか？",
+                        icon: 'question',
+                        confirmButtonText: 'はい',
+                        cancelButtonText: 'いいえ',
+                        showCancelButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            axios.post(url, {
+                                id: post_id,
+                                status: 1
+                            }).then(function(response) {
+                                window.location.reload();
+                            }).catch(function(error) {
+                                console.log(error.response.data);
+                            })
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        title: "保留しますか？",
+                        icon: 'warning',
+                        confirmButtonText: 'はい',
+                        cancelButtonText: 'いいえ',
+                        showCancelButton: true
+                    }).then((result) => {
+                        var status = 0;
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: "Confirm Approve",
+                                confirmButtonText: 'はい',
+                                cancelButtonText: 'いいえ',
+                                showCancelButton: true
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    axios.post(url, {
+                                        id: post_id,
+                                        status: 1
+                                    }).then(function(response) {
+                                        window.location.reload();
+                                    }).catch(function(error) {
+                                        console.log(error.response.data);
+                                    })
+                                }
+                            })
+                        } else {
+                            Swal.fire({
+                                title: "Confirm Deny",
+                                confirmButtonText: 'はい',
+                                cancelButtonText: 'いいえ',
+                                showCancelButton: true
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    axios.post(url, {
+                                        id: post_id,
+                                        status: 2
+                                    }).then(function(response) {
+                                        window.location.reload();
+                                    }).catch(function(error) {
+                                        console.log(error.response.data);
+                                    })
+                                }
+                            })
+                        }
+                    })
                 }
-            }
-        })
+            })
         }
     </script>
 @endsection
