@@ -172,8 +172,7 @@
         var url = "{{route('admit-host-upload')}}"
         Swal.fire({
             icon: 'question',
-            title: 'Consider',
-            text: '承認処理してアップロードしてよろしいですか?',
+            title: '承認処理してアップロードしてよろしいですか?',
             confirmButtonText: '承認',
             cancelButtonText: '保留',
             showCancelButton: true
@@ -181,7 +180,8 @@
             var status = 0;
             if(result.isConfirmed){
                 Swal.fire({
-                title: "Confirm Approve",
+                title: "承認しますか？",
+                icon: 'question',
                 confirmButtonText: 'はい',
                 cancelButtonText: 'いいえ',
                 showCancelButton: true
@@ -199,7 +199,8 @@
                 })
             }else {
                 Swal.fire({
-                title: "Confirm Deny",
+                title: "保留しますか？",
+                icon: 'warning',
                 confirmButtonText: 'はい',
                 cancelButtonText: 'いいえ',
                 showCancelButton: true
