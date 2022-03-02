@@ -17,11 +17,12 @@ class PastNotification extends Model
         'client_id',
         'proposal_date',
         'recognition_date',
+        'notification_type',
         'file_id'
     ];
 
-    protected $dates = ['proposal_date', 'recognition_date'];
-    
+    protected $dates = ['proposal_date', 'recognition_date', 'deleted_at'];
+
     public function file(): HasOne
     {
         return $this->hasOne(Files::class, 'id', 'file_id');

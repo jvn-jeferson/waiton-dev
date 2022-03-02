@@ -155,23 +155,23 @@
                                         <label class="text-bold" for="notification_type">種類</label>
                                         <div class="form-group px-auto">
                                             <div class="form-check form-check-inline mx-5">
-                                                <input class="form-check-input"  type="radio" id="notification_type1" name="notification_type" value="option1">
+                                                <input class="form-check-input"  type="radio" id="notification_type1" name="notification_type" value="異動届">
                                                 <label for="notification_type1">異動届</label>
                                             </div>
                                             <div class="form-check form-check-inline mx-5">
-                                                <input class="form-check-input"  type="radio" id="notification_type2" name="notification_type" value="option1">
+                                                <input class="form-check-input"  type="radio" id="notification_type2" name="notification_type" value="届出">
                                                 <label for="notification_type2">届出</label>
                                             </div>
                                             <div class="form-check form-check-inline mx-5">
-                                                <input class="form-check-input"  type="radio" id="notification_type3" name="notification_type" value="option1">
+                                                <input class="form-check-input"  type="radio" id="notification_type3" name="notification_type" value="申請">
                                                 <label for="notification_type3">申請</label>
                                             </div>
                                             <div class="form-check form-check-inline mx-5">
-                                                <input class="form-check-input"  type="radio" id="notification_type4" name="notification_type" value="option1">
+                                                <input class="form-check-input"  type="radio" id="notification_type4" name="notification_type" value="その他">
                                                 <label for="notification_type4">その他</label>
                                             </div>
                                             <div class="form-check form-check-inline mx-5">
-                                                <input type="radio" name="notification_type" id="notification_type5" class="form-check-input">
+                                                <input type="radio" name="notification_type" id="notification_type5" class="form-check-input" value="決算書">
                                                 <label for="notification_type5">決算書</label>
                                             </div>
                                         </div>
