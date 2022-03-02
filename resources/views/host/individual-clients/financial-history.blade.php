@@ -39,7 +39,7 @@
                                                         {{ $archive->settlement_date->format('Y年m月d日') }}
                                                     @endif
                                                 </td>
-                                                <td class="text-info">
+                                                <td class="text-bold">
                                                     @if ($archive)
                                                         @if($archive->file)
                                                             {{$archive->file->name}}
