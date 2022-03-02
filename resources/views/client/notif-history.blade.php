@@ -99,9 +99,9 @@
             <div class="card card-primary">
                 <div class="card-body justify-items-center">
                     <p class="text-dark h2">
-                        過去の届出など
+                        過去の届出等へのアクセス
                     </p>
-                    <button class="btn btn-primary" onclick="confirmAccessRequest({{$account->id}})">ブラウジング</button>
+                    <button class="btn btn-primary" onclick="confirmAccessRequest({{$account->id}})">閲覧</button>
                 </div>
             </div>
         </section>
