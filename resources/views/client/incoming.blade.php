@@ -111,7 +111,7 @@
                                     URL
                                 </td>
                                 <td colspan="2">
-                                    <a href="{{$host_upload->video_url}}">{{$host_upload->video_url}}</a>
+                                    <a href="#" onclick="decrypt_video('{{$host_upload->video_url}}')">{{$host_upload->video_url}}</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -126,8 +126,15 @@
 @endsection
 
 @section('extra-scripts')
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.2/base64.min.js"></script>
 <script>
-
+    function decrypt_video(value) {
+        var data = Base64.decode(value);
+        let a= document.createElement('a');
+        a.target= '_blank';
+        a.href= data;
+        a.click();
+    }
     function downloadFile(e, id) {
         var file = id
 
