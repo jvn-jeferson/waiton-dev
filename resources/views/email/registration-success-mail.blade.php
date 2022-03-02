@@ -17,12 +17,6 @@ UpFiling.jpをご利用いただきありがとうございます。<br>
 </h4>
 （ログイン時にパスワードの設定をお願いしております）
 
-
-@component('mail::button', ['url' => $url, 'color' => 'success'])
-完全な登録
-@endcomponent
-
-
 <br>
 <hr>
 このメールは送信専用です。<br>

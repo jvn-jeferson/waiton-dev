@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="text-bold text-dark card-title">
@@ -26,6 +26,17 @@
                                         <th><input type="text" name="login_id" id="login_id" class="form-control" value="{{$login_id}}" readonly></th>
                                     </thead>
                                     <tbody>
+                                        <tr>
+                                            <td>送付されたパスワード</td>
+                                            <td>
+                                                <input type="password" name="temp_password" id="temp_password" class="form-control @error('temp_password') is-invalid @enderror" required>
+                                                @error('temp_password')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td>新パスワード</td>
                                             <td>
