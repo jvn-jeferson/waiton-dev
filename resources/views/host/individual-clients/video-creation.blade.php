@@ -105,6 +105,15 @@
                                 <label for="video_name">名前</label>
                                 <input type="text" id="video_title" name="video_title" class="form-control">
                             </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    <i class="fas fa-info-circle fa-2x mr-4" data-toggle="tooltip" data-placement="top"
+                                        title="upfiling.jpのみを録画する場合、録画開始クリック後に1. Chromeタブ 2.upfiling.jpを選択 3. 共有をクリックしてください。"></i>
+                                </div>
+                                <div class="col-9">
+                                    <p >(録画選択画面について)</p>
+                                </div>
+                            </div>
                             <button class="btn-warning btn btn-block" id="start">録画画面選択／スタート</button>
                             <div class="form-group mt-2">
                                 <label for="tools">描画ツール</label>
@@ -239,6 +248,9 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
         var pdf_file = '';
         var imageData_store = [];
         let restore_array = [];
@@ -473,40 +485,40 @@
             stopRecording();
             window.stream = null;
             setTimeout(() => {
-            $("#overlay").fadeIn(300);
-            const blob = new Blob(recordedBlobs, {
-                type: 'video/mp4'
-            });
-            const blobUrl = window.URL.createObjectURL(blob);
-            fetch(blobUrl).then(response => response.blob())
-                .then(blobs => {
-                    const name = $("#video_title").val();
-                    var form = $('form')[0]; // You need to use standard javascript object here
-                    const fd = new FormData(form);
-                    fd.append("file", blobs); // where `.ext` matches file `MIME` type
-                    fd.append('fileName', name);
-                    var url = "{{ route('save-video') }}"
-                    return axios.post(url, fd, {
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
+                $("#overlay").fadeIn(300);
+                const blob = new Blob(recordedBlobs, {
+                    type: 'video/mp4'
+                });
+                const blobUrl = window.URL.createObjectURL(blob);
+                fetch(blobUrl).then(response => response.blob())
+                    .then(blobs => {
+                        const name = $("#video_title").val();
+                        var form = $('form')[0]; // You need to use standard javascript object here
+                        const fd = new FormData(form);
+                        fd.append("file", blobs); // where `.ext` matches file `MIME` type
+                        fd.append('fileName', name);
+                        var url = "{{ route('save-video') }}"
+                        return axios.post(url, fd, {
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        })
                     })
-                })
-                .then((response) => {
-                    setTimeout(function() {
-                        $("#overlay").fadeOut(300);
-                    }, 500);
-                    $("#file_url").val(response.data);
-                })
-                .catch(err => console.log(err));
+                    .then((response) => {
+                        setTimeout(function() {
+                            $("#overlay").fadeOut(300);
+                        }, 500);
+                        $("#file_url").val(response.data);
+                    })
+                    .catch(err => console.log(err));
             }, 100);
         })
 
         muteButton.addEventListener('click', () => {
-            $('body video, body audio').each(function(){
-             /*** Do it here globally ***/
-             $(this).prop('muted', true);
-          });
+            $('body video, body audio').each(function() {
+                /*** Do it here globally ***/
+                $(this).prop('muted', true);
+            });
         });
         //File URL
         copy_url.addEventListener('click', () => {
