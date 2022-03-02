@@ -97,12 +97,51 @@
             </div>
 
             <div class="card card-primary">
-                <div class="card-body justify-items-center">
-                    <p class="text-dark h2">
+                    <div class="card-header">
                         過去の届出等へのアクセス
-                    </p>
-                    <button class="btn btn-primary" onclick="confirmAccessRequest({{$account->id}})">閲覧</button>
-                </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead class="bg-info text-bold">
+                                    <th>種類</th>
+                                    <th>提出日</th>
+                                    <th>承認日</th>
+                                    <th>資料</th>
+                                </thead>
+                                <tbody>
+                                    @forelse($records as $record)
+                                        <tr class="text-center">
+                                            <td>
+                                                @if($record->notification_type)
+                                                {{$record->notification_type}}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($record->proposal_date)
+                                                {{$record->proposal_date->format('Y年m月d日')}}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($record->recognition_date)
+                                                {{$record->recognition_date->format('Y年m月d日')}}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ url(Storage::disk('gcs')->url($record->file->path))}}" download="{{$record->file->name}}">{{$record->file->name}}</a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-info">
+                                                レコードが見つかりません。
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
             </div>
         </section>
     </div>
