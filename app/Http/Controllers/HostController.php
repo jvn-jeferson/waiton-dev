@@ -431,8 +431,9 @@ class HostController extends Controller
         }
 
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+        $date = date('Y-m-d');
 
-        $messages = Message::where('created_at', '>=', Carbon::now())->where('is_global', 1)->orWhere('targeted_at', $client->id)->latest()->limit(5)->get();
+        $messages = Message::where('created_at', 'like', '' . $date . '%')->where('is_global', 1)->orWhere('targeted_at', $client->id)->latest()->limit(5)->get();
         $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->get();
         $downloads = HostUpload::where('client_id', '=', $id)->get();
 

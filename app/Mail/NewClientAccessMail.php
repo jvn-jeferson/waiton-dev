@@ -11,7 +11,7 @@ class NewClientAccessMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user, $password, $client_name, $name;
+    public $user, $password, $client_name, $name, $accountingOffice;
 
     /**
      * Create a new message instance.
@@ -24,6 +24,7 @@ class NewClientAccessMail extends Mailable
         $this->password = $password;
         $this->client_name = $client_name;
         $this->name = $name;
+        $this->accountingOffice = $user->clientStaff->client->host;
     }
 
     /**

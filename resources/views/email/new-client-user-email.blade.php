@@ -1,27 +1,20 @@
 @component('mail::message')
 
 <h4>
-    会計事務所とクライアントの情報プラットフォーム
+    {{$name}}
 </h4>
 
-<p>
-    UpFiling.jpをご利用いただきありがとうございます。
-</p>
-
+{{$accountingOffice->name}} 様からのご招待メール <br>
+{{$accountingOffice->name}} とクライアントの情報プラットフォーム <br>
+UpFiling.jpをご利用いただきありがとうございます。<br>
 <br>
-
-<p>
-{{$name}} 様によりユーザー登録されました。
-</p>
+{{$accountingOffice->name}}　様よりご招待メールが発行されました。<br>
 
 <br>
 以下のURLからアクセスしていただき、UpFiling.jpのユーザーログイン情報を設定してください。
 <br>
 
 <a href="{{$url}}">{{$url}}</a>
-@component('mail::button', ['url' => $url, 'color' => 'success'])
-完全な登録
-@endcomponent
 
 <h4>
     ログインID： <strong>{{$user->login_id}}</strong>
