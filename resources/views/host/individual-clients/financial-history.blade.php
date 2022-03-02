@@ -42,7 +42,7 @@
                                                 <td class="text-info">
                                                     @if ($archive)
                                                         @if($archive->file)
-                                                            <a href="{{Storage::disk('gcs')->url($archive->file->path)}}" download="{{$archive->file->name}}">{{$archive->file->name}}</a>
+                                                            {{$archive->file->name}}
                                                         @endif
                                                     @endif
                                                 </td>
