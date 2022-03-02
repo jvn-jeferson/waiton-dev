@@ -38,7 +38,7 @@ class AccountingOfficeRegistrationMail extends Mailable
         $url = url(route('first-time-login', ['token' => $this->user->remember_token]));
 
         return $this->from(config('mail.from.address'), config('mail.from.name'))
-                    ->subject('【UpFiling】ユーザー登録のお知らせ - '. $accountingOffice->name .'様のユーザー登録')
+                    ->subject('【UpFiling】ユーザー登録のお知らせ - '. $this->accountingOffice->name .'様のユーザー登録')
                     ->markdown('email.registration-success-mail', ['url' => $url]);
     }
 }
