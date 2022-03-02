@@ -105,30 +105,22 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead class="bg-info text-bold">
                                     <th>種類</th>
-                                    <th>提出日</th>
-                                    <th>承認日</th>
                                     <th>資料</th>
+                                    <th></th>
                                 </thead>
                                 <tbody>
                                     @forelse($records as $record)
                                         <tr class="text-center">
-                                            <td>
+                                            <td class="w-25">
                                                 @if($record->notification_type)
                                                 {{$record->notification_type}}
                                                 @endif
                                             </td>
-                                            <td>
-                                                @if($record->proposal_date)
-                                                {{$record->proposal_date->format('Y年m月d日')}}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($record->recognition_date)
-                                                {{$record->recognition_date->format('Y年m月d日')}}
-                                                @endif
-                                            </td>
-                                            <td>
+                                            <td class="w-50">
                                                 <a href="{{ url(Storage::disk('gcs')->url($record->file->path))}}" download="{{$record->file->name}}">{{$record->file->name}}</a>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-warning btn-block" type="button" onclick="confirmAccessRequest({{$record->id}})">閲覧</button>
                                             </td>
                                         </tr>
                                     @empty
