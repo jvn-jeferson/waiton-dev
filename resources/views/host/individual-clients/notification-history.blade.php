@@ -110,17 +110,15 @@
                             <button class="float-left col-2 btn btn-danger my-2" type="button" onclick="deleteSelected()">消去</button>
                             <table class="table table-bordered text-center">
                                 <thead class="bg-lightblue">
+                                    <th></th>
                                     <th>種類</th>
-                                    <th>提出日</th>
-                                    <th>承認日</th>
                                     <th class="w-50">資料</th>
                                 </thead>
                                 <tbody>
                                     @forelse($archives as $archive)
                                         <tr>
                                             <td><input type="checkbox" name="archive_id" id="archive_id" value="{{$archive->id}}"></td>
-                                            <td>@if($archive->proposal_date){{$archive->proposal_date->format('Y年m月d日') ?? ''}}@endif</td>
-                                            <td>@if($archive->recognition_date){{$archive->recognition_date->format('Y年m月d日') ?? ''}}@endif</td>
+                                            <td>{{$archive->notification_type}}</td>
                                             <td class="text-info"><a href="{{Storage::disk('gcs')->url($archive->file->path)}}" download="{{$archive->file->name}}">{{$archive->file->name}}</a></td>
                                         </tr>
                                     @empty
