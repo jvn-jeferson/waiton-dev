@@ -173,16 +173,18 @@
 @endsection
 
 @section('extra-scripts')
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.2/base64.min.js"></script>
     <script>
         var video_player = document.querySelector('#video-player')
         var src_input = document.querySelector('#video-url')
 
         $('#video-url').keyup(function() {
             var url = src_input.value;
+            var value_url = Base64.decode(url)
             var ci = document.getElementById('video-player')
             var vidSrc = document.getElementById('vidsrc');
-            if(isValidHttpUrl(url)){
-                $('source').attr('src',url)
+            if(isValidHttpUrl(value_url)){
+                $('source').attr('src',value_url)
                 video_player.load()
             }
             else {

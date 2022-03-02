@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
+                            <table class="table table-responsive table-bordered table-hover table-striped">
                                 <thead class="bg-info">
                                     <th>選択</th>
                                     <th>動画名</th>
@@ -34,24 +34,18 @@
                                                 </center>
                                             </td>
                                             <td>{{ $video->created_at->format('Y-m-d') }}</td>
-                                            <td>
+                                            <td style="width:45%;">
                                                 <div class="container-fluid">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <p class="text-info text-underline" id="tocopy">
-                                                                {{ Hash::make($video->video_url) }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
+                                                            <input type="text" id="tocopy"  size="50" class="form-control" style="border:0;" value="" disabled>
+                                                            <input type="hidden" id="copyUrl" value="{{ $video->video_url }}">
                                                     <div class="row align-items-center justify-content-center">
-                                                        <button class="btn btn-warning col-2 mx-2"
+
+                                                        <button id="copySource" class="btn btn-warning col-3 mx-2"
                                                             onclick="copyVSOURCE('{{ $video->video_url }}')">COPY
                                                             URL</button>
-                                                        <div class="col-2"></div>
-                                                        <button class="btn btn-warning col-2 mx-2" type="button"
+                                                        <button class="btn btn-warning col-3 mx-2" type="button"
                                                             onclick="changeVSOURCE('{{ $video->video_url }}')">PREVIEW</button>
-                                                        <div class="col-2"> </div>
-                                                        <button class="btn btn-danger col-2 mx-2">DELETE</button>
+                                                        <button class="btn btn-danger col-3 mx-2">DELETE</button>
                                                     </div>
                                                 </div>
                                             </td>
@@ -91,8 +85,8 @@
 @endsection
 
 @section('extra-scripts')
-
-    <script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.2/base64.min.js"></script>
+<script>
         function changeVSOURCE(srcVideo) {
             var video = document.getElementById('player');
             video.setAttribute('src', srcVideo);
@@ -100,8 +94,12 @@
             video.play();
             $(".modal").modal('show');
         }
+        let value_url = $('#copyUrl').val()
+        $('#tocopy').val(Base64.encode(value_url))
+
 
         function copyVSOURCE(data) {
+            var data = Base64.encode(data);
             var dummy = document.createElement("input");
 
             // Add it to the document

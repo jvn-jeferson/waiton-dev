@@ -54,12 +54,12 @@ class ClientController extends Controller
     {
         $date = date('Y-m-d');
 
-        $messages = Message::where('created_at' , 'like', ''.$date.'%')->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5)->get();
+        $messages = Message::where('created_at', 'like', '' . $date . '%')->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5)->get();
         $uploads = ClientUpload::where('user_id', Auth::user()->id)->get();
         $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
         $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->get();
         $page_title = 'ホーム';
-        return View::make('client.dashboard')->with(['for_approval' => $this->get_approval_count(),'page_title' => $page_title, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads, 'files' => $files]);
+        return View::make('client.dashboard')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads, 'files' => $files]);
     }
 
     public function going_out()
@@ -71,8 +71,8 @@ class ClientController extends Controller
 
     public function upload_files(Request $request)
     {
-        if($request->has('file')) {
-            foreach($request->file('file') as $key => $value) {
+        if ($request->has('file')) {
+            foreach ($request->file('file') as $key => $value) {
                 $comment = $request->input('comment')[$key];
 
                 DB::transaction(function () use ($comment, $request, $key) {
@@ -97,15 +97,13 @@ class ClientController extends Controller
                         'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                     ]);
 
-                    if($file_id)
-                    {
+                    if ($file_id) {
                         ClientUpload::create([
                             'user_id' => $user_id,
                             'file_id' => $file_id,
                             'comment' => $comment
                         ]);
                     }
-
                 });
             }
 
@@ -115,9 +113,7 @@ class ClientController extends Controller
             $this->sendUploadNotification($client->host->contact_email, $client->host, "One of your clients has uploaded a file. It is ready for download on your dashboard.");
 
             return redirect()->route('data-outgoing');
-
-        }
-        else {
+        } else {
             Session::flash('failure', 'ファイルのアップロードでエラーが発生しました。 もう一度やり直してください。');
             return redirect('data-outgoing');
         }
@@ -127,8 +123,7 @@ class ClientController extends Controller
     {
         Mail::to($email)->send(new UploadNotification($target, $message));
 
-        if(Mail::failures())
-        {
+        if (Mail::failures()) {
             return false;
         }
 
@@ -187,8 +182,7 @@ class ClientController extends Controller
 
     public function send_otp(Request $request)
     {
-        DB::transaction(function () use($request)
-        {
+        DB::transaction(function () use ($request) {
             $password = Str::random(10);
             $access_id = OneTimePassword::insertGetId([
                 'password' => Hash::make($password),
@@ -200,10 +194,9 @@ class ClientController extends Controller
 
 
 
-            $url = url(route('access-record-verification', ['access_id'=> $this->hashids->encode($access_id)]));
+            $url = url(route('access-record-verification', ['access_id' => $this->hashids->encode($access_id)]));
             Mail::to(Auth::user()->email)->send(new OTPMail($password, $url));
-            if(Mail::failures())
-            {
+            if (Mail::failures()) {
                 return 'failure';
             }
         });
@@ -213,7 +206,7 @@ class ClientController extends Controller
 
     public function access_record_verification(Request $request)
     {
-        return View::make('client.access_record_verification' , ['access_id'=> $request->access_id]);
+        return View::make('client.access_record_verification', ['access_id' => $request->access_id]);
     }
 
     public function various_settings()
@@ -234,9 +227,9 @@ class ClientController extends Controller
     {
         Mail::to('jvncgs.info@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
 
-        if(Mail::fails()){
+        if (Mail::fails()) {
             return 'failure';
-        }else {
+        } else {
             return 'success';
         }
     }
@@ -262,7 +255,7 @@ class ClientController extends Controller
             'modified_by_user_id' => Auth::user()->id,
         ]);
 
-        if($target->save()) {
+        if ($target->save()) {
             return 'success';
         }
     }
@@ -273,10 +266,10 @@ class ClientController extends Controller
             'password' => 'required'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->route('access-record-verification')
-            ->withErrors($validator)
-            ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $access = OneTimePassword::find($this->hashids->decode($request->record_id)[0]);
@@ -289,9 +282,8 @@ class ClientController extends Controller
 
     public function access_record(OneTimePassword $access, $password)
     {
-        if(Hash::check($password, $access->password))
-        {
-            switch($access->target_table) {
+        if (Hash::check($password, $access->password)) {
+            switch ($access->target_table) {
                 case 'past_notifications':
                     return route('access-past-notification', ['client_id' => $this->hashids->encode($access->record_id)]);
                     break;
@@ -302,8 +294,7 @@ class ClientController extends Controller
                     abort(403);
                     break;
             }
-        }
-        else {
+        } else {
             abort(403);
         }
     }
@@ -331,13 +322,13 @@ class ClientController extends Controller
             'staff_email' => 'required|unique:users,email|email:rfc,dns'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->route('various-settings')
-            ->withErrors($validator)
-            ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        DB::transaction(function () use($request) {
+        DB::transaction(function () use ($request) {
             $password = Str::random(8);
             $user = User::create([
                 'email' => $request->staff_email,
@@ -346,8 +337,7 @@ class ClientController extends Controller
                 'remember_token' => Str::random(60),
             ]);
 
-            if($user)
-            {
+            if ($user) {
                 $id = $user->id;
                 $login_id = 'C' . date('Y') . $id . $user->role_id;
                 $user->update([

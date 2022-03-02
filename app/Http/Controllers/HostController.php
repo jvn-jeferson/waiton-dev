@@ -637,7 +637,7 @@ class HostController extends Controller
         $client_user_ids = array();
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
         foreach ($users as $user) {
-            if ($user->clientStaff->client->id == $id) {
+            if ($user->clientStaff->client->id == $user->id) {
                 array_push($client_user_ids, $user->id);
             }
         }
@@ -1342,14 +1342,11 @@ class HostController extends Controller
 
             Mail::to($accountingOffice->contact_email)->send(new DeletedUserMail($login_id));
 
-            if(Mail::failures())
-            {
+            if (Mail::failures()) {
                 abort(403);
             }
-
         });
 
         return true;
-
     }
 }
