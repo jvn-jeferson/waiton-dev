@@ -593,8 +593,7 @@ class HostController extends Controller
     {
         Mail::to($email)->send(new UploadNotification($target, $message));
 
-        if(Mail::failures())
-        {
+        if (Mail::failures()) {
             return false;
         }
 
@@ -664,10 +663,11 @@ class HostController extends Controller
         } else {
             $name = time() . '.mp4';
         }
-        Storage::disk('gcs')->put($name,  file_get_contents($url->getRealPath()));
-        $url = Storage::disk('gcs')->url($name);
         $user_id = Auth::user()->id;
         $staff = ClientStaff::where('user_id', $user_id)->first();
+        Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/upload_video/" . $name,  file_get_contents($url->getRealPath()));
+
+        $url = Storage::disk('gcs')->url(Auth::user()->accountingOffice->id . "/upload_video/" . $name);
 
         Files::create(
             [
@@ -742,7 +742,7 @@ class HostController extends Controller
 
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
 
-        return View::make('host.individual-clients.access-historical-file', ['client' => $client, 'hashids' => $this->hashids,'unviewed' => $unviewed]);
+        return View::make('host.individual-clients.access-historical-file', ['client' => $client, 'hashids' => $this->hashids, 'unviewed' => $unviewed]);
     }
 
     public function notification_history_client(Request $request)
@@ -750,7 +750,8 @@ class HostController extends Controller
         $page_title = "届出";
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
-        $notification_archives = PastNotification::where(['client_id' => $id])->get();$client_user_ids = array();
+        $notification_archives = PastNotification::where(['client_id' => $id])->get();
+        $client_user_ids = array();
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
         foreach ($users as $user) {
             if ($user->clientStaff->client->id == $id) {
@@ -798,12 +799,12 @@ class HostController extends Controller
             $file = $request->file('file');
 
             $name = $file->getClientOriginalName();
-            $path = Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/notification-archive/". $request->client_id . $name, file_get_contents($file));
+            $path = Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/notification-archive/" . $request->client_id . $name, file_get_contents($file));
 
 
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
-                'path' => Auth::user()->accountingOffice->id . "/notification-archive/". $request->client_id . $name,
+                'path' => Auth::user()->accountingOffice->id . "/notification-archive/" . $request->client_id . $name,
                 'name' => $name,
                 'size' => $request->file('file')->getSize(),
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -1096,7 +1097,7 @@ class HostController extends Controller
     {
         $client = Client::findorFail($request->id);
 
-        if($client){
+        if ($client) {
             $client->update([
                 'name' => $request->name,
                 'address' => $request->address,
@@ -1120,7 +1121,7 @@ class HostController extends Controller
         $notifs = ClientMajorNotification::where('client_id', $client_id)->first();
 
 
-        if($notifs){
+        if ($notifs) {
             $notifs->update([
                 'establishment_notification' => $request->establishment_notification,
                 'blue_declaration' => $request->blue_declaration,
@@ -1133,8 +1134,7 @@ class HostController extends Controller
             ]);
 
             $notifs->save();
-        }
-        else {
+        } else {
             ClientMajorNotification::create([
                 'client_id' => $client_id,
                 'establishment_notification' => $request->establishment_notification,
@@ -1157,11 +1157,10 @@ class HostController extends Controller
     {
         $client = Client::findorFail($request->id);
 
-        if($client) {
+        if ($client) {
             $taxing_credentials = TaxingCredentials::where('client_id', $request->id)->first();
 
-            if($taxing_credentials)
-            {
+            if ($taxing_credentials) {
                 $taxing_credentials->update([
                     'nta_id' => $request->nta_num,
                     'nta_password' => $request->nta_password,
@@ -1170,8 +1169,7 @@ class HostController extends Controller
                 ]);
 
                 $taxing_credentials->save();
-            }
-            else {
+            } else {
                 TaxingCredentials::create(
                     [
                         'client_id' => $request->id,
@@ -1180,7 +1178,7 @@ class HostController extends Controller
                         'el_tax_id' => $request->el_tax_num,
                         'el_tax_password' => $request->el_tax_password
                     ]
-                    );
+                );
             }
             return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->id)]);
         }
@@ -1221,13 +1219,12 @@ class HostController extends Controller
             'staff_email' => 'required|unique:users,email|email:rfc,dns'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->client_id)])
-            ->withErrors($validator)
-            ->withInput();
-        }
-        else {
-            DB::transaction(function () use ($request){
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            DB::transaction(function () use ($request) {
                 $role = 5 - $request->is_admin;
                 $pw = Str::random(8);
                 $user = User::create([
@@ -1241,8 +1238,7 @@ class HostController extends Controller
                 $user->update(['login_id' => $login_id]);
                 $user->save();
 
-                if($user)
-                {
+                if ($user) {
                     ClientStaff::create([
                         'client_id' => $request->client_id,
                         'user_id' => $user->id,
@@ -1261,8 +1257,7 @@ class HostController extends Controller
     {
         $client = Client::findOrFail($request->client_id);
 
-        if($client)
-        {
+        if ($client) {
             $client->update([
                 'contact_email' => $request->contact_email
             ]);
@@ -1277,7 +1272,7 @@ class HostController extends Controller
     {
         $id = $request->user_id;
 
-        DB::transaction(function () use($id){
+        DB::transaction(function () use ($id) {
 
             $staff = ClientStaff::findOrFail($id);
             $client_email = $staff->client->contact_email;
@@ -1293,8 +1288,7 @@ class HostController extends Controller
 
 
             Mail::to($client_email)->send(new DeletedUserMail($login_id));
-            if(Mail::failures())
-            {
+            if (Mail::failures()) {
                 abort(403);
             }
         });
@@ -1304,7 +1298,7 @@ class HostController extends Controller
 
     function delete_archives(Request $request)
     {
-        DB::transaction(function () use($request) {
+        DB::transaction(function () use ($request) {
             PastNotification::whereIn('id', $request->ids)->delete();
         });
 

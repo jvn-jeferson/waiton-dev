@@ -39,7 +39,7 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <p class="text-info text-underline" id="tocopy">
-                                                                {{ $video->video_url }}
+                                                                {{ Hash::make($video->video_url) }}
                                                             </p>
                                                         </div>
                                                     </div>
