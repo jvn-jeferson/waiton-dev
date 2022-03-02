@@ -96,7 +96,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-body justify-items-center">
                     <p class="text-dark h2">
                         過去の届出など
