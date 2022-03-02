@@ -52,7 +52,9 @@ class ClientController extends Controller
     }
     public function index()
     {
-        $messages = Message::where('created_at', '>=', Carbon::now())->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5)->get();
+        $date = date('Y-m-d');
+
+        $messages = Message::where('created_at' , 'like', ''.$date.'%')->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5)->get();
         $uploads = ClientUpload::where('user_id', Auth::user()->id)->get();
         $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
         $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->get();
@@ -361,7 +363,7 @@ class ClientController extends Controller
                 ]);
             }
 
-            Mail::to($request->staff_email)->send(new NewClientAccessMail($login_id, Client::find($request->client_id)->name, $password));
+            Mail::to($request->staff_email)->send(new NewClientAccessMail($user, Client::find($request->client_id)->name, $password, $request->staff_name));
         });
         return redirect()->route('various-settings');
     }

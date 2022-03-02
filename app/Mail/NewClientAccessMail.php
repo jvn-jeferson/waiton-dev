@@ -11,18 +11,19 @@ class NewClientAccessMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $login_id, $password, $client_name;
+    public $user, $password, $client_name, $name;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($login_id, $client_name, $password)
+    public function __construct($user, $client_name, $password, $name)
     {
-        $this->login_id = $login_id;
+        $this->user = $user;
         $this->password = $password;
         $this->client_name = $client_name;
+        $this->name = $name;
     }
 
     /**
@@ -32,6 +33,7 @@ class NewClientAccessMail extends Mailable
      */
     public function build()
     {
-        return $this->from(config('mail.from.address'), config('mail.from.name'))->subject('User Registration Success')->markdown('email.new-client-user-email');
+        $url = url(route('first-time-login', ['token' => $this->user->remember_token]));
+        return $this->from(config('mail.from.address'), config('mail.from.name'))->subject($this->client_name.' - 様のユーザー登録')->markdown('email.new-client-user-email', ['url' => $url] );
     }
 }

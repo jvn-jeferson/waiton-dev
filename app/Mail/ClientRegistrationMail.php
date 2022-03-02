@@ -11,19 +11,18 @@ class ClientRegistrationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $token;
-    public $user;
-    public $password;
+    public $token, $user, $password, $accounting_office;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($token, $user, $password)
+    public function __construct($token, $user, $password, $accounting_office)
     {
         $this->token = $token;
         $this->user = $user;
         $this->password = $password;
+        $this->accounting_office = $accounting_office;
     }
 
     /**

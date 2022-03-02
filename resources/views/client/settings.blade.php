@@ -111,12 +111,12 @@
                                 </td>
                                 <td>
                                     <label for="staff_role" class="h4">
-                                        <input type="radio" name="staff_role" id="staff_role" class="p-1" value="0">  管理者
+                                        <input type="radio" name="staff_role" id="staff_role" class="p-1" value="1">  管理者
                                     </label>
                                 </td>
                                 <td>
                                     <label for="staff_role" class="h4">
-                                        <input type="radio" name="staff_role" id="staff_role" class="p-1" value="1">  利用者
+                                        <input type="radio" name="staff_role" id="staff_role" class="p-1" value="0">  利用者
                                     </label>
                                 </td>
                             </tr>
@@ -168,10 +168,13 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tr>
+                                <td colspan="3" class="bg-teal disabled"></td>
+                            </tr>
+                            <tr>
                                 <td class="text-center">
                                     @if(auth()->user()->role_id == 4)<button class="btn btn-warning">編集</button>@endif
                                 </td>
-                                <td class="w-25">
+                                <td class="w-25 text-bold">
                                     ワンタイムパスワードの • 送付先メールアドレス
                                 </td>
                                 <td class="bg-gray">
@@ -180,7 +183,10 @@
                             </tr>
                             @forelse($staffs as $staff)
                                 <tr>
-                                    <td class="text-center text-bold @if($staff->is_admin == 0) bg-gray @endif" rowspan="2">
+                                    <td colspan="3" class="bg-teal disabled"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center text-bold rowspan="2">
                                         @if($staff->is_admin == 1)
                                             管理者
                                         @else
@@ -195,11 +201,12 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td></td>
                                     <td>名前</td>
                                     <td>{{$staff->name}}</td>
                                 </tr>
                                 <tr>
-                                    <td class="@if($staff->is_admin == 0) bg-gray @endif text-center">
+                                    <td class="text-center">
                                         @if(auth()->user()->role_id == 4)
                                             <button class="btn btn-warning">編集</button>
                                         @endif
@@ -208,8 +215,8 @@
                                     <td class="bg-gray">**********</td>
                                 </tr>
                                 <tr>
-                                    <td class="@if($staff->is_admin == 0) bg-gray @endif) text-center">
-                                        @if($staff->is_admin == 0 && auth()->user()->role_id == 4)
+                                    <td class="text-center">
+                                        @if(auth()->user()->role_id == 4)
                                             <button class="btn btn-danger">削除</button>
                                         @endif
                                     </td>

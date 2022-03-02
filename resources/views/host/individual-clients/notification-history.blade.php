@@ -15,8 +15,8 @@
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <tr>
-                                    <td class="w-25 text-bold" rowspan="5">主要な届出等の状況</td>
-                                    <td class="bg-gray">
+                                    <td class="w-25 text-bold bg-dark" rowspan="5">主要な届出等の状況</td>
+                                    <td class="@if($client->notifs) @if($client->notifs->establishment_notification) bg-lime disabled color-palette @endif @endif">
                                         <div class="form-check">
                                             <input class="form-check-input" disabled type="checkbox" id="defaultCheck1" disabled @if($client->notifs) @if($client->notifs->establishment_notification) checked @endif @endif>
                                             <label for="defaultCheck1">
@@ -24,7 +24,7 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td class="bg-gray">
+                                    <td class="@if($client->notifs) @if($client->notifs->blue_declaration) bg-lime disabled color-palette @endif @endif">
                                         <div class="form-check">
                                             <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs)  @if($client->notifs->blue_declaration) checked @endif @endif>
                                             <label for="defaultCheck1">
@@ -34,7 +34,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-gray">
+                                    <td class="@if($client->notifs) @if($client->notifs->withholding_tax) bg-lime disabled color-palette @endif @endif">
                                         <div class="form-check">
                                             <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->withholding_tax) checked @endif @endif>
                                             <label for="defaultCheck1">
@@ -42,7 +42,7 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td class="bg-gray">
+                                    <td class="@if($client->notifs) @if($client->notifs->salary_payment) bg-lime disabled color-palette @endif @endif">
                                         <div class="form-check">
                                             <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->salary_payment) checked @endif @endif>
                                             <label for="defaultCheck1">
@@ -52,7 +52,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-gray">
+                                    <td class="@if($client->notifs) @if($client->notifs->extension_filing_deadline) bg-lime disabled color-palette @endif @endif">
                                         <div class="form-check">
                                             <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->extension_filing_deadline) checked @endif @endif>
                                             <label for="defaultCheck1">
@@ -60,12 +60,12 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td class="bg-gray">
+                                    <td class="bg-light">
 
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-gray">
+                                    <td class="@if($client->notifs) @if($client->notifs->consumption_tax) bg-lime disabled color-palette @endif @endif">
                                         <div class="form-check">
                                             <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->consumption_tax) checked @endif @endif>
                                             <label for="defaultCheck1">
@@ -73,7 +73,7 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td class="bg-gray">
+                                    <td class="@if($client->notifs) @if($client->notifs->consumption_tax_excemption) bg-lime disabled color-palette @endif @endif">
                                         <div class="form-check">
                                             <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->consumption_tax_excemption) checked @endif @endif>
                                             <label for="defaultCheck1">
@@ -83,7 +83,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-gray">
+                                    <td class="@if($client->notifs) @if($client->notifs->consumption_tax_selection) bg-lime disabled color-palette @endif @endif">
                                         <div class="form-check">
                                             <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1" @if($client->notifs) @if($client->notifs->consumption_tax_selection) checked @endif @endif>
                                             <label for="defaultCheck1">
@@ -91,7 +91,7 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td class="bg-gray">
+                                    <td class="bg-light">
                                     </td>
                                 </tr>
                             </table>
