@@ -126,14 +126,23 @@ class UserController extends Controller
         //here send a password reset link
         $user = User::where('email', $request->email)->first();
 
-        $this->sendEmail($user);
+        $new_password = Str::random(8);
+
+        $user->update([
+            'password' => Hash::make($new_password),
+            'remember_token' => Str::random(60)
+        ]);
+
+        $user->save();
+
+        $this->sendEmail($user, $new_password);
 
         return View::make('auth.passwords.reset-notif');
     }
 
-    public function sendEmail($user)
+    public function sendEmail($user, $new_password)
     {
-        Mail::to($user->email)->send(new PasswordResetMail($user));
+        Mail::to($user->email)->send(new PasswordResetMail($user, $new_password));
 
         if (Mail::failures()) {
             return response()->Fail('Sorry! Please try again later.');
@@ -144,9 +153,10 @@ class UserController extends Controller
 
     public function update_password(Request $request)
     {
-        $user = User::where('login_id', $request->login_id)->first();
-        if (isset($user->email_verified_at)) {
-            return abort(403);
+        $user = User::where('remember_token', $request->remember_token)->first();
+        if($user == null)
+        {
+            abort(403);
         }
         return View::make('auth.passwords.update_password')->with(['login_id' => $user->login_id]);
     }

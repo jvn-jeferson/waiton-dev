@@ -26,10 +26,14 @@
 
                                             </td>
                                             <td>
+                                                @if($record->proposal_date)
                                                 {{$record->proposal_date->format('Y年m月d日')}}
+                                                @endif
                                             </td>
                                             <td>
+                                                @if($record->recognition_date)
                                                 {{$record->recognition_date->format('Y年m月d日')}}
+                                                @endif
                                             </td>
                                             <td>
                                                 <a href="{{ url(Storage::disk('gcs')->url($record->file->path))}}" download="{{$record->file->name}}">{{$record->file->name}}</a>

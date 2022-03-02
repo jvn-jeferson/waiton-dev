@@ -39,10 +39,10 @@
                                                         {{ $archive->settlement_date->format('Y年m月d日') }}
                                                     @endif
                                                 </td>
-                                                <td class="text-info">
+                                                <td class="text-bold">
                                                     @if ($archive)
                                                         @if($archive->file)
-                                                            <a href="{{Storage::disk('gcs')->url($archive->file->path)}}" download="{{$archive->file->name}}">{{$archive->file->name}}</a>
+                                                            {{$archive->file->name}}
                                                         @endif
                                                     @endif
                                                 </td>

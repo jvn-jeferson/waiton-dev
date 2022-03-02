@@ -13,15 +13,17 @@ class PasswordResetMail extends Mailable
 
     public $target;
     public $name;
+    public $temp_pass;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $password)
     {
         $this->target = $user;
+        $this->temp_pass = $password;
     }
 
     /**
@@ -49,10 +51,10 @@ class PasswordResetMail extends Mailable
                 break;
         }
 
-        $url = url(route('update-password', ['login_id' => $this->target->login_id]));
+        $url = url(route('update-password', ['remember_token' => $this->target->remember_token]));
 
         return $this->from(config('mail.from.address'), config('mail.from.name'))
-                    ->subject('Password Reset Request')
+                    ->subject('【UpFiling】パスワードのリセット')
                     ->markdown('email.password-reset-mail', ['name' => $this->name, 'url' => $url]);
     }
 }
