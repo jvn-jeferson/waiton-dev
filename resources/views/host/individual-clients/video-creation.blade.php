@@ -111,7 +111,7 @@
                                         title="upfiling.jpのみを録画する場合、録画開始クリック後に1. Chromeタブ 2.upfiling.jpを選択 3. 共有をクリックしてください。"></i>
                                 </div>
                                 <div class="col-9">
-                                    <p >(録画選択画面について)</p>
+                                    <p>(録画選択画面について)</p>
                                 </div>
                             </div>
                             <button class="btn-warning btn btn-block" id="start">録画画面選択／スタート</button>
@@ -124,11 +124,29 @@
                                 <button class="btn btn-block btn-light text-bold" onclick="setMarker()" type="button"
                                     id="markerBtn"><i class="fas fa-marker text-warning"></i> マーカー</button>
                             </div>
-                            <div class="form-row mt-2 text-center align-items-center">
-                                <div class="col-6">
-                                    <input type="color" oninput="stroke_color = this.value" placeholder="Colors">
+                            <br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <label>Color</label>
+                                </div>
+                                <div class="col-9">
+                                    <input type="color" oninput="stroke_color = this.value" list="presetColors">
+                                    <datalist id="presetColors">
+                                        <option>#FFFFFF</option>
+                                        <option>#FF0000</option>
+                                        <option>#00FF00</option>
+                                        <option>#0000FF</option>
+                                        <option>#FFFF00</option>
+                                        <option>#FF00FF</option>
+                                        <option>#00FFFF</option>
+                                        <option>#800000</option>
+                                        <option>#FFFFCC</option>
+                                        <option>#00FFFF</option>
+                                        <option>#FF9900</option>
+                                    </datalist>
                                 </div>
                             </div>
+                            <br>
                             <div class="form-row text-center align-items-center">
                                 <div class="col-6">
                                     <button class="btn btn-block btn-light" onclick="undo_last()">
