@@ -286,7 +286,7 @@ class ClientController extends Controller
         if (Hash::check($password, $access->password)) {
             switch ($access->target_table) {
                 case 'past_notifications':
-                    return route('access-past-notification', ['client_id' => $this->hashids->encode($access->record_id)]);
+                    return route('access-past-notification', ['record_id' => $this->hashids->encode($access->record_id)]);
                     break;
                 case 'taxation_histories':
                     return route('access-tax-history', ['id' => $this->hashids->encode($access->record_id)]);
@@ -302,9 +302,8 @@ class ClientController extends Controller
 
     public function access_past_notification(Request $request)
     {
-        $records = PastNotification::where('client_id', $this->hashids->decode($request->client_id)[0])->get();
-
-        return View::make('client.view_archived_notif')->with('records', $records);
+        $record = PastNotification::findOrFail($this->hashids->decode($request->record_id)[0]);
+        return View::make('client.view_archived_notif')->with('record', $record);
     }
 
     public function access_tax_history(Request $request)

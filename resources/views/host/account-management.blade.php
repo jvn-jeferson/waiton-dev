@@ -150,7 +150,7 @@
                                         <tbody>
                                             <tr>
                                                 <td class="text-center">
-                                                    <button class="btn btn-warning" role="button" data-placement="top" data-tooltip="Edit">編集</button>
+                                                    <button class="btn btn-warning" role="button" data-toggle="modal" data-target="#contactEmailModal">編集</button>
                                                 </td>
                                                 <td class="text-left">
                                                     ワンタイムパスワードの•送付先メールアドレス
@@ -257,7 +257,38 @@
         </div>
     </div>
 
-    <div class="modal face" id="userModal" role="dialog">
+    <div class="modal fade" id="contactEmailModal" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        ワンタイムパスワードの•送付先メールアドレス
+                    </h4>
+                    <button class="close" type="button" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <form action="{{route('update-otp-email')}}" method="post">
+                            @csrf
+                            <input type="hidden" name="accountingOfficeID" value="{{$account->id}}">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <th>
+                                        <input type="email" name="contact_email" id="contact_email" class="form-control" value="{{$account->contact_email}}">
+                                    </th>
+                                    <th>
+                                        <button class="btn btn-block btn-warning" type="submit">Update</button>
+                                    </th>
+                                </thead>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="userModal" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -332,7 +363,6 @@
                 Swal.fire({
                     title: 'ユーザーの作成に成功',
                     icon: 'success',
-                    position: 'top-end'
                 }).then((result) => {
                    if(result.isConfirmed) {
                     $('#name').val('')
@@ -412,5 +442,11 @@
                 }
             })
         }
+
+        $(function() {
+            $('form').submit(function(e) {
+                Swal.showLoading()
+            })
+        })
     </script>
 @endsection

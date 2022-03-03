@@ -84,7 +84,7 @@
                     </thead>
                     <tbody>
                       {{-- @foreach($companies as $company) --}}
-  
+
                       @forelse(Auth::user()->accountingOffice->clients as $client)
                         @if($client->tax_filing_month == date('m'))
                           <tr>
@@ -96,7 +96,7 @@
                         @endif
                       @empty
                         <tr>
-                          <td colspan="4">
+                          <td colspan="4" class="text-primary">
                             あなたのオフィスには登録済みのクライアントがありません。
                           </td>
                         </tr>

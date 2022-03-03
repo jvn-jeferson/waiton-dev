@@ -26,6 +26,18 @@
         .label:valid+span {
             color: #ffffff;
         }
+
+        #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url(images/loading2.gif) no-repeat center center;
+        z-index: 10000;
+        }
     </style>
 @endsection
 @section('content')
@@ -161,7 +173,19 @@
             </div>
         </section>
     </div>
+
+    <div id="loader"></div>
 @endsection
 
 @section('extra-scripts')
+
+<script>
+    var spinner = $('#loader')
+
+    $(function() {
+        $('form').submit(function(e) {
+            Swal.showLoading()
+        })
+    })
+</script>
 @endsection

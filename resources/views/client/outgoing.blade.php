@@ -206,8 +206,10 @@
         var fileName = input.files[0].name
     }
 
-    $('form').on('submit', function () {
-        Swal.showLoading();
+    $(function() {
+        $('form').submit(function(e) {
+            Swal.showLoading()
+        })
     })
 </script>
 @endsection

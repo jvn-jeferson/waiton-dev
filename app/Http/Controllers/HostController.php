@@ -50,6 +50,7 @@ use App\Mail\DeletedUserMail;
 use App\Mail\PasswordResetMail;
 use App\Mail\InquiryMail;
 use App\Mail\NewClientAccessMail;
+use App\Mail\NewHostAccessMail;
 use App\Mail\UpdatedLoginCredentialsEmail;
 use App\Models\TaxingCredentials;
 
@@ -254,7 +255,7 @@ class HostController extends Controller
 
                 $accounting_office = AccountingOffice::findOrFail($accounting_office_id);
                 $user = User::findorFail($user->id);
-                Mail::to($user->email)->send(new NewClientAccessMail($user, $accounting_office->name, $password, $request->name));
+                Mail::to($user->email)->send(new NewHostAccessMail($user, $accounting_office->name, $password, $request->name));
                 if (Mail::failures()) {
                     $result = "failure";
                 }
@@ -1352,5 +1353,18 @@ class HostController extends Controller
         });
 
         return true;
+    }
+
+    public function update_otp_email(Request $request)
+    {
+        $accountingOffice = AccountingOffice::findOrFail($request->accountingOfficeID);
+
+        $accountingOffice->update([
+            'contact_email' => $request->contact_email,
+        ]);
+
+        $accountingOffice->save();
+
+        return $this->account_management();
     }
 }

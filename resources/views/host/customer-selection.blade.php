@@ -209,10 +209,10 @@
 
 @section('extra-scripts')
     <script>
-
         $("#newClientForm").on('submit', function(event) {
-            event.preventDefault()
 
+            Swal.showLoading()
+            event.preventDefault()
             var type_id = document.querySelector('input[name="client_type"]:checked').value;
             var url = "{{route('register-new-client')}}";
 
@@ -233,12 +233,10 @@
 
             }).then(function(response) {
                 Swal.fire({
-                    position: 'top-end',
                     icon: 'success',
                     title: 'クライアント登録が成功しました',
                 }).then((result) => {
                     if(result.isConfirmed) {
-
                         window.location.reload();
                     }
                 })
@@ -248,7 +246,6 @@
                     title: 'Oops...',
                     text: 'Something went wrong. Check your inputs and try again.',
                 })
-
             })
         })
 

@@ -155,7 +155,8 @@
                     var url = "{{route('send-otp')}}";
                     axios.post(url, {
                         record_id: id,
-                        table: 'past_notifications'
+                        table: 'past_notifications',
+                        record_id: id
                     }).then(function(response) {
                         Swal.fire({
                             title: '成功',

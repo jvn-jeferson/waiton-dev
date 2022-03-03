@@ -27,4 +27,9 @@ class PastNotification extends Model
     {
         return $this->hasOne(Files::class, 'id', 'file_id');
     }
+
+    public function uploader() : HasOne
+    {
+        return $this->hasOne(AccountingOfficeStaff::class, 'user_id', 'user_id');
+    }
 }

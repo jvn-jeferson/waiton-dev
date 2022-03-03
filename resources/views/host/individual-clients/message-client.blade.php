@@ -90,4 +90,12 @@
 @endsection
 
 @section('extra-scripts')
+
+    <script>
+        $(function() {
+            $('form').submit(function(e) {
+                Swal.showLoading()
+            })
+        })
+    </script>
 @endsection

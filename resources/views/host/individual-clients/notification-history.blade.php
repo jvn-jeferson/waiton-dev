@@ -355,5 +355,11 @@
                 })
             }
         }
+
+        $(function() {
+            $('form').submit(function(e) {
+                Swal.showLoading()
+            })
+        })
     </script>
 @endsection

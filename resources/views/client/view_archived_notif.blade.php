@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <div class="row justify-content-center p-5">
-            <div class="col-md-12">
+        <div class="row justify-content-center p-3">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header text-left">
                         <h3 class="card-title text-dark text-bold">
@@ -12,43 +12,42 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
-                                <thead class="bg-info text-bold">
+                                <thead class="bg-info text-bold text-center">
                                     <th>種類</th>
                                     <th>提出日</th>
                                     <th>承認日</th>
                                     <th>資料</th>
-                                    <th>意見</th>
+                                    <th>アップローダー</th>
                                 </thead>
                                 <tbody>
-                                    @forelse($records as $record)
+                                    @if($record)
                                         <tr class="text-center">
-                                            <td>
-
+                                            <td class="text-bold">
+                                                {{$record->notification_type ?? '不明'}}
                                             </td>
                                             <td>
                                                 @if($record->proposal_date)
-                                                {{$record->proposal_date->format('Y年m月d日')}}
+                                                    {{$record->proposal_date->format('Y-m-d')}}
+                                                @else
+                                                    不明
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($record->recognition_date)
-                                                {{$record->recognition_date->format('Y年m月d日')}}
+                                                @if ($record->recognition_date)
+                                                    {{$record->recognition_date->format('Y-m-d')}}
+                                                @else
+                                                    不明
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ url(Storage::disk('gcs')->url($record->file->path))}}" download="{{$record->file->name}}">{{$record->file->name}}</a>
+                                                <a href="{{Storage::disk('gcs')->url($record->file->path)}}" download="{{$record->file->name}}">{{$record->file->name}}</a>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary" type="button" onclick="showNotifData({{$record->id}})"><i class="fa fa-eye"></i></button>
+                                                {{$record->uploader->name}}
                                             </td>
                                         </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="4" class="text-info">
-                                                レコードが見つかりません。
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                    @else
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
