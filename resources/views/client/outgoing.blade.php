@@ -53,7 +53,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <input type="text" name="comment[]" id="comment" class="form-control">
+                                        <textarea name="comment[]" id="comment" rows="5" class="form-control"></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -64,7 +64,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <input type="text" name="comment[]" id="comment" class="form-control">
+                                        <textarea name="comment[]" id="comment" rows="5" class="form-control"></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -75,7 +75,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <input type="text" name="comment[]" id="comment" class="form-control">
+                                        <textarea name="comment[]" id="comment" rows="5" class="form-control"></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -86,7 +86,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <input type="text" name="comment[]" id="comment" class="form-control">
+                                        <textarea name="comment[]" id="comment" rows="5" class="form-control"></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -97,7 +97,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <input type="text" name="comment[]" id="comment" class="form-control">
+                                        <textarea name="comment[]" id="comment" rows="5" class="form-control"></textarea>
                                     </td>
                                 </tr>
                             </tbody>

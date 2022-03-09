@@ -82,6 +82,7 @@
                 </div>
             </div>
 
+@if(Auth::user()->role_id == 4)
             <div class="card card-danger card-outline collapsed-card">
                 <div class="card-header">
                     <h3 class="card-title text-bold">
@@ -230,6 +231,8 @@
                     </div>
                 </div>
             </div>
+
+            @endif
         </section>
     </div>
 @endsection

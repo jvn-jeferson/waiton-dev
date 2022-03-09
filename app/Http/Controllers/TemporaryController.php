@@ -33,4 +33,11 @@ class TemporaryController extends Controller
         Mail::to('jeffbu.dev@gmail.com')->send(new RegistrationMail($data));
 
     }
+
+    public function test_file()
+    {
+
+
+        return View::make('temporary.permanent_record');
+    }
 }

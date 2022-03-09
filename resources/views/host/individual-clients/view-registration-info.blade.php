@@ -7,7 +7,7 @@
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title text-dark text-bold">顧客の情報</h3>
-                        <button id="submit_settings" class="btn btn-warning btn-block col-1 float-right" data-toggle="modal" data-target="#changeRegistrationInfoModal">変更・登録</button>
+                        <button id="submit_settings" class="btn btn-warning btn-block col-1 float-right" data-toggle="modal" data-target="#changeRegistrationInfoModal">変更</button>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -252,13 +252,13 @@
                 <div class="modal-body">
                     <ul class="nav nav-tabs" id="tabContent">
                         <li class="nav-item">
-                            <a href="#registration_info" data-toggle="tab" class="nav-link active">Company Information</a>
+                            <a href="#registration_info" data-toggle="tab" class="nav-link active">顧客情報</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#checkboxes" data-toggle="tab" class="nav-link">Notification Toggles</a>
+                            <a href="#checkboxes" data-toggle="tab" class="nav-link">消費税の状態</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#taxation_credentials" data-toggle="tab" class="nav-link">Taxation Credentials</a>
+                            <a href="#taxation_credentials" data-toggle="tab" class="nav-link">電子申告用ID/PW</a>
                         </li>
                     </ul>
 
@@ -315,7 +315,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <button type="submit" class="btn btn-success float-right">Submit</button>
+                                    <button type="submit" class="btn btn-warning float-right">変更</button>
                                 </div>
                             </form>
                         </div>
@@ -335,6 +335,40 @@
                                                         <label class="btn btn-light">
                                                             <input type="radio" name="is_taxable" id="option1" value="0">
                                                             免税事業者
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">計算方法</th>
+                                                <td class="text-center">
+                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                        <label for="" class="btn btn-light">
+                                                            <input type="radio" name="calculation_method" id="method1" value="principle">
+                                                            原則課税
+                                                        </label>
+                                                        <label for="" class="btn btn-light">
+                                                            <input type="radio" name="calculation_method" id="method2" value="simple">
+                                                            簡易課税
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-gray w-25">原則課税時の計算方法</th>
+                                                <td class="text-center">
+                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                        <label for="" class="btn btn-light">
+                                                            <input type="radio" name="principle_calc" id="principle_calc1" value="full">
+                                                            全額控除
+                                                        </label>
+                                                        <label for="" class="btn btn-light">
+                                                            <input type="radio" name="principle_calc" id="principle_calc2" value="individual">
+                                                            個別
+                                                        </label>
+                                                        <label for="" class="btn btn-light">
+                                                            <input type="radio" name="principle_calc" id="principle_calc3" value="batch">
+                                                            一括
                                                         </label>
                                                     </div>
                                                 </td>
@@ -359,9 +393,9 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th class="bg-gray w-25">パスワード</th>
+                                                <th class="bg-gray w-25">パスワード（国税用）</th>
                                                 <td>
-                                                    <input type="text" name="nta_password" id="nta_password" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_password ?? ''}}" @endif>
+                                                    <input type="password" name="nta_password" id="nta_password" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_password ?? ''}}" @endif>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -371,14 +405,14 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th class="bg-gray w-25">国税庁識別番号</th>
+                                                <th class="bg-gray w-25">パスワード（地方税用）</th>
                                                 <td>
-                                                    <input type="text" name="el_tax_password" id="el_tax_password" class="form-control" @if($client->credetials) value="{{$client->credentials->nta_password ?? ''}}" @endif>
+                                                    <input type="password" name="el_tax_password" id="el_tax_password" class="form-control" @if($client->credentials) value="{{$client->credentials->el_tax_password ?? ''}}" @endif>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <button type="submit" class="btn btn-success float-right">Submit</button>
+                                    <button type="submit" class="btn btn-warning float-right">変更</button>
                                 </div>
                             </form>
                         </div>
@@ -463,7 +497,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>New Password</th>
+                                        <th>パスワード</th>
                                         <td>
                                             <input type="password" name="userPassword" id="userPassword" class="form-control">
                                         </td>

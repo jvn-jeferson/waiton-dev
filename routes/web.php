@@ -25,6 +25,8 @@ Route::get('access-record-verification', [MainController::class, 'access_record_
 Route::get('signin', [MainController::class, 'signin'])->name('signin');
 Route::get('login', [MainController::class, 'signin'])->name('login');
 
+Route::get('test', [TemporaryController::class, 'test_file'])->name('test');
+
 
 
 //POST HEAD
