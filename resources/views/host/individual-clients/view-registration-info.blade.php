@@ -19,8 +19,8 @@
                                         <td class="w-50"><input type="text" name="name" id="name" value="{{$client->name}}" class="form-control" readonly/></td>
                                         <td>
                                             <div class="form-inline">
-                                                <input type="radio" name="client_type" id="client_type" value="1" class="mx-auto my-auto" @if($client->business_type_id == 1) checked @endif disabled>法人
-                                                <input type="radio" name="client_type" id="client_type" value="2" class="mx-auto my-auto" @if($client->business_type_id == 2) checked @endif disabled>個人
+                                                <input type="radio" name="business_type_id" id="business_type_id" value="1" class="mx-auto my-auto" @if($client->business_type_id == 1) checked @endif disabled>法人
+                                                <input type="radio" name="business_type_id" id="business_type_id" value="2" class="mx-auto my-auto" @if($client->business_type_id == 2) checked @endif disabled>個人
                                             </div>
                                         </td>
                                     </tr>
@@ -50,24 +50,24 @@
                                         <td colspan="2">
                                             <div class="row">
                                                 <div class="col-3">
-                                                    <input type="checkbox" id="data1" name="data1" value="課税事業者">
+                                                    <input type="checkbox" id="data1" name="data1" value="課税事業者" disabled @if($client->obligation && $client->obligation->is_taxable == 1) checked @endif>
                                                     <label for="data1">課税事業者</label><br>
                                                 </div>
                                                 <div class="col-2">
                                                     (
-                                                    <input type="checkbox" id="data2" name="data2" value="個別">
-                                                    <label for="data1">個別</label><br>
+                                                    <input type="checkbox" id="data2" name="data2" value="個別" disabled @if($client->obligation && $client->obligation->taxable_type == 1) checked @endif>
+                                                    <label for="data1">全額控除</label><br>
                                                 </div>
                                                 <div class="col-2">
-                                                    <input type="checkbox" id="data3" name="data3" value="一括">
-                                                    <label for="data1"> 一括</label><br><br>
+                                                    <input type="checkbox" id="data3" name="data3" value="一括" disabled @if($client->obligation && $client->obligation->taxable_type == 2) checked @endif>
+                                                    <label for="data1"> 個別</label><br><br>
                                                 </div>
                                                 <div class="col-2">
-                                                    <input type="checkbox" id="data4" name="data4" value="一括">
+                                                    <input type="checkbox" id="data4" name="data4" value="一括" disabled @if($client->obligation && $client->obligation->taxable_type == 3) checked @endif>
                                                     <label for="data1"> 一括 )</label><br><br>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <input type="checkbox" id="data5" name="data5" value="免税事業者">
+                                                    <input type="checkbox" id="data5" name="data5" value="免税事業者" disabled @if($client->obligation && $client->obligation->is_taxable == 0) checked @endif>
                                                     <label for="data1"> 免税事業者</label><br><br>
                                                 </div>
                                             </div>
@@ -275,41 +275,47 @@
                                                 <td>
                                                     <input type="text" name="name" id="name" class="form-control" value="{{$client->name}}">
                                                 </td>
+                                                <td class="text-center">
+                                                    <div class="form-inline">
+                                                        <input type="radio" name="business_type_id" id="business_type_id" value="1" class="mx-auto my-auto" @if($client->business_type_id == 1) checked @endif>法人
+                                                        <input type="radio" name="business_type_id" id="business_type_id" value="2" class="mx-auto my-auto" @if($client->business_type_id == 2) checked @endif>個人
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">本店所在地</th>
-                                                <td>
+                                                <td colspan="2">
                                                     <input type="text" name="address" id="address" class="form-control" value="{{$client->address}}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">代表者</th>
-                                                <td>
+                                                <td colspan="2">
                                                     <input type="text" name="representative" id="representative" class="form-control" value="{{$client->representative}}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">代表者住所</th>
-                                                <td>
+                                                <td colspan="2">
                                                     <input type="text" name="representative_address" id="representative_address" class="form-control" value="{{$client->representative_address ?? ''}}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">決算月</th>
-                                                <td>
+                                                <td colspan="2">
                                                     <select name="tax_filing_month" id="tax_filing_month" class="form-control">
-                                                        <option value="1">January</option>
-                                                        <option value="2">Februrary</option>
-                                                        <option value="3">March</option>
-                                                        <option value="4">April</option>
-                                                        <option value="5">May</option>
-                                                        <option value="6">June</option>
-                                                        <option value="7">July</option>
-                                                        <option value="8">August</option>
-                                                        <option value="9">September</option>
-                                                        <option value="10">October</option>
-                                                        <option value="11">November</option>
-                                                        <option value="12">December</option>
+                                                        <option value="1">1月</option>
+                                                        <option value="2">2月</option>
+                                                        <option value="3">3月</option>
+                                                        <option value="4">4月</option>
+                                                        <option value="5">5月</option>
+                                                        <option value="6">6月</option>
+                                                        <option value="7">7月</option>
+                                                        <option value="8">8月</option>
+                                                        <option value="9">9月</option>
+                                                        <option value="10">10月</option>
+                                                        <option value="11">11月</option>
+                                                        <option value="12">12月</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -320,62 +326,49 @@
                             </form>
                         </div>
                         <div class="tab-pane" id="checkboxes">
-                            <form action="" method="post">
+                            <form action="{{route('update-client-obligation')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" id="id" value="{{$client->id}}">
                                 <div class="p-3 table-responsive">
                                     <table class="table table-bordered">
                                         <tbody>
                                             <tr>
                                                 <th class="bg-gray w-25">消費税の申告義務</th>
                                                 <td class="text-center">
-                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                        <label class="btn btn-light">
-                                                            <input type="radio" name="is_taxable" id="option" value="1">
-                                                            課税事業者
-                                                        </label>
-                                                        <label class="btn btn-light">
-                                                            <input type="radio" name="is_taxable" id="option1" value="0">
-                                                            免税事業者
-                                                        </label>
+                                                    <div class="form-inline">
+                                                        <input type="radio" name="is_taxable" id="is_taxable" value="1" class="mx-2" @if($client->obligation && $client->obligation->is_taxable == 1) checked @endif>課税事業者
+                                                        <input type="radio" name="is_taxable" id="is_taxable" value="0" class="mx-2" @if($client->obligation && $client->obligation->is_taxable == 0) checked @endif>免税事業者
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">計算方法</th>
                                                 <td class="text-center">
-                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                        <label for="" class="btn btn-light">
-                                                            <input type="radio" name="calculation_method" id="method1" value="principle">
+                                                    <div class="form-inline">
+                                                        <input type="radio" name="calculation_method" id="calculation_method" value="1" class="mx-2" @if($client->obligation && $client->obligation->calculation_method == 1) checked @endif>
                                                             原則課税
-                                                        </label>
-                                                        <label for="" class="btn btn-light">
-                                                            <input type="radio" name="calculation_method" id="method2" value="simple">
-                                                            簡易課税
-                                                        </label>
+                                                        <input type="radio" name="calculation_method" id="calculation_method" value="0" class="mx-2" @if($client->obligation && $client->obligation->calculation_method == 0) checked @endif>
+                                                        簡易課税
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-gray w-25">原則課税時の計算方法</th>
                                                 <td class="text-center">
-                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                        <label for="" class="btn btn-light">
-                                                            <input type="radio" name="principle_calc" id="principle_calc1" value="full">
-                                                            全額控除
-                                                        </label>
-                                                        <label for="" class="btn btn-light">
-                                                            <input type="radio" name="principle_calc" id="principle_calc2" value="individual">
-                                                            個別
-                                                        </label>
-                                                        <label for="" class="btn btn-light">
-                                                            <input type="radio" name="principle_calc" id="principle_calc3" value="batch">
-                                                            一括
-                                                        </label>
+
+                                                    <div class="form-inline">
+                                                        <input type="radio" name="taxable_type" id="taxable_type" value="1" class="mx-2" @if($client->obligation && $client->obligation->taxable_type == 1) checked @endif>
+                                                        全額控除
+                                                        <input type="radio" name="taxable_type" id="taxable_type" value="2" class="mx-2" @if($client->obligation && $client->obligation->taxable_type == 2) checked @endif>
+                                                        個別
+                                                        <input type="radio" name="taxable_type" id="taxable_type" value="3" class="mx-2" @if($client->obligation && $client->obligation->taxable_type == 3) checked @endif>
+                                                        一括
                                                     </div>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <button type="submit" class="btn btn-success float-right">Submit</button>
+                                    <button type="submit" class="btn btn-warning float-right">変更</button>
                                 </div>
                             </form>
                         </div>
@@ -389,7 +382,7 @@
                                             <tr>
                                                 <th class="bg-gray w-25">国税庁識別番号</th>
                                                 <td>
-                                                    <input type="text" name="nta_number" id="nta_number" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_id ?? ''}}" @endif>
+                                                    <input type="text" name="nta_num" id="nta_num" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_id ?? ''}}" @endif>
                                                 </td>
                                             </tr>
                                             <tr>

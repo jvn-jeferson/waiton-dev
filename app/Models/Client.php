@@ -32,7 +32,7 @@ class Client extends Model
     protected $fillable = [
         'accounting_office_id',
         'name',
-        'buiness_type_id',
+        'business_type_id',
         'address',
         'representative',
         'representative_address',
@@ -59,6 +59,12 @@ class Client extends Model
     {
         return $this->hasOne(ClientMajorNotification::class);
     }
+
+    public function obligation(): HasOne
+    {
+        return $this->hasOne(ClientObligation::class);
+    }
+
     public function host(): hasOne
     {
         return $this->hasOne(AccountingOffice::class, 'id', 'accounting_office_id');

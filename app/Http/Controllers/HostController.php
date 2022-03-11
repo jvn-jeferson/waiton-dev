@@ -27,6 +27,7 @@ use App\Models\TaxationHistory;
 use App\Models\PastNotification;
 use App\Models\CreatedVideoRecord;
 use App\Models\ClientMajorNotification;
+use App\Models\ClientObligation;
 
 use Carbon\Carbon;
 use Hashids\Hashids;
@@ -1018,6 +1019,7 @@ class HostController extends Controller
 
     public function update_registration_info(Request $request)
     {
+
         DB::transaction(function () use ($request) {
             $accounting_office = AccountingOffice::find(Auth::user()->accountingOfficeStaff->accountingOffice->id);
             $accounting_office->update([
@@ -1127,6 +1129,7 @@ class HostController extends Controller
             $client->update([
                 'name' => $request->name,
                 'address' => $request->address,
+                'business_type_id' => $request->business_type_id,
                 'representative' => $request->representative,
                 'representative_address' => $request->representative_address,
                 'tax_filing_month' => (int) $request->tax_filing_month
@@ -1140,6 +1143,36 @@ class HostController extends Controller
         abort(403);
     }
 
+    public function update_client_obligation(Request $request)
+    {
+        $client_id = $request->id;
+
+        $obligation = ClientObligation::where('client_id', $client_id)->first();
+
+        if($obligation)
+        {
+            $obligation->update([
+                'client_id' => $request->id,
+                'is_taxable' => $request->is_taxable,
+                'calculation_method' => $request->calculation_method,
+                'taxable_type' => $request->taxable_type
+            ]);
+
+            $obligation->save();
+        }
+        else
+        {
+            ClientObligation::create([
+                'client_id' => $request->id,
+                'is_taxable' => $request->is_taxable,
+                'calculation_method' => $request->calculation_method,
+                'taxable_type' => $request->taxable_type
+            ]);
+        }
+
+        return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->id)]);
+
+    }
     public function update_notification_settings(Request $request)
     {
         $client_id = $request->client_id;
@@ -1182,7 +1215,6 @@ class HostController extends Controller
     public function update_client_credentials(Request $request)
     {
         $client = Client::findorFail($request->id);
-
         if ($client) {
             $taxing_credentials = TaxingCredentials::where('client_id', $request->id)->first();
 
@@ -1199,7 +1231,7 @@ class HostController extends Controller
                 TaxingCredentials::create(
                     [
                         'client_id' => $request->id,
-                        'nta_id' => $request->nta_number,
+                        'nta_id' => $request->nta_num,
                         'nta_password' => $request->nta_password,
                         'el_tax_id' => $request->el_tax_num,
                         'el_tax_password' => $request->el_tax_password

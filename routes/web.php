@@ -126,6 +126,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('save-notification-history', [HostController::class, 'save_notification_archive'])->name('save-notification-archive');
             Route::post('save-url-to-database', [HostController::class, 'save_url_to_database'])->name('save-url-to-database');
             Route::post('update-client-info', [HostController::class, 'update_client_info'])->name('update-client-info');
+            Route::post('update-client-obligation', [HostController::class, 'update_client_obligation'])->name('update-client-obligation');
             Route::post('update-client-credentials', [HostController::class, 'update_client_credentials'])->name('update-client-credentials');
             Route::post('update-notification-settings', [HostController::class, 'update_notification_settings'])->name('update-notification-settings');
             Route::post('mark-as-read', [HostController::class, 'mark_as_read'])->name('mark-as-read');
@@ -135,6 +136,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('update-client-stafff', [HostController::class, 'update_client_staff'])->name('update-client-staff');
             Route::post('get-client-staff', [HostController::class, 'get_client_staff'])->name('get-client-staff');
             Route::post('delete-archives', [HostController::class, 'delete_archives'])->name('delete-archives');
+            Route::post('update-client-obligation', [HostController::class, 'update_client_obligation'])->name('update-client-obligation');
         });
     });
 
