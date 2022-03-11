@@ -161,7 +161,7 @@
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <tr>
-                                    <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#changeContactEmailModal">編集</button></td>
+                                    <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#changeContactEmailModal">変更</button></td>
                                     <td class="w-25">ワンタイムパスワードの • 送付先メールアドレス</td>
                                     <td>{{$client->contact_email}}</td>
                                 </tr>
@@ -189,7 +189,7 @@
                                     <tr>
                                         <td class="text-center">
                                             @if(Auth::user()->role_id == 2)
-                                                <button class="btn btn-warning" role="button" onclick="updateUser({{$staff->id}})">編集</button>
+                                                <button class="btn btn-warning" role="button" onclick="updateUser({{$staff->id}})">変更</button>
                                             @endif
                                         </td>
                                         <th class="">
