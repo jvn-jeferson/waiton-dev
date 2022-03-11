@@ -48,7 +48,7 @@ class ClientController extends Controller
     {
         $client_id = Auth::user()->clientStaff->client->id;
 
-        return HostUpload::where('client_id', $client_id)->where('status', '<>', 1)->where('priority', 0)->count();
+        return HostUpload::where('client_id', $client_id)->where('status', 0)->count();
     }
     public function index()
     {

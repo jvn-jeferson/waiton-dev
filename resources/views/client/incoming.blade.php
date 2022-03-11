@@ -36,16 +36,17 @@
                                     <td rowspan="2" class="text-info">
                                         @if ($host_upload->file)
                                             <a href="{{ Storage::disk('gcs')->url($host_upload->file->path) }}"
-                                                download="{{ $host_upload->file->name }}">{{ $host_upload->file->name }}</a>
+                                                download="{{ $host_upload->file->name }}" onclick="updateStatus({{$host_upload->id}})">{{ $host_upload->file->name }}</a>
                                         @endif
                                     </td>
                                     <td
                                         class="text-center
-                                    @switch($host_upload->status) @case(1)
-                                            bg-success
+                                    @switch($host_upload->status)
+                                        @case(1)
+                                            bg-light
                                             @break
                                         @case(2)
-                                            bg-light
+                                            bg-success
                                             @break
                                         @case(3)
                                             bg-light
@@ -67,14 +68,15 @@
                                 <tr>
                                     <td
                                         class="text-center
-                                    @switch($host_upload->status) @case(1)
+                                    @switch($host_upload->status)
+                                        @case(1)
                                             bg-light
                                             @break
                                         @case(2)
-                                            bg-danger
+                                            bg-light
                                             @break
                                         @case(3)
-                                            bg-light
+                                            bg-danger
                                             @break
                                         @case(4)
                                             bg-dark
@@ -98,10 +100,10 @@
                                         {{ $host_upload->details }}
                                     </td>
                                     <td rowspan="2">
-                                        @if ($host_upload->priority == 0 && $host_upload->status != 1)
+                                        @if ($host_upload->priority == 0 && $host_upload->status != 2)
                                             <button class="btn btn-flat btn-block btn-primary" role="button"
                                                 onclick="admitFile({{ $host_upload->id }})">
-                                                決定
+                                                確認が必要
                                             </button>
                                         @endif
                                     </td>
@@ -146,28 +148,34 @@
             return regexp.test(s);
         }
 
-        function admitFile(post_id) {
-            var url = "{{ route('admit-host-upload') }}"
+
+        function admitFile(post_id)
+        {
+            var url = "{{route('admit-host-upload')}}"
+
             Swal.fire({
                 icon: 'question',
                 title: '承認処理してアップロードしてよろしいですか?',
                 confirmButtonText: '承認',
-                cancelButtonText: '保留',
+                denyButtonText: '保留',
+                cancelButtonText: 'キャンセル',
+                showDenyButton: true,
                 showCancelButton: true
             }).then((result) => {
                 var status = 0;
-                if (result.isConfirmed) {
+
+                if(result.isConfirmed) {
                     Swal.fire({
                         title: "承認しますか？",
                         icon: 'question',
                         confirmButtonText: 'はい',
                         cancelButtonText: 'いいえ',
                         showCancelButton: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
+                    }).then((approve) => {
+                        if (approve.isConfirmed) {
                             axios.post(url, {
                                 id: post_id,
-                                status: 1
+                                status: 2
                             }).then(function(response) {
                                 window.location.reload();
                             }).catch(function(error) {
@@ -175,54 +183,40 @@
                             })
                         }
                     })
-                } else {
+                }else if(result.isDenied){
                     Swal.fire({
                         title: "保留しますか？",
                         icon: 'warning',
                         confirmButtonText: 'はい',
                         cancelButtonText: 'いいえ',
                         showCancelButton: true
-                    }).then((result) => {
-                        var status = 0;
-                        if (result.isConfirmed) {
-                            Swal.fire({
-                                title: "Confirm Approve",
-                                confirmButtonText: 'はい',
-                                cancelButtonText: 'いいえ',
-                                showCancelButton: true
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    axios.post(url, {
-                                        id: post_id,
-                                        status: 1
-                                    }).then(function(response) {
-                                        window.location.reload();
-                                    }).catch(function(error) {
-                                        console.log(error.response.data);
-                                    })
-                                }
-                            })
-                        } else {
-                            Swal.fire({
-                                title: "Confirm Deny",
-                                confirmButtonText: 'はい',
-                                cancelButtonText: 'いいえ',
-                                showCancelButton: true
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    axios.post(url, {
-                                        id: post_id,
-                                        status: 2
-                                    }).then(function(response) {
-                                        window.location.reload();
-                                    }).catch(function(error) {
-                                        console.log(error.response.data);
-                                    })
-                                }
+                    }).then((deny) => {
+                        if(deny.isConfirmed) {
+                            axios.post(url, {
+                                id: post_id,
+                                status: 3
+                            }).then(function (response) {
+                                window.location.reload()
+                            }).catch(function (error) {
+                                console.log(error.response.data)
                             })
                         }
                     })
                 }
+            })
+        }
+
+        function updateStatus(post_id)
+        {
+            var url = "{{route('admit-host-upload')}}"
+
+            axios.post(url, {
+                id: post_id,
+                status: 1
+            }).then(function(response) {
+                window.location.reload();
+            }).catch(function(error) {
+                console.log(error.response.data);
             })
         }
     </script>
