@@ -29,7 +29,7 @@
                                         <tr>
                                             <td rowspan="2"><input type="checkbox" name="select" id="select" value="{{ $client->id }}"></td>
                                             <td rowspan="2">{{$client->name }}</td>
-                                            <td rowspan="2">@if($client->business_type_id == 1) 個人 @else 法人 @endif</td>
+                                            <td rowspan="2">@if($client->business_type_id == 1) 法人 @else 個人 @endif</td>
                                             <td rowspan="2">{{$client->tax_filing_month}}月</td>
                                             <td>*********</td>
                                             <td>*********</td>

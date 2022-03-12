@@ -65,7 +65,7 @@
                                                     @foreach($clients as $client)
                                                         <tr>
                                                             <td><a href="{{route('access-dashboard', ['client_id' => $hashids->encode($client->id)])}}">{{$client->name}}</a></td>
-                                                            <td>@if($client->business_type_id == 1) 個人 @else 法人 @endif</td>
+                                                            <td>@if($client->business_type_id == 1) 法人 @else 個人 @endif</td>
                                                             <td>{{date("F", mktime(0, 0, 0, $client->tax_filing_month, 10)) }}</td>
                                                             <td></td>
                                                             <td>@if($client->verified_at == '') <a href="#" class="btn btn-danger btn-block"><i class="fas fa-circle"></i></a>@endif</td>
