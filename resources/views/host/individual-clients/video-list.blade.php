@@ -36,7 +36,7 @@
                                             <td>{{ $video->created_at->format('Y-m-d') }}</td>
                                             <td style="width:45%;">
                                                 <div class="container-fluid">
-                                                            <input type="text" id="tocopy"  size="50" class="form-control" style="border:0;" value="" disabled>
+                                                            <input type="text" id="tocopy"  size="50" class="form-control" style="border:0;" value="{{ base64_encode($video->video_url) }}" disabled>
                                                             <input type="hidden" id="copyUrl" value="{{ $video->video_url }}">
                                                     <div class="row align-items-center justify-content-center">
 
@@ -88,7 +88,7 @@
 <script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.2/base64.min.js"></script>
 <script>
         $("#myModal").on("hidden.bs.modal",function()
-            { $("#player").attr("src","_blank");
+            { $("#player").attr("src","");
         })
         function changeVSOURCE(srcVideo) {
             var video = document.getElementById('player');
@@ -97,9 +97,6 @@
             video.play();
             $(".modal").modal('show');
         }
-        let value_url = $('#copyUrl').val()
-        $('#tocopy').val(Base64.encode(value_url))
-
 
         function copyVSOURCE(data) {
             var data = Base64.encode(data);
