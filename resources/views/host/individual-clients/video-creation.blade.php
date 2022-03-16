@@ -532,18 +532,18 @@
             }, 100);
         })
 
-        muteButton.addEventListener('click', () => {
-            $('body video, body audio').each(function() {
-                /*** Do it here globally ***/
-                $(this).prop('muted', true);
-            });
-        });
+        // muteButton.addEventListener('click', () => {
+        //     $('body video, body audio').each(function() {
+        //         /*** Do it here globally ***/
+        //         $(this).prop('muted', true);
+        //     });
+        // });
         //File URL
-        copy_url.addEventListener('click', () => {
-            var textBox = document.getElementById("file_url");
-            textBox.select();
-            document.execCommand("copy");
-        })
+        // copy_url.addEventListener('click', () => {
+        //     var textBox = document.getElementById("file_url");
+        //     textBox.select();
+        //     document.execCommand("copy");
+        // })
         //Preview
         preview.addEventListener('click', () => {
             const blob = new Blob(recordedBlobs, {
