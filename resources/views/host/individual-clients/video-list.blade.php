@@ -66,12 +66,12 @@
 
 
 
-    <div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal" id="myModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Video PREVIEW</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -87,6 +87,9 @@
 @section('extra-scripts')
 <script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.2/base64.min.js"></script>
 <script>
+        $("#myModal").on("hidden.bs.modal",function()
+            { $("#player").attr("src","_blank");
+        })
         function changeVSOURCE(srcVideo) {
             var video = document.getElementById('player');
             video.setAttribute('src', srcVideo);

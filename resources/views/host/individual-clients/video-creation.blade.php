@@ -167,9 +167,10 @@
                                 data-target=".bd-example-modal-lg">プレビュー</button>
                             {{-- <div class="form-group">
                                 <button class="btn btn-block btn-warning mt-5" id="copy_url">URLをコピー</button>
-                                <input type="text" id="file_url" name="file_url" class="form-control"
-                                    placeholder="動画のURLを表示" readonly>
+
                             </div> --}}
+                            <input type="hidden" id="file_url" name="file_url" class="form-control" placeholder="動画のURLを表示"
+                                readonly>
                             <button class="btn btn-block btn-warning mt-5" id="completion">完了</button>
                             @php
                                 $client_id = $hashids->encode($client->id);
@@ -535,6 +536,7 @@
         muteButton.addEventListener('click', () => {
             if (window.stream) {
                 window.stream.getAudioTracks().forEach(function(track) {
+                    console.log(track)
                     console.log(track.enabled)
                     if (track.enabled) {
                         Swal.fire({
@@ -544,6 +546,7 @@
                             timer: 1000
                         })
                         muteButton.innerHTML = 'ミュートオン';
+                        track.muted = false;
                         track.enabled = false;
                     } else {
                         Swal.fire({
@@ -551,10 +554,10 @@
                             title: 'ミュートオフ!',
                             showConfirmButton: false,
                             timer: 1000
-                        }).then((result) => {
-                            track.enabled = true;
-                            muteButton.innerHTML = "ミュートオフ";
                         })
+                        muteButton.innerHTML = 'ミュートオフ';
+                        track.muted = true;
+                        track.enabled = true;
                     }
                 });
             }
@@ -629,8 +632,6 @@
                 console.error('Exception while creating MediaRecorder:', e);
                 return;
             }
-            console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-
             stopButton.disabled = false;
             mediaRecorder.onstop = (event) => {
                 console.log('Recorder stopped: ', event);
@@ -639,7 +640,17 @@
             mediaRecorder.ondataavailable = handleDataAvailable;
             mediaRecorder.start();
             isRecording = true;
-            console.log('MediaRecorder started', mediaRecorder);
+            console.log(window.stream.getAudioTracks());
+            if (window.stream.getAudioTracks()) {
+                window.stream.getAudioTracks().forEach(function(track) {
+                    console.log(track);
+                    if (track.enabled) {
+                        muteButton.innerHTML = 'ミュートオン';
+                    } else {
+                        muteButton.innerHTML = 'ミュートオフ';
+                    }
+                });
+            }
         }
 
         function stopRecording() {
@@ -654,7 +665,6 @@
         }
 
         function handleSuccess(stream) {
-            console.log('getUserMedia() got stream:', stream);
             window.stream = stream;
             startRecording();
         }
