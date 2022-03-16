@@ -108,13 +108,16 @@
                             <div class="row">
                                 <div class="col-2">
                                     <i class="fas fa-info-circle fa-2x mr-4" data-toggle="tooltip" data-placement="top"
-                                        title="upfiling.jpのみを録画する場合、録画開始クリック後に1. Chromeタブ 2.upfiling.jpを選択 3. 共有をクリックしてください。"></i>
+                                        title="upfiling.jpのみを録画する場合、録画開始クリック後に1. Chromeタブ 2.upfiling.jpを選択 3. 共有をクリックしてください。4. 音声なしで録画する場合、タブの音声を共有にチェックが入っていることを確認してください。音声ありで録画する場合チェックを外してください。"></i>
                                 </div>
                                 <div class="col-9">
                                     <p>(録画選択画面について)</p>
                                 </div>
                             </div>
                             <button class="btn-warning btn btn-block" id="start">録画する画面をえらんでスタート</button>
+                                   <button class="btn btn-block btn-warning mt-2" id="mute">
+                                ミュート
+                            </button>
                             <div class="form-group mt-2">
                                 <label for="tools">描画ツール</label>
                                 <button class="btn btn-block btn-light text-bold" onclick="setPointer()" id="pointerBtn"><i
@@ -162,9 +165,6 @@
                                 収録終了</button>
                             <button class="btn btn-block btn-warning mt-5" id="preview" data-toggle="modal"
                                 data-target=".bd-example-modal-lg">プレビュー</button>
-                            {{-- <button class="btn btn-block btn-warning mt-2" id="mute">
-                                <i class="fa fa-microphone" aria-hidden="true"></i>
-                            </button> --}}
                             {{-- <div class="form-group">
                                 <button class="btn btn-block btn-warning mt-5" id="copy_url">URLをコピー</button>
                                 <input type="text" id="file_url" name="file_url" class="form-control"
@@ -532,12 +532,12 @@
             }, 100);
         })
 
-        // muteButton.addEventListener('click', () => {
-        //     $('body video, body audio').each(function() {
-        //         /*** Do it here globally ***/
-        //         $(this).prop('muted', true);
-        //     });
-        // });
+        muteButton.addEventListener('click', () => {
+            $('body video, body audio').each(function() {
+                /*** Do it here globally ***/
+                $(this).prop('muted', true);
+            });
+        });
         //File URL
         // copy_url.addEventListener('click', () => {
         //     var textBox = document.getElementById("file_url");
@@ -655,14 +655,18 @@
         document.querySelector('button#start').addEventListener('click', async () => {
             Swal.fire({
                 title: "録画画面選択について",
-                text: 'upfiling.jpのみを録画する場合、録画開始クリック後に1. Chromeタブ 2.upfiling.jpを選択 3. 共有をクリックしてください。'
+                text: 'upfiling.jpのみを録画する場合、録画開始クリック後に1. Chromeタブ 2.upfiling.jpを選択 3. 共有をクリックしてください。4. 音声なしで録画する場合、タブの音声を共有にチェックが入っていることを確認してください。音声ありで録画する場合チェックを外してください。'
             }).then((result) => {
                 const constraints = {
                     video: {
                         width: 1280,
                         height: 720
                     },
-                    audio: true
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        sampleRate: 44100
+                    }
                 };
                 init(constraints);
             })
