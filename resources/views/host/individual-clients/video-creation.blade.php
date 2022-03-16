@@ -97,7 +97,7 @@
                             </h4>
                         </div>
                         <div class="card-body">
-                            <form action="" method="post" enctype="multipart/form-data">
+                            <form action="" id="form" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <input type="file" name="pdfSource" id="pdfSource" class="form-control" accept=".pdf">
                             </form>
@@ -115,7 +115,7 @@
                                 </div>
                             </div>
                             <button class="btn-warning btn btn-block" id="start">録画する画面をえらんでスタート</button>
-                                   <button class="btn btn-block btn-warning mt-2" id="mute">
+                            <button class="btn btn-block btn-warning mt-2" id="mute">
                                 ミュート
                             </button>
                             <div class="form-group mt-2">
@@ -159,7 +159,7 @@
                                 </div>
                             </div>
 
-                            <button class="btn btn-block btn-warning mt-4" id="pause"><i class="fa fas-pause"></i>
+                            <button class="btn btn-block btn-warning mt-4" id="pause">
                                 一旦停止</button>
                             <button class="btn btn-block btn-warning" id="stop"><i class="fa fas-circle-stop"></i>
                                 収録終了</button>
@@ -533,10 +533,31 @@
         })
 
         muteButton.addEventListener('click', () => {
-            $('body video, body audio').each(function() {
-                /*** Do it here globally ***/
-                $(this).prop('muted', true);
-            });
+            if (window.stream) {
+                window.stream.getAudioTracks().forEach(function(track) {
+                    console.log(track.enabled)
+                    if (track.enabled) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'ミュートオン!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                        muteButton.innerHTML = 'ミュートオン';
+                        track.enabled = false;
+                    } else {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'ミュートオフ!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then((result) => {
+                            track.enabled = true;
+                            muteButton.innerHTML = "ミュートオフ";
+                        })
+                    }
+                });
+            }
         });
         //File URL
         // copy_url.addEventListener('click', () => {
