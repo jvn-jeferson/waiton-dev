@@ -28,6 +28,7 @@ use App\Models\PastNotification;
 use App\Models\CreatedVideoRecord;
 use App\Models\ClientMajorNotification;
 use App\Models\ClientObligation;
+use Google\Cloud\Storage\StorageClient;
 
 use Carbon\Carbon;
 use Hashids\Hashids;
@@ -61,8 +62,8 @@ class HostController extends Controller
     private $accounting_office;
     private $staff;
     private $subscription;
-    private $subscription_plan;
     private $clients;
+    public const DOWNLOAD_CLOUD = 'https://storage.googleapis.com/download/storage/v1/b/upfiling_bukcet/o/';
 
     public function __construct()
     {
@@ -535,10 +536,13 @@ class HostController extends Controller
     {
         $file_db = Files::find($request->file_id);
 
-        $file = Storage::disk('gcs')->url($file_db->path);
+        $file = SELF::DOWNLOAD_CLOUD . urlencode($file_db->path) . '?alt=media';
+
         $name = $file_db->name;
+
         return array(url($file), $name);
     }
+
 
     public function to_client(Request $request)
     {
@@ -1149,8 +1153,7 @@ class HostController extends Controller
 
         $obligation = ClientObligation::where('client_id', $client_id)->first();
 
-        if($obligation)
-        {
+        if ($obligation) {
             $obligation->update([
                 'client_id' => $request->id,
                 'is_taxable' => $request->is_taxable,
@@ -1159,9 +1162,7 @@ class HostController extends Controller
             ]);
 
             $obligation->save();
-        }
-        else
-        {
+        } else {
             ClientObligation::create([
                 'client_id' => $request->id,
                 'is_taxable' => $request->is_taxable,
@@ -1171,7 +1172,6 @@ class HostController extends Controller
         }
 
         return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->id)]);
-
     }
     public function update_notification_settings(Request $request)
     {

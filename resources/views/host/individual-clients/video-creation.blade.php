@@ -102,7 +102,7 @@
                                 <input type="file" name="pdfSource" id="pdfSource" class="form-control" accept=".pdf">
                             </form>
                             <div class="form-group mt-2">
-                                <label for="video_name">名前</label>
+                                <label for="video_name">「動画名」</label>
                                 <input type="text" id="video_title" name="video_title" class="form-control">
                             </div>
                             <div class="row">
@@ -114,7 +114,7 @@
                                     <p>(録画選択画面について)</p>
                                 </div>
                             </div>
-                            <button class="btn-warning btn btn-block" id="start">録画画面選択／スタート</button>
+                            <button class="btn-warning btn btn-block" id="start">録画する画面をえらんでスタート</button>
                             <div class="form-group mt-2">
                                 <label for="tools">描画ツール</label>
                                 <button class="btn btn-block btn-light text-bold" onclick="setPointer()" id="pointerBtn"><i
@@ -162,14 +162,14 @@
                                 収録終了</button>
                             <button class="btn btn-block btn-warning mt-5" id="preview" data-toggle="modal"
                                 data-target=".bd-example-modal-lg">プレビュー</button>
-                            <button class="btn btn-block btn-warning mt-2" id="mute">
+                            {{-- <button class="btn btn-block btn-warning mt-2" id="mute">
                                 <i class="fa fa-microphone" aria-hidden="true"></i>
-                            </button>
-                            <div class="form-group">
+                            </button> --}}
+                            {{-- <div class="form-group">
                                 <button class="btn btn-block btn-warning mt-5" id="copy_url">URLをコピー</button>
                                 <input type="text" id="file_url" name="file_url" class="form-control"
                                     placeholder="動画のURLを表示" readonly>
-                            </div>
+                            </div> --}}
                             <button class="btn btn-block btn-warning mt-5" id="completion">完了</button>
                             @php
                                 $client_id = $hashids->encode($client->id);
@@ -654,21 +654,18 @@
         }
         document.querySelector('button#start').addEventListener('click', async () => {
             Swal.fire({
-                icon: 'success',
-                title: "SUCCESS",
-                text: 'Recording will now begin.',
-                showConfirmButton: false,
-                timer: 1000
+                title: "録画画面選択について",
+                text: 'upfiling.jpのみを録画する場合、録画開始クリック後に1. Chromeタブ 2.upfiling.jpを選択 3. 共有をクリックしてください。'
+            }).then((result) => {
+                const constraints = {
+                    video: {
+                        width: 1280,
+                        height: 720
+                    },
+                    audio: true
+                };
+                init(constraints);
             })
-
-            const constraints = {
-                video: {
-                    width: 1280,
-                    height: 720
-                }
-            };
-            await init(constraints);
-
         });
         var formData = new FormData();
         const fileInput = document.querySelector('#pdfSource')
