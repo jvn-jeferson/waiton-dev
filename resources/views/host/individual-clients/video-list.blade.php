@@ -120,7 +120,7 @@
             document.body.removeChild(dummy);
         }
 
-        funciton deleteVideo(video_id)
+        function deleteVideo(video_id)
         {
             var url = "{{route('delete-video')}}"
 
