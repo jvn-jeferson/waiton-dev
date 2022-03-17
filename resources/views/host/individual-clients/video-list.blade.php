@@ -44,7 +44,7 @@
                                                             onclick="copyVSOURCE('{{ $video->video_url }}')">URLコピー</button>
                                                         <button class="btn btn-warning col-3 mx-2" type="button"
                                                             onclick="changeVSOURCE('{{ $video->video_url }}')">プレビュー</button>
-                                                        <button class="btn btn-danger col-3 mx-2">削除</button>
+                                                        <button class="btn btn-danger col-3 mx-2" onclick="deleteVideo({{$video->id}})">削除</button>
                                                     </div>
                                                 </div>
                                             </td>
@@ -118,6 +118,34 @@
 
             // Remove it as its not needed anymore
             document.body.removeChild(dummy);
+        }
+
+        funciton deleteVideo(video_id)
+        {
+            var url = "{{route(delete-video)}}"
+
+            Swal.fire({
+                icon: 'danger',
+                title: '動画を削除しますか？',
+                confirmButtonText: 'はい',
+                cancelButtonText: 'いいえ',
+                showCancelButton: true
+            }).then((result) => {
+                if(result.isConfirmed)
+                {
+                    axios.post(url, {
+                        id: video_id
+                    }).then(function(response) {
+                        Swal.fire({
+                            title: "動画の削除に成功しました",
+                            icon: 'success',
+                            showCancelButton: false
+                        })
+                    }).catch(function(error) {
+                        console.log(error.response.data)
+                    })
+                }
+            })
         }
     </script>
 @endsection

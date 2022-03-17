@@ -1406,4 +1406,13 @@ class HostController extends Controller
 
         return $this->account_management();
     }
+
+    public function delete_video(Request $request)
+    {
+        $video = CreatedVideoRecord::findorFail($request->id);
+
+        if($video->delete){
+            return "success";
+        }
+    }
 }
