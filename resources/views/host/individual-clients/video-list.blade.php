@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-responsive table-bordered table-hover table-striped">
+                            <table class="table table-bordered table-hover table-striped">
                                 <thead class="bg-info">
                                     <th>選択</th>
                                     <th>動画名</th>
@@ -51,7 +51,9 @@
                                         </tr>
                                     @empty
                                         <tr class="text-center w-100">
-                                            <td colspan="5" class="w-100"></td>
+                                            <td colspan="5" class="w-100">
+                                                このクライアントのビデオはまだアップロードされていません。
+                                            </td>
                                         </tr>
                                     @endforelse
                                 </tbody>
