@@ -1411,7 +1411,7 @@ class HostController extends Controller
     {
         $video = CreatedVideoRecord::findorFail($request->id);
 
-        if($video->delete()){
+        if ($video->delete()) {
             return "success";
         }
     }
