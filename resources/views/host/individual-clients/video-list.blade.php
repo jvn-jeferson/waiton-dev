@@ -122,7 +122,7 @@
 
         funciton deleteVideo(video_id)
         {
-            var url = "{{route(delete-video)}}"
+            var url = "{{route('delete-video')}}"
 
             Swal.fire({
                 icon: 'danger',
