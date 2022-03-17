@@ -50,7 +50,7 @@
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr class="text-center">
+                                        <tr class="text-center w-100">
                                             <td colspan="5" class="w-100"></td>
                                         </tr>
                                     @endforelse
