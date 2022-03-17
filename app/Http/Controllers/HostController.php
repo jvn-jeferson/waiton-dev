@@ -185,6 +185,8 @@ class HostController extends Controller
                 $fileName = trim($client_name) . '.zip';
                 $directory = public_path('storage/zip_files/upload/' . $fileName);
                 $file_url = asset('storage/zip_files/upload/' . $fileName);
+                dump($file_url);
+                dd($directory);
                 if ($zip->open($directory, ZipArchive::CREATE) === TRUE) {
                     $files =  Storage::disk('gcs')->allFiles($client->id);
                     foreach ($files as $file) {
