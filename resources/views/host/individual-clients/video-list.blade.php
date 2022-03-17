@@ -41,11 +41,10 @@
                                                     <div class="row align-items-center justify-content-center">
 
                                                         <button id="copySource" class="btn btn-warning col-3 mx-2"
-                                                            onclick="copyVSOURCE('{{ $video->video_url }}')">COPY
-                                                            URL</button>
+                                                            onclick="copyVSOURCE('{{ $video->video_url }}')">URLコピー</button>
                                                         <button class="btn btn-warning col-3 mx-2" type="button"
-                                                            onclick="changeVSOURCE('{{ $video->video_url }}')">PREVIEW</button>
-                                                        <button class="btn btn-danger col-3 mx-2">DELETE</button>
+                                                            onclick="changeVSOURCE('{{ $video->video_url }}')">プレビュー</button>
+                                                        <button class="btn btn-danger col-3 mx-2">削除</button>
                                                     </div>
                                                 </div>
                                             </td>
