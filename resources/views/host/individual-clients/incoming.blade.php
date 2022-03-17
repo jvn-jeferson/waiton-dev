@@ -30,7 +30,8 @@
                                                     <td>{{$upload->created_at->format('Y年m月d日 H:i')}}</td>
                                                     <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日 H:i')}}</td>
                                                     <td>{{$upload->user->clientStaff->name}}</td>
-                                                    <td class="text-info"><a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}" onclick="markAsRead({{$upload->id}}, this)" role="button">{{$upload->file->name}}</a></td>
+                                                    <td class="text-info"><a href="#" onclick="markAsRead(
+                                                        {{$upload->id}}, this)" role="button">{{$upload->file->name}}</a></td>
                                                     <td>{{$upload->comment}}</td>
                                                 </tr>
                                             @empty
@@ -86,6 +87,11 @@
             axios.post(url, {
                 record_id: target
             }).then(function(response) {
+                const link = document.createElement('a')
+                link.href = response.data[0]
+                link.setAttribute('download', response.data[1]);
+                link.click();
+                document.removeChild(link);
                 button.disabled = 'disabled'
             }).catch(function(error) {
                 console.log(error.response);

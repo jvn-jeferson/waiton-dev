@@ -183,7 +183,9 @@ class HostController extends Controller
             foreach ($clients as $client) {
                 $client_name = $client ? str_replace(' ', '', $client->name) : '';
                 $fileName = trim($client_name) . '.zip';
-                $directory = public_path('storage/zip_files/upload/' . $fileName);
+                // $directory = public_path('storage/zip_files/upload/' . $fileName);
+                $directory = Storage::disk('gcs')->allFiles($client->id);
+                dd($directory);
                 $file_url = asset('storage/zip_files/upload/' . $fileName);
                 if ($zip->open($directory, ZipArchive::CREATE) === TRUE) {
                     $files =  Storage::disk('gcs')->files('files/upload/' . $client->id);
@@ -1247,12 +1249,17 @@ class HostController extends Controller
     public function mark_as_read(Request $request)
     {
         $record = ClientUpload::find($request->record_id);
+
+        $file = SELF::DOWNLOAD_CLOUD . urlencode($record->file->path) . '?alt=media';
+
         $record->update([
             'is_viewed' => 1
         ]);
         $record->save();
 
-        return true;
+        $name = $record->file->name;
+
+        return array(url($file), $name);
     }
 
     public function register_new_client_access(Request $request)

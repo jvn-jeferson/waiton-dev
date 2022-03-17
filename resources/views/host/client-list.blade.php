@@ -94,33 +94,33 @@
                 text: 'Congrats'
             })
 
-            function download_files(files) {
-                function download_next(i) {
-                    if (i >= files.length) {
-                        return;
-                    }
-                    var a = document.createElement('a');
-                    a.href = files[i].file_url;
-                    a.target = '_blank';
+            // function download_files(files) {
+            //     function download_next(i) {
+            //         if (i >= files.length) {
+            //             return;
+            //         }
+            //         var a = document.createElement('a');
+            //         a.href = files[i].file_url;
+            //         a.target = '_blank';
 
-                    if ('download' in a) {
-                        a.download = files[i].file_name;
-                    }
+            //         if ('download' in a) {
+            //             a.download = files[i].file_name;
+            //         }
 
-                    (document.body || document.documentElement).appendChild(a);
-                    if (a.click) {
-                        a.click(); // The click method is supported by most browsers.
-                    } else {
-                        window.open(files[i].file_url);
-                    }
-                    a.parentNode.removeChild(a);
-                    setTimeout(function() {
-                        download_next(i + 1);
-                    }, 500);
-                }
-                // Initiate the first download.
-                download_next(0);
-            }
+            //         (document.body || document.documentElement).appendChild(a);
+            //         if (a.click) {
+            //             a.click(); // The click method is supported by most browsers.
+            //         } else {
+            //             window.open(files[i].file_url);
+            //         }
+            //         a.parentNode.removeChild(a);
+            //         setTimeout(function() {
+            //             download_next(i + 1);
+            //         }, 500);
+            //     }
+            //     // Initiate the first download.
+            //     download_next(0);
+            // }
 
             function do_dl() {
             var data = response.data;
