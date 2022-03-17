@@ -11,17 +11,18 @@ class OTPMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $password, $url;
+    public $password, $url, $user;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($password, $url)
+    public function __construct($password, $url, $user)
     {
         $this->password = $password;
         $this->url = $url;
+        $this->user = $user;
     }
 
     /**

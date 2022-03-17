@@ -1,12 +1,22 @@
 @component('mail::message')
-# ACCESS GRANTED
+# 【UpFiling】ワンタイムパスワード通知 {{$user->name}}
 
-Your request to access an archived record has been approved.<br>
-Please click on the link below to proceed. Use this password to access the archived record.
+管理者あてに {{$user->name}} 様より <br>
+以下の閲覧の依頼が投稿されております。<br>
+<br>
+<hr>
+資料名：決算書2022 <br>
+投稿日：2022/01/22 <br>
+投稿者：市川 <br>
+<hr>
+<br>
+閲覧承認される場合には、URLとパスワードを共有してください。<br>
+<br>
+URL:    {{$url}} <br>
+ワンタイムパスワード：  {{$password}} <br>
+（有効期限は24時間です）<br>
+<br>
+アップファイリング　サポート
+<br>
 
-<h4>ONE TIME PASSWORD: {{$password}}</h4>
-
-@component('mail::button', ['url' => $url, 'color' => 'success'])
-GO TO ARCHIVE
-@endcomponent
 @endcomponent

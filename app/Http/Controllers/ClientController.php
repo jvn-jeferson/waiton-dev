@@ -193,10 +193,11 @@ class ClientController extends Controller
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
 
+            $user = Auth::user()->clientStaff;
 
 
-            $url = url(route('access-record-verification', ['access_id' => $this->hashids->encode($access_id)]));
-            Mail::to(Auth::user()->email)->send(new OTPMail($password, $url));
+            $url = url(route('access-record-verification', ['record_selection'=> $request->table, 'access_id' => $this->hashids->encode($access_id)]));
+            Mail::to(Auth::user()->email)->send(new OTPMail($password, $url, $user));
             if (Mail::failures()) {
                 return 'failure';
             }
