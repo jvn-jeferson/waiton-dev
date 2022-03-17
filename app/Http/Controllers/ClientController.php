@@ -39,6 +39,9 @@ class ClientController extends Controller
     public $hashids;
     public $for_approval;
 
+    public const DOWNLOAD_CLOUD = 'https://storage.googleapis.com/download/storage/v1/b/upfiling_bukcet/o/';
+
+
     public function __construct()
     {
         $this->hashids = new Hashids(config('hashids.loginSalt'), 10);
