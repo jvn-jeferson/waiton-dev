@@ -1,5 +1,5 @@
 @component('mail::message')
-# 【UpFiling】ワンタイムパスワード通知 {{$user->name}}
+
 
 管理者あてに {{$user->name}} 様より <br>
 以下の閲覧の依頼が投稿されております。<br>

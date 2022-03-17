@@ -7,12 +7,12 @@
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">
-                            投稿リスト（表の線は分かりやすくするためにいれている）
+                            投稿リスト
                         </h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-responsive table-bordered table-hover table-striped">
+                            <table class="table table-bordered table-hover table-striped">
                                 <thead class="bg-info">
                                     <th>選択</th>
                                     <th>動画名</th>
@@ -41,18 +41,19 @@
                                                     <div class="row align-items-center justify-content-center">
 
                                                         <button id="copySource" class="btn btn-warning col-3 mx-2"
-                                                            onclick="copyVSOURCE('{{ $video->video_url }}')">COPY
-                                                            URL</button>
+                                                            onclick="copyVSOURCE('{{ $video->video_url }}')">URLコピー</button>
                                                         <button class="btn btn-warning col-3 mx-2" type="button"
-                                                            onclick="changeVSOURCE('{{ $video->video_url }}')">PREVIEW</button>
-                                                        <button class="btn btn-danger col-3 mx-2">DELETE</button>
+                                                            onclick="changeVSOURCE('{{ $video->video_url }}')">プレビュー</button>
+                                                        <button class="btn btn-danger col-3 mx-2" onclick="deleteVideo({{$video->id}})">削除</button>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr class="text-center">
-                                            <td colspan="5">NOTHING TO SEE HERE</td>
+                                        <tr class="text-center w-100">
+                                            <td colspan="5" class="w-100">
+                                                このクライアントのビデオはまだアップロードされていません。
+                                            </td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -119,6 +120,36 @@
 
             // Remove it as its not needed anymore
             document.body.removeChild(dummy);
+        }
+
+        function deleteVideo(video_id)
+        {
+            var url = "{{route('delete-video')}}"
+
+            Swal.fire({
+                icon: 'danger',
+                title: '動画を削除しますか？',
+                confirmButtonText: 'はい',
+                cancelButtonText: 'いいえ',
+                showCancelButton: true
+            }).then((result) => {
+                if(result.isConfirmed)
+                {
+                    axios.post(url, {
+                        id: video_id
+                    }).then(function(response) {
+                        Swal.fire({
+                            title: "動画の削除に成功しました",
+                            icon: 'success',
+                            showCancelButton: false
+                        })
+
+                        window.location.reload()
+                    }).catch(function(error) {
+                        console.log(error.response.data)
+                    })
+                }
+            })
         }
     </script>
 @endsection

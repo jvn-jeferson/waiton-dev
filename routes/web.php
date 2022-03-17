@@ -137,6 +137,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('get-client-staff', [HostController::class, 'get_client_staff'])->name('get-client-staff');
             Route::post('delete-archives', [HostController::class, 'delete_archives'])->name('delete-archives');
             Route::post('update-client-obligation', [HostController::class, 'update_client_obligation'])->name('update-client-obligation');
+            Route::post('delete-video', [HostController::class, 'delete_saved_video'])->name('delete-video');
         });
     });
 
