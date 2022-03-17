@@ -33,7 +33,7 @@ class OTPMail extends Mailable
     public function build()
     {
         return $this->from(config('mail.from.address'), config('mail.from.name'))
-                    ->subject('【UpFiling】ワンタイムパスワード通知 '.$user->client->name)
+                    ->subject('【UpFiling】ワンタイムパスワード通知 '.$this->user->client->name)
                     ->markdown('email.otp-mail');
     }
 }
