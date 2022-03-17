@@ -7,7 +7,7 @@
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">
-                            投稿リスト（表の線は分かりやすくするためにいれている）
+                            投稿リスト
                         </h3>
                     </div>
                     <div class="card-body">
@@ -141,6 +141,8 @@
                             icon: 'success',
                             showCancelButton: false
                         })
+
+                        window.location.reload()
                     }).catch(function(error) {
                         console.log(error.response.data)
                     })
