@@ -155,7 +155,7 @@
 
             Swal.fire({
                 icon: 'question',
-                title: '承認処理してアップロードしてよろしいですか?',
+                title: '資料について承認・保留を決定してください',
                 confirmButtonText: '承認',
                 denyButtonText: '保留',
                 cancelButtonText: 'キャンセル',

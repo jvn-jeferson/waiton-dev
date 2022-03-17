@@ -74,8 +74,8 @@
                     }).then(function(response){
                         Swal.fire({
                             icon: 'success',
-                            title: 'Access Created.',
-                            text: 'An email has been sent to your registered email address to access the requested information.'
+                            title: '成功',
+                            text: '登録したメールアドレスにワンタイムパスワードが送信されました。 メールを確認し、手順に従ってアクセスしてください。'
                         })
                     }).catch(function(error){
                         console.log(error.response.data)
