@@ -51,7 +51,7 @@
                                         </tr>
                                     @empty
                                         <tr class="text-center">
-                                            <td colspan="5">NOTHING TO SEE HERE</td>
+                                            <td colspan="5" class="w-100"></td>
                                         </tr>
                                     @endforelse
                                 </tbody>
