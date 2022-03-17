@@ -41,7 +41,6 @@ class ClientController extends Controller
 
     public const DOWNLOAD_CLOUD = 'https://storage.googleapis.com/download/storage/v1/b/upfiling_bukcet/o/';
 
-
     public function __construct()
     {
         $this->hashids = new Hashids(config('hashids.loginSalt'), 10);
@@ -199,7 +198,7 @@ class ClientController extends Controller
             $user = Auth::user()->clientStaff;
 
 
-            $url = url(route('access-record-verification', ['record_selection'=> $request->table, 'access_id' => $this->hashids->encode($access_id)]));
+            $url = url(route('access-record-verification', ['access_id' => $this->hashids->encode($access_id)]));
             Mail::to(Auth::user()->email)->send(new OTPMail($password, $url, $user));
             if (Mail::failures()) {
                 return 'failure';
