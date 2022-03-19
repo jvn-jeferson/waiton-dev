@@ -183,18 +183,18 @@ class HostController extends Controller
             foreach ($clients as $client) {
                 $client_name = $client ? str_replace(' ', '', $client->name) : '';
                 $fileName = trim($client_name) . '.zip';
-                // $directory = public_path('storage/zip_files/upload/' . $fileName);
-                $directory = Storage::disk('gcs')->allFiles($client->id);
-                dd($directory);
+                $directory = public_path('storage/zip_files/upload/' . $fileName);
                 $file_url = asset('storage/zip_files/upload/' . $fileName);
                 if ($zip->open($directory, ZipArchive::CREATE) === TRUE) {
-                    $files =  Storage::disk('gcs')->files('files/upload/' . $client->id);
+                    $files =  Storage::disk('gcs')->allFiles($client->id);
                     foreach ($files as $file) {
-                        $relativeNameInZipFile = explode('/', $file)[3];
-                        $zip->addFile(Storage::path('public/' . $file), $relativeNameInZipFile);
+                        $zip->addFromString($file, file_get_contents(Storage::disk('gcs')->url($file)));
+                        // $relativeNameInZipFile = explode('/', $file)[1];
+                        // $zip->addFile(Storage::disk('gcs')->url('public/' . $file), $relativeNameInZipFile);
                     }
                     $zip->close();
                 }
+
                 $data[] = array(
                     'file_url' => $file_url,
                     'file_name' => $fileName
@@ -1406,14 +1406,5 @@ class HostController extends Controller
         $accountingOffice->save();
 
         return $this->account_management();
-    }
-
-    public function delete_saved_video(Request $request)
-    {
-        $video = CreatedVideoRecord::findorFail($request->id);
-
-        if($video->delete()){
-            return "success";
-        }
     }
 }
