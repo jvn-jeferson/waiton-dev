@@ -536,13 +536,17 @@ class HostController extends Controller
 
     public function download_file(Request $request)
     {
-        $file_db = Files::find($request->file_id);
-
-        $file = SELF::DOWNLOAD_CLOUD . urlencode($file_db->path) . '?alt=media';
-
-        $name = $file_db->name;
-
-        return array(url($file), $name);
+        $data = [];
+        $file_db = Files::whereIn('id', $request->file_id)->get();
+        foreach ($file_db as $file) {
+            $file_url = SELF::DOWNLOAD_CLOUD . urlencode($file->path) . '?alt=media';
+            $name = $file->name;
+            $data[] = array(
+                'file_url' => $file_url,
+                'file_name' => $name
+            );
+        }
+        return response()->json($data);
     }
 
 

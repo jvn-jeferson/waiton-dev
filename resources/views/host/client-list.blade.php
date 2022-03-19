@@ -100,6 +100,7 @@
                         return;
                     }
                     var a = document.createElement('a');
+                    console.log(files[i].file_url);
                     a.href = files[i].file_url;
                     a.target = '_blank';
 
