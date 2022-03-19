@@ -11,14 +11,17 @@ class HostUploadNoApprovalMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $client, $host;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($client, $host)
     {
-        //
+        $this->client = $client;
+        $this->host = $host;
     }
 
     /**
@@ -28,6 +31,8 @@ class HostUploadNoApprovalMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->from(config('mail.from.address'), config('mail.from.name'))
+                    ->subject('【From会計事務所（'.$this->host->name.'）】アップロード通知')
+                    ->markdown('email.approval-not-required-mail');
     }
 }

@@ -34,6 +34,8 @@ use App\Mail\UploadNotification;
 use App\Mail\InquiryMail;
 use App\Mail\OTPMail;
 use App\Mail\NewClientAccessMail;
+use App\Mail\DecisionCompleteMail;
+use App\Mail\ViewingNotifMail;
 
 class ClientController extends Controller
 {
@@ -256,6 +258,47 @@ class ClientController extends Controller
         return array(url($file), $name);
     }
 
+    public function download_host_file(Request $request)
+    {
+        $record = HostUpload::findorFail($request->record_id);
+
+        $record->update([
+            'status' => 1,
+            'last_viewed_by_user_id' => Auth::user()->id,
+            'modified_by_user_id' => Auth::user()->id,
+        ]);
+
+        if($record->save())
+        {
+            if($record->priority == 1)
+            {
+                $staff = Auth::user()->clientStaff;
+                $company = $staff->client;
+                $host = $company->host;
+                $slug = '';
+                if($record->video_url)
+                {
+                    $slug = '動画含む';
+                }
+                else {
+                    $slug = 'その他';
+                }
+
+                $this->notify_archive_creation($company->contact_email, $company, $host, $staff, $slug);
+                $this->notify_archive_creation($host->contact_email, $company, $host, $staff, $slug);
+            }
+
+            $file_db = Files::find($record->file_id);
+
+            $file = Storage::disk('gcs')->url($file_db->path);
+
+            $name = $file_db->name;
+
+            return array(url($file), $name);
+        }
+
+    }
+
     public function update_host_upload(Request $request)
     {
         $id = $request->id;
@@ -265,12 +308,45 @@ class ClientController extends Controller
 
         $target->update([
             'status' => $status,
+            'last_viewed_by_user_id' => Auth::user()->id,
             'modified_by_user_id' => Auth::user()->id,
         ]);
 
         if ($target->save()) {
+            $staff = Auth::user()->clientStaff;
+            $company = $staff->client;
+            $host = $company->host;
+
+            if($status != 1)
+            {
+
+                $this->sendDecisionCompleteMail($company->contact_email, $host, $company, $staff);
+                $this->sendDecisionCompleteMail($host->contact_email, $host, $company, $staff);
+            }
+
             return 'success';
         }
+    }
+
+    public function sendDecisionCompleteMail($target, $host, $client, $staff)
+    {
+        Mail::to($target)->send(new DecisionCompleteMail($client, $host, $staff));
+        if(Mail::failures())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function notify_archive_creation($target, $client, $host, $staff, $slug)
+    {
+        Mail::to($target)->send(new ViewingNotifMail($client, $host, $staff, $slug));
+        if(Mail::failures())
+        {
+            return false;
+        }
+        return true;
     }
 
     public function one_time_access(Request $request)

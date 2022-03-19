@@ -21,6 +21,7 @@ class HostUpload extends Model
         'status',
         'priority',
         'details',
+        'last_viewed_by_user_id',
         'modified_by_user_id',
         'video_url'
     ];

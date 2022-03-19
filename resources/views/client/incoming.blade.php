@@ -35,8 +35,7 @@
                                     </td>
                                     <td rowspan="2" class="text-info">
                                         @if ($host_upload->file)
-                                            <a href="{{ Storage::disk('gcs')->url($host_upload->file->path) }}"
-                                                download="{{ $host_upload->file->name }}" onclick="updateStatus({{$host_upload->id}})">{{ $host_upload->file->name }}</a>
+                                            <a href="#" onclick="updateStatus({{$host_upload->id}}, this)" role="button">{{ $host_upload->file->name }}</a>
                                         @endif
                                     </td>
                                     <td
@@ -100,10 +99,12 @@
                                         {{ $host_upload->details }}
                                     </td>
                                     <td rowspan="2">
+                                        @if($host_upload->priority == 0)
                                         <button class="btn btn-flat btn-block btn-primary" role="button"
                                             onclick="admitFile({{ $host_upload->id }})">
                                             確認が必要
                                         </button>
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>
@@ -206,15 +207,19 @@
 
         function updateStatus(post_id)
         {
-            var url = "{{route('admit-host-upload')}}"
+            var url = "{{route('download-host-file')}}"
 
             axios.post(url, {
-                id: post_id,
-                status: 1
+                record_id: post_id
             }).then(function(response) {
-                window.location.reload();
+                const link = document.createElement('a')
+                link.href = response.data[0]
+                link.setAttribute('download', response.data[1]);
+                link.click();
+                document.removeChild(link);
+                button.disabled = 'disabled'
             }).catch(function(error) {
-                console.log(error.response.data);
+                console.log(error.response);
             })
         }
     </script>

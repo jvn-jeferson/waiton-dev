@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('send-otp', [ClientController::class, 'send_otp'])->name('send-otp');
         Route::post('one-time-access', [ClientController::class, 'one_time_access'])->name('one-time-access');
         Route::post('new-user', [ClientController::class, 'register_new_access'])->name('new-user');
+        Route::post('download-host-file', [ClientController::class, 'download_host_file'])->name('download-host-file');
 
         //DataTables routes
         // Route::get('messages-data', [ClientDatatablesController::class, 'messages_data'])->name('messages-data');

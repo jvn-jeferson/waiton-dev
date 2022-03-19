@@ -49,6 +49,8 @@ use App\Mail\UploadNotification;
 
 use App\Mail\ClientRegistrationMail;
 use App\Mail\DeletedUserMail;
+use App\Mail\HostUploadForApprovalMail;
+use App\Mail\HostUploadNoApprovalMail;
 use App\Mail\PasswordResetMail;
 use App\Mail\InquiryMail;
 use App\Mail\NewClientAccessMail;
@@ -601,26 +603,38 @@ class HostController extends Controller
                 'video_url' => $request->input('vid_url')
             ]);
 
-            $client = Client::find($id);
-            $office = AccountingOffice::find(Auth::user()->accountingOfficeStaff->accountingOffice->id);
-            $uploader = Auth::user()->accountingOfficeStaff;
+            $client = Client::findorFail($id);
+            $office = AccountingOffice::findorFail(Auth::user()->accountingOfficeStaff->accountingOffice->id);
 
-            $this->sendUploadNotification($client->contact_email, $office->name, "Successfully uploaded file");
-            $this->sendUploadNotification($office->contact_email, $office->name, "One of your clients has uploaded a file. It is ready for download on your dashboard.");
+            $this->sendUploadNotification($client->contact_email, $client, $office, $request->input('require_action'));
+            $this->sendUploadNotification($office->contact_email, $client, $office, $request->input('require_action'));
         });
 
         return redirect()->route('access-outbox', ['client_id' => $this->hashids->encode($id)]);
     }
 
-    public function sendUploadNotification($email, $target, $message)
+    public function sendUploadNotification($target, $client, $host, $for_approval)
     {
-        Mail::to($email)->send(new UploadNotification($target, $message));
+        if($for_approval == 0) {
+            Mail::to($target)->send(new HostUploadNoApprovalMail($client, $host));
 
-        if (Mail::failures()) {
+            if(Mail::failures())
+            {
+                return false;
+            }
+
             return false;
         }
+        else {
+            Mail::to($target)->send(new HostUploadForApprovalMail($client, $host));
 
-        return true;
+            if(Mail::failures())
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 
     public function financial_history_client(Request $request)
