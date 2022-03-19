@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ClientUploadNotifMail;
 use Illuminate\Http\Request;
 use View;
 use Illuminate\Support\Facades\Auth;
@@ -111,8 +112,15 @@ class ClientController extends Controller
 
             $client = Client::find(Auth::user()->clientStaff->client_id);
             Session::flash('success', 'ファイルバッチが会計事務所に送信されました。');
-            $this->sendUploadNotification(Auth::user()->email, Auth::user()->clientStaff->client->host, "Successfully uploaded file");
-            $this->sendUploadNotification($client->host->contact_email, $client->host, "One of your clients has uploaded a file. It is ready for download on your dashboard.");
+
+            $client = Auth::user()->clientStaff->client;
+            $host = $client->host;
+            $uploader = Auth::user()->clientStaff;
+
+
+
+            $this->sendUploadNotification($client->contact_email, $client, $host, $uploader);
+            $this->sendUploadNotification($host->contact_email, $client, $host, $uploader);
 
             return redirect()->route('data-outgoing');
         } else {
@@ -121,11 +129,12 @@ class ClientController extends Controller
         }
     }
 
-    public function sendUploadNotification($email, $target, $message)
+    public function sendUploadNotification($target, $client, $host, $uploader)
     {
-        Mail::to($email)->send(new UploadNotification($target, $message));
+        Mail::to($target)->send(new ClientUploadNotifMail($client, $host, $uploader));
 
-        if (Mail::failures()) {
+        if(Mail::failures())
+        {
             return false;
         }
 

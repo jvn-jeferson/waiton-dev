@@ -580,7 +580,7 @@ class HostController extends Controller
             $files = $request->file('file');
             $size = $files->getSize();
             $name = $files->getClientOriginalName();
-            $path = Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/" . $name, file_get_contents($files));
+            Storage::disk('gcs')->put(Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . $name, file_get_contents($files));
 
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
@@ -603,6 +603,7 @@ class HostController extends Controller
 
             $client = Client::find($id);
             $office = AccountingOffice::find(Auth::user()->accountingOfficeStaff->accountingOffice->id);
+            $uploader = Auth::user()->accountingOfficeStaff;
 
             $this->sendUploadNotification($client->contact_email, $office->name, "Successfully uploaded file");
             $this->sendUploadNotification($office->contact_email, $office->name, "One of your clients has uploaded a file. It is ready for download on your dashboard.");
