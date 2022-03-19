@@ -12,7 +12,8 @@
                                 <p class="card-subtitle"></p>
                             </div>
                             <div class="card-body">
-                                <button class="btn btn-primary btn-block col-3 my-2" type="button" id="btnDownload">選択ファイルを一括ダウンロード</button>
+                                <button class="btn btn-primary btn-block col-3 my-2" type="button"
+                                    id="btnDownload">選択ファイルを一括ダウンロード</button>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <thead class="thead-dark">
@@ -26,13 +27,17 @@
                                         <tbody>
                                             @forelse($uploads as $upload)
                                                 <tr>
-                                                    <td class="text-center"><input type="checkbox" name="select" id="select" value="{{$upload->file_id}}" @if($upload->file_id == null) disabled @endif></td>
-                                                    <td>{{$upload->created_at->format('Y年m月d日 H:i')}}</td>
-                                                    <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日 H:i')}}</td>
-                                                    <td>{{$upload->user->clientStaff->name}}</td>
+                                                    <td class="text-center"><input type="checkbox" name="select"
+                                                            id="select" value="{{ $upload->file_id }}"
+                                                            @if ($upload->file_id == null) disabled @endif></td>
+                                                    <td>{{ $upload->created_at->format('Y年m月d日 H:i') }}</td>
+                                                    <td>{{ $upload->created_at->modify('+1 month')->format('Y年m月d日 H:i') }}
+                                                    </td>
+                                                    <td>{{ $upload->user->clientStaff->name }}</td>
                                                     <td class="text-info"><a href="#" onclick="markAsRead(
-                                                        {{$upload->id}}, this)" role="button">{{$upload->file->name}}</a></td>
-                                                    <td>{{$upload->comment}}</td>
+                                                                    {{ $upload->id }}, this)"
+                                                            role="button">{{ $upload->file->name }}</a></td>
+                                                    <td>{{ $upload->comment }}</td>
                                                 </tr>
                                             @empty
                                                 <tr>
@@ -55,34 +60,63 @@
 
 @section('extra-scripts')
     <script>
-        $('#btnDownload').click(function() {
-            var checkedBox = document.getElementsByName('select')
-            var ids = [];
-            for (var checkbox of checkedBox) {
-                if(checkbox.checked)
-                {
-                    id = checkbox.value;
+        var download = document.querySelector('#btnDownload')
 
-                    var url = "{{route('download-file')}}"
-                    axios.post(url, {
-                        file_id: id
-                    }).then(function(response) {
-                        const link = document.createElement('a')
-                        link.href = response.data[0]
-                        link.setAttribute('download', response.data[1]);
-                        link.click();
-                        document.removeChild(link);
+        download.addEventListener('click', function() {
+            var file_id = $('input#select:checked').map(function() {
+                return this.value
+            }).get()
 
-                    }).catch(function(error) {
-                        console.log(error.response.data);
-                    })
+            var url = "{{ route('download-file') }}"
+            axios.post(url, {
+                file_id: file_id
+            }).then(function(response) {
+            // Swal.fire({
+            //     icon: 'success',
+            //     title: 'Success',
+            //     text: 'Congrats you Download Files'
+            // })
+
+            function download_files(files) {
+                function download_next(i) {
+                    if (i >= files.length) {
+                        return;
+                    }
+                    var a = document.createElement('a');
+                    a.href = files[i].file_url;
+                    a.target = '_blank';
+
+                    if ('download' in a) {
+                        a.download = files[i].file_name;
+                    }
+
+                    (document.body || document.documentElement).appendChild(a);
+                    if (a.click) {
+                        a.click(); // The click method is supported by most browsers.
+                    } else {
+                        window.open(files[i].file_url);
+                    }
+                    a.parentNode.removeChild(a);
+                    setTimeout(function() {
+                        download_next(i + 1);
+                    }, 500);
                 }
+                // Initiate the first download.
+                download_next(0);
             }
+
+            function do_dl() {
+            var data = response.data;
+                download_files(data);
+            };
+            do_dl();
+            }).catch(function(error) {
+                console.log(error.response.data);
+            })
         })
 
-        function markAsRead(target, button)
-        {
-            var url = "{{route('mark-as-read')}}"
+        function markAsRead(target, button) {
+            var url = "{{ route('mark-as-read') }}"
 
             axios.post(url, {
                 record_id: target
