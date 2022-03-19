@@ -150,6 +150,7 @@
 
         function admitFile(post_id)
         {
+
             var url = "{{route('admit-host-upload')}}"
 
             Swal.fire({
@@ -172,6 +173,8 @@
                         showCancelButton: true
                     }).then((approve) => {
                         if (approve.isConfirmed) {
+
+                            Swal.showLoading()
                             axios.post(url, {
                                 id: post_id,
                                 status: 2
@@ -191,6 +194,8 @@
                         showCancelButton: true
                     }).then((deny) => {
                         if(deny.isConfirmed) {
+
+                            Swal.showLoading()
                             axios.post(url, {
                                 id: post_id,
                                 status: 3
@@ -207,6 +212,7 @@
 
         function updateStatus(post_id)
         {
+            Swal.showLoading()
             var url = "{{route('download-host-file')}}"
 
             axios.post(url, {
@@ -221,6 +227,7 @@
             }).catch(function(error) {
                 console.log(error.response);
             })
+            Swal.hideLoading()
         }
     </script>
 @endsection
