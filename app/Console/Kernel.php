@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job(new DeleteTemporaryFiles())->everyMinute();
-        $schedule->job(new DeleteTemporaryFiles())->everyDay();
+        $schedule->job(new DeleteHostFiles())->everyMinute();
     }
 
     /**
