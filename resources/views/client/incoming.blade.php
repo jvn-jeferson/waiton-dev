@@ -173,8 +173,6 @@
                         showCancelButton: true
                     }).then((approve) => {
                         if (approve.isConfirmed) {
-
-                            Swal.showLoading()
                             axios.post(url, {
                                 id: post_id,
                                 status: 2
@@ -194,8 +192,6 @@
                         showCancelButton: true
                     }).then((deny) => {
                         if(deny.isConfirmed) {
-
-                            Swal.showLoading()
                             axios.post(url, {
                                 id: post_id,
                                 status: 3
@@ -218,6 +214,10 @@
             axios.post(url, {
                 record_id: post_id
             }).then(function(response) {
+                if(Swal.isLoading())
+                {
+                    Swal.hideLoading()
+                }
                 const link = document.createElement('a')
                 link.href = response.data[0]
                 link.setAttribute('download', response.data[1]);
@@ -227,7 +227,6 @@
             }).catch(function(error) {
                 console.log(error.response);
             })
-            Swal.hideLoading()
         }
     </script>
 @endsection
