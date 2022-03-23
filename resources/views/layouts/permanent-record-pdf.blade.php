@@ -16,10 +16,10 @@
         <div class="card" id="review_data">
             <div class="card-header justify-content-center align-items-center text-center">
                 <h4 class="text-bold">
-                    From会計事務所データの承認等確認書
+                    {{"From会計事務所データの承認等確認書"}}
                 </h4>
                 <h6>
-                    以下のデータについてのやりとりは以下の通り決定されています。
+                    {{"以下のデータについてのやりとりは以下の通り決定されています。"}}
                 </h6>
             </div>
             <div class="card-body">
