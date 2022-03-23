@@ -22,6 +22,7 @@ class CreateHostUploadsTable extends Migration
             $table->tinyInteger('priority');
             $table->string('details')->nullable();
             $table->string('video_url')->nullable();
+            $table->bigInteger('last_viewed_by_user_id')->nullable();
             $table->bigInteger('modified_by_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

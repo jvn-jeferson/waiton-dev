@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 //Models
 use App\Models\Message;
@@ -36,6 +37,7 @@ use App\Mail\OTPMail;
 use App\Mail\NewClientAccessMail;
 use App\Mail\DecisionCompleteMail;
 use App\Mail\ViewingNotifMail;
+use App\Models\PermanentRecord;
 
 class ClientController extends Controller
 {
@@ -283,6 +285,48 @@ class ClientController extends Controller
                 else {
                     $slug = 'その他';
                 }
+
+
+                $today = Carbon::now()->format('Y-m-d H:i:s');
+                $file = Files::find($record->file_id);
+                $upload_date = $record->created_at;
+                $sender = User::find($record->user_id)->accountingOfficeStaff;
+                $video_url = $record->video_url;
+                $with_approval = 0;
+                $comment = $record->details;
+                $title = '永久記録_'.date('Y年m月d日H_i_s').'.pdf';
+
+                $pdf = Pdf::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
+
+                $content = $pdf->download($title);
+                $path = 'permanent_records/'.$title;
+
+                Storage::disk('gcs')->put('permanent_records/'.$title, $content);
+
+                $pdf_file = Files::create(
+                    [
+                        'user_id' => Auth::user()->id,
+                        'path' => $path,
+                        'name' => $title,
+                        'size' => 0
+                    ]
+                );
+
+                PermanentRecord::create([
+                    'client_id' => $company->id,
+                    'accounting_office_id' => $host->id,
+                    'file_id' => $record->file_id,
+                    'pdf_file_id' => $pdf_file->id,
+                    'request_sent_at' => $upload_date,
+                    'request_sent_by_staff_id' => $sender->id,
+                    'has_video' => $video_url,
+                    'with_approval'=> $with_approval,
+                    'comments' => $comment,
+                    'viewed_by_staff_id' => $staff->id,
+                    'response_completed_at' => $today,
+                    'is_approved' => 0,
+                    'viewing_date' => $today
+                ]);
 
                 $this->notify_archive_creation($company->contact_email, $company, $host, $staff, $slug);
                 $this->notify_archive_creation($host->contact_email, $company, $host, $staff, $slug);

@@ -17,6 +17,7 @@ class CreateClientObligationsTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('client_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->boolean('is_taxable')->default(true);
+            $table->tinyInteger('calculation_method')->nullable();
             $table->tinyInteger('taxable_type')->nullable();
             $table->timestamps();
         });

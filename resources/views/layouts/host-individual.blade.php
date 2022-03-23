@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="csr   f-token" content="{{ csrf_token() }}">
   <title>{{config('app.name')}}</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -133,20 +133,26 @@
             </a>
           </li>
 
-          <li class="nav-header mt-3">記録</li>
+          <li class="nav-header mt-3">資料フォルダ</li>
+          <li class="nav-item">
+              <a href="" class="nav-link">
+                  <i class="nav-icon fas fa-server"></i>
+                  <p>確認済の資料</p>
+              </a>
+          </li>
           <li class="nav-item">
             <a href="{{route('access-taxation-history', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'access-taxation-history')  active  @endif">
-                <i class="nav-icon fas fa-calendar"></i>
+                <i class="nav-icon fas fa-file-video"></i>
                 <p>
-                過去の決算
+                    保管資料（動画あり）
                 </p>
               </a>
           </li>
           <li class="nav-item">
             <a href="{{route('access-notification-history', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'access-notification-history') active  @endif">
-                <i class="nav-icon fas fa-bell"></i>
+                <i class="nav-icon fas fa-file"></i>
                 <p>
-                届出
+                  保管資料（その他）
                 </p>
               </a>
           </li>
@@ -157,7 +163,7 @@
             <a href="{{route('video-creation', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'create-video') active  @endif">
                 <i class="nav-icon fas fa-video"></i>
                 <p>
-                  動画作成
+                    説明動画作成
                 </p>
               </a>
           </li>
@@ -165,7 +171,7 @@
             <a href="{{route('video-list', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'video-list') active  @endif">
                 <i class="nav-icon fas fa-photo-video"></i>
                 <p>
-                  作成動画リスト
+                    動画リスト
                 </p>
               </a>
           </li>
@@ -173,7 +179,7 @@
             <a href="{{route('view-registration-information', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'view-registration-information') active  @endif">
                 <i class="nav-icon fas fa-cogs"></i>
                 <p>
-                各種設定
+                    各種設定
                 </p>
               </a>
           </li>

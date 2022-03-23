@@ -215,7 +215,7 @@ class HostController extends Controller
     public function account_management()
     {
         $this->set_globals();
-        $staffs = AccountingOfficeStaff::where('accounting_office_id', $this->accounting_office->id)->latest()->get();
+        $staffs = AccountingOfficeStaff::where('accounting_office_id', $this->accounting_office->id)->get();
         return View::make('host.account-management')->with(['page_title' => '事務所内の管理', 'account' => $this->accounting_office, 'staffs' => $staffs]);
     }
 
@@ -231,14 +231,13 @@ class HostController extends Controller
         $accounting_office_id = $this->accounting_office->id;
         $result = '';
 
-
         DB::transaction(function () use ($request, $accounting_office_id, $result) {
 
             $password = Str::random(8);
             $user = User::create([
                 'email' => $request->input('email'),
                 'password' => Hash::make(Str::random(8)),
-                'role_id' => 3 - $request->input('is_admin'),
+                'role_id' => 3 - $request->is_admin,
                 'is_online' => 0,
                 'remember_token' => Str::random(60)
             ]);
@@ -1424,5 +1423,10 @@ class HostController extends Controller
         $accountingOffice->save();
 
         return $this->account_management();
+    }
+
+    function access_material_storage(Request $request)
+    {
+
     }
 }

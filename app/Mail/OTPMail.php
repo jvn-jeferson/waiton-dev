@@ -11,7 +11,7 @@ class OTPMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $password, $url, $user;
+    public $password, $url, $user, $target_file;
 
     /**
      * Create a new message instance.
