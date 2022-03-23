@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
-use Barryvdh\Snappy\Facades\SnappyPdf;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
 //Models
 use App\Models\Message;
@@ -298,7 +298,7 @@ class ClientController extends Controller
 
                 $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title])->setOptions(['defaultFont' => 'sans-serif']);
 
-                $content = $pdf->download($title);
+                $content = $pdf->download($title)->getOriginalContent();
                 $path = 'permanent_records/'.$title;
 
                 Storage::disk('gcs')->put('permanent_records/'.$title, $content);
