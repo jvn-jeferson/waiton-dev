@@ -25,9 +25,9 @@ class CreatePermanentRecordsTable extends Migration
             $table->tinyInteger('with_approval');
             $table->text('comments');
             $table->bigInteger('viewed_by_staff_id');
-            $table->timestamp('response_completed_at');
+            $table->timestamp('response_completed_at')->nullable();
             $table->tinyInteger('is_approved');
-            $table->timestamp('viewing_date');
+            $table->timestamp('viewing_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

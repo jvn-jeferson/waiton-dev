@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>{{$title}}</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
 </head>
 <body>
@@ -136,4 +139,5 @@
         </div>
     </div>
 </body>
+<script type="text/javascript" src="{{ asset('js/app.js')}}"></script>
 </html>
