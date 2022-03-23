@@ -48,27 +48,43 @@
                                     <tr>
                                         <th class="bg-gray w-25">消費税の申告義務</th>
                                         <td colspan="2">
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <input type="checkbox" id="data1" name="data1" value="課税事業者" disabled @if($client->obligation && $client->obligation->is_taxable == 1) checked @endif>
-                                                    <label for="data1">課税事業者</label><br>
+
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <input type="checkbox" name="data1" id="data1" value="課税事業者" disabled @if ($client->obligation && $client->obligation->is_taxable) checked @endif>
+                                                    <label for="">課税事業者</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row p-auto">
+                                                <div class="ml-3 col-2">
+                                                    <input type="checkbox" id="data2" name="data2" value="原則" disabled>
+                                                    <label for="data2">原則</label>
                                                 </div>
                                                 <div class="col-2">
                                                     (
-                                                    <input type="checkbox" id="data2" name="data2" value="個別" disabled @if($client->obligation && $client->obligation->taxable_type == 1) checked @endif>
-                                                    <label for="data1">全額控除</label><br>
+                                                    <input type="checkbox" id="data2" name="data2" value="全額控除" disabled @if($client->obligation && $client->obligation->taxable_type == 1) checked @endif>
+                                                    <label for="data1">全額控除</label>
                                                 </div>
                                                 <div class="col-2">
-                                                    <input type="checkbox" id="data3" name="data3" value="一括" disabled @if($client->obligation && $client->obligation->taxable_type == 2) checked @endif>
-                                                    <label for="data1"> 個別</label><br><br>
+                                                    <input type="checkbox" id="data3" name="data3" value="個別" disabled @if($client->obligation && $client->obligation->taxable_type == 2) checked @endif>
+                                                    <label for="data1"> 個別</label>
                                                 </div>
                                                 <div class="col-2">
                                                     <input type="checkbox" id="data4" name="data4" value="一括" disabled @if($client->obligation && $client->obligation->taxable_type == 3) checked @endif>
-                                                    <label for="data1"> 一括 )</label><br><br>
+                                                    <label for="data1"> 一括 )</label>
                                                 </div>
-                                                <div class="col-md-4">
+                                            </div>
+                                            <div class="form-row p-auto">
+                                                <div class="ml-3 col-auto">
+                                                    <input type="checkbox" class="checkbox" id="data5" value="簡易課税" disabled>
+                                                    <label for="data5">簡易課税</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-12">
                                                     <input type="checkbox" id="data5" name="data5" value="免税事業者" disabled @if($client->obligation && $client->obligation->is_taxable == 0) checked @endif>
-                                                    <label for="data1"> 免税事業者</label><br><br>
+                                                    <label for="data1"> 免税事業者</label>
                                                 </div>
                                             </div>
                                         </td>
@@ -515,11 +531,14 @@
         function deleteUser(id)
         {
             Swal.fire({
-                title: "その後の動きは、変更しますか？",
+                title: "本当に削除しますか？",
+                confirmButtonText: 'はい',
+                cancelButtonText: "いいえ",
                 showCancelButton: true,
                 focusConfirm: false
             }).then((result) => {
                 if(result.isConfirmed) {
+                    Swal.showLoading()
                     var url = "{{route('delete-user')}}"
                     axios.post(url, {
                         user_id : id
@@ -527,7 +546,7 @@
                         if(response.data == 'Deleted!')
                         {
                             Swal.fire({
-                                title: 'Deleted',
+                                title: '削除完了しました。',
                                 icon: 'success'
                             }).then((result) => {
                                 if(result.isConfirmed)

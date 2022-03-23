@@ -37,7 +37,7 @@
                                                     <td class="text-info"><a href="#" onclick="markAsRead(
                                                                     {{ $upload->id }}, this)"
                                                             role="button">{{ $upload->file->name }}</a></td>
-                                                    <td>{{ $upload->comment }}</td>
+                                                    <td>{!! nl2br(e($upload->comment)) !!}</td>
                                                 </tr>
                                             @empty
                                                 <tr>

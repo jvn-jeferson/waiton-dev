@@ -84,7 +84,7 @@ class HostController extends Controller
         } else {
             $this->subscription_plan = null;
         }
-        $this->clients = Client::where('accounting_office_id', $this->accounting_office->id)->get();
+        $this->clients = Client::where('accounting_office_id', $this->accounting_office->id)->orderBy('tax_filing_month', 'asc')->get();
     }
 
     public function index()
@@ -158,9 +158,9 @@ class HostController extends Controller
 
         $messages = null;
         if (Auth::user()->role_id == 2) {
-            $messages = Message::whereIn('user_id', $user_ids)->get();
+            $messages = Message::whereIn('user_id', $user_ids)->latest()->get();
         } else {
-            $messages = Message::where('user_id', $this->user->id)->get();
+            $messages = Message::where('user_id', $this->user->id)->latest()->get();
         }
         foreach ($messages as $message) {
             $file_names = '';
@@ -208,14 +208,14 @@ class HostController extends Controller
 
     public function client_list()
     {
-        $clients = Client::where('accounting_office_id', Auth::user()->accountingOfficeStaff->accounting_office_id)->get();
+        $clients = Client::where('accounting_office_id', Auth::user()->accountingOfficeStaff->accounting_office_id)->latest()->get();
         return View::make('host.client-list')->with(['page_title' => '顧客の一覧（閲覧）', 'clients' => $clients]);
     }
 
     public function account_management()
     {
         $this->set_globals();
-        $staffs = AccountingOfficeStaff::where('accounting_office_id', $this->accounting_office->id)->get();
+        $staffs = AccountingOfficeStaff::where('accounting_office_id', $this->accounting_office->id)->latest()->get();
         return View::make('host.account-management')->with(['page_title' => '事務所内の管理', 'account' => $this->accounting_office, 'staffs' => $staffs]);
     }
 
@@ -443,8 +443,8 @@ class HostController extends Controller
         $date = date('Y-m-d');
 
         $messages = Message::where('created_at', 'like', '' . $date . '%')->where('is_global', 1)->orWhere('targeted_at', $client->id)->latest()->limit(5)->get();
-        $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->get();
-        $downloads = HostUpload::where('client_id', '=', $id)->get();
+        $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->latest()->get();
+        $downloads = HostUpload::where('client_id', '=', $id)->latest()->get();
 
         return View::make('host.individual-clients.dashboard', ['hashids' => $this->hashids, 'client' => $client, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads, 'unviewed' => $unviewed]);
     }
@@ -453,7 +453,7 @@ class HostController extends Controller
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
-        $messages = Message::where('targeted_at', $id)->get();
+        $messages = Message::where('targeted_at', $id)->latest()->get();
         $client_user_ids = array();
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
         foreach ($users as $user) {
@@ -529,7 +529,7 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-        $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->get();
+        $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->latest()->get();
 
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
 
@@ -556,7 +556,7 @@ class HostController extends Controller
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
-        $uploads = HostUpload::where('client_id', $id)->get();
+        $uploads = HostUpload::where('client_id', $id)->latest()->get();
         $client_user_ids = array();
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
         foreach ($users as $user) {
@@ -645,7 +645,7 @@ class HostController extends Controller
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
-        $taxation_archive = TaxationHistory::where('client_id', $client->id)->get();
+        $taxation_archive = TaxationHistory::where('client_id', $client->id)->latest();
         $client_user_ids = array();
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
         foreach ($users as $user) {
@@ -756,7 +756,7 @@ class HostController extends Controller
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
-        $videos = CreatedVideoRecord::where('client_id', $client->id)->get();
+        $videos = CreatedVideoRecord::where('client_id', $client->id)->latest()->get();
         $client_user_ids = array();
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
         foreach ($users as $user) {
@@ -791,7 +791,7 @@ class HostController extends Controller
         $page_title = "届出";
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
-        $notification_archives = PastNotification::where(['client_id' => $id])->get();
+        $notification_archives = PastNotification::where(['client_id' => $id])->latest()->get();
         $client_user_ids = array();
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
         foreach ($users as $user) {
@@ -917,7 +917,7 @@ class HostController extends Controller
 
     public function send_inquiry(Request $request)
     {
-        Mail::to('jvncgs.info@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
+        Mail::to('support@upfiling.jp')->send(new InquiryMail(Auth::user()->email, $request->content));
 
         if (Mail::failures()) {
             return 'failure';
