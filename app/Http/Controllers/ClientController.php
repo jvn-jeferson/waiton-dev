@@ -296,7 +296,7 @@ class ClientController extends Controller
                 $comment = $record->details;
                 $title = '永久記録_.pdf';
 
-                $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title])->setOptions(['defaultFont' => 'sans-serif']);
+                $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
 
                 $content = $pdf->download($title)->getOriginalContent();
                 $path = 'permanent_records/'.$title;
