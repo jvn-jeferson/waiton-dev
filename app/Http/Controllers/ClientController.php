@@ -294,7 +294,7 @@ class ClientController extends Controller
                 $video_url = $record->video_url;
                 $with_approval = 0;
                 $comment = $record->details;
-                $title = '永久記録_'.date('Y年m月d日H_i_s').'.pdf';
+                $title = '永久記録_.pdf';
 
                 $pdf = Pdf::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title])->setOptions(['defaultFont' => 'sans-serif']);
 
