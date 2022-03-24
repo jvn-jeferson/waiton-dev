@@ -112,7 +112,7 @@
             };
             do_dl();
             }).then(function() {
-                window.location.reload();
+                // window.location.reload();
             }).catch(function(error) {
                 console.log(error.response.data);
             })
