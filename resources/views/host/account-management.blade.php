@@ -419,7 +419,7 @@
                 preConfirm: function() {
                     var url = "{{route('delete-ao-staff')}}"
 
-                    axios.post(url, {
+                    return axios.post(url, {
                         id : staff_id
                     }).then(function(response) {
                         Swal.fire({
@@ -435,6 +435,7 @@
                         })
                     }).catch(function(error) {
                         console.log(error.response.data)
+                        return false
                     })
                 },
                 showLoaderOnConfirm: true,
