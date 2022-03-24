@@ -47,10 +47,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if ($archive)
-                                                        {{ $archive->recognition_date->format('Y年m月d日') }} •
-                                                        {{ $archive->proposal_date->format('Y年m月d日') }}
-                                                    @endif
+
                                                 </td>
                                                 <td class="align-items-center text-center justify-content-center">
                                                     <center>
