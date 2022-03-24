@@ -71,6 +71,7 @@
             {
                 markAsRead(target)
             })
+        })
 
         //     var url = "{{ route('download-file') }}"
         //     axios.post(url, {
