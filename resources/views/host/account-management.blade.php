@@ -354,12 +354,13 @@
         $("#newUserForm").on('submit', function(event) {
             event.preventDefault()
             var url = "{{route('register-new-staff')}}"
-            var is_admin_check = $('#is_admin').val()
+            var is_admin_check = $('#is_admin:checked').val()
             axios.post(url, {
                 is_admin : is_admin_check,
                 name: $('#name').val(),
                 email: $('#email').val()
             }).then(function(response) {
+
                 Swal.fire({
                     title: 'ユーザーの作成に成功',
                     icon: 'success',

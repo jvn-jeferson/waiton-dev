@@ -38,6 +38,6 @@ class TemporaryController extends Controller
     {
 
 
-        return View::make('temporary.permanent_record');
+        return View::make('layouts.permanent-record-pdf');
     }
 }

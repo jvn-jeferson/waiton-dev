@@ -7,6 +7,8 @@
     "require": {
         "php": "^7.3|^8.0",
         "barryvdh/laravel-cors": "^2.0",
+        "barryvdh/laravel-dompdf": "^1.0",
+        "barryvdh/laravel-snappy": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.3",
         "hashids/hashids": "^4.1",
@@ -19,6 +21,7 @@
         "nao-pon/flysystem-google-drive": "~1.1",
         "stripe/stripe-php": "^7.97",
         "superbalist/flysystem-google-storage": "^7.2",
+        "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {

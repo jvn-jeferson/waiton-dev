@@ -17,7 +17,17 @@ class CreatePermanentRecordsTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('client_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('accounting_office_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('host_upload_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('file_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('pdf_file_id')->nullable();
+            $table->timestamp('request_sent_at')->nullable();
+            $table->bigInteger('request_sent_by_staff_id')->nullable();
+            $table->string('has_video')->nullable();
+            $table->tinyInteger('with_approval')->nullable();
+            $table->text('comments');
+            $table->bigInteger('viewed_by_staff_id');
+            $table->timestamp('response_completed_at')->nullable();
+            $table->tinyInteger('is_approved')->nullable();
+            $table->timestamp('viewing_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

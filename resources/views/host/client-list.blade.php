@@ -31,12 +31,36 @@
                                             <td rowspan="2">{{$client->name }}</td>
                                             <td rowspan="2">@if($client->business_type_id == 1) 法人 @else 個人 @endif</td>
                                             <td rowspan="2">{{$client->tax_filing_month}}月</td>
-                                            <td>*********</td>
-                                            <td>*********</td>
+                                            <td>
+                                                @if($client->credentials)
+                                                    {{$client->credentials->nta_id}}
+                                                @else
+                                                無し
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($client->credentials)
+                                                    {{$client->credentials->nta_password}}
+                                                @else
+                                                無し
+                                                @endif
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>*********</td>
-                                            <td>*********</td>
+                                            <td>
+                                                @if($client->credentials)
+                                                    {{$client->credentials->el_tax_id}}
+                                                    @else
+                                                    無し
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($client->credentials)
+                                                    {{$client->credentials->el_tax_password}}
+                                                    @else
+                                                    無し
+                                                @endif
+                                            </td>
                                         </tr>
                                         @empty
                                         <tr>

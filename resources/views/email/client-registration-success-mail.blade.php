@@ -1,7 +1,4 @@
     @component('mail::message')
-    # 題名　会計事務所名様からのご招待メール
-
-
     会計事務所とクライアントの情報プラットフォーム <br>
     UpFiling.jpをご利用いただきありがとうございます。<br>
     <br>
@@ -13,18 +10,13 @@
     <br>
     <br>
     <h4>
-    管理者ログインID: <strong> {{$user->login_id}} </strong>
+    管理者ログインID:       {{$user->login_id}}
     </h4>
     <h4>
-    初期パスワード: <strong> {{$password}} </strong>
+    初期パスワード:     {{$password}}
     </h4>
     （ログイン時にパスワードの設定をお願いしております）
-
-
-    @component('mail::button', ['url' => $url, 'color' => 'success'])
-    完全な登録
-    @endcomponent
-
+    <br>
     <br>
     <hr>
     このメールは送信専用です。<br>
