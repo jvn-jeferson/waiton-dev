@@ -67,7 +67,7 @@
                 return this.value
             }).get()
 
-            file_id.foreach(function (target)
+            file_id.forEach(function (target)
             {
                 markAsRead(target)
             })
