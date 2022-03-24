@@ -411,23 +411,28 @@
         function deleteStaff(staff_id)
         {
             Swal.fire({
-                title: 'Delete User',
-                text: 'Are you sure you want to delete this user?',
+                title: '本当に削除しますか？',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'OK',
-                cancelButtonText: 'NO'
-            }).then((result) => {
-                if(result.isConfirmed)
-                {
+                confirmButtonText: 'はい',
+                cancelButtonText: 'キャンセル',
+                preConfirm: function() {
                     var url = "{{route('delete-ao-staff')}}"
 
-                    axios.post(url, {
+                    return axios.post(url, {
                         id : staff_id
                     }).then(function(response) {
-                        Swal.fire({
-                            title: 'Success',
-                            text: 'Staff Credentials have been removed successfully.',
+
+                    }).catch(function(error) {
+                        console.log(error.response.data)
+                        return false
+                    })
+                },
+                showLoaderOnConfirm: true,
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then(() => {
+                Swal.fire({
+                            title: '削除完了しました。',
                             icon: 'success',
                             showConfirmButton: false,
                             timer: 3000,
@@ -437,11 +442,9 @@
                                 location.reload()
                             }
                         })
-                    }).catch(function(error) {
-                        console.log(error.response.data)
-                    })
-                }
             })
+
+
         }
 
         $(function() {

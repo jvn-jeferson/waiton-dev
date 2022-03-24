@@ -20,7 +20,8 @@
                                         <input type="hidden" name="record_id" id="record_id" value="{{$record->id}}">
                                         @endif
                                         <p><a href="#" onclick="window.open('{{route('video-creation', ['client_id'=>$hashids->encode($client->id), 'record_id' => $record->id ?? 0])}}');">こちらから動画を作成し. URLを貼り付けてください。</a></p>
-                                        <input type="text" name="video_url" id="video-url" class="form-control" placeholder="動画のURLを貼り付けてください" value="{{$record->video_url ?? ''}}">
+                                        <input type="text" name="encrypted_string" id="video-url" class="form-control" placeholder="動画のURLを貼り付けてください" value="{{$record->video_url ?? ''}}">
+                                        <input type="hidden" name="video_url" id="video_url">
                                         @error('video_url')
                                             <span class="text-danger">
                                                 {{$message}}
@@ -129,6 +130,7 @@
             var vidSrc = document.getElementById('vidsrc');
             if(isValidHttpUrl(value_url)){
                 $('source').attr('src',value_url)
+                $("#video_url").val(value_url)
                 video_player.load()
             }
             else {

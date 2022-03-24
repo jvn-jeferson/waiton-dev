@@ -91,7 +91,13 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td class="bg-light">
+                                    <td class="@if($client->notifs && $client->notifs->simple_taxation) bg-lime disabled color-palette @endif">
+                                        <div class="form-check">
+                                            <input disabled type="checkbox" class="form-check-input" name="simple_taxation" id="simple_taxation" value="1" @if($client->notifs && $client->notifs->simple_taxation == 1) checked @endif>
+                                            <label for="simple_taxation">
+                                                簡易課税の届出書
+                                            </label>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
@@ -291,6 +297,12 @@
                                     </div>
                                 </td>
                                 <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="simple_taxation" id="simple_taxation" value="1" @if($client->notifs && $client->notifs->simple_taxation == 1) checked @endif>
+                                        <label for="simple_taxation">
+                                            簡易課税の届出書
+                                        </label>
+                                    </div>
                                 </td>
                             </tr>
                         </table>

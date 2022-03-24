@@ -20,7 +20,8 @@ class ClientMajorNotification extends Model
         'extension_filing_deadline',
         'consumption_tax',
         'consumption_tax_excemption',
-        'consumption_tax_selection'
+        'consumption_tax_selection',
+        'simple_taxation'
     ];
 
 

@@ -482,7 +482,9 @@ class HostController extends Controller
             if ($request->file('attachment') != null) {
                 $file = $request->file('attachment');
                 $file_name = $file->getClientOriginalName();
-                $file_path = $file->store('public/files/' . Auth::user()->accountingOfficeStaff->accountingOffice->name . '/' . Client::find($request->client_id)->name);
+
+                $file_path = "accounting-office-message-attachments/".Auth::user()->accountingOfficeStaff->accountingOffice->id.'/'.$request->client_id.$file_name;
+                Storage::disk('gcs')->put($file_path, file_get_contents($file));
                 $file_size = $file->getSize();
 
                 $file_id = Files::insertGetId([
@@ -1206,6 +1208,7 @@ class HostController extends Controller
                 'consumption_tax' => $request->consumption_tax,
                 'consumption_tax_excemption' => $request->consumption_tax_excemption,
                 'consumption_tax_selection' => $request->consumption_tax_selection,
+                'simple_taxation' => $request->simple_taxation,
             ]);
 
             $notifs->save();
@@ -1220,6 +1223,7 @@ class HostController extends Controller
                 'consumption_tax' => $request->consumption_tax,
                 'consumption_tax_excemption' => $request->consumption_tax_excemption,
                 'consumption_tax_selection' => $request->consumption_tax_selection,
+                'simple_taxation' => $request->simple_taxation,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
