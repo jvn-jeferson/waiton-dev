@@ -642,7 +642,8 @@ class HostController extends Controller
     {
         $id = $this->hashids->decode($request->client_id)[0];
         $client = Client::find($id);
-        $taxation_archive = TaxationHistory::where('client_id', $client->id)->latest();
+
+        $taxation_archive = TaxationHistory::where('client_id', $client->id)->latest()->get();
         $client_user_ids = array();
         $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
         foreach ($users as $user) {
@@ -650,7 +651,6 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
 
         return View::make('host.individual-clients.financial-history', ['client' => $client, 'hashids' => $this->hashids, 'archives' => $taxation_archive, 'unviewed' => $unviewed]);

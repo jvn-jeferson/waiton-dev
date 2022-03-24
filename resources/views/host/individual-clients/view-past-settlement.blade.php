@@ -15,7 +15,7 @@
                                 <div class="row">
                                     <div class="col-7">
                                         <p><a href="#" onclick="window.open('{{route('video-creation', ['client_id'=>$hashids->encode($client->id), 'data' => null])}}');">こちらから動画を作成し. URLを貼り付けてください。</a></p>
-                                        <input type="url" name="video_url" id="video-url" class="form-control" placeholder="動画のURLを貼り付けてください" value="{{old('video_url')}}">
+                                        <input type="text" name="video_url" id="video-url" class="form-control" placeholder="動画のURLを貼り付けてください" value="{{old('video_url')}}">
                                         @error('video_url')
                                             <span class="text-danger">
                                                 {{$message}}
@@ -52,13 +52,13 @@
                                                         <td class="bg-light">
                                                             <input type="text" name="file" id="file" class="form-control" value="{{$record->file->name}}" disabled>
                                                         </td>
-                                                        
+
                                                     </tr>
                                                     <tr>
                                                         <th>承認日</th>
                                                         <td class="bg-light">
                                                             <input type="text" class="form-control" name="proposal_date" id="proposal_date" value="{{$record->proposal_date->format('Y-m-d')}}" disabled>
-                                                        
+
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -83,7 +83,7 @@
                                                         <th>動画投稿者</th>
                                                         <td class="bg-light">
                                                             <input type="text" name="video_contributor" id="video_contributor" class="form-control" value="{{$record->video_contributor}}" readonly>
-                                                            
+
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -150,11 +150,11 @@
 
         function isValidHttpUrl(string) {
             let url;
-            
+
             try {
                 url = new URL(string);
             } catch (_) {
-                return false;  
+                return false;
             }
 
             return url.protocol === "http:" || url.protocol === "https:";

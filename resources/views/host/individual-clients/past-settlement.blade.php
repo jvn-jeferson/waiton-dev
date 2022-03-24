@@ -20,7 +20,7 @@
                                         <input type="hidden" name="record_id" id="record_id" value="{{$record->id}}">
                                         @endif
                                         <p><a href="#" onclick="window.open('{{route('video-creation', ['client_id'=>$hashids->encode($client->id), 'record_id' => $record->id ?? 0])}}');">こちらから動画を作成し. URLを貼り付けてください。</a></p>
-                                        <input type="url" name="video_url" id="video-url" class="form-control" placeholder="動画のURLを貼り付けてください" value="{{$record->video_url ?? ''}}">
+                                        <input type="text" name="video_url" id="video-url" class="form-control" placeholder="動画のURLを貼り付けてください" value="{{$record->video_url ?? ''}}">
                                         @error('video_url')
                                             <span class="text-danger">
                                                 {{$message}}
@@ -38,7 +38,12 @@
                                                     <tr>
                                                         <th>種類</th>
                                                         <td class="bg-light">
-                                                            <input type="text" name="kinds" id="kinds" class="form-control" value="{{$record->kinds ?? ''}}">
+                                                            <select name="kinds" id="kinds" class="form-control">
+                                                                <option value="決算書">決算書</option>
+                                                                <option value="届出">届出</option>
+                                                                <option value="申請">申請</option>
+                                                                <option value="その他">その他</option>
+                                                            </select>
                                                             @error('kinds')
                                                             <span class="text-danger">
                                                                 {{$message}}
@@ -47,9 +52,9 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th>決算日</th>
+                                                        <th>提出日</th>
                                                         <td class="bg-light">
-                                                            <input type="date" class="form-control" name="settlement_date" id="settlement_date" value="{{$record != null ? $record->settlement_date->format('Y-m-d') :''}}">
+                                                            <input type="date" class="form-control" name="settlement_date" id="settlement_date" value="{{$record != null ? $record->settlement_date->format('Y-m-d') : date('Y-m-d')}}">
                                                             @error('settlement_date')
                                                             <span class="text-danger">
                                                                 {{$message}}
@@ -58,7 +63,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th>提出済み申告書一式</th>
+                                                        <th>保管ファイル</th>
                                                         <td class="bg-light">
                                                             @if($record == null)
                                                                 <input type="file" name="file" id="file" class="form-control" >
@@ -72,67 +77,6 @@
                                                             @endif
                                                         </td>
 
-                                                    </tr>
-                                                    <tr>
-                                                        <th>承認日</th>
-                                                        <td class="bg-light">
-                                                            <input type="date" class="form-control" name="proposal_date" id="proposal_date" value="{{$record != null ? $record->proposal_date->format('Y-m-d') :''}}">
-                                                            @error('proposal_date')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>提出日</th>
-                                                        <td class="bg-light">
-                                                            <input type="date" class="form-control" name="recognition_date" id="recognition_date" value="{{$record != null ? $record->recognition_date->format('Y-m-d') : ''}}">
-                                                            @error('recognition_date')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>会社担当者</th>
-                                                        <td class="bg-light">
-                                                            <input type="text" name="company_representative" id="company_representative" class="form-control" value="{{$record->company_representative ?? ''}}">
-                                                            @error('company_representative')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>会計事務所担当者</th>
-                                                        <td class="bg-light">
-                                                            <input type="text" name="accounting_office_staff" id="accounting_office_staff" class="form-control" value="{{$record->accounting_office_staff ?? ''}}">
-                                                            @error('accounting_office_staff')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>動画投稿者</th>
-                                                        <td class="bg-light">
-                                                            <input type="text" name="video_contributor" id="video_contributor" class="form-control" value="{{$record->video_contributor ?? ''}}">
-                                                            @error('video_contributor')
-                                                            <span class="text-danger">
-                                                                {{$message}}
-                                                            </span>
-                                                            @enderror
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>閲覧期限</th>
-                                                        <td class="bg-light">
-                                                            <input type="text" name="viewing_deadline" id="viewing_deadline" class="form-control" readonly value="{{$record ? $record->created_at->modify('+7 years')->format('Y年m月d日') : ''}}">
-                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <th>コメント</th>
