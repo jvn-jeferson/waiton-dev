@@ -20,9 +20,8 @@
                                 <table class="table table-bordered table-hover table-striped text-center">
                                     <thead class="thead-dark">
                                         <th>種類</th>
-                                        <th>決算日</th>
-                                        <th>提出済み申告書一式</th>
-                                        <th>承認日 • 提出日</th>
+                                        <th>提出日</th>
+                                        <th>資料名</th>
                                         <th>説明動画</th>
                                     </thead>
                                     <tbody>
@@ -35,7 +34,7 @@
                                                         href="{{ route('access-data-financial-record', ['record_id' => $hashids->encodeHex($archive->id), 'client_id' => $hashids->encode($client->id)]) }}">アクセス</a>
                                                 </td>
                                                 <td>
-
+                                                    {{ $archive->created_at }}
                                                 </td>
                                                 <td class="text-bold">
                                                     @if ($archive)
@@ -43,9 +42,6 @@
                                                             {{$archive->file->name}}
                                                         @endif
                                                     @endif
-                                                </td>
-                                                <td>
-
                                                 </td>
                                                 <td class="align-items-center text-center justify-content-center">
                                                     <center>
