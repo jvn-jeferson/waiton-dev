@@ -543,19 +543,16 @@ class HostController extends Controller
     public function download_file(Request $request)
     {
         $data = [];
-        $record_db = ClientUpload::whereIn('file_id', $request->file_id)->get();
-        foreach($record_db as $record)
-        {
+
+        $file_db = Files::whereIn('id', $request->file_id)->get();
+        foreach ($file_db as $file) {
+            $file_url = SELF::DOWNLOAD_CLOUD . urlencode($file->path) . '?alt=media';
+            $record = ClientUpload::where('file_id', $file)->first();
             $record->update([
                 'is_viewed' => 1
             ]);
 
             $record->save();
-        }
-
-        $file_db = Files::whereIn('id', $request->file_id)->get();
-        foreach ($file_db as $file) {
-            $file_url = SELF::DOWNLOAD_CLOUD . urlencode($file->path) . '?alt=media';
             $name = $file->name;
             $data[] = array(
                 'file_url' => $file_url,

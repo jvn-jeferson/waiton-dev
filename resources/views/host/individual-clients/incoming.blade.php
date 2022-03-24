@@ -67,7 +67,6 @@
                 return this.value
             }).get()
 
-
             var url = "{{ route('download-file') }}"
             axios.post(url, {
                 file_id: file_id
@@ -77,7 +76,7 @@
             //     title: 'Success',
             //     text: 'Congrats you Download Files'
             // })
-            var files = response.data
+
             function download_files(files) {
                 function download_next(i) {
                     if (i >= files.length) {
