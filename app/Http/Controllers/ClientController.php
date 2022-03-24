@@ -91,8 +91,8 @@ class ClientController extends Controller
                     //TO FIX upload path:
                     $name = $request->file('file')[$key]->getClientOriginalName();
                     $file = $request->file('file')[$key];
-                    Storage::disk('gcs')->put("client-uploads/".Auth::user()->clientStaff->client->id . "/" . $name, file_get_contents($file));
-                    $path = Auth::user()->clientStaff->client->id . "/" . $name;
+                    $path = "client-uploads/".Auth::user()->clientStaff->client->id . "/" . $name;
+                    Storage::disk('gcs')->put($path, file_get_contents($file));
 
 
                     $file_id = Files::insertGetId([
