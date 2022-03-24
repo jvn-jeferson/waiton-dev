@@ -52,7 +52,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th>決算日</th>
+                                                        <th>提出日</th>
                                                         <td class="bg-light">
                                                             <input type="date" class="form-control" name="settlement_date" id="settlement_date" value="{{$record != null ? $record->settlement_date->format('Y-m-d') : date('Y-m-d')}}">
                                                             @error('settlement_date')
