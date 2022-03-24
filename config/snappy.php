@@ -35,7 +35,7 @@ return [
 
     'pdf' => [
         'enabled' => true,
-        'binary'  => '/usr/local/bin/wkhtmltopdf-amd64',
+        'binary'  => 'wkhtmltopdf',
         'timeout' => false,
         'options' => [],
         'env'     => [],
@@ -43,7 +43,7 @@ return [
 
     'image' => [
         'enabled' => true,
-        'binary'  => '/usr/local/bin/wkhtmltopdf-amd64',
+        'binary'  => 'wkhtmltopdf',
         'timeout' => false,
         'options' => [],
         'env'     => [],
