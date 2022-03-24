@@ -422,7 +422,16 @@
                     return axios.post(url, {
                         id : staff_id
                     }).then(function(response) {
-                        Swal.fire({
+
+                    }).catch(function(error) {
+                        console.log(error.response.data)
+                        return false
+                    })
+                },
+                showLoaderOnConfirm: true,
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then(() => {
+                Swal.fire({
                             title: '削除完了しました。',
                             icon: 'success',
                             showConfirmButton: false,
@@ -433,14 +442,9 @@
                                 location.reload()
                             }
                         })
-                    }).catch(function(error) {
-                        console.log(error.response.data)
-                        return false
-                    })
-                },
-                showLoaderOnConfirm: true,
-                allowOutsideClick: () => !Swal.isLoading()
             })
+
+
         }
 
         $(function() {
