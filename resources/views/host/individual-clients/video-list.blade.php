@@ -33,7 +33,7 @@
                                                     </video>
                                                 </center>
                                             </td>
-                                            <td>{{ $video->created_at->format('Y-m-d') }}</td>
+                                            <td style="width: 12%">{{ $video->created_at->format('Y-m-d') }}</td>
                                             <td style="width:45%;">
                                                 <div class="container-fluid">
                                                             <input type="text" id="tocopy"  size="50" class="form-control" style="border:0;" value="{{ base64_encode($video->video_url) }}" disabled>

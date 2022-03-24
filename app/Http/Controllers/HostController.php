@@ -710,15 +710,6 @@ class HostController extends Controller
 
         $url = Storage::disk('gcs')->url(Auth::user()->accountingOffice->id . "/upload_video/" . $name);
 
-        Files::create(
-            [
-                'user_id' => $user_id,
-                'path' => $url,
-                'name' => $request->file->getClientOriginalName(),
-                'size' => $request->file->getSize(),
-            ]
-        );
-
         return response()->json($url);
     }
 
@@ -1048,6 +1039,12 @@ class HostController extends Controller
             HostUpload::find($data)->delete();
         }
         return response()->json($datas);
+    }
+
+    public function delete_saved_video(Request $request)
+    {
+        $id = $request->id;
+        CreatedVideoRecord::findOrFail($id)->delete();
     }
 
     public function update_registration_info(Request $request)
