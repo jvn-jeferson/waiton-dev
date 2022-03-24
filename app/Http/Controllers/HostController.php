@@ -651,9 +651,6 @@ class HostController extends Controller
                 array_push($client_user_ids, $user->id);
             }
         }
-
-        dd($taxation_archive);
-
         $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
 
         return View::make('host.individual-clients.financial-history', ['client' => $client, 'hashids' => $this->hashids, 'archives' => $taxation_archive, 'unviewed' => $unviewed]);

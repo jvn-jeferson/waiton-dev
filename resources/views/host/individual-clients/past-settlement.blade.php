@@ -38,7 +38,12 @@
                                                     <tr>
                                                         <th>種類</th>
                                                         <td class="bg-light">
-                                                            <input type="text" name="kinds" id="kinds" class="form-control" value="{{$record->kinds ?? ''}}">
+                                                            <select name="kinds" id="kinds">
+                                                                <option value="決算書">決算書</option>
+                                                                <option value="届出">届出</option>
+                                                                <option value="申請">申請</option>
+                                                                <option value="その他">その他</option>
+                                                            </select>
                                                             @error('kinds')
                                                             <span class="text-danger">
                                                                 {{$message}}
@@ -58,7 +63,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th>提出済み申告書一式</th>
+                                                        <th>保管ファイル</th>
                                                         <td class="bg-light">
                                                             @if($record == null)
                                                                 <input type="file" name="file" id="file" class="form-control" >
