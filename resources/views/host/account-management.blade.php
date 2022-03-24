@@ -423,8 +423,7 @@
                         id : staff_id
                     }).then(function(response) {
                         Swal.fire({
-                            title: 'Success',
-                            text: 'Staff Credentials have been removed successfully.',
+                            title: '削除完了しました。',
                             icon: 'success',
                             showConfirmButton: false,
                             timer: 3000,
