@@ -28,14 +28,14 @@
                                             @forelse($uploads as $upload)
                                                 <tr>
                                                     <td class="text-center"><input type="checkbox" name="select"
-                                                            id="select" value="{{ $upload->file_id }}"
+                                                            id="select" value="{{ $upload->id }}"
                                                             @if ($upload->file_id == null) disabled @endif></td>
                                                     <td>{{ $upload->created_at->format('Y年m月d日 H:i') }}</td>
                                                     <td>{{ $upload->created_at->modify('+1 month')->format('Y年m月d日 H:i') }}
                                                     </td>
                                                     <td>{{ $upload->user->clientStaff->name }}</td>
                                                     <td class="text-info"><a href="#" onclick="markAsRead(
-                                                                    {{ $upload->id }}, this)"
+                                                                    {{ $upload->id }})"
                                                             role="button">{{ $upload->file->name }}</a></td>
                                                     <td>{!! nl2br(e($upload->comment)) !!}</td>
                                                 </tr>
@@ -67,55 +67,60 @@
                 return this.value
             }).get()
 
-            var url = "{{ route('download-file') }}"
-            axios.post(url, {
-                file_id: file_id
-            }).then(function(response) {
-            // Swal.fire({
-            //     icon: 'success',
-            //     title: 'Success',
-            //     text: 'Congrats you Download Files'
-            // })
-
-            function download_files(files) {
-                function download_next(i) {
-                    if (i >= files.length) {
-                        return;
-                    }
-                    var a = document.createElement('a');
-                    a.href = files[i].file_url;
-                    a.target = '_blank';
-
-                    if ('download' in a) {
-                        a.download = files[i].file_name;
-                    }
-
-                    (document.body || document.documentElement).appendChild(a);
-                    if (a.click) {
-                        a.click(); // The click method is supported by most browsers.
-                    } else {
-                        window.open(files[i].file_url);
-                    }
-                    a.parentNode.removeChild(a);
-                    setTimeout(function() {
-                        download_next(i + 1);
-                    }, 500);
-                }
-                // Initiate the first download.
-                download_next(0);
-            }
-
-            function do_dl() {
-            var data = response.data;
-                download_files(data);
-            };
-            do_dl();
-            }).catch(function(error) {
-                console.log(error.response.data);
+            file_id.foreach(function (target)
+            {
+                markAsRead(target)
             })
-        })
 
-        function markAsRead(target, button) {
+        //     var url = "{{ route('download-file') }}"
+        //     axios.post(url, {
+        //         file_id: file_id
+        //     }).then(function(response) {
+        //     // Swal.fire({
+        //     //     icon: 'success',
+        //     //     title: 'Success',
+        //     //     text: 'Congrats you Download Files'
+        //     // })
+
+        //     function download_files(files) {
+        //         function download_next(i) {
+        //             if (i >= files.length) {
+        //                 return;
+        //             }
+        //             var a = document.createElement('a');
+        //             a.href = files[i].file_url;
+        //             a.target = '_blank';
+
+        //             if ('download' in a) {
+        //                 a.download = files[i].file_name;
+        //             }
+
+        //             (document.body || document.documentElement).appendChild(a);
+        //             if (a.click) {
+        //                 a.click(); // The click method is supported by most browsers.
+        //             } else {
+        //                 window.open(files[i].file_url);
+        //             }
+        //             a.parentNode.removeChild(a);
+        //             setTimeout(function() {
+        //                 download_next(i + 1);
+        //             }, 500);
+        //         }
+        //         // Initiate the first download.
+        //         download_next(0);
+        //     }
+
+        //     function do_dl() {
+        //     var data = response.data;
+        //         download_files(data);
+        //     };
+        //     do_dl();
+        //     }).catch(function(error) {
+        //         console.log(error.response.data);
+        //     })
+        // })
+
+        function markAsRead(target) {
             var url = "{{ route('mark-as-read') }}"
 
             axios.post(url, {
@@ -126,7 +131,6 @@
                 link.setAttribute('download', response.data[1]);
                 link.click();
                 document.removeChild(link);
-                button.disabled = 'disabled'
             }).catch(function(error) {
                 console.log(error.response);
             })
