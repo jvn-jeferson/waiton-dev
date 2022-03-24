@@ -538,6 +538,8 @@ class HostController extends Controller
         return View::make('host.individual-clients.incoming')->with(['hashids' => $this->hashids, 'client' => $client, 'uploads' => $uploads, 'unviewed' => $unviewed]);
     }
 
+
+
     public function download_file(Request $request)
     {
         $data = [];
