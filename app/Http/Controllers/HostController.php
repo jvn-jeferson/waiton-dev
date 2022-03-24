@@ -619,21 +619,18 @@ class HostController extends Controller
 
     public function sendUploadNotification($target, $client, $host, $for_approval)
     {
-        if($for_approval == 0) {
+        if ($for_approval == 0) {
             Mail::to($target)->send(new HostUploadNoApprovalMail($client, $host));
 
-            if(Mail::failures())
-            {
+            if (Mail::failures()) {
                 return false;
             }
 
             return false;
-        }
-        else {
+        } else {
             Mail::to($target)->send(new HostUploadForApprovalMail($client, $host));
 
-            if(Mail::failures())
-            {
+            if (Mail::failures()) {
                 return false;
             }
 
@@ -702,11 +699,14 @@ class HostController extends Controller
     public function save_video(Request $request)
     {
         $url = $request->file;
+        $date_now = Carbon::now();
+
         if ($request->fileName) {
-            $name = $request->fileName . '.mp4';
+            $name = "{$date_now}_{$request->fileName}.mp4'";
         } else {
-            $name = time() . '.mp4';
+            $name = $date_now . '.mp4';
         }
+
         $user_id = Auth::user()->id;
         $staff = ClientStaff::where('user_id', $user_id)->first();
         Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/upload_video/" . $name,  file_get_contents($url->getRealPath()));
