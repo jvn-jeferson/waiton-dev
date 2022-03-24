@@ -885,7 +885,7 @@ class HostController extends Controller
                         'user_id' => Auth::user()->id,
                         'path' => $file_path,
                         'name' => $file_name,
-                        'size' => $file_size,
+                        'size' => $file_size(),
                         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                         'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                     ]);

@@ -37,7 +37,7 @@
                                                             <span class="text-success"><i class="fa fas fa-check"></i>  承認済み  •</span>
                                                             @break
                                                         @case(3)
-                                                            <span class="text-danger"><i class="fa fas fa-ban"></i>  開催  •</span>
+                                                            <span class="text-danger"><i class="fa fas fa-ban"></i>  保留  •</span>
                                                             @break
                                                         @default
                                                         <span class="text-gray"><i class="fa fas fa-circle"></i>承認不要データ •</span>

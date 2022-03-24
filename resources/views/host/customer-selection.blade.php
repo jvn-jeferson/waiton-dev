@@ -241,6 +241,7 @@
                     }
                 })
             }).catch(function(error) {
+                Swal.hideLoading();
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',

@@ -14,6 +14,7 @@
 <br>
 URL:    {{$url}} <br>
 <hr>
+<br>
 ワンタイムパスワード：  {{$password}} <br>
 （有効期限は24時間です）<br>
 <br>
