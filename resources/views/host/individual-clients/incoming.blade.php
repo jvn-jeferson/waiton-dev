@@ -77,7 +77,7 @@
             //     title: 'Success',
             //     text: 'Congrats you Download Files'
             // })
-
+            var files = response.data
             function download_files(files) {
                 function download_next(i) {
                     if (i >= files.length) {
