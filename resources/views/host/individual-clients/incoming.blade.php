@@ -72,7 +72,7 @@
                 var url = "{{ route('mark-as-read') }}"
 
                 axios.post(url, {
-                    record_id: target
+                    record_id: id
                 }).then(function(response) {
                     const link = document.createElement('a')
                     link.href = response.data[0]
