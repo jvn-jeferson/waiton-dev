@@ -28,8 +28,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->job(new DeleteTemporaryFiles())->everyMinute();
         $schedule->job(new DeleteHostFiles())->everyMinute();
-
-        $schedule->command('telescope:prune --hours=48')->daily();
     }
 
     /**
