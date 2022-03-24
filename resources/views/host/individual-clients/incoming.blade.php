@@ -68,6 +68,7 @@
                 return this.value
             }).get()
 
+            var url = "{{ route('download-file') }}"
             axios.post(url, {
                 file_id: file_id
             }).then(function(response) {

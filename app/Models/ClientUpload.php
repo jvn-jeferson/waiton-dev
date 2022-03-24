@@ -29,15 +29,18 @@ class ClientUpload extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function client(): HasOne {
+    public function client(): HasOne
+    {
         return $this->hasOne(Client::class);
     }
 
-    public function user():HasOne {
+    public function user(): HasOne
+    {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function file():HasOne {
+    public function file(): HasOne
+    {
         return $this->hasOne(Files::class, 'id', 'file_id');
     }
 }
