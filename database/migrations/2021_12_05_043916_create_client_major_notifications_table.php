@@ -24,6 +24,7 @@ class CreateClientMajorNotificationsTable extends Migration
             $table->boolean('consumption_tax')->default(false)->nullable();
             $table->boolean('consumption_tax_excemption')->default(false)->nullable();
             $table->boolean('consumption_tax_selection')->default(false)->nullable();
+            $table->boolean('simple_taxation')->default(false)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
