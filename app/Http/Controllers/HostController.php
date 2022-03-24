@@ -931,11 +931,6 @@ class HostController extends Controller
         $validator = Validator::make($request->all(), [
             'settlement_date' => 'required',
             'file' => 'required',
-            'recognition_date' => 'required',
-            'proposal_date' => 'required',
-            'company_representative' => 'required',
-            'accounting_office_staff' => 'required',
-            'video_contributor' => 'required',
             'kinds' => 'required',
         ]);
 
@@ -952,11 +947,6 @@ class HostController extends Controller
 
             $record->update([
                 'settlement_date' => $request->settlement_date,
-                'recognition_date' => $request->recognition_date,
-                'proposal_date' => $request->proposal_date,
-                'company_representative' => $request->company_representative,
-                'accounting_office_staff' => $request->accounting_office_staff,
-                'video_contributor' => $request->video_contributor,
                 'comment' => $request->comment,
                 'kinds' => $request->kinds,
                 'video_url' => $request->video_url
