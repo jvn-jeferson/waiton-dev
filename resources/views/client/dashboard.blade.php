@@ -23,7 +23,7 @@
                             <strong class="@if($message->is_global == 0) text-success @else text-primary @endif">
                               {{date_format($message->created_at, 'F j, Y')}}
                             </strong>
-                            - {{$message->contents}}
+                            - {{$message->contents}} @if($message->file) <a href="{{Storage::disk('gcs')->url($message->file->path)}}" download="{{$message->file->name}}"><i class="fa fas fa-paperclip"></i></a> @endif
                           </li>
                         @empty
                           <li class="text-info list-group-item">

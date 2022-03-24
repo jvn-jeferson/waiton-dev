@@ -870,14 +870,17 @@ class HostController extends Controller
 
             if ($request->hasfile('files')) {
                 foreach ($request->file('files') as $key => $file) {
-                    $path = $file->store('public/files/uploaded/' . Auth::user()->accountingOfficeStaff->accountingOffice->name . '');
-                    $name = $file->getClientOriginalName();
+                    $file_name = $file->getClientOriginalName();
+
+                    $file_path = "accounting-office-message-attachments/".Auth::user()->accountingOfficeStaff->accountingOffice->id.'/'.$request->client_id.$file_name;
+                    Storage::disk('gcs')->put($file_path, file_get_contents($file));
+                    $file_size = $file->getSize();
 
                     $file_id = Files::insertGetId([
                         'user_id' => Auth::user()->id,
-                        'path' => $path,
-                        'name' => $name,
-                        'size' => $file->getSize(),
+                        'path' => $file_path,
+                        'name' => $file_name,
+                        'size' => $file_size,
                         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                         'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                     ]);

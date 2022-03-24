@@ -135,7 +135,7 @@
 
           <li class="nav-header mt-3">資料フォルダ</li>
           <li class="nav-item">
-              <a href="{{route('access-material-storage', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link">
+              <a href="{{route('access-material-storage', ['client_id' => $hashids->encode($client->id)])}}" class="nav-link @if(request()->route()->getName() == 'access-material-storage') active @endif">
                   <i class="nav-icon fas fa-server"></i>
                   <p>確認済の資料</p>
               </a>
