@@ -586,7 +586,7 @@ class HostController extends Controller
             $files = $request->file('file');
             $size = $files->getSize();
             $name = $files->getClientOriginalName();
-            Storage::disk('gcs')->put("host-uploads/".Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . $name, file_get_contents($files));
+            Storage::disk('gcs')->put("host-uploads/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . $name, file_get_contents($files));
 
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
@@ -1024,11 +1024,19 @@ class HostController extends Controller
 
     public function save_url_to_database(Request $request)
     {
+        $date_now = Carbon::now();
+
+        if ($request->name) {
+            $name = "{$date_now}_{$request->name}.mp4'";
+        } else {
+            $name = $date_now . '.mp4';
+        }
+
         CreatedVideoRecord::create([
             'user_id' => Auth::user()->id,
             'client_id' => $request->client,
             'video_url' => $request->video_url,
-            'name' => $request->name
+            'name' => $name
         ]);
         return url(route('video-list', ['client_id' => $this->hashids->encode($request->client)]));
     }
