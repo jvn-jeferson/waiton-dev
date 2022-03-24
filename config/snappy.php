@@ -35,7 +35,7 @@ return [
 
     'pdf' => [
         'enabled' => true,
-        'binary' => 'vendor/barryvdh/laravel-snappy/config/snappy.php',
+        'binary'  => '/usr/local/bin/wkhtmltopdf-amd64',
         'timeout' => false,
         'options' => [],
         'env'     => [],
@@ -43,7 +43,7 @@ return [
 
     'image' => [
         'enabled' => true,
-        'binary' => 'vendor/barryvdh/laravel-snappy/config/snappy.php',
+        'binary'  => '/usr/local/bin/wkhtmltopdf-amd64',
         'timeout' => false,
         'options' => [],
         'env'     => [],
