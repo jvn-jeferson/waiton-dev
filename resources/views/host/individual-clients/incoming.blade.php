@@ -111,12 +111,11 @@
                 download_files(data);
             };
             do_dl();
+            }).then(function() {
+                window.location.reload();
             }).catch(function(error) {
                 console.log(error.response.data);
             })
-            setTimeout(function() {
-                window.location.reload();
-            },500)
         })
 
         function markAsRead(target, button) {
