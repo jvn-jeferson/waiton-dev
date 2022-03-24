@@ -56,6 +56,7 @@ use App\Mail\InquiryMail;
 use App\Mail\NewClientAccessMail;
 use App\Mail\NewHostAccessMail;
 use App\Mail\UpdatedLoginCredentialsEmail;
+use App\Models\PermanentRecord;
 use App\Models\TaxingCredentials;
 
 class HostController extends Controller
@@ -585,7 +586,7 @@ class HostController extends Controller
             $files = $request->file('file');
             $size = $files->getSize();
             $name = $files->getClientOriginalName();
-            Storage::disk('gcs')->put(Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . $name, file_get_contents($files));
+            Storage::disk('gcs')->put("host-uploads/".Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . $name, file_get_contents($files));
 
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
@@ -1427,6 +1428,19 @@ class HostController extends Controller
 
     function access_material_storage(Request $request)
     {
+        $id = $this->hashids->decode($request->client_id)[0];
+        $client = Client::findOrFail($id);
+        $client_user_ids = array();
+        $users = User::where('role_id', 4)->orWhere('role_id', 5)->get();
+        foreach ($users as $user) {
+            if ($user->clientStaff->client->id == $id) {
+                array_push($client_user_ids, $user->id);
+            }
+        }
 
+        $unviewed = ClientUpload::where('is_viewed', 0)->whereIn('user_id', $client_user_ids)->count();
+        $stored_materials = PermanentRecord::where('client_id', $id)->latest()->get();
+
+        return View::make('host.individual-clients.stored-materials', ['hashids' => $this->hashids, 'client' => $client, 'unviewed' => $unviewed, 'materials' => $stored_materials]);
     }
 }

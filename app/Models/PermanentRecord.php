@@ -29,6 +29,12 @@ class PermanentRecord extends Model
         'viewing_date',
     ];
 
+    protected $dates = [
+        'request_sent_at',
+        'response_completed_at',
+        'viewing_date'
+    ];
+
     public function host():HasOne
     {
         return $this->hasOne(AccountingOffice::class);
@@ -37,5 +43,25 @@ class PermanentRecord extends Model
     public function client():HasOne
     {
         return $this->hasOne(Client::class);
+    }
+
+    public function pdf():HasOne
+    {
+        return $this->hasOne(Files::class, 'id', 'pdf_file_id');
+    }
+
+    public function document():HasOne
+    {
+        return $this->hasOne(Files::class, 'id', 'file_id');
+    }
+
+    public function uploader():HasOne
+    {
+        return $this->hasOne(AccountingOfficeStaff::class, 'id', 'request_sent_by_staff_id');
+    }
+
+    public function viewer():HasOne
+    {
+        return $this->hasOne(ClientStaff::class, 'id', 'viewed_by_staff_id');
     }
 }

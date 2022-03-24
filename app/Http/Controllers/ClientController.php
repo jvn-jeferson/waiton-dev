@@ -91,7 +91,7 @@ class ClientController extends Controller
                     //TO FIX upload path:
                     $name = $request->file('file')[$key]->getClientOriginalName();
                     $file = $request->file('file')[$key];
-                    Storage::disk('gcs')->put(Auth::user()->clientStaff->client->id . "/" . $name, file_get_contents($file));
+                    Storage::disk('gcs')->put("client-uploads/".Auth::user()->clientStaff->client->id . "/" . $name, file_get_contents($file));
                     $path = Auth::user()->clientStaff->client->id . "/" . $name;
 
 
@@ -294,7 +294,7 @@ class ClientController extends Controller
                 $video_url = $record->video_url;
                 $with_approval = 0;
                 $comment = $record->details;
-                $title = '永久記録_.pdf';
+                $title = '永久記録_'.date('Y年m月d日H:i:s').'.pdf';
 
                 $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
 
@@ -363,6 +363,46 @@ class ClientController extends Controller
 
             if($status != 1)
             {
+                $today = Carbon::now()->format('Y-m-d H:i:s');
+                $file = Files::find($target->file_id);
+                $upload_date = $target->created_at;
+                $sender = User::find($target->user_id)->accountingOfficeStaff;
+                $video_url = $target->video_url;
+                $with_approval = 1;
+                $comment = $target->details;
+                $title = '永久記録_'.date('Y年m月d日H:i:s').'.pdf';
+
+                $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
+
+                $content = $pdf->download($title)->getOriginalContent();
+                $path = 'permanent_records/'.$title;
+
+                Storage::disk('gcs')->put('permanent_records/'.$title, $content);
+
+                $pdf_file = Files::create(
+                    [
+                        'user_id' => Auth::user()->id,
+                        'path' => $path,
+                        'name' => $title,
+                        'size' => 0
+                    ]
+                );
+
+                PermanentRecord::create([
+                    'client_id' => $company->id,
+                    'accounting_office_id' => $host->id,
+                    'file_id' => $target->file_id,
+                    'pdf_file_id' => $pdf_file->id,
+                    'request_sent_at' => $upload_date,
+                    'request_sent_by_staff_id' => $sender->id,
+                    'has_video' => $video_url,
+                    'with_approval'=> $with_approval,
+                    'comments' => $comment,
+                    'viewed_by_staff_id' => $staff->id,
+                    'response_completed_at' => $today,
+                    'is_approved' => $request->status,
+                    'viewing_date' => $today
+                ]);
 
                 $this->sendDecisionCompleteMail($company->contact_email, $host, $company, $staff);
                 $this->sendDecisionCompleteMail($host->contact_email, $host, $company, $staff);
