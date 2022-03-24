@@ -35,9 +35,7 @@
                                                         href="{{ route('access-data-financial-record', ['record_id' => $hashids->encodeHex($archive->id), 'client_id' => $hashids->encode($client->id)]) }}">アクセス</a>
                                                 </td>
                                                 <td>
-                                                    @if ($archive)
-                                                        {{ $archive->settlement_date->format('Y年m月d日') }}
-                                                    @endif
+
                                                 </td>
                                                 <td class="text-bold">
                                                     @if ($archive)
