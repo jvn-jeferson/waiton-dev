@@ -79,7 +79,6 @@
                     link.setAttribute('download', response.data[1]);
                     link.click();
                     document.removeChild(link);
-                    button.disabled = 'disabled'
                 }).catch(function(error) {
                     console.log(error.response);
                 })
