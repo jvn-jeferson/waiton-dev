@@ -538,18 +538,15 @@ class HostController extends Controller
         return View::make('host.individual-clients.incoming')->with(['hashids' => $this->hashids, 'client' => $client, 'uploads' => $uploads, 'unviewed' => $unviewed]);
     }
 
-
-
     public function download_file(Request $request)
     {
         $data = [];
-
         $file_db = Files::whereIn('id', $request->file_id)->get();
         foreach ($file_db as $file) {
             $file_url = SELF::DOWNLOAD_CLOUD . urlencode($file->path) . '?alt=media';
             $name = $file->name;
             $data[] = array(
-                'file_url' => e($file_url),
+                'file_url' => $file_url,
                 'file_name' => $name
             );
         }
@@ -883,7 +880,7 @@ class HostController extends Controller
                         'user_id' => Auth::user()->id,
                         'path' => $file_path,
                         'name' => $file_name,
-                        'size' => $file_size,
+                        'size' => $file_size(),
                         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                         'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                     ]);
