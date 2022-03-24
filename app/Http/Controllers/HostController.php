@@ -483,7 +483,7 @@ class HostController extends Controller
                 $file = $request->file('attachment');
                 $file_name = $file->getClientOriginalName();
 
-                $file_path = "accounting-office-message-attachments/".Auth::user()->accountingOfficeStaff->accountingOffice->id.'/'.$request->client_id.$file_name;
+                $file_path = "accounting-office-message-attachments/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . $file_name;
                 Storage::disk('gcs')->put($file_path, file_get_contents($file));
                 $file_size = $file->getSize();
 
@@ -541,10 +541,15 @@ class HostController extends Controller
     public function download_file(Request $request)
     {
         $data = [];
-        $file_db = Files::whereIn('id', $request->file_id)->get();
-        foreach ($file_db as $file) {
-            $file_url = SELF::DOWNLOAD_CLOUD . urlencode($file->path) . '?alt=media';
-            $name = $file->name;
+        $client_upload = ClientUpload::whereIn('id', $request->file_id)->get();
+
+        foreach ($client_upload as $file) {
+            $file->update([
+                'is_viewed' => 1
+            ]);
+            $file_db = Files::findOrFail($file->file_id);
+            $file_url = SELF::DOWNLOAD_CLOUD . urlencode($file_db->path) . '?alt=media';
+            $name = $file_db->name;
             $data[] = array(
                 'file_url' => $file_url,
                 'file_name' => $name
@@ -872,7 +877,7 @@ class HostController extends Controller
                 foreach ($request->file('files') as $key => $file) {
                     $file_name = $file->getClientOriginalName();
 
-                    $file_path = "accounting-office-message-attachments/".Auth::user()->accountingOfficeStaff->accountingOffice->id.'/'.$request->client_id.$file_name;
+                    $file_path = "accounting-office-message-attachments/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . $file_name;
                     Storage::disk('gcs')->put($file_path, file_get_contents($file));
                     $file_size = $file->getSize();
 

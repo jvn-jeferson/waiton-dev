@@ -27,8 +27,9 @@
                                         <tbody>
                                             @forelse($uploads as $upload)
                                                 <tr>
-                                                    <td class="text-center"><input type="checkbox" name="select"
-                                                            id="select" value="{{ $upload->file_id }}"
+                                                    <td class="text-center">
+                                                        <input type="checkbox" name="select"
+                                                            id="select" value="{{ $upload->id }}"
                                                             @if ($upload->file_id == null) disabled @endif></td>
                                                     <td>{{ $upload->created_at->format('Y年m月d日 H:i') }}</td>
                                                     <td>{{ $upload->created_at->modify('+1 month')->format('Y年m月d日 H:i') }}
@@ -113,6 +114,9 @@
             }).catch(function(error) {
                 console.log(error.response.data);
             })
+            setTimeout(function() {
+                window.location.reload();
+            },500)
         })
 
         function markAsRead(target, button) {
