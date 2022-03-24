@@ -547,7 +547,7 @@ class HostController extends Controller
         $file_db = Files::whereIn('id', $request->file_id)->get();
         foreach ($file_db as $file) {
             $file_url = SELF::DOWNLOAD_CLOUD . urlencode($file->path) . '?alt=media';
-            $record = ClientUpload::where('file_id', $file)->first();
+            $record = ClientUpload::where('file_id', $file->id)->first();
             $record->update([
                 'is_viewed' => 1
             ]);
