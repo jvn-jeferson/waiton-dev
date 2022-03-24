@@ -947,6 +947,11 @@ class HostController extends Controller
 
             $record->update([
                 'settlement_date' => $request->settlement_date,
+                'recognition_date' => $request->recognition_date,
+                'proposal_date' => $request->proposal_date,
+                'company_representative' => $request->company_representative,
+                'accounting_office_staff' => $request->accounting_office_staff,
+                'video_contributor' => $request->video_contributor,
                 'comment' => $request->comment,
                 'kinds' => $request->kinds,
                 'video_url' => $request->video_url
@@ -973,11 +978,6 @@ class HostController extends Controller
                         'client_id' => $client_id,
                         'settlement_date' => $request->settlement_date,
                         'file_id' => $file_id,
-                        'recognition_date' => $request->recognition_date,
-                        'proposal_date' => $request->proposal_date,
-                        'company_representative' => $request->company_representative,
-                        'accounting_office_staff' => $request->accounting_office_staff,
-                        'video_contributor' => $request->video_contributor,
                         'comment' => $request->comment,
                         'kinds' => $request->kinds,
                         'video_url' => $request->video_url
