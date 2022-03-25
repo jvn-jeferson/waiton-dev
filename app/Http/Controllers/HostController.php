@@ -597,7 +597,7 @@ class HostController extends Controller
 
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
-                'path' => Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . $name,
+                'path' => "host-uploads/".Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . $name,
                 'name' => $name,
                 'size' => $size,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
