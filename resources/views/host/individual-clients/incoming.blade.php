@@ -84,7 +84,7 @@
                         return;
                     }
                     var a = document.createElement('a');
-                    a.href = files[i].file_url;
+                    a.href = "https://storage.googleapis.com/upfiling_bukcet/"+files[i].file_url;
                     a.target = '_blank';
 
                     if ('download' in a) {
