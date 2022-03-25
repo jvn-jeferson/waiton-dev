@@ -91,7 +91,7 @@ class ClientController extends Controller
                     //TO FIX upload path:
                     $name = $request->file('file')[$key]->getClientOriginalName();
                     $file = $request->file('file')[$key];
-                    $path = "client-uploads/" . Auth::user()->clientStaff->client->id . "/" . $name.Str::random(8).date('Y年m月d日H:i:s');
+                    $path = "client-uploads/" . Auth::user()->clientStaff->client->id . "/" . str_replace(' ', '%20', $name).Str::random(8).date('Y年m月d日H:i:s');
                     Storage::disk('gcs')->put($path, file_get_contents($file));
 
 
@@ -296,7 +296,7 @@ class ClientController extends Controller
                 $content = $pdf->download($title)->getOriginalContent();
                 $path = 'permanent_records/' . $title.Str::random(8).date('Y年m月d日H:i:s');
 
-                Storage::disk('gcs')->put('permanent_records/' . $title, $content);
+                Storage::disk('gcs')->put('permanent_records/' . str_replace(' ', '%20', $title), $content);
 
                 $pdf_file = Files::create(
                     [
@@ -370,7 +370,7 @@ class ClientController extends Controller
                 $content = $pdf->download($title)->getOriginalContent();
                 $path = 'permanent_records/' . $title;
 
-                Storage::disk('gcs')->put('permanent_records/' . $title, $content);
+                Storage::disk('gcs')->put('permanent_records/' . str_replace(' ', '%20', $title), $content);
 
                 $pdf_file = Files::create(
                     [

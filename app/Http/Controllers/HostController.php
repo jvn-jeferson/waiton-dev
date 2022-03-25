@@ -483,7 +483,7 @@ class HostController extends Controller
                 $file = $request->file('attachment');
                 $file_name = $file->getClientOriginalName();
 
-                $file_path = "accounting-office-message-attachments/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . $file_name;
+                $file_path = "accounting-office-message-attachments/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $file_name);
                 Storage::disk('gcs')->put($file_path, file_get_contents($file));
                 $file_size = $file->getSize();
 
@@ -548,7 +548,7 @@ class HostController extends Controller
                 'is_viewed' => 1
             ]);
             $file_db = Files::findOrFail($file->file_id);
-            $file_url = str_replace(' ', '%20', $file_db->path);
+            $file_url = $file_db->path;
             $name = $file_db->name;
             $data[] = array(
                 'file_url' => $file_url,
@@ -593,7 +593,7 @@ class HostController extends Controller
             $files = $request->file('file');
             $size = $files->getSize();
             $name = $files->getClientOriginalName();
-            Storage::disk('gcs')->put("host-uploads/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . $name, file_get_contents($files));
+            Storage::disk('gcs')->put("host-uploads/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . str_replace(' ', '%20', $name), file_get_contents($files));
 
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
@@ -713,7 +713,7 @@ class HostController extends Controller
 
         $user_id = Auth::user()->id;
         $staff = ClientStaff::where('user_id', $user_id)->first();
-        Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/upload_video/" . $name,  file_get_contents($url->getRealPath()));
+        Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/upload_video/" . str_replace(' ', '%20', $name),  file_get_contents($url->getRealPath()));
 
         $url = Storage::disk('gcs')->url(Auth::user()->accountingOffice->id . "/upload_video/" . $name);
 
@@ -838,7 +838,7 @@ class HostController extends Controller
             $file = $request->file('file');
 
             $name = $file->getClientOriginalName();
-            $path = Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/notification-archive/" . $request->client_id . $name, file_get_contents($file));
+            $path = Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/notification-archive/" . $request->client_id . str_replace(' ', '%20', $name), file_get_contents($file));
 
 
             $file_id = Files::insertGetId([
@@ -877,7 +877,7 @@ class HostController extends Controller
                 foreach ($request->file('files') as $key => $file) {
                     $file_name = $file->getClientOriginalName();
 
-                    $file_path = "accounting-office-message-attachments/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . $file_name;
+                    $file_path = "accounting-office-message-attachments/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $file_name);
                     Storage::disk('gcs')->put($file_path, file_get_contents($file));
                     $file_size = $file->getSize();
 
