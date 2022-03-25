@@ -548,11 +548,11 @@ class HostController extends Controller
                 'is_viewed' => 1
             ]);
             $file_db = Files::findOrFail($file->file_id);
-            $file_url = $file_db->path;
+            $file_url = urlencode($file_db->path);
             $name = $file_db->name;
             $data[] = array(
                 'file_url' => $file_url,
-                'file_name' => e($name)
+                'file_name' => $name
             );
         }
         return response()->json($data);
