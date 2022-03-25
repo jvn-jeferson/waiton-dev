@@ -548,11 +548,11 @@ class HostController extends Controller
                 'is_viewed' => 1
             ]);
             $file_db = Files::findOrFail($file->file_id);
-            $file_url = SELF::DOWNLOAD_CLOUD . urlencode(str_replace(' ', '%20', $file_db->path)) . '?alt=media';
+            $file_url = SELF::DOWNLOAD_CLOUD . urlencode(e(' ', '%20', $file_db->path)) . '?alt=media';
             $name = $file_db->name;
             $data[] = array(
                 'file_url' => $file_url,
-                'file_name' => $name
+                'file_name' => e($name)
             );
         }
         return response()->json($data);
