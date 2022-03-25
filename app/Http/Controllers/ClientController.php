@@ -91,7 +91,7 @@ class ClientController extends Controller
                     //TO FIX upload path:
                     $name = $request->file('file')[$key]->getClientOriginalName();
                     $file = $request->file('file')[$key];
-                    $path = "client-uploads/" . Auth::user()->clientStaff->client->id . "/" . $name;
+                    $path = "client-uploads/" . Auth::user()->clientStaff->client->id . "/" . $name.Str::random(8).date('Y年m月d日H:i:s');
                     Storage::disk('gcs')->put($path, file_get_contents($file));
 
 
@@ -294,7 +294,7 @@ class ClientController extends Controller
                 $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
 
                 $content = $pdf->download($title)->getOriginalContent();
-                $path = 'permanent_records/' . $title;
+                $path = 'permanent_records/' . $title.Str::random(8).date('Y年m月d日H:i:s');
 
                 Storage::disk('gcs')->put('permanent_records/' . $title, $content);
 
