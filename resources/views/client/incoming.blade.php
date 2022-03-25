@@ -223,7 +223,7 @@
                     Swal.hideLoading()
                 }
                 const link = document.createElement('a')
-                link.href = response.data[0]
+                link.href = "https://storage.googleapis.com/upfiling_bukcet/"+response.data[0]
                 link.setAttribute('download', response.data[1]);
                 link.click();
                 document.removeChild(link);
