@@ -88,7 +88,7 @@
                     a.target = '_blank';
 
                     if ('download' in a) {
-                        a.download = files[i].file_name;
+                        a.download = files[i].name;
                     }
 
                     (document.body || document.documentElement).appendChild(a);
