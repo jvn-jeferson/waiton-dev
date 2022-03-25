@@ -36,9 +36,6 @@
                                         {{$archive->file->name}}
                                     </td>
                                     <td>
-                                        {{$archive->proposal_date->format('Y年m月d日')}} • {{$archive->recognition_date->format('Y年m月d日')}}
-                                    </td>
-                                    <td>
                                         {{$archive->video_url}}
                                     </td>
                                 </tr>
