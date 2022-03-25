@@ -22,6 +22,7 @@ class CreateSubscriptionPlansTable extends Migration
             $table->integer('max_clients');
             $table->integer('max_storage');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

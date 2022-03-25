@@ -63,24 +63,25 @@
                 showCancelButton: !0,
                 confirmButtonText: "了解した",
                 cancelButtonText: "キャンセル",
-                reverseButtons: false
-            }).then((result)=>{
-                if(result.isConfirmed)
-                {
+                showLoaderOnConfirm :true,
+                preConfirm: function () {
                     var url = "{{route('send-otp')}}";
                     axios.post(url, {
                         record_id: id,
                         table: 'taxation_histories'
                     }).then(function(response){
-                        Swal.fire({
-                            icon: 'success',
-                            title: '成功',
-                            text: '登録したメールアドレスにワンタイムパスワードが送信されました。 メールを確認し、手順に従ってアクセスしてください。'
-                        })
+
                     }).catch(function(error){
-                        console.log(error.response.data)
+
                     });
-                }
+                },
+                allowOutsideClick : () => !Swal.isLoading()
+            }).then((result)=>{
+                Swal.fire({
+                    icon: 'success',
+                    title: '成功',
+                    text: '登録したメールアドレスにワンタイムパスワードが送信されました。 メールを確認し、手順に従ってアクセスしてください。'
+                })
             })
         }
     </script>
