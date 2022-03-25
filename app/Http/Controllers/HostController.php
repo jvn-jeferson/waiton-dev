@@ -706,16 +706,16 @@ class HostController extends Controller
         $date_now = Carbon::now();
 
         if ($request->fileName) {
-            $name = "{$date_now}_{$request->fileName}.mp4'";
+            $name = "{$date_now}_{$request->fileName}.mp4";
         } else {
             $name = $date_now . '.mp4';
         }
 
         $user_id = Auth::user()->id;
         $staff = ClientStaff::where('user_id', $user_id)->first();
-        Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/upload_video/" . str_replace(' ', '%20', $name),  file_get_contents($url->getRealPath()));
+        Storage::disk('gcs')->put("upload_video/" .Auth::user()->accountingOffice->id . "/ ". str_replace(' ', '%20', $name),  file_get_contents($url->getRealPath()));
 
-        $url = Storage::disk('gcs')->url(Auth::user()->accountingOffice->id . "/upload_video/" . $name);
+        $url = Storage::disk('gcs')->url("upload_video/" .Auth::user()->accountingOffice->id . "/ ". str_replace(' ', '%20', $name));
 
         return response()->json($url);
     }

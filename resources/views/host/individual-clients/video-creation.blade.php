@@ -199,37 +199,12 @@
                                                                 <td>{{ $record->kind ?? '' }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <th>決算日</th>
-                                                                <td>
-                                                                    @if ($record)
-                                                                        {{ $record->settlement_date->format('Y-m-d') }}
-                                                                    @endif
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
                                                                 <th>提出済み申告書一式</th>
                                                                 <td>
                                                                     @if ($record)
                                                                         {{ $record->file->name }}
                                                                     @endif
                                                                 </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>承認日 | 提出日</th>
-                                                                <td>
-                                                                    @if ($record)
-                                                                        {{ $record->proposal_date->format('Y-m-d') }} |
-                                                                        {{ $record->recognition_date->format('Y-m-d') }}
-                                                                    @endif
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>会社担当者</th>
-                                                                <td>{{ $record->company_representative ?? '' }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>会計事務所担当者</th>
-                                                                <td>{{ $record->accounting_office_staff ?? '' }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>動画投稿者</th>
