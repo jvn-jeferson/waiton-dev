@@ -15,7 +15,7 @@
 URL:    {{$url}} <br>
 <hr>
 <br>
-ワンタイムパスワード: &nbsp &nbsp &nbsp &nbsp &nbsp{{$password}} <br>
+ワンタイムパスワード: {{'/t/t'.$password}} <br>
 （有効期限は24時間です）<br>
 <br>
 アップファイリング　サポート
