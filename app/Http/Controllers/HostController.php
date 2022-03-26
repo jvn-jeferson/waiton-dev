@@ -163,17 +163,6 @@ class HostController extends Controller
         } else {
             $messages = Message::where('user_id', $this->user->id)->latest()->get();
         }
-        foreach ($messages as $message) {
-            $file_names = '';
-            if ($message->file_id) {
-                $files = explode(',', $message->file_id);
-                foreach ($files as $file) {
-                    $file_names .= Files::find($file)->name . " • ";
-                }
-            }
-
-            $message->file_id = $file_names;
-        }
         return View::make('host.message-clients')->with(['page_title' => '全顧客への連絡', 'messages' => $messages]);
     }
 
@@ -874,24 +863,21 @@ class HostController extends Controller
             $file_ids = array();
 
             if ($request->hasfile('files')) {
-                foreach ($request->file('files') as $key => $file) {
-                    $file_name = $file->getClientOriginalName();
+                $file = $request->file('files');
+                $file_name = $file->getClientOriginalName();
 
-                    $file_path = "accounting-office-message-attachments/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $file_name);
-                    Storage::disk('gcs')->put($file_path, file_get_contents($file));
-                    $file_size = $file->getSize();
+                $file_path = "accounting-office-message-attachments/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $file_name);
+                Storage::disk('gcs')->put($file_path, file_get_contents($file));
+                $file_size = $file->getSize();
 
-                    $file_id = Files::insertGetId([
-                        'user_id' => Auth::user()->id,
-                        'path' => $file_path,
-                        'name' => $file_name,
-                        'size' => $file_size,
-                        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                        'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-                    ]);
-
-                    array_push($file_ids, $file_id);
-                }
+                $file_id = Files::insertGetId([
+                    'user_id' => Auth::user()->id,
+                    'path' => $file_path,
+                    'name' => $file_name,
+                    'size' => $file_size,
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ]);
 
                 Message::create([
                     'user_id' => Auth::user()->id,

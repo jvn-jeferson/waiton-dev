@@ -96,7 +96,7 @@
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-auto">
-                                                    <input type="file" name="files[]" id="files[]" multiple>
+                                                    <input type="file" name="files" id="files">
                                                 </div>
                                             </div>
                                         </div>
