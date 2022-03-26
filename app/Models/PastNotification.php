@@ -15,8 +15,6 @@ class PastNotification extends Model
     protected $fillable = [
         'user_id',
         'client_id',
-        'proposal_date',
-        'recognition_date',
         'notification_type',
         'file_id'
     ];

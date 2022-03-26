@@ -856,8 +856,6 @@ class HostController extends Controller
                 PastNotification::create([
                     'user_id' => Auth::user()->id,
                     'client_id' => $request->client_id,
-                    'proposal_date' => $request->proposal_date,
-                    'recognition_date' => $request->recognition_date,
                     'notification_type' => $request->notification_type,
                     'file_id' => $file_id
                 ]);
