@@ -200,7 +200,7 @@ class HostController extends Controller
 
                 $data[] = array(
                     'file_url' => $file_url,
-                    'file_name' => $fileName
+                    'file_name' => e($fileName)
                 );
             }
         }
@@ -552,7 +552,7 @@ class HostController extends Controller
             $name = $file_db->name;
             $data[] = array(
                 'file_url' => $file_url,
-                'file_name' => $name
+                'file_name' => e($name)
             );
         }
         return response()->json($data);

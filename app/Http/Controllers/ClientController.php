@@ -91,7 +91,7 @@ class ClientController extends Controller
                     //TO FIX upload path:
                     $name = $request->file('file')[$key]->getClientOriginalName();
                     $file = $request->file('file')[$key];
-                    $path = "client-uploads/" . Auth::user()->clientStaff->client->id . "/" . str_replace(' ', '%20', $name).Str::random(8).date('Y年m月d日H:i:s');
+                    $path = "client-uploads/" . Auth::user()->clientStaff->client->id . "/" . str_replace(' ', '%20', $name);
                     Storage::disk('gcs')->put($path, file_get_contents($file));
 
 
