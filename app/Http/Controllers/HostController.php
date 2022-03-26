@@ -1285,7 +1285,7 @@ class HostController extends Controller
         ]);
         $record->save();
 
-        $name = $record->file->name;
+        $name = e($record->file->name);
 
         return array(url($file), $name);
     }
