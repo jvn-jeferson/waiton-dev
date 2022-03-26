@@ -58,7 +58,7 @@
 
                                             <div class="form-row p-auto">
                                                 <div class="ml-3 col-2">
-                                                    <input type="checkbox" id="data2" name="data2" value="原則" disabled>
+                                                    <input type="checkbox" id="data2" name="data2" value="原則" disabled @if($client->obligation && $client->obligation->calculation_method == 1) checked @endif>
                                                     <label for="data2">原則</label>
                                                 </div>
                                                 <div class="col-2">
@@ -77,7 +77,7 @@
                                             </div>
                                             <div class="form-row p-auto">
                                                 <div class="ml-3 col-auto">
-                                                    <input type="checkbox" class="checkbox" id="data5" value="簡易課税" disabled>
+                                                    <input type="checkbox" class="checkbox" id="data5" value="簡易課税" disabled @if($client->obligation && $client->obligation->calculation_method == 0) checked @endif>
                                                     <label for="data5">簡易課税</label>
                                                 </div>
                                             </div>
