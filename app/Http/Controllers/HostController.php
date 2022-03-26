@@ -593,11 +593,12 @@ class HostController extends Controller
             $files = $request->file('file');
             $size = $files->getSize();
             $name = $files->getClientOriginalName();
-            Storage::disk('gcs')->put("host-uploads/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . str_replace(' ', '%20', $name), file_get_contents($files));
+            $path = "host-uploads/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . str_replace(' ', '%20', $name);
+            Storage::disk('gcs')->put($path, file_get_contents($files));
 
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
-                'path' => "host-uploads/".Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . $name,
+                'path' => $path,
                 'name' => $name,
                 'size' => $size,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -713,9 +714,10 @@ class HostController extends Controller
 
         $user_id = Auth::user()->id;
         $staff = ClientStaff::where('user_id', $user_id)->first();
-        Storage::disk('gcs')->put("upload_video/" .Auth::user()->accountingOffice->id . "/ ". str_replace(' ', '%20', $name),  file_get_contents($url->getRealPath()));
+        $path = "host-uploads/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . str_replace(' ', '%20', $name);
+        Storage::disk('gcs')->put($path,  file_get_contents($url->getRealPath()));
 
-        $url = Storage::disk('gcs')->url("upload_video/" .Auth::user()->accountingOffice->id . "/ ". str_replace(' ', '%20', $name));
+        $url = Storage::disk('gcs')->url($path);
 
         return response()->json($url);
     }
@@ -838,12 +840,12 @@ class HostController extends Controller
             $file = $request->file('file');
 
             $name = $file->getClientOriginalName();
-            $path = Storage::disk('gcs')->put(Auth::user()->accountingOffice->id . "/notification-archive/" . $request->client_id . str_replace(' ', '%20', $name), file_get_contents($file));
-
+            $path = '/notification-archive/'.Auth::user()->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $name);
+            Storage::disk('gcs')->put($path, file_get_contents($file));
 
             $file_id = Files::insertGetId([
                 'user_id' => Auth::user()->id,
-                'path' => Auth::user()->accountingOffice->id . "/notification-archive/" . $request->client_id . $name,
+                'path' => $path,
                 'name' => $name,
                 'size' => $request->file('file')->getSize(),
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),

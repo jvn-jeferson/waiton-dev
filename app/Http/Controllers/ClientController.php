@@ -294,9 +294,9 @@ class ClientController extends Controller
                 $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
 
                 $content = $pdf->download($title)->getOriginalContent();
-                $path = 'permanent_records/' . $title.Str::random(8).date('Y年m月d日H:i:s');
+                $path = 'permanent_records/'.$sender->accountingOffice->id.'/'.$title;
 
-                Storage::disk('gcs')->put('permanent_records/' . str_replace(' ', '%20', $title), $content);
+                Storage::disk('gcs')->put($path, $content);
 
                 $pdf_file = Files::create(
                     [
@@ -367,9 +367,9 @@ class ClientController extends Controller
                 $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
 
                 $content = $pdf->download($title)->getOriginalContent();
-                $path = 'permanent_records/' . $title;
+                $path = 'permanent-records/' .$sender->accountingOffice->id.'/'.str_replace(' ', '%20', $title);
 
-                Storage::disk('gcs')->put('permanent_records/' . str_replace(' ', '%20', $title), $content);
+                Storage::disk('gcs')->put($path, $content);
 
                 $pdf_file = Files::create(
                     [
