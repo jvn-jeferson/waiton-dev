@@ -82,7 +82,7 @@
                                                     <tr>
                                                         <th>コメント</th>
                                                         <td class="bg-light">
-                                                            <textarea rows="5" type="text" name="comment" id="comment" class="form-control" value="{{$record->comment ?? ''}}">
+                                                            <textarea rows="5" type="text" name="comment" id="comment" class="form-control" value="{{$record->comment ?? ''}}"></textarea>
                                                         </td>
                                                     </tr>
                                                 </tbody>
