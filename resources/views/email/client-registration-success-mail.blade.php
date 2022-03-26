@@ -10,10 +10,10 @@
     <br>
     <br>
     <h4>
-    管理者ログインID: &nbsp &nbsp &nbsp &nbsp &nbsp{{$user->login_id}}
+    管理者ログインID: {{'/t/t'.$user->login_id}}
     </h4>
     <h4>
-    初期パスワード: &nbsp &nbsp &nbsp &nbsp &nbsp{{$password}}
+    初期パスワード: {{'/t/t'.$password}}
     </h4>
     （ログイン時にパスワードの設定をお願いしております）
     <br>
