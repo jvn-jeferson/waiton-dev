@@ -117,7 +117,7 @@
                                                                     download>{{ $upload->file->name ?? ''}}
                                                                 </a>
                                                             </td>
-                                                            <td><button class="btn-light btn-block" onclick="displayfulltext('{{e($upload->details)}}')">{{ substr($upload->details,0, 10) }}</button></td>
+                                                            <td><button class="btn-light btn-block" onclick="displayfulltext({{e($upload->details)}})">{{ substr($upload->details,0, 10) }}</button></td>
                                                         </tr>
                                                     @empty
                                                     @endforelse
