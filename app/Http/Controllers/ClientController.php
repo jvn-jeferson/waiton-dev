@@ -523,6 +523,7 @@ class ClientController extends Controller
     public function material_storage()
     {
         $materials = PermanentRecord::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
+        dd($materials);
         return View::make('client.material-storage')->with(['for_approval' => $this->get_approval_count(),'page_title' => '確認済の資料', 'materials'=> $materials]);
     }
 }
