@@ -95,10 +95,10 @@
                                     <td class="bg-light">
                                         コメント
                                     </td>
-                                    <td colspan="2">
+                                    <td colspan="2" class="w-50">
                                         {{ $host_upload->details }}
                                     </td>
-                                    <td rowspan="2">
+                                    <td rowspan="2" class="w-50">
                                         @if($host_upload->priority == 0)
                                         <button class="btn btn-flat btn-block btn-primary" role="button"
                                             onclick="admitFile({{ $host_upload->id }})">
