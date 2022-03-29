@@ -23,17 +23,17 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="w-25">
+                                    <td class="w-25" rowspan="2">
                                         <p class="text-dark">
                                             {{ $host_upload->created_at->format('Y年m月d日 H:i') }}
                                         </p>
                                     </td>
-                                    <td class="w-25">
+                                    <td class="w-25" rowspan="2">
                                         <p class="text-dark">
                                             {{ $host_upload->created_at->modify('+1 month')->format('Y年m月d日 H:i') }}
                                         </p>
                                     </td>
-                                    <td class="text-info w-25">
+                                    <td class="text-info w-25" rowspan="2">
                                         @if ($host_upload->file)
                                             <a href="#" onclick="updateStatus({{$host_upload->id}}, this)" role="button">{{ $host_upload->file->name }}</a>
                                         @endif
