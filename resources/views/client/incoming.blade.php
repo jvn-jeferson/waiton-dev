@@ -23,23 +23,23 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td rowspan="2">
+                                    <td class="w-25">
                                         <p class="text-dark">
                                             {{ $host_upload->created_at->format('Y年m月d日 H:i') }}
                                         </p>
                                     </td>
-                                    <td rowspan="2">
+                                    <td class="w-25">
                                         <p class="text-dark">
                                             {{ $host_upload->created_at->modify('+1 month')->format('Y年m月d日 H:i') }}
                                         </p>
                                     </td>
-                                    <td rowspan="2" class="text-info">
+                                    <td class="text-info w-25">
                                         @if ($host_upload->file)
                                             <a href="#" onclick="updateStatus({{$host_upload->id}}, this)" role="button">{{ $host_upload->file->name }}</a>
                                         @endif
                                     </td>
                                     <td
-                                        class="text-center
+                                        class="text-center w-25
                                     @switch($host_upload->status)
                                         @case(1)
                                             bg-light
@@ -92,13 +92,13 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light">
+                                    <td class="bg-light w-25">
                                         コメント
                                     </td>
                                     <td colspan="2" class="w-50">
                                         {{ $host_upload->details }}
                                     </td>
-                                    <td rowspan="2">
+                                    <td class="w-25">
                                         @if($host_upload->priority == 0)
                                         <button class="btn btn-flat btn-block btn-primary" role="button"
                                             onclick="admitFile({{ $host_upload->id }})">
@@ -108,7 +108,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light">
+                                    <td class="bg-light w-25">
                                         URL
                                     </td>
                                     <td colspan="2" class="w-50">
