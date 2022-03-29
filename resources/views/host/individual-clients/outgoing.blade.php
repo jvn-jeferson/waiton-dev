@@ -87,7 +87,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @forelse($uploads as $upload)
-                                                        <tr @if ($upload->priority <= 0) class="bg-light" @else class="bg-warning" @endif>
+                                                        <tr @if ($upload->priority == 1) class="bg-light" @else class="bg-warning" @endif>
                                                             <td><input type="checkbox" name="select" id="select"
                                                                     value="{{ $upload->id ?? '' }}"></td>
                                                             <td>{{ $upload->created_at->format('Y年m月d日') }} •
@@ -95,7 +95,7 @@
                                                             <td>{{ $upload->created_at->modify('+1 month')->format('Y年m月d日') }}
                                                             </td>
                                                             <td>
-                                                                @if ($upload->priority == 0)
+                                                                @if ($upload->priority == 1)
                                                                     確認不要
                                                                 @else
                                                                     @if ($upload->status == 0)
