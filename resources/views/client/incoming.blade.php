@@ -98,7 +98,7 @@
                                     <td colspan="2" class="w-50">
                                         {{ $host_upload->details }}
                                     </td>
-                                    <td rowspan="2" class="w-50">
+                                    <td rowspan="2">
                                         @if($host_upload->priority == 0)
                                         <button class="btn btn-flat btn-block btn-primary" role="button"
                                             onclick="admitFile({{ $host_upload->id }})">
@@ -111,7 +111,7 @@
                                     <td class="bg-light">
                                         URL
                                     </td>
-                                    <td colspan="2">
+                                    <td colspan="2" class="w-50">
                                         <a href="#"
                                             onclick="decrypt_video('{{ $host_upload->video_url }}')">{{ $host_upload->video_url }}</a>
                                     </td>
