@@ -87,7 +87,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @forelse($uploads as $upload)
-                                                        <tr @if ($upload->priority == 1) class="bg-light" @else class="bg-warning" @endif>
+                                                        <tr @if ($upload->priority == 1 && $upload->status == 0) class="bg-light" @else class="bg-warning" @endif>
                                                             <td><input type="checkbox" name="select" id="select"
                                                                     value="{{ $upload->id ?? '' }}"></td>
                                                             <td>{{ $upload->created_at->format('Y年m月d日') }} •
@@ -117,7 +117,7 @@
                                                                     download>{{ $upload->file->name ?? ''}}
                                                                 </a>
                                                             </td>
-                                                            <td>{{ $upload->details }}</td>
+                                                            <td><button class="btn-light btn-block" onclick="displayfulltext({{nl2br($message->details)}})">{{ substr(nl2br($message->details, 10)) }}</button></td>
                                                         </tr>
                                                     @empty
                                                     @endforelse
@@ -175,5 +175,15 @@
                 Swal.showLoading()
             })
         })
+
+        function displayfulltext(comment){
+            Swal.fire({
+                title: 'コメント',
+                text: comment,
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: true
+            })
+        }
     </script>
 @endsection
