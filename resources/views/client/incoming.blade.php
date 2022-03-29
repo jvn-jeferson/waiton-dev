@@ -65,7 +65,6 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3"></td>
                                     <td
                                         class="text-center
                                     @switch($host_upload->status)
