@@ -519,4 +519,9 @@ class ClientController extends Controller
         });
         return redirect()->route('various-settings');
     }
+
+    public function material_storage()
+    {
+        return View::make('client.material-storage');
+    }
 }

@@ -19,7 +19,6 @@
                             <th>タイプ</th>
                             <th>決済日</th>
                             <th>確定申告</th>
-                            <th>出願日 • 承認日</th>
                             <th>説明ビデオ</th>
                         </thead>
                         <tbody>
