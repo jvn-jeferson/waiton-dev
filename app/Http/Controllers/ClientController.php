@@ -62,9 +62,9 @@ class ClientController extends Controller
         $date = date('Y-m-d');
 
         $messages = Message::where('created_at', 'like', '' . $date . '%')->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5)->get();
-        $uploads = ClientUpload::where('user_id', Auth::user()->id)->get();
-        $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
-        $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->get();
+        $uploads = ClientUpload::where('user_id', Auth::user()->id)->latest()->get();
+        $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
+        $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->latest()->get();
         $page_title = 'ホーム';
         return View::make('client.dashboard')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads, 'files' => $files]);
     }

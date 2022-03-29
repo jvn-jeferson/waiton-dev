@@ -14,8 +14,6 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead class="bg-info text-bold text-center">
                                     <th>種類</th>
-                                    <th>提出日</th>
-                                    <th>承認日</th>
                                     <th>資料</th>
                                     <th>アップローダー</th>
                                 </thead>
