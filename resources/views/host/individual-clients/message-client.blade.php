@@ -20,11 +20,11 @@
                                             <input type="hidden" name="client_id" id="client_id" value="{{$client->id}}">
                                             <div class="form-group">
                                                 <label for="scheduled_at">指定日（設定しない場合は、投稿日で連絡されます）</label>
-                                                <input type="date" name="scheduled_at" id="scheduled_at" class="form-control">
+                                                <input type="date" name="scheduled_at" id="scheduled_at" class="form-control" min="{{date()}}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="content">コメント欄</label>
-                                                <input type="text" name="content" id="content" class="form-control" required/>
+                                                <textarea name="content" id="content" rows="5"  class="form-control" placeholder="コメントを投稿 "></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label for="attachment">ファイルを添付</label>
