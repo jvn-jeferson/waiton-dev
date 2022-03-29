@@ -127,9 +127,33 @@
             </a>
           </li>
 
+          <li class="nav-header mt-3">資料フォルダ</li>
+          <li class="nav-item">
+
+            <a href="settlement-history" class="nav-link @if(request()->route()->getName() == 'settlement-history') active  @endif">
+                  <i class="nav-icon fas fa-server"></i>
+                  <p>確認済の資料</p>
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="notification-history" class="nav-link @if(request()->route()->getName() == 'notification-history') active  @endif">
+            <i class="nav-icon fas fa-file-video"></i>
+                <p>
+                    保管資料（動画あり）
+                </p>
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="notification-history" class="nav-link @if(request()->route()->getName() == 'notification-history') active  @endif">
+                <i class="nav-icon fas fa-file"></i>
+                <p>
+                    保管資料（その他）
+                </p>
+            </a>
+          </li>
+
           <li class="nav-header mt-3">記録</li>
           <li class="nav-item">
-            <a href="settlement-history" class="nav-link @if(request()->route()->getName() == 'settlement-history') active  @endif">
                 <i class="nav-icon fas fa-calendar"></i>
                 <p>
                 過去の決算
@@ -137,7 +161,6 @@
               </a>
           </li>
           <li class="nav-item">
-            <a href="notification-history" class="nav-link @if(request()->route()->getName() == 'notification-history') active  @endif">
                 <i class="nav-icon fas fa-bell"></i>
                 <p>
                 届出
