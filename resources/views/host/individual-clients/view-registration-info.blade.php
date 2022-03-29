@@ -320,18 +320,18 @@
                                                 <th class="bg-gray w-25">決算月</th>
                                                 <td colspan="2">
                                                     <select name="tax_filing_month" id="tax_filing_month" class="form-control">
-                                                        <option value="1">1月</option>
-                                                        <option value="2">2月</option>
-                                                        <option value="3">3月</option>
-                                                        <option value="4">4月</option>
-                                                        <option value="5">5月</option>
-                                                        <option value="6">6月</option>
-                                                        <option value="7">7月</option>
-                                                        <option value="8">8月</option>
-                                                        <option value="9">9月</option>
-                                                        <option value="10">10月</option>
-                                                        <option value="11">11月</option>
-                                                        <option value="12">12月</option>
+                                                        <option value="1" @if($client->tax_filing_month == 1) selected @endif>1月</option>
+                                                        <option value="2" @if($client->tax_filing_month == 2) selected @endif>2月</option>
+                                                        <option value="3" @if($client->tax_filing_month == 3) selected @endif>3月</option>
+                                                        <option value="4" @if($client->tax_filing_month == 4) selected @endif>4月</option>
+                                                        <option value="5" @if($client->tax_filing_month == 5) selected @endif>5月</option>
+                                                        <option value="6" @if($client->tax_filing_month == 6) selected @endif>6月</option>
+                                                        <option value="7" @if($client->tax_filing_month == 7) selected @endif>7月</option>
+                                                        <option value="8" @if($client->tax_filing_month == 8) selected @endif>8月</option>
+                                                        <option value="9" @if($client->tax_filing_month == 9) selected @endif>9月</option>
+                                                        <option value="10" @if($client->tax_filing_month == 10) selected @endif>10月</option>
+                                                        <option value="11" @if($client->tax_filing_month == 11) selected @endif>11月</option>
+                                                        <option value="12" @if($client->tax_filing_month == 12) selected @endif>12月</option>
                                                     </select>
                                                 </td>
                                             </tr>
