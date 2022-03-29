@@ -87,7 +87,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @forelse($uploads as $upload)
-                                                        <tr @if ($upload->priority == 1 && $upload->status == 0) class="bg-light" @else class="bg-warning" @endif>
+                                                        <tr @if ($upload->priority == 1 && $upload->status != 0) class="bg-light" @else class="bg-warning" @endif>
                                                             <td><input type="checkbox" name="select" id="select"
                                                                     value="{{ $upload->id ?? '' }}"></td>
                                                             <td>{{ $upload->created_at->format('Y年m月d日') }} •
@@ -177,9 +177,11 @@
         })
 
         function displayfulltext(comment){
+
+            var deets = comment.replace('\r', '\n')
             Swal.fire({
                 title: 'コメント',
-                text: comment,
+                text: deets,
                 showCancelButton: false,
                 showConfirmButton: false,
                 allowOutsideClick: true
