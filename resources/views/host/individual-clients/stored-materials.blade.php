@@ -13,7 +13,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover table-striped tabled-bordered">
+                                <table class="table table-hover table-striped tabled-bordered" id="storedMaterialsTable">
                                     <thead class="bg-primary text-bold">
                                         <th></th>
                                         <th>承認・保留PDF</th>
@@ -59,4 +59,7 @@
 @endsection
 
 @section('extra-scripts')
+<script>
+    $('#storedMaterialsTable').dataTable();
+</script>
 @endsection
