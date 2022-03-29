@@ -81,7 +81,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <input type="date" name="scheduled_at" id="scheduled_at" class="form-control" min="{{date()}}">
+                                                    <input type="date" name="scheduled_at" id="scheduled_at" class="form-control" min="{{date('Y-m-d')}}">
                                                 </div>
                                             </div>
                                             <div class="row mt-2">

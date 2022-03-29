@@ -20,7 +20,7 @@
                                             <input type="hidden" name="client_id" id="client_id" value="{{$client->id}}">
                                             <div class="form-group">
                                                 <label for="scheduled_at">指定日（設定しない場合は、投稿日で連絡されます）</label>
-                                                <input type="date" name="scheduled_at" id="scheduled_at" class="form-control" min="{{date()}}">
+                                                <input type="date" name="scheduled_at" id="scheduled_at" class="form-control" min="{{date('Y-m-d')}}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="content">コメント欄</label>
