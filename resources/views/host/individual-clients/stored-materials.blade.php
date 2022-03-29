@@ -18,7 +18,9 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped tabled-bordered" id="storedMaterialsTable">
                                     <thead class="bg-primary text-bold">
-                                        <th colspan="3"></th>
+                                        <th>年</th>
+                                        <th>月と日付</th>
+                                        <th>時間</th>
                                         <th>承認・保留PDF</th>
                                         <th>対象ファイル</th>
                                         <th>日付</th>
