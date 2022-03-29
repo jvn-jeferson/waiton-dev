@@ -18,7 +18,7 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped tabled-bordered" id="storedMaterialsTable">
                                     <thead class="bg-primary text-bold">
-                                        <th></th>
+                                        <th colspan="3"></th>
                                         <th>承認・保留PDF</th>
                                         <th>対象ファイル</th>
                                         <th>日付</th>
@@ -27,7 +27,9 @@
                                     <tbody>
                                         @forelse($materials as $material)
                                             <tr>
-                                                <td>{{date_format($material->request_sent_at, 'Y年m月d日H:i')}}</td>
+                                                <td>{{date_format($material->request_sent_at, 'Y年')}}</td>
+                                                <td>{{date_format($material->request_sent_at, 'm月d日')}}</td>
+                                                <td>{{data_format($material->request_sent_at, 'H:i')}}</td>
                                                 <td><a href="{{Storage::disk('gcs')->url($material->pdf->path)}}" download="{{$material->pdf->name}}">{{$material->pdf->name}}</a></td>
                                                 <td><a href="{{Storage::disk('gcs')->url($material->document->path)}}" download="{{$material->document->name}}">{{$material->document->name}}</a></td>
                                                 <td>
