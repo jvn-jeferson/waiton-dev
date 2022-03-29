@@ -1,5 +1,8 @@
 @extends('layouts.host-individual')
 
+@section('extra-css')
+
+@endsection
 @section('content')
     <div class="content-wrapper">
         <section class="content">
@@ -60,6 +63,6 @@
 
 @section('extra-scripts')
 <script>
-    $('#storedMaterialsTable').dataTable();
+    $('#storedMaterialsTable').DataTable();
 </script>
 @endsection
