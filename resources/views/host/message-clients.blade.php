@@ -153,7 +153,9 @@
                                                     </td>
                                                     <td>{{$message->contents}}</td>
                                                     <td class="text-info">
-                                                        {{$message->file_id}}
+                                                        @if($message->file)
+                                                            <a href="{{Storage::disk('gcs')->url($message->file->path)}}" download="{{$message->file->name}}">{{$message->file->name}}</a>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @empty

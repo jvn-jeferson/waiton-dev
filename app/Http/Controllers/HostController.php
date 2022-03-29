@@ -860,7 +860,6 @@ class HostController extends Controller
         DB::transaction(function () use ($request) {
 
             $this->set_globals();
-            $file_ids = array();
 
             if ($request->hasfile('files')) {
                 $file = $request->file('files');
@@ -885,7 +884,7 @@ class HostController extends Controller
                     'targeted_at' => $request->input('targeted_at'),
                     'scheduled_at' => $request->input('scheduled_at'),
                     'contents' => $request->input('contents'),
-                    'file_id' => implode(',', $file_ids)
+                    'file_id' => $file_id
                 ]);
             } else {
                 Message::create([
