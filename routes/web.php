@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('access-record-verification', [ClientController::class, 'access_record_verification'])->name('access-record-verification');
         Route::get('access-past-notification', [ClientController::class, 'access_past_notification'])->name('access-past-notification');
         Route::get('access-tax-history', [ClientController::class, 'access_tax_history'])->name('access-tax-history');
+        Route::get('material-storage', [ClientController::class, 'material_storage'])->name('material-storage');
 
         //POST HEAD
         Route::post('upload-files', [ClientController::class, 'upload_files'])->name('upload-files');
