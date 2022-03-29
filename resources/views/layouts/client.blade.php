@@ -152,23 +152,6 @@
             </a>
           </li>
 
-          <li class="nav-header mt-3">記録</li>
-          <li class="nav-item">
-                <i class="nav-icon fas fa-calendar"></i>
-                <p>
-                過去の決算
-                </p>
-              </a>
-          </li>
-          <li class="nav-item">
-                <i class="nav-icon fas fa-bell"></i>
-                <p>
-                届出
-                </p>
-              </a>
-          </li>
-
-
           <li class="nav-header mt-3">ツール</li>
           <li class="nav-item">
             <a href="various-settings" class="nav-link @if(request()->route()->getName() == 'various-settings') active  @endif">
