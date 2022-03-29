@@ -26,20 +26,6 @@
                                                 {{$record->notification_type ?? '不明'}}
                                             </td>
                                             <td>
-                                                @if($record->proposal_date)
-                                                    {{$record->proposal_date->format('Y-m-d')}}
-                                                @else
-                                                    不明
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($record->recognition_date)
-                                                    {{$record->recognition_date->format('Y-m-d')}}
-                                                @else
-                                                    不明
-                                                @endif
-                                            </td>
-                                            <td>
                                                 <a href="{{Storage::disk('gcs')->url($record->file->path)}}" download="{{$record->file->name}}">{{$record->file->name}}</a>
                                             </td>
                                             <td>
