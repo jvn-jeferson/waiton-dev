@@ -29,7 +29,7 @@
                                             <tr>
                                                 <td>{{date_format($material->request_sent_at, 'Y年')}}</td>
                                                 <td>{{date_format($material->request_sent_at, 'm月d日')}}</td>
-                                                <td>{{data_format($material->request_sent_at, 'H:i')}}</td>
+                                                <td>{{date_format($material->request_sent_at, 'H:i')}}</td>
                                                 <td><a href="{{Storage::disk('gcs')->url($material->pdf->path)}}" download="{{$material->pdf->name}}">{{$material->pdf->name}}</a></td>
                                                 <td><a href="{{Storage::disk('gcs')->url($material->document->path)}}" download="{{$material->document->name}}">{{$material->document->name}}</a></td>
                                                 <td>
