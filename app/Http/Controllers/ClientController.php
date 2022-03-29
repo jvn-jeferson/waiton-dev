@@ -522,6 +522,6 @@ class ClientController extends Controller
 
     public function material_storage()
     {
-        return View::make('client.material-storage') >with(['page_title' => '確認済の資料']);
+        return View::make('client.material-storage')->with(['page_title' => '確認済の資料']);
     }
 }
