@@ -294,7 +294,7 @@ class ClientController extends Controller
                 $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
 
                 $content = $pdf->download($title)->getOriginalContent();
-                $path = 'permanent_records/'.$sender->accountingOffice->id.'/'.$title;
+                $path = 'permanent_records/' . $sender->accountingOffice->id . '/' . $title;
 
                 Storage::disk('gcs')->put($path, $content);
 
@@ -367,7 +367,7 @@ class ClientController extends Controller
                 $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
 
                 $content = $pdf->download($title)->getOriginalContent();
-                $path = 'permanent-records/' .$sender->accountingOffice->id.'/'.str_replace(' ', '%20', $title);
+                $path = 'permanent-records/' . $sender->accountingOffice->id . '/' . str_replace(' ', '%20', $title);
 
                 Storage::disk('gcs')->put($path, $content);
 
@@ -523,6 +523,6 @@ class ClientController extends Controller
     public function material_storage()
     {
         $materials = PermanentRecord::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
-        return View::make('client.material-storage')->with(['for_approval' => $this->get_approval_count(),'page_title' => '確認済の資料', 'materials'=> $materials]);
+        return View::make('client.material-storage')->with(['for_approval' => $this->get_approval_count(), 'page_title' => '確認済の資料', 'materials' => $materials]);
     }
 }

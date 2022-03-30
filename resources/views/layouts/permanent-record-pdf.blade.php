@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>{{ $title }}</title>
@@ -14,14 +15,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <style type="text/css">
         @font-face {
-            font-family: CyberCJK;
-            font-style: normal;
-            font-weight: normal;
-            src: url("https://example.com/cgi-bin/admin/invoices/lib/fonts/DejaVuSerif.ttf") format("truetype");
+        font-family: 'Firefly Sung';
+        font-style: normal;
+        font-weight: 400;
+        src: url(http://eclecticgeek.com/dompdf/fonts/cjk/fireflysung.ttf) format('truetype');
         }
-
         * {
-            font-family: 'CyberCJK', sans-serif;
+        font-family: Firefly Sung, DejaVu Sans, sans-serif;
         }
 
         @page {
