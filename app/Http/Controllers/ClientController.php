@@ -62,9 +62,9 @@ class ClientController extends Controller
         $date = date('Y-m-d');
 
         $messages = Message::where('created_at', 'like', '' . $date . '%')->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5)->get();
-        $uploads = ClientUpload::where('user_id', Auth::user()->id)->get();
-        $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->get();
-        $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->get();
+        $uploads = ClientUpload::where('user_id', Auth::user()->id)->latest()->get();
+        $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
+        $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->latest()->get();
         $page_title = 'ホーム';
         return View::make('client.dashboard')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'messages' => $messages, 'uploads' => $uploads, 'downloads' => $downloads, 'files' => $files]);
     }
@@ -91,7 +91,7 @@ class ClientController extends Controller
                     //TO FIX upload path:
                     $name = $request->file('file')[$key]->getClientOriginalName();
                     $file = $request->file('file')[$key];
-                    $path = "client-uploads/" . Auth::user()->clientStaff->client->id . "/" . str_replace(' ', '%20', $name).Str::random(8).date('Y年m月d日H:i:s');
+                    $path = "client-uploads/" . Auth::user()->clientStaff->client->id . "/" . str_replace(' ', '%20', $name);
                     Storage::disk('gcs')->put($path, file_get_contents($file));
 
 
@@ -255,7 +255,7 @@ class ClientController extends Controller
         $file_db = Files::find($request->file_id);
 
         $file = Storage::disk('gcs')->url($file_db->path);
-        $name = $file_db->name;
+        $name = e($file_db->name);
         return array(url($file), $name);
     }
 
@@ -289,14 +289,14 @@ class ClientController extends Controller
                 $video_url = $record->video_url;
                 $with_approval = 0;
                 $comment = $record->details;
-                $title = '永久記録_' . date('Y年m月d日H:i:s') . '.pdf';
+                $title = '確認書_' . date('Y_m_d_H:i:s') . '.pdf';
 
                 $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
 
                 $content = $pdf->download($title)->getOriginalContent();
-                $path = 'permanent_records/' . $title.Str::random(8).date('Y年m月d日H:i:s');
+                $path = 'permanent_records/'.$sender->accountingOffice->id.'/'.$title;
 
-                Storage::disk('gcs')->put('permanent_records/' . str_replace(' ', '%20', $title), $content);
+                Storage::disk('gcs')->put($path, $content);
 
                 $pdf_file = Files::create(
                     [
@@ -330,7 +330,7 @@ class ClientController extends Controller
             $file_db = Files::find($record->file_id);
 
             $path = urlencode($file_db->path);
-            $name = $file_db->name;
+            $name = e($file_db->name);
 
             return array($path, $name);
         }
@@ -362,14 +362,14 @@ class ClientController extends Controller
                 $video_url = $target->video_url;
                 $with_approval = 1;
                 $comment = $target->details;
-                $title = '永久記録_' . date('Y年m月d日H:i:s') . '.pdf';
+                $title = '確認書_' . date('Y_m_d_H:i:s') . '.pdf';
 
                 $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
 
                 $content = $pdf->download($title)->getOriginalContent();
-                $path = 'permanent_records/' . $title;
+                $path = 'permanent-records/' .$sender->accountingOffice->id.'/'.str_replace(' ', '%20', $title);
 
-                Storage::disk('gcs')->put('permanent_records/' . str_replace(' ', '%20', $title), $content);
+                Storage::disk('gcs')->put($path, $content);
 
                 $pdf_file = Files::create(
                     [
@@ -518,5 +518,11 @@ class ClientController extends Controller
             Mail::to($request->staff_email)->send(new NewClientAccessMail($user, Client::find($request->client_id)->name, $password, $request->staff_name));
         });
         return redirect()->route('various-settings');
+    }
+
+    public function material_storage()
+    {
+        $materials = PermanentRecord::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
+        return View::make('client.material-storage')->with(['for_approval' => $this->get_approval_count(),'page_title' => '確認済の資料', 'materials'=> $materials]);
     }
 }

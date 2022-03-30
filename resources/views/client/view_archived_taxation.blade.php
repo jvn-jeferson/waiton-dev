@@ -19,7 +19,7 @@
                                 <tbody>
                                     <tr>
                                         <td class="text-center">決算日</td>
-                                        <td>{{$record->settlement_date->format('Y年m月d日')}}</td>
+                                        <td>{{$record->created_at->format('Y年m月d日')}}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">提出済み申告書一式</td>
@@ -27,10 +27,6 @@
                                             {{$record->file->name}} <br>
                                             <a class="btn btn-block btn-warning" type="button" href="{{url(Storage::disk('gcs')->url($record->file->path))}}" download="{{$record->file->name}}">ダウンロード</a>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">承認日<br>提出日</td>
-                                        <td>{{$record->recognition_date->format('Y年m月d日')}}<br>{{$record->proposal_date->format('Y年m月d日')}}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">会社担当者</td>
@@ -43,10 +39,6 @@
                                     <tr>
                                         <td class="text-center">動画投稿者</td>
                                         <td>{{$record->video_contributor}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">閲覧期限</td>
-                                        <td>{{$record->settlement_date->modify('+7 years')->modify('+1 day')->format('Y年m月d日')}}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">コメント</td>

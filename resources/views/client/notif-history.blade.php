@@ -52,7 +52,7 @@
                             <tr>
                                 <td>
                                     <input type="checkbox" name="" id="" disabled @if($account->notifs) @if($account->notifs->blue_declaration == 1)checked @endif @endif>
-                                    ブルー宣言の申請
+                                    青色申告の申請
                                 </td>
                             </tr>
                             <tr>

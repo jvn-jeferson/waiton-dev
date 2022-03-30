@@ -104,7 +104,7 @@
                               </td>
                               <td>
                                 @switch($download->status)
-                                  @case(1)
+                                  @case(0)
                                     ファイル名
                                     @break
                                   @case(2)
@@ -118,7 +118,7 @@
                                     @break
                                 @endswitch
                               </td>
-                              <td>@if($download->priority == 1) （確認依頼あり）@endif</td>
+                              <td>@if($download->priority == 0) （確認依頼あり）@endif</td>
                               <td>{{$download->created_at->modify('+1 month')->format('Y年m月d日')  }}</td>
                             </tr>
                           @empty

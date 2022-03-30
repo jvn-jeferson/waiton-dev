@@ -87,7 +87,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @forelse($uploads as $upload)
-                                                        <tr @if ($upload->priority <= 0) class="bg-light" @else class="bg-warning" @endif>
+                                                        <tr @if ($upload->priority == 1 || $upload->status != 0) class="bg-light" @else class="bg-warning" @endif>
                                                             <td><input type="checkbox" name="select" id="select"
                                                                     value="{{ $upload->id ?? '' }}"></td>
                                                             <td>{{ $upload->created_at->format('Y年m月d日') }} •
@@ -95,7 +95,7 @@
                                                             <td>{{ $upload->created_at->modify('+1 month')->format('Y年m月d日') }}
                                                             </td>
                                                             <td>
-                                                                @if ($upload->priority == 0)
+                                                                @if ($upload->priority == 1)
                                                                     確認不要
                                                                 @else
                                                                     @if ($upload->status == 0)
@@ -117,7 +117,7 @@
                                                                     download>{{ $upload->file->name ?? ''}}
                                                                 </a>
                                                             </td>
-                                                            <td>{{ $upload->details }}</td>
+                                                            <td><button class="btn btn-light btn-block" onclick="displayfulltext({{json_encode($upload->details)}})">{{ substr($upload->details,0, 10) }} ...</button></td>
                                                         </tr>
                                                     @empty
                                                     @endforelse
@@ -175,5 +175,17 @@
                 Swal.showLoading()
             })
         })
+
+        function displayfulltext(comment){
+
+            var deets = comment.replace('\r', '\n')
+            Swal.fire({
+                title: 'コメント',
+                text: deets,
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: true
+            })
+        }
     </script>
 @endsection

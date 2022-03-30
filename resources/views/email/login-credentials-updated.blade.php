@@ -4,11 +4,11 @@ Login Credentials has been updated for user : {{$login_id}}
 <br>
 <br>
 <hr>
-Registered name: {{$name}}
+Registered name: {{'     '.$name}}
 <br>
-Email address: {{$email}}
+Email address: {{'     '.$email}}
 <br>
-Password: {{$password}}
+Password: {{'     '.$password}}
 
 <br>
 <hr>

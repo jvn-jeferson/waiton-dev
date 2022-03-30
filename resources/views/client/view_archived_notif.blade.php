@@ -14,8 +14,6 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead class="bg-info text-bold text-center">
                                     <th>種類</th>
-                                    <th>提出日</th>
-                                    <th>承認日</th>
                                     <th>資料</th>
                                     <th>アップローダー</th>
                                 </thead>
@@ -24,20 +22,6 @@
                                         <tr class="text-center">
                                             <td class="text-bold">
                                                 {{$record->notification_type ?? '不明'}}
-                                            </td>
-                                            <td>
-                                                @if($record->proposal_date)
-                                                    {{$record->proposal_date->format('Y-m-d')}}
-                                                @else
-                                                    不明
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($record->recognition_date)
-                                                    {{$record->recognition_date->format('Y-m-d')}}
-                                                @else
-                                                    不明
-                                                @endif
                                             </td>
                                             <td>
                                                 <a href="{{Storage::disk('gcs')->url($record->file->path)}}" download="{{$record->file->name}}">{{$record->file->name}}</a>

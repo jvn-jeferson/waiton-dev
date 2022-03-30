@@ -95,7 +95,7 @@
                                                     <tr>
                                                         <th>コメント</th>
                                                         <td class="bg-light">
-                                                            <input type="text" name="comments" id="comments" class="form-control" value="{{$record->comment}}">
+                                                            <textarea rows="5" type="text" name="comments" id="comments" class="form-control" value="{{$record->comment}}"></textarea>
                                                         </td>
                                                     </tr>
                                                 </tbody>

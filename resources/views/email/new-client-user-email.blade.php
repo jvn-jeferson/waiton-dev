@@ -17,10 +17,10 @@ UpFiling.jpをご利用いただきありがとうございます。<br>
 <a href="{{$url}}">{{$url}}</a>
 
 <h4>
-    ログインID： <strong>{{$user->login_id}}</strong>
+    ログインID： <strong>{{'     '.$user->login_id}}</strong>
 </h4>
 <h4>
-    初期パスワード： <strong>{{$password}}</strong>
+    初期パスワード： <strong>{{'     '.$password}}</strong>
 </h4>
 <br>
 <h6>

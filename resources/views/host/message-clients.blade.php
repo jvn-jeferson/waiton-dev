@@ -81,7 +81,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <input type="date" name="scheduled_at" id="scheduled_at" class="form-control">
+                                                    <input type="date" name="scheduled_at" id="scheduled_at" class="form-control" min="{{date('Y-m-d')}}">
                                                 </div>
                                             </div>
                                             <div class="row mt-2">
@@ -91,12 +91,12 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <textarea required name="contents" id="contents" rows="3" class="form-control" placeholder="コメントを投稿"></textarea>
+                                                    <textarea required name="contents" id="contents" rows="5" class="form-control" placeholder="コメントを投稿 "></textarea>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-auto">
-                                                    <input type="file" name="files[]" id="files[]" multiple>
+                                                    <input type="file" name="files" id="files">
                                                 </div>
                                             </div>
                                         </div>
@@ -153,7 +153,9 @@
                                                     </td>
                                                     <td>{{$message->contents}}</td>
                                                     <td class="text-info">
-                                                        {{$message->file_id}}
+                                                        @if($message->file)
+                                                            <a href="{{Storage::disk('gcs')->url($message->file->path)}}" download="{{$message->file->name}}">{{$message->file->name}}</a>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @empty

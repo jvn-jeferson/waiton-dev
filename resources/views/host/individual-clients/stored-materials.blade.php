@@ -1,5 +1,8 @@
 @extends('layouts.host-individual')
 
+@section('extra-css')
+
+@endsection
 @section('content')
     <div class="content-wrapper">
         <section class="content">
@@ -13,9 +16,11 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover table-striped tabled-bordered">
+                                <table class="table table-hover table-striped tabled-bordered" id="storedMaterialsTable">
                                     <thead class="bg-primary text-bold">
-                                        <th></th>
+                                        <th>年</th>
+                                        <th>月と日付</th>
+                                        <th>時間</th>
                                         <th>承認・保留PDF</th>
                                         <th>対象ファイル</th>
                                         <th>日付</th>
@@ -24,7 +29,9 @@
                                     <tbody>
                                         @forelse($materials as $material)
                                             <tr>
-                                                <td>{{date_format($material->request_sent_at, 'Y年m月d日H:i')}}</td>
+                                                <td>{{date_format($material->request_sent_at, 'Y年')}}</td>
+                                                <td>{{date_format($material->request_sent_at, 'm月d日')}}</td>
+                                                <td>{{date_format($material->request_sent_at, 'H:i')}}</td>
                                                 <td><a href="{{Storage::disk('gcs')->url($material->pdf->path)}}" download="{{$material->pdf->name}}">{{$material->pdf->name}}</a></td>
                                                 <td><a href="{{Storage::disk('gcs')->url($material->document->path)}}" download="{{$material->document->name}}">{{$material->document->name}}</a></td>
                                                 <td>
@@ -59,4 +66,7 @@
 @endsection
 
 @section('extra-scripts')
+<script>
+    $('#storedMaterialsTable').DataTable();
+</script>
 @endsection
