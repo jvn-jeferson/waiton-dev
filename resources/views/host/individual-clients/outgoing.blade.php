@@ -178,10 +178,10 @@
 
         function displayfulltext(comment){
 
-            var deets = comment.replace('\r', '\n')
+            comment.replace('\n', '<br />')
             Swal.fire({
                 title: 'コメント',
-                text: deets,
+                html: '<pre class="text-justify">' + comment + '</pre>',
                 showCancelButton: false,
                 showConfirmButton: false,
                 allowOutsideClick: true
