@@ -15,14 +15,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <style type="text/css">
         @font-face {
-            font-family: CyberCJK;
+            font-family: 'CyberCJK';
             font-style: normal;
             font-weight: normal;
             src: url("http://eclecticgeek.com/dompdf/fonts/cjk/Cybercjk.ttf") format("truetype");
         }
 
         * {
-            font-family: CyberCJK;
+            font-family: 'CyberCJK';
         }
 
         @page {
