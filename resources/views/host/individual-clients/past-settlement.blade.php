@@ -20,7 +20,7 @@
                                         <input type="hidden" name="record_id" id="record_id" value="{{$record->id}}">
                                         @endif
                                         <p><a href="#" onclick="window.open('{{route('video-creation', ['client_id'=>$hashids->encode($client->id), 'record_id' => $record->id ?? 0])}}');">こちらから動画を作成し. URLを貼り付けてください。</a></p>
-                                        <input type="text" name="encrypted_string" id="video-url" class="form-control" placeholder="動画のURLを貼り付けてください" value="{{$record->video_url ?? ''}}">
+                                        <input type="text" name="encrypted_string" id="video-url" class="form-control" placeholder="動画のURLを貼り付けてください" value="{{base64_encode($record->video_url) ?? ''}}">
                                         <input type="hidden" name="video_url" id="video_url">
                                         @error('video_url')
                                             <span class="text-danger">

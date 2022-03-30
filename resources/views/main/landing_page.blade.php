@@ -52,7 +52,7 @@
           <li><a href="#portfolio">ストーリー</a></li>
         </ul>
       </nav><!-- .nav-menu -->
-      
+
       <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">ログイン <span class="caret"></span></button>
         <ul class="dropdown-menu">
@@ -90,7 +90,7 @@
 
     <section id="services" class="services">
       <div class="container">
-        <div class="row"> 
+        <div class="row">
           <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100" >
             <div class="icon-box iconbox-blue" style="background-color:#FCF4D9;">
               <div class="icon">
@@ -125,7 +125,7 @@
                 </svg>
                 <i class="bx bx-file"></i>
               </div>
-              <h4><a href="">会計事務所のメリット</a></h4>    
+              <h4><a href="">会計事務所のメリット</a></h4>
               <form action="" method="GET">
                 <script
                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
