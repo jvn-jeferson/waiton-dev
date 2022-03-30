@@ -75,7 +75,7 @@
                                 <div class="row mt-2">
                                     <div class="col-12">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered table-hover table-striped text-center">
+                                            <table class="table table-bordered table-hover table-striped text-center" id="resourceTable">
                                                 <thead class="thead-dark">
                                                     <th>選択</th>
                                                     <th>UP • 日時 • だれが</th>
@@ -137,6 +137,7 @@
 
 @section('extra-scripts')
     <script>
+        $('#resourceTable').DataTables()
         // var selects = document.getElementsByName('record_id');
         // $.each(selects, function(index, value) {
         //     selects[index].checked = false
