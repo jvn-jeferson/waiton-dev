@@ -65,7 +65,7 @@
                                                     <td><input type="checkbox" name="select" id="select" value="{{$message->id}}"></td>
                                                     <td>{{$message->created_at->format('Y年m月d日')}}</td>
                                                     <td>{{$message->scheduled_at->format('Y年m月d日')}}</td>
-                                                    <td>{{$message->contents}}</td>
+                                                    <td>{{!! nl2br(e($message->contents)) !!}}</td>
                                                     <td class="text-info">
                                                         @if($message->file)
                                                             <a href="{{Storage::disk('gcs')->url($message->file->path)}}" download="{{$message->file->name}}">{{$message->file->name}}</a>
