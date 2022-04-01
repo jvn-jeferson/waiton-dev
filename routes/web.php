@@ -156,3 +156,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('link-change', [AdministratorController::class, 'link_change'])->name('admin-link-change');
     });
 });
+
+//Cron Jobs
+Route::get('/tasks/summary', 'JobController@cron');

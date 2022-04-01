@@ -1,0 +1,5 @@
+cron:
+- description: "laravel cron"
+  url: /tasks/summary
+  schedule: every 1 mins
+  timezone: Japan
