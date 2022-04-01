@@ -137,7 +137,7 @@
 
 @section('extra-scripts')
     <script>
-        $('#resourceTable').DataTables()
+        $('#resourceTable').DataTable()
         // var selects = document.getElementsByName('record_id');
         // $.each(selects, function(index, value) {
         //     selects[index].checked = false
