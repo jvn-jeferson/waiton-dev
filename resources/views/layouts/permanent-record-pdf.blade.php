@@ -58,21 +58,21 @@
                     <table class="table table-bordered my-2">
                         <tbody>
                             <tr>
-                                <th class="w-25">クライアント名</th>
-                                <td>
+                                <th style="width:25%">クライアント名</th>
+                                <td style="width:75%">
                                     {{ $client_name }}
                                 </td>
                             </tr>
                             <tr>
-                                <th class="w-25">会計事務所名</th>
-                                <td>
+                                <th style="width:25%">会計事務所名</th>
+                                <td style="width:75%">
                                     {{ $accounting_office_name }}
                                 </td>
                             </tr>
                             <tr>
-                                <th class="w-25">決定メール送付日</th>
-                                <td>
-                                    {{ $email_date }}
+                                <th style="width:25%">決定メール送付日</th>
+                                <td style="width:75%">
+                                    {{  date_format($email_date, 'Y年m月d日 H:i') }}
                                 </td>
                             </tr>
                         </tbody>
@@ -80,48 +80,47 @@
 
                     <table class="table table-bordered my-2 table-condensed">
                         <thead class="bg-dark">
-                            <th class="w-25">会計事務所処理</th>
-                            <th></th>
+                            <th colspan="2">会計事務所処理</th>
                         </thead>
                         <tbody>
                             <tr>
-                                <th class="w-25">送信ファイル名</th>
-                                <td>
+                                <th style="width:25%">送信ファイル名</th>
+                                <td style="width:75%">
                                     {{ $file_name }}
                                 </td>
                             </tr>
                             <tr>
-                                <th class="w-25">送信日</th>
-                                <td>
-                                    {{ $upload_date }}
+                                <th style="width:25%">送信日</th>
+                                <td style="width:75%">
+                                    {{  date_format($upload_date, 'Y年m月d日 H:i')  }}
                                 </td>
                             </tr>
                             <tr>
-                                <th class="w-25">送信者</th>
-                                <td>
+                                <th style="width:25%">送信者</th>
+                                <td style="width:75%">
                                     {{ $sender }}
                                 </td>
                             </tr>
                             <tr>
-                                <th class="w-25">
+                                <th style="width:25%">
                                     送信動画
                                 </th>
-                                <td>
+                                <td style="width:75%">
                                     {{ $video_url }}
                                 </td>
                             </tr>
                             <tr>
-                                <th class="w-25">承認の有無</th>
-                                <td>
+                                <th style="width:25%">承認の有無</th>
+                                <td style="width:75%">
                                     @if ($with_approval == 0)
                                         承認不要データ
                                     @endif
                                 </td>
                             </tr>
                             <tr>
-                                <th class="w-25">コメント</th>
-                                <td>
-                                    {{ nl2br(e($comment)) }}
+                                <th style="width:25%">コメント</th>
+                                <td style="width:75%">
+                                    {{!! nl2br(e($comment)) !!}}
                                 </td>
                             </tr>
                         </tbody>
@@ -129,35 +128,34 @@
 
                     <table class="table table-bordered my-2 table-condensed">
                         <thead class="bg-dark">
-                            <th class="w-25">クライアント処理</th>
-                            <th></th>
+                            <th colspan="2">クライアント処理</th>
                         </thead>
                         <tbody>
                             <tr>
-                                <th class="w-25">初回閲覧日</th>
-                                <td>
-                                    {{ $first_viewing_date }}
+                                <th style="width:25%">初回閲覧日</th>
+                                <td style="width:75%">
+                                    {{ date_format($first_viewing_date, 'Y年m月d日 H:i')  }}
                                 </td>
                             </tr>
                             <tr>
-                                <th class="w-25">
+                                <th style="width:25%">
                                     対応投稿日
                                 </th>
-                                <td>
-                                    {{ $response_date }}
+                                <td style="width:75%">
+                                    {{  date_format($response_date, 'Y年m月d日 H:i')  }}
                                 </td>
                             </tr>
                             <tr>
-                                <th class="w-25">承認または保留</th>
-                                <td>
+                                <th style="width:25%">承認または保留</th>
+                                <td style="width:75%">
                                     {{ $decision }}
                                 </td>
                             </tr>
                             <tr>
-                                <th class="w-25">
+                                <th style="width:25%">
                                     閲覧者
                                 </th>
-                                <td>
+                                <td style="width:75%">
                                     {{ $viewer }}
                                 </td>
                             </tr>
@@ -165,7 +163,7 @@
                     </table>
 
                     <p class="text-xs text-dark">
-                        作成日: {{ $creation_date }}
+                        作成日: {{ date_format($creation_date, 'Y年m月d日 H:i') }}
                     </p>
                 </div>
             </div>
