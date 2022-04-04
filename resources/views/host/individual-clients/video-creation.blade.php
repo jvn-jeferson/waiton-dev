@@ -71,6 +71,10 @@
             cursor: url("{{ asset('img/pointer.cur') }}"), auto;
         }
 
+        .upfiling-cursor {
+            position: inherit !important;
+        }
+
     </style>
 @endsection
 
@@ -78,7 +82,7 @@
     <div class="content-wrapper">
         <section class="content">
             <div class="row">
-                <div class="col-9 justify-content-center" style="visibility: hidden;" id="video-container">
+                <div class="col-9 justify-content-center upfiling-cursor" style="visibility: hidden;" id="video-container">
                     <button class="btn btn-primary" id="prev">Previous</button>
                     <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
                     <canvas id="pdf-canvas"></canvas>
