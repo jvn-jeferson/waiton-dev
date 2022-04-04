@@ -106,7 +106,11 @@
                                     送信動画
                                 </th>
                                 <td style="width:75%">
-                                    {{ $video_url }}
+                                    @if($video_url == '')
+                                        [動画なし]
+                                    @else
+                                        [動画あり]
+                                    @endif
                                 </td>
                             </tr>
                             <tr>

@@ -73,11 +73,14 @@
                 },
                 allowOutsideClick : () => !Swal.isLoading()
             }).then((result)=>{
-                Swal.fire({
-                    icon: 'success',
-                    title: '成功',
-                    text: '登録したメールアドレスにワンタイムパスワードが送信されました。 メールを確認し、手順に従ってアクセスしてください。'
-                })
+                if(result.isConfirmed)
+                {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '成功',
+                        text: '登録したメールアドレスにワンタイムパスワードが送信されました。 メールを確認し、手順に従ってアクセスしてください。'
+                    })
+                }
             })
         }
     </script>
