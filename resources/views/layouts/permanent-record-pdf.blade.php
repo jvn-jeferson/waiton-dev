@@ -72,7 +72,7 @@
                             <tr>
                                 <th style="width:25%">決定メール送付日</th>
                                 <td style="width:75%">
-                                    {{  date_format($email_date, 'Y年m月d日 H:i') }}
+                                    {{ $email_date }}
                                 </td>
                             </tr>
                         </tbody>
@@ -92,7 +92,7 @@
                             <tr>
                                 <th style="width:25%">送信日</th>
                                 <td style="width:75%">
-                                    {{  date_format($upload_date, 'Y年m月d日 H:i')  }}
+                                    {{  $upload_date  }}
                                 </td>
                             </tr>
                             <tr>
@@ -138,7 +138,7 @@
                             <tr>
                                 <th style="width:25%">初回閲覧日</th>
                                 <td style="width:75%">
-                                    {{ date_format($first_viewing_date, 'Y年m月d日 H:i')  }}
+                                    {{ $first_viewing_date  }}
                                 </td>
                             </tr>
                             <tr>
@@ -146,7 +146,7 @@
                                     対応投稿日
                                 </th>
                                 <td style="width:75%">
-                                    {{  date_format($response_date, 'Y年m月d日 H:i')  }}
+                                    {{  $response_date  }}
                                 </td>
                             </tr>
                             <tr>
@@ -167,7 +167,7 @@
                     </table>
 
                     <p class="text-xs text-dark">
-                        作成日: {{ date_format($creation_date, 'Y年m月d日 H:i') }}
+                        作成日: {{ $creation_date}}
                     </p>
                 </div>
             </div>
