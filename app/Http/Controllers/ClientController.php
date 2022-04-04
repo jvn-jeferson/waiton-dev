@@ -61,7 +61,7 @@ class ClientController extends Controller
     {
         $date = date('Y-m-d');
 
-        $messages = Message::where('created_at', 'like', '' . $date . '%')->orWhere('scheduled_at', 'like', $date.'%')->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5)->get();
+        $messages = Message::where('created_at', 'like', '' . $date . '%')->orWhere('scheduled_at', 'like', ''.$date.'%')->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id)->latest()->limit(5)->get();
         $uploads = ClientUpload::where('user_id', Auth::user()->id)->latest()->get();
         $downloads = HostUpload::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
         $files = Files::where('user_id', Auth::user()->id)->whereIn('id', ClientUpload::get('file_id'))->latest()->get();
