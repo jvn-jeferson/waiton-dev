@@ -1,0 +1,307 @@
+/* GLOBAL STYLES
+-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
+html, body {
+  scroll-padding-top: 60px;
+}
+
+
+body {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  color: #5a5a5a;
+  }
+
+
+/* 見出し
+------------------------- */
+h1.top_cacth{
+	font-size:1.875rem;
+	font-weight:bold;
+}
+
+h1.bluebg{
+	font-size:1.875rem;
+	font-weight:bold;
+	color:#FFF;
+	background-color:#0ae;
+    line-height: 1.2;
+	padding:8px 12px;
+	max-width:760px;
+	border-radius:40px;
+	text-align:center;}
+p.top_copy{
+	font-size:1.125rem;
+	line-height:2.125rem}
+h4.freeTry{font-size:1.5rem;}
+
+@media only screen and (max-width : 599px) {
+h1.top_cacth{
+	font-size:1.5rem;
+}
+h1.bluebg{
+	font-size:1.3rem;}
+p.top_copy{
+	font-size:1rem;
+	line-height:1.6rem;
+	}
+h4.freeTry{font-size:1.1rem;}
+}
+
+/* お悩み ------------------------- */
+
+img.koma01{width:100%;max-width:200px;}
+img.koma02{width:100%;max-width:100px;}
+@media only screen and (max-width : 599px) {
+img.koma01{max-width:140px;}
+img.koma02{max-width:70px;}
+}
+
+
+/* マーカー
+------------------------- */
+.marker-y{
+background-color:#FF0;
+padding:3px 0;
+font-weight:bold;
+}
+
+/* テーブル
+------------------------- */
+
+table.respon-tableA {
+  margin: 20px auto;
+    width:100%;
+  max-width:960px;
+}
+.respon-tableA th {
+width:40%;
+font-weight:normal;
+  background: #bdf;
+  border-top: solid 1px #999;
+  padding: 10px;
+}
+.respon-tableA tr:last-child th{
+border-bottom: solid 1px #999;
+}
+.respon-tableA td {
+width:60%;
+background-color:#FFF;
+border-top: solid 1px #999;
+  padding: 10px;
+}
+.respon-tableA tr:last-child td{
+  border-bottom: solid 1px #999;
+}
+
+.L-border,.L-border2{border-left: solid 1px #999;}
+
+@media screen and (max-width: 640px) {
+table.respon-tableA {
+    width:100%;
+  }
+.respon-tableA th,
+.respon-tableA td {
+    display: block;
+    width: 100%;
+  }
+  .L-border{border-left: none}
+  .respon-tableA tr:last-child th{
+border-bottom: none;
+}
+}
+
+
+table.respon-tableB {
+  margin: 20px auto;
+  width:100%;
+  max-width:960px;
+}
+.respon-tableB th {
+font-weight:normal;
+  background: #bdf;
+  border-top: solid 1px #999;
+  padding: 10px;
+    text-align:center;
+width:33.33%;
+}
+.respon-tableB tr:last-child th{
+border-bottom: solid 1px #999;
+}
+.respon-tableB td {
+background-color:#FFF;
+border-top: solid 1px #999;
+  padding: 10px;
+  text-align:center;
+  width:33.33%;
+}
+.respon-tableB tr:last-child td{
+  border-bottom: solid 1px #999;
+}
+ 
+
+
+
+/* Featurettes
+------------------------- */
+
+
+/* Thin out the marketing headings */
+h2.featurette-heading {
+font-size: 2rem;
+line-height: 2.6rem;
+font-weight: 300;
+  /* rtl:remove */
+  letter-spacing: -.05rem;
+}
+h4.featurette-heading2 {
+font-size: 1.5rem;
+line-height: 2rem;
+font-weight: bold;
+  /* rtl:remove */
+  letter-spacing: -.05rem;
+}
+p.featurette {
+font-size: 1.26rem;
+line-height: 2.3rem;
+}
+p.featurette2 {
+font-size: 1.15rem;
+line-height: 1.85rem;
+}
+
+  .featurette-heading {
+    margin-top: 3rem;
+  }
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media screen and (max-width: 1199px) {
+.featurette-heading {
+    margin-top: 1.5rem;
+  }
+}
+@media screen and (max-width: 991px) {
+
+  .carousel-caption p {
+    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+    line-height: 1.8;
+  }
+h2.featurette-heading {
+    font-size: 1.8rem;
+	 line-height: 2.6rem;
+  }
+h4.featurette-heading2 {
+font-size: 1.4rem;
+line-height: 1.9rem;}
+
+.featurette-heading {
+    margin-top: 1.2rem;
+  }
+
+}
+@media screen and (max-width: 767px) {
+  .featurette-heading {
+    margin-top: 1rem;
+  }
+}
+
+@media screen and (max-width: 575px) {
+
+  .carousel-caption p {
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  h2.featurette-heading {
+    font-size: 1.5rem;
+	 line-height: 2rem;
+  }
+    h4.featurette-heading2 {
+font-size: 1.1rem;
+line-height: 1.4rem;}
+    .featurette-heading {
+    margin-top: 0rem;
+  }
+  p.featurette {
+font-size: 1.05rem;
+line-height: 1.6rem;
+}
+p.featurette2 {
+font-size: 1rem;
+line-height: 1.5rem;
+}
+}
+
+/* Back to top button　---------------------------------- */
+
+#BackTop {
+	position: fixed;
+	z-index: 1100;
+	bottom: 60px;
+	right: 0px;
+}
+
+@media (max-width: 575px){ 
+#BackTop {
+	position: fixed;
+	bottom: 140px;
+	right: 0px;}
+}
+
+#BackTop a {
+	width: 60px;
+	height: 60px;
+	display: block;
+	text-align: center;
+	font: 11px/100% Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #FFFFFF;
+	background: #80cdbb;
+	/* background color transition */
+	-webkit-transition: 0.5s;
+	-moz-transition: 0.5s;
+	transition: 0.5s;
+}
+#BackTop a:hover {
+	background: #62b8a4;
+}
+
+/* arrow icon (span tag) */
+
+#BackTop i {
+	margin-top: 15px;
+	font-size: 28px;
+}
+
+@media only screen
+and (min-width : 320px)
+and (max-width : 480px) {
+#BackTop {
+	position: fixed;
+	bottom: 10px;
+	right:0px;
+}
+#BackTop a {
+	width: 50px;
+	height: 50px;
+}
+#BackTop i {
+	margin-top: 13px;
+	font-size: 20px;
+}
+}
+
+/* 新規登録ボタン
+------------------------- */
+
+button.new-btn{font-size:1.0rem;border-radius:1.0rem;}
+button:hover.btn-warning{opacity:0.5;}
+button.new-btn span{font-weight:bold;font-size:1.8rem;line-height:2.0rem;}
+@media screen and (max-width: 575px) {
+button.new-btn{font-size:0.9rem;border-radius:0.8rem;}
+button.new-btn span{font-weight:bold;font-size:1.6rem;line-height:1.8rem;}
+}
