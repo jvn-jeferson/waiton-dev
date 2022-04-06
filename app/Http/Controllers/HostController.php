@@ -431,7 +431,11 @@ class HostController extends Controller
 
         $date = date('Y-m-d');
 
-        $messages = Message::where('created_at', 'like', '' . $date . '%')->where('is_global', 1)->orWhere('targeted_at', $client->id)->latest()->limit(5)->get();
+        $messages = Message::where(function ($dateQuery) use ($date){
+            $dateQuery->where('created_at', 'like', '' . $date . '%')->orWhere('scheduled_at', 'like', ''.$date.'%');
+        })->where(function ($targetQuery) use ($client) {
+            $targetQuery->where('is_global', 1)->orWhere('targeted_at', $client->id);
+        })->latest()->get();
         $uploads = ClientUpload::whereIn('user_id', $client_user_ids)->latest()->get();
         $downloads = HostUpload::where('client_id', '=', $id)->latest()->get();
 
