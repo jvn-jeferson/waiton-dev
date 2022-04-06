@@ -21,7 +21,11 @@
                           <li class="list-group-item">
                             <i class="fas fa-circle @if($message->is_global == 0) text-success @else text-primary @endif"></i>
                             <strong class="@if($message->is_global == 0) text-success @else text-primary @endif">
-                              {{date_format($message->created_at, 'F j, Y')}}
+                              @if($message->scheduled_at)
+                              {{date_format($message->scheduled_at, 'Y年m月d日')}}
+                              @else
+                              {{date_format($message->created_at, 'Y年m月d日')}}
+                              @endif
                             </strong>
                             - {{!! nl2br(e($message->contents)) !!}} @if($message->file) <a href="{{Storage::disk('gcs')->url($message->file->path)}}" download="{{$message->file->name}}"><i class="fa fas fa-paperclip"></i></a> @endif
                           </li>
