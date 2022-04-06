@@ -432,7 +432,10 @@ class HostController extends Controller
         $date = date('Y-m-d');
 
         $messages = Message::where(function ($dateQuery) use ($date){
-            $dateQuery->where('created_at', 'like', '' . $date . '%')->orWhere('scheduled_at', 'like', ''.$date.'%');
+            $dateQuery->where(function($dateSubQuery) use ($date){
+                $dateSubQuery->where('created_at', 'like', ''.$date.'%')
+                ->where('scheduled_at', null);
+            })->orWhere('scheduled_at', 'like', ''.$date.'%');
         })->where(function ($targetQuery) use ($client) {
             $targetQuery->where('is_global', 1)->orWhere('targeted_at', $client->id);
         })->latest()->get();
