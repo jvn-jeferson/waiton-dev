@@ -27,7 +27,7 @@
                               {{$message->created_at->format('Y年m月d日')}}
                               @endif
                             </strong>
-                            - {{!! nl2br(e($message->contents)) !!}} @if($message->file) <a href="{{Storage::disk('gcs')->url($message->file->path)}}" download="{{$message->file->name}}"><i class="fa fas fa-paperclip"></i></a> @endif
+                            - {!! nl2br($message->contents) !!} @if($message->file) <a href="{{Storage::disk('gcs')->url($message->file->path)}}" download="{{$message->file->name}}"><i class="fa fas fa-paperclip"></i></a> @endif
                           </li>
                         @empty
                           <li class="text-info list-group-item">
