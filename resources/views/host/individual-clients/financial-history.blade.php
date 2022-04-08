@@ -31,7 +31,7 @@
                                                     {{ $archive->kinds ?? '' }} <br>
                                                     <a class="btn btn-primary" type="button" data-toggle="tooltip"
                                                         data-placement="top" title="ACCESS FILE"
-                                                        href="{{ route('access-data-financial-record', ['record_id' => $hashids->encodeHex($archive->id), 'client_id' => $hashids->encode($client->id)]) }}">アクセス</a>
+                                                        href="{{ route('access-data-financial-record', ['record_id' => $archive->id, 'client_id' => $hashids->encode($client->id)]) }}">アクセス</a>
                                                 </td>
                                                 <td>
                                                     {{ $archive->created_at }}

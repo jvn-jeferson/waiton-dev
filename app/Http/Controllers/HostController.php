@@ -431,11 +431,11 @@ class HostController extends Controller
 
         $date = date('Y-m-d');
 
-        $messages = Message::where(function ($dateQuery) use ($date){
-            $dateQuery->where(function($dateSubQuery) use ($date){
-                $dateSubQuery->where('created_at', 'like', ''.$date.'%')
-                ->where('scheduled_at', null);
-            })->orWhere('scheduled_at', 'like', ''.$date.'%');
+        $messages = Message::where(function ($dateQuery) use ($date) {
+            $dateQuery->where(function ($dateSubQuery) use ($date) {
+                $dateSubQuery->where('created_at', 'like', '' . $date . '%')
+                    ->where('scheduled_at', null);
+            })->orWhere('scheduled_at', 'like', '' . $date . '%');
         })->where(function ($targetQuery) use ($client) {
             $targetQuery->where('is_global', 1)->orWhere('targeted_at', $client->id);
         })->latest()->get();
@@ -836,7 +836,7 @@ class HostController extends Controller
             $file = $request->file('file');
 
             $name = $file->getClientOriginalName();
-            $path = '/notification-archive/'.Auth::user()->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $name);
+            $path = '/notification-archive/' . Auth::user()->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $name);
             Storage::disk('gcs')->put($path, file_get_contents($file));
 
             $file_id = Files::insertGetId([
@@ -987,7 +987,7 @@ class HostController extends Controller
     public function access_data_financial_record(Request $request)
     {
         $client_id = $this->hashids->decode($request->client_id)[0];
-        $record_id = $this->hashids->decodeHex($request->record_id)[0];
+        $record_id = $request->record_id;
         $record = TaxationHistory::find($record_id);
         $client = Client::find($client_id);
 
