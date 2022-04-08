@@ -25,17 +25,20 @@
                             @forelse($archives as $archive)
                                 <tr>
                                     <td>
-                                        {{$archive->kinds}}
+                                        {{ $archive->kinds }}
                                     </td>
                                     <td>
-                                        {{$archive->settlement_date->format('Y年m月d日')}} <br>
-                                        <button class="btn btn-primary btn-block" role="button" onclick="browsingConfirmation({{$archive->id}})">閲覧</button>
+                                        {{ $archive->settlement_date->format('Y年m月d日') }} <br>
+                                        <button class="btn btn-primary btn-block" role="button"
+                                            onclick="browsingConfirmation({{ $archive->id }})">閲覧</button>
                                     </td>
                                     <td class="text-info">
-                                        {{$archive->file->name}}
+                                        {{ $archive->file->name }}
                                     </td>
-                                    <td>
-                                        {{$archive->video_url}}
+                                    <td style="width:100px;">
+                                        <div class="container-fluid" style="width:600px">
+                                            {{ base64_encode($archive->video_url) }}
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
@@ -46,7 +49,6 @@
             </div>
         </section>
     </div>
-
 @endsection
 
 @section('extra-scripts')
@@ -59,22 +61,21 @@
                 showCancelButton: !0,
                 confirmButtonText: "了解した",
                 cancelButtonText: "キャンセル",
-                showLoaderOnConfirm :true,
-                preConfirm: function () {
-                    var url = "{{route('send-otp')}}";
+                showLoaderOnConfirm: true,
+                preConfirm: function() {
+                    var url = "{{ route('send-otp') }}";
                     axios.post(url, {
                         record_id: id,
                         table: 'taxation_histories'
-                    }).then(function(response){
+                    }).then(function(response) {
 
-                    }).catch(function(error){
+                    }).catch(function(error) {
 
                     });
                 },
-                allowOutsideClick : () => !Swal.isLoading()
-            }).then((result)=>{
-                if(result.isConfirmed)
-                {
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
                     Swal.fire({
                         icon: 'success',
                         title: '成功',
