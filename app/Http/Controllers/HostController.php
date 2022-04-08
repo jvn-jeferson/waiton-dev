@@ -1116,23 +1116,23 @@ class HostController extends Controller
     {
 
         DB::transaction(function () use ($request) {
-            $user = User::find($request->id);
+            $user = User::find($request->userID);
             $staff = ClientStaff::where('user_id', $user->id)->first();
 
             $user->update([
-                'email' => $request->email,
-                'password' => Hash::make($request->password)
+                'email' => $request->userEmail,
+                'password' => Hash::make($request->userPassword)
             ]);
 
             $user->save();
 
             $staff->update([
-                'name' => $request->name,
+                'name' => $request->userName,
             ]);
 
             $staff->save();
 
-            Mail::to($user->clientStaff->client->contact_email)->send(new UpdatedLoginCredentialsEmail($user->login_id, $request->name, $request->email, $request->password));
+            Mail::to($user->clientStaff->client->contact_email)->send(new UpdatedLoginCredentialsEmail($user->login_id, $request->userName, $request->userEmail, $request->userPassword));
 
             if (Mail::failures()) {
                 abort(403);

@@ -151,7 +151,7 @@
                                                         {{""}}
                                                         @endif
                                                     </td>
-                                                    <td>{{$message->contents}}</td>
+                                                    <td>{!! nl2br($message->contents) !!}</td>
                                                     <td class="text-info">
                                                         @if($message->file)
                                                             <a href="{{Storage::disk('gcs')->url($message->file->path)}}" download="{{$message->file->name}}">{{$message->file->name}}</a>

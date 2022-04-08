@@ -146,28 +146,33 @@
 
         deletes.addEventListener('click', function() {
             Swal.fire({
-                title: "Delete Data",
-                text: "Are you sure Do you want Delete",
+                title: "履歴を削除しますか？",
                 showCancelButton: !0,
-                confirmButtonText: "閲覧する",
+                confirmButtonText: "削除",
                 cancelButtonText: "キャンセル",
-                reverseButtons: false
+                preConfirm : function () {
+                    var record_id = $('input#select:checked').map(function() {
+                        return this.value
+                    }).get()
+                    var url = "{{route('delete-file-from')}}";
+                    axios.post(url, {data:record_id}).then(function(){
+                        console.log('hehe')
+                    }).catch(function(error){
+                        console.log(error.response.data)
+                    });
+                },
+                showLoaderOnConfirm : true,
+                allowOutsideClick :  () => !Swal.isLoading()
             }).then((result) => {
-            var record_id = $('input#select:checked').map(function() {
-                return this.value
-            }).get()
-            var url = "{{route('delete-file-from')}}";
-            axios.post(url, {data:record_id}).then(function(){
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Successfully Delete.',
-                    text: 'Successfully Deleted.'
-                });
-                window.location.reload();
-            }).catch(function(error){
-                console.log(error.response.data)
+                if(result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '履歴が削除されました'
+                    }).then((result) => {
+                        window.location.reload()
+                    })
+                }
             });
-        });
         });
 
 

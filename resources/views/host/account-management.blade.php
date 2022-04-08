@@ -250,7 +250,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary float-right" type="submit">UPDATE</button>
+                        <button class="btn btn-primary float-right" type="submit">変更</button>
                     </div>
                 </form>
             </div>
@@ -339,7 +339,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="float-right btn btn-primary" type="submit">Save</button>
+                        <button class="float-right btn btn-primary" type="submit">変更</button>
                     </div>
                 </form>
 

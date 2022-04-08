@@ -473,9 +473,10 @@
                     </h4>
                     <button class="close" type="button" data-dismiss="modal">&times;</button>
                 </div>
-                <form>
+                <form method="post" action="{{route('update-client-staff')}}">
                     <input type="hidden" name="userID" id="userID">
                     <input type="hidden" name="clientID" id="clientID" value="{{$client->id}}">
+                    <input type="hidden" name="csrf-token" id="csrf-token" value="{{csrf_token()}}">
                     @csrf
                     <div class="modal-body">
                         <div class="table-responsive">
@@ -516,7 +517,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="float-right btn btn-primary" type="button" onclick="processUpdate()">Save</button>
+                        <button class="float-right btn btn-primary" type="submit">変更</button>
                     </div>
                 </form>
 
@@ -595,7 +596,7 @@
                 focusConfirm: false
             }).then((result) => {
 
-                var laravelToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                var laravelToken = document.getElementById('csrf_token').value
                 var url = "{{route('update-client-staff')}}"
 
                 axios.post(url, {

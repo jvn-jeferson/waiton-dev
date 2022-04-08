@@ -24,7 +24,7 @@
                                         {{$message->created_at->format('Y年m月d日')}}
                                         @endif
                                       </strong>
-                                      - {{!! nl2br(e($message->contents)) !!}}
+                                      - {!! nl2br(e($message->contents)) !!}
                                     </li>
                                   @empty
                                     <li class="text-info list-group-item">
