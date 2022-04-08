@@ -124,7 +124,7 @@
                             <tr>
                                 <th style="width:25%">コメント</th>
                                 <td style="width:75%">
-                                    {{!! nl2br(e($comment)) !!}}
+                                    {!! nl2br(e($comment)) !!}
                                 </td>
                             </tr>
                         </tbody>

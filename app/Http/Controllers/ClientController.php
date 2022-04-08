@@ -371,8 +371,19 @@ class ClientController extends Controller
                 $with_approval = 1;
                 $comment = $target->details;
                 $title = '確認書_' . date('Y_m_d_H:i:s') . '.pdf';
+                $decision = "";
+                if($status == 2)
+                {
+                    $decision = '承認済み';
+                }
+                else if($status == 3)
+                {
+                    $decision = '保留';
+                }else{
+                    $decision = '承認不要データ';
+                }
 
-                $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => '承認不要データ', 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
+                $pdf = PDF::loadView('layouts.permanent-record-pdf', ['client_name' => $company->name, 'accounting_office_name' => $host->name, 'email_date' => $today, 'file_name' => $file->name, 'upload_date' => $upload_date, 'sender' => $sender->name, 'video_url' => $video_url, 'with_approval' => $with_approval, 'comment' => $comment, 'first_viewing_date' => $today, 'response_date' => $today, 'decision' => $decision, 'viewer' => $staff->name, 'creation_date' => $today, 'title' => $title]);
 
                 $content = $pdf->download($title)->getOriginalContent();
                 $path = 'permanent-records/' . $sender->accountingOffice->id . '/' . str_replace(' ', '%20', $title);

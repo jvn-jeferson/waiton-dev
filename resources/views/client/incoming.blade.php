@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     <p class="text-muted">
-                        以下のファイルが会計事務所から送信されました。承認が必要な資料については、承認/予約を確認して選択し、処理を決定してください。 コメントを送信することもできます。 （視聴期限は1ヶ月です)
+                        以下のファイルが会計事務所から送信されました。承認が必要な資料については、承認/予約を確認して選択し、処理を決定してください。  （視聴期限は1ヶ月です)
                     </p>
                     @forelse($host_uploads as $host_upload)
                         <table class="table table-bordered table-outline text-center my-2">
