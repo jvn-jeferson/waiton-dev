@@ -1128,6 +1128,7 @@ class HostController extends Controller
         DB::transaction(function () use ($request) {
             $user = User::find($request->userID);
             $staff = ClientStaff::where('user_id', $user->id)->first();
+            $client = $staff->client;
 
             $user->update([
                 'email' => $request->userEmail,
@@ -1146,8 +1147,10 @@ class HostController extends Controller
             if (Mail::failures()) {
                 abort(403);
             }
+
+
+        return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($client->id)]);
         });
-        return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->id)]);
     }
 
     //client info update
