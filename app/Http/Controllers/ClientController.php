@@ -82,8 +82,8 @@ class ClientController extends Controller
         $page_title = 'To　会計事務所';
         $client = Auth::user()->clientStaff->client;
         $clientStaffs = ClientStaff::where('client_id', $client->id)->pluck('user_id');
-        dd($clientStaffs);
-        $uploads = ClientUpload::where('user_id', Auth::user()->id)->latest()->get();
+        $uploads = ClientUpload::whereIn('user_id', $clientStaffs)->latest()->get();
+        dd($uploads);
         return View::make('client.outgoing')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'uploads' => $uploads]);
     }
 
