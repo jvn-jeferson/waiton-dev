@@ -1091,14 +1091,22 @@ class HostController extends Controller
 
     public function update_staff(Request $request)
     {
+        dd($request->userPassword);
         DB::transaction(function () use ($request) {
             $user = User::find($request->userID);
             $staff = AccountingOfficeStaff::where('user_id', $user->id)->first();
+            if($request->userPassword != '')
+            {
+                $user->update([
+                    'email' => $request->userEmail,
+                    'password' => Hash::make($request->userPassword)
+                ]);
+            }else{
+                $user->update([
+                    'email' =>$request->userEmail
+                ]);
+            }
 
-            $user->update([
-                'email' => $request->userEmail,
-                'password' => Hash::make($request->userPassword)
-            ]);
 
             $user->save();
 
@@ -1108,6 +1116,8 @@ class HostController extends Controller
 
             $staff->save();
         });
+
+
 
         return redirect()->route('account');
     }
@@ -1138,7 +1148,7 @@ class HostController extends Controller
                 abort(403);
             }
         });
-        return true;
+        return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($request->id)]);
     }
 
     //client info update
