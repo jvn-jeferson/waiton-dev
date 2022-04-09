@@ -121,7 +121,7 @@
                                                 {{$record->created_at->format('Y年m月d日')}}
                                             </td>
                                             <td class="w-50">
-                                                <span class="text-info">{{$recrod->file->name}}</span>
+                                                <span class="text-info">{{$record->file->name}}</span>
                                             </td>
                                             <td>
                                                 <button class="btn btn-warning btn-block" type="button" onclick="confirmAccessRequest({{$record->id}})">閲覧</button>
