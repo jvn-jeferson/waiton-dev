@@ -404,7 +404,7 @@
                                             <tr>
                                                 <th class="bg-gray w-25">パスワード（国税用）</th>
                                                 <td>
-                                                    <input type="password" name="nta_password" id="nta_password" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_password ?? ''}}" @endif>
+                                                    <input type="text" name="nta_password" id="nta_password" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_password ?? ''}}" @endif>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -416,7 +416,7 @@
                                             <tr>
                                                 <th class="bg-gray w-25">パスワード（地方税用）</th>
                                                 <td>
-                                                    <input type="password" name="el_tax_password" id="el_tax_password" class="form-control" @if($client->credentials) value="{{$client->credentials->el_tax_password ?? ''}}" @endif>
+                                                    <input type="text" name="el_tax_password" id="el_tax_password" class="form-control" @if($client->credentials) value="{{$client->credentials->el_tax_password ?? ''}}" @endif>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -474,9 +474,9 @@
                     <button class="close" type="button" data-dismiss="modal">&times;</button>
                 </div>
                 <form method="post" action="{{route('update-client-staff')}}">
+                    @csrf
                     <input type="hidden" name="userID" id="userID">
                     <input type="hidden" name="clientID" id="clientID" value="{{$client->id}}">
-                    <input type="hidden" name="csrf-token" id="csrf-token" value="{{csrf_token()}}">
                     @csrf
                     <div class="modal-body">
                         <div class="table-responsive">
