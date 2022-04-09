@@ -105,7 +105,7 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead class="bg-info text-bold">
                                     <th>種類</th>
-                                    <th></th>
+                                    <th>アップロード日</th>
                                     <th>資料</th>
                                     <th></th>
                                 </thead>

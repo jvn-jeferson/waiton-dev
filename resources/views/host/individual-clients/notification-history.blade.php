@@ -118,7 +118,7 @@
                                 <thead class="bg-lightblue">
                                     <th></th>
                                     <th>種類</th>
-                                    <th></th>
+                                    <th>アップロード日</th>
                                     <th class="w-50">資料</th>
                                 </thead>
                                 <tbody>
