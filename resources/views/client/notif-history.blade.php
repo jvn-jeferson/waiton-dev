@@ -105,6 +105,7 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead class="bg-info text-bold">
                                     <th>種類</th>
+                                    <th>アップロード日</th>
                                     <th>資料</th>
                                     <th></th>
                                 </thead>
@@ -116,8 +117,11 @@
                                                 {{$record->notification_type}}
                                                 @endif
                                             </td>
+                                            <td>
+                                                {{$record->created_at->format('Y年m月d日')}}
+                                            </td>
                                             <td class="w-50">
-                                                <a href="{{ url(Storage::disk('gcs')->url($record->file->path))}}" download="{{$record->file->name}}">{{$record->file->name}}</a>
+                                                <span class="text-info">{{$record->file->name}}</span>
                                             </td>
                                             <td>
                                                 <button class="btn btn-warning btn-block" type="button" onclick="confirmAccessRequest({{$record->id}})">閲覧</button>

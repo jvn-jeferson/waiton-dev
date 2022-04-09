@@ -1096,14 +1096,22 @@ class HostController extends Controller
 
     public function update_staff(Request $request)
     {
+        dd($request->userPassword);
         DB::transaction(function () use ($request) {
             $user = User::find($request->userID);
             $staff = AccountingOfficeStaff::where('user_id', $user->id)->first();
+            if($request->userPassword != '')
+            {
+                $user->update([
+                    'email' => $request->userEmail,
+                    'password' => Hash::make($request->userPassword)
+                ]);
+            }else{
+                $user->update([
+                    'email' =>$request->userEmail
+                ]);
+            }
 
-            $user->update([
-                'email' => $request->userEmail,
-                'password' => Hash::make($request->userPassword)
-            ]);
 
             $user->save();
 
@@ -1113,20 +1121,22 @@ class HostController extends Controller
 
             $staff->save();
         });
+
+
 
         return redirect()->route('account');
     }
 
     public function update_client_staff(Request $request)
     {
-
+        $client_id = $request->clientID;
         DB::transaction(function () use ($request) {
             $user = User::find($request->userID);
             $staff = ClientStaff::where('user_id', $user->id)->first();
+            $client = $staff->client;
 
             $user->update([
                 'email' => $request->userEmail,
-                'password' => Hash::make($request->userPassword)
             ]);
 
             $user->save();
@@ -1137,13 +1147,16 @@ class HostController extends Controller
 
             $staff->save();
 
-            Mail::to($user->clientStaff->client->contact_email)->send(new UpdatedLoginCredentialsEmail($user->login_id, $request->userName, $request->userEmail, $request->userPassword));
+            Mail::to($user->clientStaff->client->contact_email)->send(new UpdatedLoginCredentialsEmail($user->login_id, $request->userName, $request->userEmail));
 
             if (Mail::failures()) {
                 abort(403);
             }
+
+
         });
-        return true;
+
+        return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($client_id)]);
     }
 
     //client info update

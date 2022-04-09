@@ -404,7 +404,7 @@
                                             <tr>
                                                 <th class="bg-gray w-25">パスワード（国税用）</th>
                                                 <td>
-                                                    <input type="password" name="nta_password" id="nta_password" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_password ?? ''}}" @endif>
+                                                    <input type="text" name="nta_password" id="nta_password" class="form-control" @if($client->credentials) value="{{$client->credentials->nta_password ?? ''}}" @endif>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -416,7 +416,7 @@
                                             <tr>
                                                 <th class="bg-gray w-25">パスワード（地方税用）</th>
                                                 <td>
-                                                    <input type="password" name="el_tax_password" id="el_tax_password" class="form-control" @if($client->credentials) value="{{$client->credentials->el_tax_password ?? ''}}" @endif>
+                                                    <input type="text" name="el_tax_password" id="el_tax_password" class="form-control" @if($client->credentials) value="{{$client->credentials->el_tax_password ?? ''}}" @endif>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -474,9 +474,9 @@
                     <button class="close" type="button" data-dismiss="modal">&times;</button>
                 </div>
                 <form method="post" action="{{route('update-client-staff')}}">
+                    @csrf
                     <input type="hidden" name="userID" id="userID">
                     <input type="hidden" name="clientID" id="clientID" value="{{$client->id}}">
-                    <input type="hidden" name="csrf-token" id="csrf-token" value="{{csrf_token()}}">
                     @csrf
                     <div class="modal-body">
                         <div class="table-responsive">
@@ -504,12 +504,6 @@
                                         </th>
                                         <td>
                                             <input type="text" class="form-control" id="userLogin" name="userLogin" readonly>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>パスワード</th>
-                                        <td>
-                                            <input type="password" name="userPassword" id="userPassword" class="form-control">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -584,45 +578,6 @@
 
             }).catch(function(error) {
                 console.log(error.response.data)
-            })
-        }
-
-        function processUpdate() {
-            Swal.fire({
-                title: "変更しますか？",
-                showCancelButton: true,
-                confirmButtonText: 'はい',
-                cancelButtonText: 'いいえ',
-                focusConfirm: false
-            }).then((result) => {
-
-                var laravelToken = document.getElementById('csrf_token').value
-                var url = "{{route('update-client-staff')}}"
-
-                axios.post(url, {
-                    id: document.getElementById('userID').value,
-                    name: document.getElementById('userName').value,
-                    email: document.getElementById('userEmail').value,
-                    password: document.getElementById('userPassword').value,
-                }).then(function(response) {
-                    if(response.data == 1)
-                    {
-                        Swal.fire({
-                            title: "ユーザー情報が正常に変更されました。",
-                            text: '更新されたログイン情報については、連絡先の電子メールを確認してください。',
-                            icon: 'success',
-                            showCancelButton: false,
-                            allowOutsideClick: false
-                        }).then((result) => {
-                            if(result.isConfirmed)
-                            {
-                                location.reload()
-                            }
-                        })
-                    }
-                }).catch(function(error) {
-                    console.log(error.response.data)
-                })
             })
         }
 

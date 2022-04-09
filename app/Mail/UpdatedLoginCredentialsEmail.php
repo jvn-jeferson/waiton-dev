@@ -18,12 +18,11 @@ class UpdatedLoginCredentialsEmail extends Mailable
      *
      * @return void
      */
-    public function __construct($login_id, $name, $email, $password)
+    public function __construct($login_id, $name, $email)
     {
         $this->login_id = $login_id;
         $this->name = $name;
         $this->email = $email;
-        $this->password = $password;
     }
 
     /**

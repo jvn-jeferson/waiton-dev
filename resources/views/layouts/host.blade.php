@@ -45,7 +45,7 @@
                 </div>
 
                 <h3 class="profile-username text-center">
-                  {{Auth::user()->accountingOffice->representative ?? ''}}
+                  {{Auth::user()->accountingOfficeStaff->name ?? ''}}
                 </h3>
 
                 <p class="text-muted text-center text-bold">

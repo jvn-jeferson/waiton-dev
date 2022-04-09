@@ -80,7 +80,9 @@ class ClientController extends Controller
     public function going_out()
     {
         $page_title = 'To　会計事務所';
-        $uploads = ClientUpload::where('user_id', Auth::user()->id)->latest()->get();
+        $client = Auth::user()->clientStaff->client;
+        $clientStaffs = ClientStaff::where('client_id', $client->id)->pluck('user_id');
+        $uploads = ClientUpload::whereIn('user_id', $clientStaffs)->latest()->get();
         return View::make('client.outgoing')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'uploads' => $uploads]);
     }
 
@@ -174,7 +176,7 @@ class ClientController extends Controller
     public function history()
     {
         $page_title = '過去決算';
-        $archives = TaxationHistory::where('client_id', Auth::user()->clientStaff->client->id)->get();
+        $archives = TaxationHistory::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
         return View::make('client.history')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'archives' => $archives]);
     }
 
@@ -192,7 +194,7 @@ class ClientController extends Controller
     {
         $page_title = '過去届出';
         $account = Client::find(Auth::user()->clientStaff->client->id);
-        $notifs = PastNotification::where('client_id', Auth::user()->clientStaff->client->id)->get();
+        $notifs = PastNotification::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
         return View::make('client.notif-history')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'account' => $account, 'records' => $notifs]);
     }
 
