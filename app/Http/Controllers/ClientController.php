@@ -543,4 +543,15 @@ class ClientController extends Controller
         $materials = PermanentRecord::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
         return View::make('client.material-storage')->with(['for_approval' => $this->get_approval_count(), 'page_title' => '確認済の資料', 'materials' => $materials]);
     }
+
+    public function downloadClientFiles(Request $request)
+    {
+        $files = Files::findOrFail($request->id);
+
+        $file = SELF::DOWNLOAD_CLOUD . urlencode($files->path) . '?alt=media';
+
+        $name = e($files->name);
+
+        return array(url($file), $name);
+    }
 }

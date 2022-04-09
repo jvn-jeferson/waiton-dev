@@ -46,7 +46,7 @@ class MainController extends Controller
   public function signin(Request $request)
   {
     $user_type = $request->user_type;
-    if($user_type == null){
+    if ($user_type == null) {
       $user_type = '会計事務所';
     }
 
@@ -58,7 +58,7 @@ class MainController extends Controller
     $plans = SubscriptionPlan::all();
     return View::make('main/select_plan', ['plans' => $plans]);
   }
-  
+
   public function request_reset_password()
   {
     return View::make('auth/passwords/request_reset_password');
@@ -198,26 +198,24 @@ class MainController extends Controller
     return View::make('auth/passwords/change_passwords', (['uid' => $uid]));
   }
 
-  public function redirectuser() {
-    if(Auth::user()->role_id == 2 || Auth::user()->role_id == 3) {
+  public function redirectuser()
+  {
+    if (Auth::user()->role_id == 2 || Auth::user()->role_id == 3) {
       return redirect('home');
-    }
-    else if (Auth::user()->role_id == 4 || Auth::user()->role_id == 5){
+    } else if (Auth::user()->role_id == 4 || Auth::user()->role_id == 5) {
       return redirect('client-home');
-    }
-    else {
+    } else {
       abort(403);
     }
   }
 
   public function send_inquiry(Request $request)
   {
-    dd($request->all());
     Mail::to('jbonayon15@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
 
-    if(Mail::fails()){
+    if (Mail::fails()) {
       return 'failure';
-    }else { 
+    } else {
       return 'success';
     }
   }

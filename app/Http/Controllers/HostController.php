@@ -957,7 +957,7 @@ class HostController extends Controller
                 $file = $request->file('file');
                 $file_name = $file->getClientOriginalName();
 
-                $file_path = "accounting-office-message-attachments/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $file_name);
+                $file_path = "client-uploads/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $file_name);
                 Storage::disk('gcs')->put($file_path, file_get_contents($file));
 
                 //save file first
@@ -1096,19 +1096,17 @@ class HostController extends Controller
 
     public function update_staff(Request $request)
     {
-        dd($request->userPassword);
         DB::transaction(function () use ($request) {
             $user = User::find($request->userID);
             $staff = AccountingOfficeStaff::where('user_id', $user->id)->first();
-            if($request->userPassword != '')
-            {
+            if ($request->userPassword != '') {
                 $user->update([
                     'email' => $request->userEmail,
                     'password' => Hash::make($request->userPassword)
                 ]);
-            }else{
+            } else {
                 $user->update([
-                    'email' =>$request->userEmail
+                    'email' => $request->userEmail
                 ]);
             }
 
@@ -1152,8 +1150,6 @@ class HostController extends Controller
             if (Mail::failures()) {
                 abort(403);
             }
-
-
         });
 
         return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($client_id)]);
