@@ -957,7 +957,7 @@ class HostController extends Controller
                 $file = $request->file('file');
                 $file_name = $file->getClientOriginalName();
 
-                $file_path = "client-uploads/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $file_name);
+                $file_path = "host-uploads/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . str_replace(' ', '%20', $file_name);
                 Storage::disk('gcs')->put($file_path, file_get_contents($file));
 
                 //save file first
