@@ -1124,7 +1124,7 @@ class HostController extends Controller
 
     public function update_client_staff(Request $request)
     {
-
+        $client_id = $request->clientID;
         DB::transaction(function () use ($request) {
             $user = User::find($request->userID);
             $staff = ClientStaff::where('user_id', $user->id)->first();
@@ -1149,8 +1149,9 @@ class HostController extends Controller
             }
 
 
-        return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($client->id)]);
         });
+
+        return redirect()->route('view-registration-information', ['client_id' => $this->hashids->encode($client_id)]);
     }
 
     //client info update
