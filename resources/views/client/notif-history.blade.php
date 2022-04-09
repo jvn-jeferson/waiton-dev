@@ -105,6 +105,7 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead class="bg-info text-bold">
                                     <th>種類</th>
+                                    <th></th>
                                     <th>資料</th>
                                     <th></th>
                                 </thead>
@@ -115,6 +116,9 @@
                                                 @if($record->notification_type)
                                                 {{$record->notification_type}}
                                                 @endif
+                                            </td>
+                                            <td>
+                                                {{$record->created_at->format('Y年m月d日')}}
                                             </td>
                                             <td class="w-50">
                                                 <a href="{{ url(Storage::disk('gcs')->url($record->file->path))}}" download="{{$record->file->name}}">{{$record->file->name}}</a>

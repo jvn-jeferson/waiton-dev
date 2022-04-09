@@ -118,6 +118,7 @@
                                 <thead class="bg-lightblue">
                                     <th></th>
                                     <th>種類</th>
+                                    <th></th>
                                     <th class="w-50">資料</th>
                                 </thead>
                                 <tbody>
@@ -125,6 +126,7 @@
                                         <tr>
                                             <td><input type="checkbox" name="archive_id" id="archive_id" value="{{$archive->id}}"></td>
                                             <td>{{$archive->notification_type}}</td>
+                                            <td>{{$archive->created_at->format('Y年m月d日')}}</td>
                                             <td class="text-info"><a href="{{Storage::disk('gcs')->url($archive->file->path)}}" download="{{$archive->file->name}}">{{$archive->file->name}}</a></td>
                                         </tr>
                                     @empty
