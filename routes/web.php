@@ -100,6 +100,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('send-host-inquiry', [HostController::class, 'send_inquiry'])->name('send-host-inquiry');
         Route::post('delete-ao-staff', [HostController::class, 'delete_staff'])->name('delete-ao-staff');
         Route::post('update-otp-email', [HostController::class, 'update_otp_email'])->name('update-otp-email');
+        Route::post('download-document-files', [HostController::class, 'downloadDocumentFiles'])->name('download-document-files');
+
 
         //Accounting Office Individual Routes
         Route::group(['prefix' => 'access-client'], function () {

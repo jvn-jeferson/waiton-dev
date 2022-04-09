@@ -61,11 +61,11 @@ class ClientController extends Controller
     {
         $date = date('Y-m-d');
 
-        $messages = Message::where(function ($dateQuery) use ($date){
-            $dateQuery->where(function($dateSubQuery) use ($date){
-                $dateSubQuery->where('created_at', 'like', ''.$date.'%')
-                ->where('scheduled_at', null);
-            })->orWhere('scheduled_at', 'like', ''.$date.'%');
+        $messages = Message::where(function ($dateQuery) use ($date) {
+            $dateQuery->where(function ($dateSubQuery) use ($date) {
+                $dateSubQuery->where('created_at', 'like', '' . $date . '%')
+                    ->where('scheduled_at', null);
+            })->orWhere('scheduled_at', 'like', '' . $date . '%');
         })->where(function ($targetQuery) {
             $targetQuery->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id);
         })->latest()->get();
@@ -372,14 +372,11 @@ class ClientController extends Controller
                 $comment = $target->details;
                 $title = '確認書_' . date('Y_m_d_H:i:s') . '.pdf';
                 $decision = "";
-                if($status == 2)
-                {
+                if ($status == 2) {
                     $decision = '承認済み';
-                }
-                else if($status == 3)
-                {
+                } else if ($status == 3) {
                     $decision = '保留';
-                }else{
+                } else {
                     $decision = '承認不要データ';
                 }
 

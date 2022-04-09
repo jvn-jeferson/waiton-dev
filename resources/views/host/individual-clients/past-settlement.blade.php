@@ -21,10 +21,14 @@
                                         @endif
                                         <p><a href="#" onclick="window.open('{{route('video-creation', ['client_id'=>$hashids->encode($client->id), 'record_id' => $record->id ?? 0])}}');">こちらから動画を作成し. URLを貼り付けてください。</a></p>
                                         @php
-                                $encrypt_url = isset($record->video_url) ? base64_encode($record->video_url) : null;
+                                        $encrypt_url = isset($record->video_url) ? base64_encode($record->video_url) : null;
                                         @endphp
-                                        <input type="text" name="video-url" id="video-url" class="form-control" placeholder="動画のURLを貼り付けてください" value="{{ $encrypt_url }}">
+                                        @if($record == null)
+                                        <input type="text" name="video-url" id="video-url" class="form-control" placeholder="動画のURLを貼り付けてください" value="">
                                         <input type="hidden" name="video_url" id="video_url" value="{{$record->video_url ?? ''}}">
+                                        @else
+                                        <input type="text" name="video-url" id="video-url" class="form-control" readonly placeholder="動画のURLを貼り付けてください" value="{{ $encrypt_url }}">
+                                        @endif
                                         @error('video_url')
                                             <span class="text-danger">
                                                 {{$message}}
@@ -42,6 +46,7 @@
                                                     <tr>
                                                         <th>種類</th>
                                                         <td class="bg-light">
+                                                                                                                                                                @if($record == null)
                                                             <select name="kinds" id="kinds" class="form-control">
                                                                 <option value="決算書">決算書</option>
                                                                 <option value="届出">届出</option>
@@ -53,17 +58,24 @@
                                                                 {{$message}}
                                                             </span>
                                                             @enderror
+                                                            @else
+                                                            <input type="text" name="kinds" id="kinds" class="form-control" readonly value="{{ $record->kinds ?? ''}}">
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <th>提出日</th>
                                                         <td class="bg-light">
+                                                            @if($record == null)
                                                             <input type="date" class="form-control" name="settlement_date" id="settlement_date" value="{{$record != null ? $record->settlement_date->format('Y-m-d') : date('Y-m-d')}}">
                                                             @error('settlement_date')
                                                             <span class="text-danger">
                                                                 {{$message}}
                                                             </span>
                                                             @enderror
+                                                            @else
+                                                            <input type="input" name="settlement_date" id="settlement_date" class="form-control" readonly value="{{ $record->created_at ?? ''}}">
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -85,13 +97,18 @@
                                                     <tr>
                                                         <th>コメント</th>
                                                         <td class="bg-light">
+                                                            @if($record == null)
                                                             <textarea rows="5" type="text" name="comment" id="comment" class="form-control" value="{{$record->comment ?? ''}}"></textarea>
+                                                            @else
+                                                                <textarea rows="5" type="text" name="comment" id="comment" class="form-control">{{$record->comment}}</textarea>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                         <div class="card">
+                                            @if($record == null)
                                             <div class="row p-2">
                                                 <div class="col-6">
                                                     <button type="button" onclick="window.open('{{route('video-creation', ['client_id'=>$hashids->encode($client->id), 'record_id' => $record->id ?? 0])}}');" class="btn btn-warning btn-block">動画作成</button>
@@ -100,6 +117,8 @@
                                                     <button class="btn btn-warning  btn-block" type="button">プレビュー</button>
                                                 </div>
                                             </div>
+                                            @else
+                                            @endif
                                             <div class="row p-2">
                                                 <div class="col-6">
                                                     <button class="btn btn-warning  btn-block" type="submit">登録</button>

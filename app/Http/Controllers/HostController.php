@@ -927,27 +927,26 @@ class HostController extends Controller
             'kinds' => 'required',
         ]);
 
-
         if ($validator->fails()) {
             return redirect()->route('create-video', ['client_id' => $request->client_id])
                 ->withErrors($validator)
                 ->withInput();
         }
 
-
         if ($request->input('record_id')) {
             $record = TaxationHistory::find($request->record_id);
 
             $record->update([
-                'settlement_date' => $request->settlement_date,
-                'recognition_date' => $request->recognition_date,
-                'proposal_date' => $request->proposal_date,
-                'company_representative' => $request->company_representative,
-                'accounting_office_staff' => $request->accounting_office_staff,
-                'video_contributor' => $request->video_contributor,
+                // TODO: update only Comment
+                // 'settlement_date' => $request->settlement_date,
+                // 'recognition_date' => $request->recognition_date,
+                // 'proposal_date' => $request->proposal_date,
+                // 'company_representative' => $request->company_representative,
+                // 'accounting_office_staff' => $request->accounting_office_staff,
+                // 'video_contributor' => $request->video_contributor,
                 'comment' => $request->comment,
-                'kinds' => $request->kinds,
-                'video_url' => $request->video_url
+                // 'kinds' => $request->kinds,
+                // 'video_url' => $request->video_url
             ]);
 
             $record->save();
@@ -955,10 +954,16 @@ class HostController extends Controller
             DB::transaction(function () use ($request) {
                 $client_id = $this->hashids->decode($request->client_id)[0];
 
+                $file = $request->file('file');
+                $file_name = $file->getClientOriginalName();
+
+                $file_path = "accounting-office-message-attachments/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $file_name);
+                Storage::disk('gcs')->put($file_path, file_get_contents($file));
+
                 //save file first
                 $file_id = Files::insertGetId([
                     'user_id' => Auth::user()->id,
-                    'path' => $request->file('file')->store('public/files/' . Auth::user()->accountingOfficeStaff->accountingOffice->name . '/' . Client::find($client_id)->name),
+                    'path' => $file_path,
                     'name' => $request->file('file')->getClientOriginalName(),
                     'size' => $request->file('file')->getSize(),
                     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -1441,5 +1446,16 @@ class HostController extends Controller
         $stored_materials = PermanentRecord::where('client_id', $id)->latest()->get();
 
         return View::make('host.individual-clients.stored-materials', ['hashids' => $this->hashids, 'client' => $client, 'unviewed' => $unviewed, 'materials' => $stored_materials]);
+    }
+
+    function downloadDocumentFiles(Request $request)
+    {
+        $files = Files::findOrFail($request->id);
+
+        $file = SELF::DOWNLOAD_CLOUD . urlencode($files->path) . '?alt=media';
+
+        $name = e($files->name);
+
+        return array(url($file), $name);
     }
 }
