@@ -1131,7 +1131,6 @@ class HostController extends Controller
 
             $user->update([
                 'email' => $request->userEmail,
-                'password' => Hash::make($request->userPassword)
             ]);
 
             $user->save();
@@ -1142,7 +1141,7 @@ class HostController extends Controller
 
             $staff->save();
 
-            Mail::to($user->clientStaff->client->contact_email)->send(new UpdatedLoginCredentialsEmail($user->login_id, $request->userName, $request->userEmail, $request->userPassword));
+            Mail::to($user->clientStaff->client->contact_email)->send(new UpdatedLoginCredentialsEmail($user->login_id, $request->userName, $request->userEmail));
 
             if (Mail::failures()) {
                 abort(403);

@@ -23,7 +23,6 @@ class UpdatedLoginCredentialsEmail extends Mailable
         $this->login_id = $login_id;
         $this->name = $name;
         $this->email = $email;
-        $this->password = $password;
     }
 
     /**

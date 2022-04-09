@@ -8,7 +8,6 @@ Registered name: {{'     '.$name}}
 <br>
 Email address: {{'     '.$email}}
 <br>
-Password: {{'     '.$password}}
 
 <br>
 <hr>
