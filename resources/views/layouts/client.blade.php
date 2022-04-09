@@ -45,7 +45,7 @@
               </div>
 
               <h3 class="profile-username text-center">
-                @if(auth()->user()->clientStaff->is_admin == 1)
+                @if(Auth::user()->clientStaff->is_admin == 1)
                   Administrator
                 @else
                   Staff
@@ -53,7 +53,7 @@
               </h3>
 
               <p class="text-muted text-center">
-                {{auth()->user()->clientStaff->name}}
+                {{Auth::user()->clientStaff->name}}
               </p>
 
               <ul class="list-group list-group-unbordered mb-3">
