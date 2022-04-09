@@ -14,7 +14,7 @@
                         以下のファイルが会計事務所から送信されました。承認が必要な資料については、承認/予約を確認して選択し、処理を決定してください。  （視聴期限は1ヶ月です)
                     </p>
                     @forelse($host_uploads as $host_upload)
-                        <table class="table table-bordered table-outline text-center my-2">
+                        <table style="table-layout:fixed; width:100%" class="table table-bordered table-outline text-center my-2">
                             <thead class="thead-dark">
                                 <th>投稿情報</th>
                                 <th>締め切りの表示</th>
@@ -98,7 +98,7 @@
                                     <td colspan="2" class="w-50">
                                         {{ $host_upload->details }}
                                     </td>
-                                    <td class="w-25">
+                                    <td class="bg-primary" class="w-25">
                                         @if($host_upload->priority == 0)
                                         <button class="btn btn-flat btn-block btn-primary" role="button"
                                             onclick="admitFile({{ $host_upload->id }})">
@@ -111,7 +111,7 @@
                                     <td class="bg-light w-25">
                                         URL
                                     </td>
-                                    <td colspan="2" class="w-50">
+                                    <td colspan="2" style="overflow:hidden; width:50px;">
                                         <a href="#"
                                             onclick="decrypt_video('{{ $host_upload->video_url }}')">{{ $host_upload->video_url }}</a>
                                     </td>
