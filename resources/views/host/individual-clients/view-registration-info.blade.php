@@ -506,12 +506,6 @@
                                             <input type="text" class="form-control" id="userLogin" name="userLogin" readonly>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <th>パスワード</th>
-                                        <td>
-                                            <input type="password" name="userPassword" id="userPassword" class="form-control">
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -584,45 +578,6 @@
 
             }).catch(function(error) {
                 console.log(error.response.data)
-            })
-        }
-
-        function processUpdate() {
-            Swal.fire({
-                title: "変更しますか？",
-                showCancelButton: true,
-                confirmButtonText: 'はい',
-                cancelButtonText: 'いいえ',
-                focusConfirm: false
-            }).then((result) => {
-
-                var laravelToken = document.getElementById('csrf_token').value
-                var url = "{{route('update-client-staff')}}"
-
-                axios.post(url, {
-                    id: document.getElementById('userID').value,
-                    name: document.getElementById('userName').value,
-                    email: document.getElementById('userEmail').value,
-                    password: document.getElementById('userPassword').value,
-                }).then(function(response) {
-                    if(response.data == 1)
-                    {
-                        Swal.fire({
-                            title: "ユーザー情報が正常に変更されました。",
-                            text: '更新されたログイン情報については、連絡先の電子メールを確認してください。',
-                            icon: 'success',
-                            showCancelButton: false,
-                            allowOutsideClick: false
-                        }).then((result) => {
-                            if(result.isConfirmed)
-                            {
-                                location.reload()
-                            }
-                        })
-                    }
-                }).catch(function(error) {
-                    console.log(error.response.data)
-                })
             })
         }
 
