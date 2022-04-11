@@ -68,7 +68,7 @@
                                                     <td>{!! nl2br($message->contents) !!}</td>
                                                     <td class="text-info">
                                                         @if($message->file)
-                                                            <a href="{{Storage::disk('gcs')->url($message->file->path)}}" download="{{$message->file->name}}">{{$message->file->name}}</a>
+                                                            <a href="#" onclick="downloadFile({{$message->file->id}}, this)">{{$message->file->name}}</a>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -97,5 +97,27 @@
                 Swal.showLoading()
             })
         })
+
+        function downloadFile(id, button)
+        {
+            var url = "{{route('download-document-files')}}"
+
+            axios.post(url, {
+                file_id: id
+            }).then(function (response) {
+                const link = document.createElement('a')
+                link.href = response.data[0]
+                link.setAttribute('download', response.data[1]);
+                link.click();
+                button.disabled = 'disabled'
+            }).catch(function (error) {
+                Swal.fire({
+                    title: "ERROR",
+                    text: error.message,
+                    icon: 'danger',
+                    showCancelButton: false
+                })
+            })
+        }
     </script>
 @endsection

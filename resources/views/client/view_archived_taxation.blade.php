@@ -25,7 +25,7 @@
                                         <td class="text-center">提出済み申告書一式</td>
                                         <td>
                                             {{$record->file->name}} <br>
-                                            <a class="btn btn-block btn-warning" type="button" href="{{url(Storage::disk('gcs')->url($record->file->path))}}" download="{{$record->file->name}}">ダウンロード</a>
+                                            <a class="btn btn-block btn-warning" type="button" href="#" onclick="downloadFile({{$record->file->id}}, this)">ダウンロード</a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -58,5 +58,27 @@
         video.setAttribute('src', video_data);
         video.load();
         video.play();
+
+        function downloadFile(id, button)
+        {
+            var url = "{{route('download')}}"
+
+            axios.post(url, {
+                file_id: id
+            }).then(function (response) {
+                const link = document.createElement('a')
+                link.href = response.data[0]
+                link.setAttribute('download', response.data[1]);
+                link.click();
+                button.disabled = 'disabled'
+            }).catch(function (error) {
+                Swal.fire({
+                    title: "ERROR",
+                    text: error.response.data['message'],
+                    icon: 'danger',
+                    showCancelButton: false
+                })
+            })
+        }
     </script>
 @endsection

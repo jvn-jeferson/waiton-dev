@@ -1289,7 +1289,7 @@ class HostController extends Controller
         ]);
         $record->save();
 
-        $name = e($record->file->name);
+        $name = $record->file->name;
 
         return array(url($file), $name);
     }
@@ -1459,7 +1459,7 @@ class HostController extends Controller
 
     function downloadDocumentFiles(Request $request)
     {
-        $files = Files::findOrFail($request->id);
+        $files = Files::findOrFail($request->file_id);
 
         $file = SELF::DOWNLOAD_CLOUD . urlencode($files->path) . '?alt=media';
 

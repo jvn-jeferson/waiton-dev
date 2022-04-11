@@ -143,7 +143,7 @@
                                         <td>{{$upload->user->clientStaff->name}}</td>
                                         <td>
                                             @if($upload->file)
-                                            <a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}" target="_blank">{{$upload->file->name}}</a>
+                                            <a href="#" onclick="downloadFile({{$upload->file->id}}, this)">{{$upload->file->name}}</a>
                                             @endif
                                         </td>
                                         <td>{{$upload->comment}}</td>
@@ -211,5 +211,27 @@
             Swal.showLoading()
         })
     })
+
+    function downloadFile(id, button)
+    {
+        var url = "{{route('download')}}"
+
+        axios.post(url, {
+            file_id: id
+        }).then(function (response) {
+            const link = document.createElement('a')
+            link.href = response.data[0]
+            link.setAttribute('download', response.data[1]);
+            link.click();
+            button.disabled = 'disabled'
+        }).catch(function (error) {
+            Swal.fire({
+                title: "ERROR",
+                text: error.response.data['message'],
+                icon: 'danger',
+                showCancelButton: false
+            })
+        })
+    }
 </script>
 @endsection

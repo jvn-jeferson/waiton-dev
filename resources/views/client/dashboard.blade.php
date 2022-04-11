@@ -27,7 +27,7 @@
                               {{$message->created_at->format('Y年m月d日')}}
                               @endif
                             </strong>
-                            - {!! nl2br($message->contents) !!} @if($message->file) <a href="{{Storage::disk('gcs')->url($message->file->path)}}" download="{{$message->file->name}}"><i class="fa fas fa-paperclip"></i></a> @endif
+                            - {!! nl2br($message->contents) !!} @if($message->file) <a href="#" onclick="downloadFile({{$message->file->id}}, this)"><i class="fa fas fa-paperclip"></i></a> @endif
                           </li>
                         @empty
                           <li class="text-info list-group-item">
@@ -63,7 +63,7 @@
                           @forelse($uploads as $upload)
                             <tr>
                               <td>{{$upload->created_at->format('Y年m月d日')}}</td>
-                              <td class="text-info"><a href="{{Storage::disk('gcs')->url($upload->file->path)}}" download="{{$upload->file->name}}">{{$upload->file->name}}</a></td>
+                              <td class="text-info"><a href="#" onclick="downloadFile({{$upload->file->id}}, this)">{{$upload->file->name}}</a></td>
                               <td>アップロード</td>
                               <td>{{$upload->created_at->modify('+1 month')->format('Y年m月d日')  }}</td>
                             </tr>
@@ -103,7 +103,7 @@
                               <td>{{$download->created_at->format('Y年m月d日')}}</td>
                               <td class="text-info">
                                 @if($download->file)
-                                <a href="{{Storage::disk('gcs')->url($download->file->path)}}" download="{{$download->file->name}}">{{$download->file->name ?? ''}}</a>
+                                <a href="#" onclick="downloadFile({{$download->file->id}}, this)">{{$download->file->name ?? ''}}</a>
                                 @endif
                               </td>
                               <td>
@@ -157,7 +157,7 @@
                           @forelse($files as $file)
                             <tr>
                               <td>{{$file->created_at->format('Y年m月d日')}}</td>
-                              <td class="text-info"><a href="{{url(Storage::disk('gcs')->url($file->path))}}" download="{{$file->name}}">{{$file->name}}</a></td>
+                              <td class="text-info"><a href="#" onclick="downloadFile({{$file->id}}, this)">{{$file->name}}</a></td>
                               <td>
                                 @if($file->deleted_at)
                                   アーカイブされました。
@@ -186,6 +186,29 @@
 @endsection
 
 @section('extra-scripts')
+    <script>
+        function downloadFile(id, button)
+        {
+            var url = "{{route('download')}}"
+
+            axios.post(url, {
+                file_id: id
+            }).then(function (response) {
+                const link = document.createElement('a')
+                link.href = response.data[0]
+                link.setAttribute('download', response.data[1]);
+                link.click();
+                button.disabled = 'disabled'
+            }).catch(function (error) {
+                Swal.fire({
+                    title: "ERROR",
+                    text: error.response.data['message'],
+                    icon: 'danger',
+                    showCancelButton: false
+                })
+            })
+        }
+    </script>
 @endsection
 
 

@@ -24,7 +24,7 @@
                                                 {{$record->notification_type ?? '不明'}}
                                             </td>
                                             <td>
-                                                <a href="{{Storage::disk('gcs')->url($record->file->path)}}" download="{{$record->file->name}}">{{$record->file->name}}</a>
+                                                <a href="#" onclick="downloadFile({{$record->file->id}}, this)">{{$record->file->name}}</a>
                                             </td>
                                             <td>
                                                 {{$record->uploader->name}}
@@ -67,6 +67,28 @@
             var notifDataModal = document.querySelector('#notifDataModal')
 
             notifDataModal.modal('show')
+        }
+
+        function downloadFile(id, button)
+        {
+            var url = "{{route('download')}}"
+
+            axios.post(url, {
+                file_id: id
+            }).then(function (response) {
+                const link = document.createElement('a')
+                link.href = response.data[0]
+                link.setAttribute('download', response.data[1]);
+                link.click();
+                button.disabled = 'disabled'
+            }).catch(function (error) {
+                Swal.fire({
+                    title: "ERROR",
+                    text: error.response.data['message'],
+                    icon: 'danger',
+                    showCancelButton: false
+                })
+            })
         }
     </script>
 @endsection

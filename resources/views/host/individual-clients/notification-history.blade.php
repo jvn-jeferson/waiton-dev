@@ -127,7 +127,7 @@
                                             <td><input type="checkbox" name="archive_id" id="archive_id" value="{{$archive->id}}"></td>
                                             <td>{{$archive->notification_type}}</td>
                                             <td>{{$archive->created_at->format('Y年m月d日')}}</td>
-                                            <td class="text-info"><a href="{{Storage::disk('gcs')->url($archive->file->path)}}" download="{{$archive->file->name}}">{{$archive->file->name}}</a></td>
+                                            <td class="text-info"><a href="#" onclick="downloadFile({{$archive->file->id}}, this)">{{$archive->file->name}}</a></td>
                                         </tr>
                                     @empty
                                     @endforelse
@@ -376,5 +376,27 @@
                 Swal.showLoading()
             })
         })
+
+        function downloadFile(id, button)
+        {
+            var url = "{{route('download-document-files')}}"
+
+            axios.post(url, {
+                file_id: id
+            }).then(function (response) {
+                const link = document.createElement('a')
+                link.href = response.data[0]
+                link.setAttribute('download', response.data[1]);
+                link.click();
+                button.disabled = 'disabled'
+            }).catch(function (error) {
+                Swal.fire({
+                    title: "ERROR",
+                    text: error.message,
+                    icon: 'danger',
+                    showCancelButton: false
+                })
+            })
+        }
     </script>
 @endsection

@@ -83,7 +83,7 @@
                     var url = "{{ route('download-document-files') }}"
 
                     axios.post(url, {
-                        id: id
+                        file_id: id
                     }).then(function(response) {
                         const link = document.createElement('a')
                         link.href = response.data[0]

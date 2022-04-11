@@ -61,11 +61,11 @@ class ClientController extends Controller
     {
         $date = date('Y-m-d');
 
-        $messages = Message::where(function ($dateQuery) use ($date) {
-            $dateQuery->where(function ($dateSubQuery) use ($date) {
-                $dateSubQuery->where('created_at', 'like', '' . $date . '%')
-                    ->where('scheduled_at', null);
-            })->orWhere('scheduled_at', 'like', '' . $date . '%');
+        $messages = Message::where(function ($dateQuery) use ($date){
+            $dateQuery->where(function($dateSubQuery) use ($date){
+                $dateSubQuery->where('created_at', 'like', ''.$date.'%')
+                ->where('scheduled_at', null);
+            })->orWhere('scheduled_at', 'like', ''.$date.'%');
         })->where(function ($targetQuery) {
             $targetQuery->where('is_global', 1)->orWhere('targeted_at', Auth::user()->clientStaff->client->id);
         })->latest()->get();
@@ -264,8 +264,10 @@ class ClientController extends Controller
     {
         $file_db = Files::find($request->file_id);
 
-        $file = Storage::disk('gcs')->url($file_db->path);
-        $name = e($file_db->name);
+        $file = SELF::DOWNLOAD_CLOUD . urlencode($file_db->path) . '?alt=media';
+
+        $name = $file_db->name;
+
         return array(url($file), $name);
     }
 
@@ -374,11 +376,14 @@ class ClientController extends Controller
                 $comment = $target->details;
                 $title = '確認書_' . date('Y_m_d_H:i:s') . '.pdf';
                 $decision = "";
-                if ($status == 2) {
+                if($status == 2)
+                {
                     $decision = '承認済み';
-                } else if ($status == 3) {
+                }
+                else if($status == 3)
+                {
                     $decision = '保留';
-                } else {
+                }else{
                     $decision = '承認不要データ';
                 }
 
@@ -542,16 +547,5 @@ class ClientController extends Controller
     {
         $materials = PermanentRecord::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
         return View::make('client.material-storage')->with(['for_approval' => $this->get_approval_count(), 'page_title' => '確認済の資料', 'materials' => $materials]);
-    }
-
-    public function downloadClientFiles(Request $request)
-    {
-        $files = Files::findOrFail($request->id);
-
-        $file = SELF::DOWNLOAD_CLOUD . urlencode($files->path) . '?alt=media';
-
-        $name = e($files->name);
-
-        return array(url($file), $name);
     }
 }

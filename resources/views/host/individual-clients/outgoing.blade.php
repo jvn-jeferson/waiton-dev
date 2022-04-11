@@ -113,8 +113,7 @@
                                                             </td>
                                                             <td>@if ($upload->modified_by_user_id){{ $upload->updated_at->format('Y年m月d日') }} • {{ $upload->editor->name }} • @if ($upload->status == 1) 承認 @else 保留 @endif @endif </td>
                                                             <td class="text-info"><a
-                                                                    href="{{ Storage::disk('gcs')->url($upload->file->path) ?? '' }}"
-                                                                    download>{{ $upload->file->name ?? ''}}
+                                                                    href="#" onclick="downloadFile({{$upload->file->id}}, this)">{{ $upload->file->name ?? ''}}
                                                                 </a>
                                                             </td>
                                                             <td><button class="btn btn-light btn-block" onclick="displayfulltext({{json_encode($upload->details)}})">{{ substr($upload->details,0, 10) }} ...</button></td>
@@ -191,6 +190,28 @@
                 showCancelButton: false,
                 showConfirmButton: false,
                 allowOutsideClick: true
+            })
+        }
+
+        function downloadFile(id, button)
+        {
+            var url = "{{route('download-document-files')}}"
+
+            axios.post(url, {
+                file_id: id
+            }).then(function (response) {
+                const link = document.createElement('a')
+                link.href = response.data[0]
+                link.setAttribute('download', response.data[1]);
+                link.click();
+                button.disabled = 'disabled'
+            }).catch(function (error) {
+                Swal.fire({
+                    title: "ERROR",
+                    text: error.message,
+                    icon: 'danger',
+                    showCancelButton: false
+                })
             })
         }
     </script>

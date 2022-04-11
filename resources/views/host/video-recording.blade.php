@@ -7,7 +7,7 @@
         width: 100%;
         height: 100%;
     }
-    
+
     video:last-of-type {
         margin: 0 0 20px 0;
     }
@@ -39,7 +39,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-9 align-items-center">
-                        
+
                         <video src="" id="video" style="border: 1px solid #c6c6c6;" autoplay muted></video>
                         <div>
                             <span id="errorMsg"></span>
