@@ -114,14 +114,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th style="width:25%">承認の有無</th>
-                                <td style="width:75%">
-                                    @if ($with_approval == 0)
-                                        承認不要データ
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr>
                                 <th style="width:25%">コメント</th>
                                 <td style="width:75%">
                                     {!! nl2br(e($comment)) !!}
@@ -135,12 +127,6 @@
                             <th colspan="2">クライアント処理</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th style="width:25%">初回閲覧日</th>
-                                <td style="width:75%">
-                                    {{ $first_viewing_date  }}
-                                </td>
-                            </tr>
                             <tr>
                                 <th style="width:25%">
                                     対応投稿日

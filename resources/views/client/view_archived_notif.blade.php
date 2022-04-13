@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header text-left">
                         <h3 class="card-title text-dark text-bold">
-                            過去の届出等の履歴
+                            保存資料（動画なし）
                         </h3>
                     </div>
                     <div class="card-body">
@@ -15,7 +15,7 @@
                                 <thead class="bg-info text-bold text-center">
                                     <th>種類</th>
                                     <th>資料</th>
-                                    <th>アップローダー</th>
+                                    <th>投稿者</th>
                                 </thead>
                                 <tbody>
                                     @if($record)

@@ -14,9 +14,6 @@
                                 <p class="text-bold">
                                     クライアント宛に、以下で資料をアップロードします。
                                 </p>
-                                <p class="text-bold">
-                                    アップロード資料にファイルをドロップするか、アップロードボタンからファイルを選択してください。
-                                </p>
                                 <div class="table-responsive mt-2">
                                     <form action="{{ route('send-tax-file') }}" method="post"
                                         enctype="multipart/form-data">

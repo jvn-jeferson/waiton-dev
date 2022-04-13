@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-8">
-                        <video src="" id="player" width="520" height="600" controls style="border: 1px solid #c6c6c6; background: lightblue" autoplay>
+                        <video src="" id="player" width="100%" height="600" controls style="border: 1px solid #c6c6c6; background: lightblue" autoplay>
                         </video>
                         <input type="hidden" name="video_player" id="video_player" value="{{$record->video_url}}">
                     </div>
@@ -18,31 +18,23 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-center">決算日</td>
+                                        <td class="text-center">投稿日</td>
                                         <td>{{$record->created_at->format('Y年m月d日')}}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-center">提出済み申告書一式</td>
+                                        <td class="text-center">保管資料</td>
                                         <td>
                                             {{$record->file->name}} <br>
                                             <a class="btn btn-block btn-warning" type="button" href="#" onclick="downloadFile({{$record->file->id}}, this)">ダウンロード</a>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-center">会社担当者</td>
-                                        <td>{{$record->company_representative}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">会計事務所担当者</td>
+                                        <td class="text-center">投稿者</td>
                                         <td>{{$record->accounting_office_staff}}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-center">動画投稿者</td>
-                                        <td>{{$record->video_contributor}}</td>
-                                    </tr>
-                                    <tr>
                                         <td class="text-center">コメント</td>
-                                        <td>{{$record->comment}}</td>
+                                        <td>{!!nl2br($record->comment)!!}</td>
                                     </tr>
                                 </tbody>
                             </table>
