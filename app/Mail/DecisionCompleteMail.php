@@ -31,8 +31,6 @@ class DecisionCompleteMail extends Mailable
      */
     public function build()
     {
-        return $this->from(config('mail.from.address'), config('mail.from.name'))
-                    ->subject('【From会計事務所 '.$this->host->name.'】承認等の完了通知')
-                    ->markdown('email.decision-complete-mail');
+        return $this->from(config('mail.from.address'), config('mail.from.name'))->subject('【From会計事務所 '.$this->host->name.'】承認等の完了通知')->markdown('email.decision-complete-mail');
     }
 }
