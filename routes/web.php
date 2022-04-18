@@ -69,7 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('one-time-access', [ClientController::class, 'one_time_access'])->name('one-time-access');
         Route::post('new-user', [ClientController::class, 'register_new_access'])->name('new-user');
         Route::post('download-host-file', [ClientController::class, 'download_host_file'])->name('download-host-file');
-        Route::post('download-client-files', [ClientController::class, 'downloadClientFiles'])->name('download-client-files');
+        Route::post('download-client-files', [ClientController::class, 'downloadDocumentFiles'])->name('download-client-files');
 
         //DataTables routes
         // Route::get('messages-data', [ClientDatatablesController::class, 'messages_data'])->name('messages-data');

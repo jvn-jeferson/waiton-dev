@@ -67,7 +67,7 @@
     @section('extra-scripts')
         <script>
             function downloadDocumentFiles(id) {
-                var url = "{{ route('download-client-files') }}"
+                var url = "{{ route('download') }}"
 
                 axios.post(url, {
                     id: id
