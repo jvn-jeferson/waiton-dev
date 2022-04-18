@@ -66,18 +66,25 @@
     @endsection
     @section('extra-scripts')
         <script>
-            function downloadDocumentFiles(id) {
-                var url = "{{ route('download') }}"
+            function downloadFile(id, button)
+            {
+                var url = "{{route('download')}}"
 
                 axios.post(url, {
-                    id: id
-                }).then(function(response) {
+                    file_id: id
+                }).then(function (response) {
                     const link = document.createElement('a')
                     link.href = response.data[0]
-                    link.download = response.data[1];
+                    link.setAttribute('download', response.data[1]);
                     link.click();
-                }).catch(function(error) {
-                    console.log(error.response);
+                    button.disabled = 'disabled'
+                }).catch(function (error) {
+                    Swal.fire({
+                        title: "ERROR",
+                        text: error.response.data['message'],
+                        icon: 'danger',
+                        showCancelButton: false
+                    })
                 })
             }
         </script>
