@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <div class="row justify-content-center p-5">
+        <div class="row justify-content-center p-0">
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-6">
@@ -10,35 +10,33 @@
                         <input type="hidden" name="video_player" id="video_player" value="{{$record->video_url}}">
                     </div>
                     <div class="col-6">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <th class="text-center">種類</th>
-                                    <th>{{$record->kinds}}</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-center">投稿日</td>
-                                        <td>{{$record->created_at->format('Y年m月d日')}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">保管資料</td>
-                                        <td>
-                                            {{$record->file->name}} <br>
-                                            <a class="btn btn-block btn-warning" type="button" href="#" onclick="downloadFile({{$record->file->id}}, this)">ダウンロード</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">投稿者</td>
-                                        <td>{{$record->accounting_office_staff}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">コメント</td>
-                                        <td>{!!nl2br($record->comment)!!}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <table class="table table-bordered">
+                            <thead>
+                                <th class="text-center">種類</th>
+                                <th>{{$record->kinds}}</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">投稿日</td>
+                                    <td>{{$record->created_at->format('Y年m月d日')}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">保管資料</td>
+                                    <td>
+                                        {{$record->file->name}} <br>
+                                        <a class="btn btn-block btn-warning" type="button" href="#" onclick="downloadFile({{$record->file->id}}, this)">ダウンロード</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">投稿者</td>
+                                    <td>{{$record->accounting_office_staff}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">コメント</td>
+                                    <td>{!!nl2br($record->comment)!!}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
