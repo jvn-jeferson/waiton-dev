@@ -23,10 +23,10 @@
                                     @forelse($materials as $material)
                                         <tr>
                                             <td>{{ date_format($material->request_sent_at, 'Y年m月d日H:i') }}</td>
-                                            <td> <a href="#" onclick="downloadDocumentFiles({{ $material->pdf->id }})"
+                                            <td> <a href="#" onclick="downloadDocumentFiles({{ $material->pdf->id }}, this)"
                                                     role="button">{{ $material->pdf->name }}</a></td>
                                             <td> <a href="#"
-                                                    onclick="downloadDocumentFiles({{ $material->document->id }})"
+                                                    onclick="downloadDocumentFiles({{ $material->document->id }}, this)"
                                                     role="button">{{ $material->document->name }}</a>
                                             </td>
                                             <td>
@@ -66,7 +66,7 @@
     @endsection
     @section('extra-scripts')
         <script>
-            function downloadFile(id, button)
+            function downloadDocumentFiles(id, button)
             {
                 var url = "{{route('download')}}"
 
