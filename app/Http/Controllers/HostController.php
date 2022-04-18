@@ -178,7 +178,7 @@ class HostController extends Controller
                 $directory = public_path('storage/zip_files/upload/' . $fileName);
                 $file_url = asset('storage/zip_files/upload/' . $fileName);
                 if ($zip->open($directory, ZipArchive::CREATE) === TRUE) {
-                    $files =  Storage::disk('gcs')->allFiles($client->id);
+                    $files =  Storage::disk('gcs')->allFiles('client-uploads/' . $client->id);
                     foreach ($files as $file) {
                         $zip->addFromString($file, file_get_contents(Storage::disk('gcs')->url($file)));
                         // $relativeNameInZipFile = explode('/', $file)[1];
