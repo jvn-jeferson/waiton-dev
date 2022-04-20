@@ -2,17 +2,33 @@
 <html lang="jp">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    {{-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> --}}
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="{{ asset('toppage_data/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('toppage_data/apple-touch-icon.png') }}">
     <title>{{ $title }}</title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Theme style -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WV7L6QS');
+    </script>
     <style type="text/css">
         @font-face {
             font-family: 'CyberCJK';
@@ -43,6 +59,8 @@
 </head>
 
 <body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WV7L6QS" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
     <div class="container-fluid p-2">
         <div class="card" id="review_data">
             <div class="card-header justify-content-center align-items-center text-center">
@@ -92,7 +110,7 @@
                             <tr>
                                 <th style="width:25%">送信日</th>
                                 <td style="width:75%">
-                                    {{  $upload_date  }}
+                                    {{ $upload_date }}
                                 </td>
                             </tr>
                             <tr>
@@ -106,7 +124,7 @@
                                     送信動画
                                 </th>
                                 <td style="width:75%">
-                                    @if($video_url == '')
+                                    @if ($video_url == '')
                                         [動画なし]
                                     @else
                                         [動画あり]
@@ -132,7 +150,7 @@
                                     対応投稿日
                                 </th>
                                 <td style="width:75%">
-                                    {{  $response_date  }}
+                                    {{ $response_date }}
                                 </td>
                             </tr>
                             <tr>
@@ -153,7 +171,7 @@
                     </table>
 
                     <p class="text-xs text-dark">
-                        作成日: {{ $creation_date}}
+                        作成日: {{ $creation_date }}
                     </p>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <div class="row justify-content-center p-3">
+        <div class="row justify-content-center p-0">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header text-left">

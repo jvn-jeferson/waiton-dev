@@ -181,8 +181,6 @@ class HostController extends Controller
                     $files =  Storage::disk('gcs')->allFiles('client-uploads/' . $client->id);
                     foreach ($files as $file) {
                         $zip->addFromString($file, file_get_contents(Storage::disk('gcs')->url($file)));
-                        // $relativeNameInZipFile = explode('/', $file)[1];
-                        // $zip->addFile(Storage::disk('gcs')->url('public/' . $file), $relativeNameInZipFile);
                     }
                     $zip->close();
                 }

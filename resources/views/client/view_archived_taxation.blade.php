@@ -1,15 +1,14 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <div class="row justify-content-center p-5">
-            <div class="col-md-12">
+        <div class="row justify-content-center p-0">
+            <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-8">
-                        <video src="" id="player" width="100%" height="600" controls style="border: 1px solid #c6c6c6; background: lightblue" autoplay>
-                        </video>
-                        <input type="hidden" name="video_player" id="video_player" value="{{$record->video_url}}">
-                    </div>
-                    <div class="col-4">
+                    <video src="" id="player" width="100%" height="600" controls style="border: 1px solid #c6c6c6; background: lightblue" autoplay>
+                    </video>
+                    <input type="hidden" name="video_player" id="video_player" value="{{$record->video_url}}">
+                </div>
+                <div class="row">
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
