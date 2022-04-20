@@ -1013,7 +1013,7 @@ class HostController extends Controller
         $date_now = Carbon::now();
 
         if ($request->name) {
-            $name = "{$date_now}_{$request->name}.mp4'";
+            $name = "{$date_now}_{$request->name}.mp4";
         } else {
             $name = $date_now . '.mp4';
         }
