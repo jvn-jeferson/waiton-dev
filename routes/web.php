@@ -11,13 +11,12 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Tests\MailController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\JobController;
-
-//Cron Jobs
-Route::get('tasks/summary', [JobController::class, 'cron']);
 
 Auth::routes();
 //Routes accessible to guest users
+//Cron Jobs
+Route::get('tasks/summary', [MainController::class, 'cron']);
+
 //GET HEAD
 Route::get('/', [MainController::class, 'index'])->name('/');
 Route::get('logout', [LoginController::class, 'logout']);

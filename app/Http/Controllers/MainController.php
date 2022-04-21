@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use View;
 use Hash;
 use Hashids\Hashids;
+use Illuminate\Support\Facades\Artisan;
 
 use Mail;
 use App\Mail\InquiryMail;
@@ -89,6 +90,11 @@ class MainController extends Controller
   public function confirm_payment()
   {
     return View::make('main/payment_window');
+  }
+
+  public function cron()
+  {
+    Artisan::call('schedule:run');
   }
 
   // public function checkout(Request $request)
