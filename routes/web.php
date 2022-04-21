@@ -13,6 +13,9 @@ use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JobController;
 
+//Cron Jobs
+Route::get('tasks/summary', [JobController::class, 'cron']);
+
 Auth::routes();
 //Routes accessible to guest users
 //GET HEAD
@@ -160,6 +163,3 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('link-change', [AdministratorController::class, 'link_change'])->name('admin-link-change');
     });
 });
-
-//Cron Jobs
-Route::get('tasks/summary', [JobController::class, 'cron']);
