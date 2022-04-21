@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Tests\MailController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\JobController;
 
 Auth::routes();
 //Routes accessible to guest users
@@ -161,4 +162,4 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 //Cron Jobs
-Route::get('/tasks/summary', 'JobController@cron');
+Route::get('tasks/summary', [JobController::class, 'cron']);
