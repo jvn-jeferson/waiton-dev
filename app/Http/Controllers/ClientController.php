@@ -341,7 +341,8 @@ class ClientController extends Controller
 
             $file_db = Files::find($record->file_id);
 
-            $path = urlencode($file_db->path);
+            $path = SELF::DOWNLOAD_CLOUD . urlencode($file_db->path) . '?alt=media';
+
             $name = e($file_db->name);
 
             return array($path, $name);
@@ -423,7 +424,13 @@ class ClientController extends Controller
                 $this->sendDecisionCompleteMail($host->contact_email, $host, $company, $staff);
             }
 
-            return 'success';
+            $file_db = Files::find($target->file_id);
+
+            $path = SELF::DOWNLOAD_CLOUD . urlencode($file_db->path) . '?alt=media';
+
+            $name = e($file_db->name);
+
+            return array($path, $name);
         }
     }
 

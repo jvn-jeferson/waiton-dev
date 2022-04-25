@@ -210,7 +210,7 @@
             })
         }
 
-        function updateStatus(post_id)
+        function updateStatus(post_id, button)
         {
             Swal.showLoading()
             var url = "{{route('download-host-file')}}"
