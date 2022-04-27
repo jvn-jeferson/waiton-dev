@@ -1,6 +1,6 @@
-@extends('layouts.client')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
     <div class="content-wrapper">
         <section class="content">
             <div class="container-fluid">
@@ -112,8 +112,10 @@
             </div>
         </section>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('extra-scripts')
+<?php $__env->startSection('extra-scripts'); ?>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.client', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\waiton-dev\resources\views/client/faq.blade.php ENDPATH**/ ?>

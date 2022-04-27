@@ -97,10 +97,11 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="client-home" class="brand-link">
-                <img src="{{ asset('img/w-logo-green.png') }}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
-                <p class="brand-text font-weight-light">{{ config('app.name') }}</p>
+            <a href="{{route('client-home') }}" class="brand-link logo-switch text-center">
+                <img src="{{ asset('img/upfiling_logo_xl.png') }}" alt="UPF Logo"
+                    class="brand-image-xs logo-xl my-auto mx-auto" > <span class="brand-text font-weight-light">{{ config('app.name') }}</span>
+                <img src="{{ asset('img/upfiling_logo_xs.png') }}" alt="UPF Logo"
+                    class="brand-image-xl logo-xs my-auto mx-auto" >
             </a>
 
             <!-- Sidebar -->

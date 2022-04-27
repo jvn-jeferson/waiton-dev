@@ -37,6 +37,7 @@ use App\Mail\OTPMail;
 use App\Mail\NewClientAccessMail;
 use App\Mail\DecisionCompleteMail;
 use App\Mail\ViewingNotifMail;
+use App\Mail\DeletedUserMail;
 use App\Models\PermanentRecord;
 
 class ClientController extends Controller
@@ -554,5 +555,97 @@ class ClientController extends Controller
     {
         $materials = PermanentRecord::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
         return View::make('client.material-storage')->with(['for_approval' => $this->get_approval_count(), 'page_title' => '確認済の資料', 'materials' => $materials]);
+    }
+
+    public function updateContactEmail(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'contact_email' => 'required|email:rfc,dns'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('various-settings')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $client = Client::findOrFail($request->id);
+
+        $client->update([
+            'contact_email' => $request->contact_email
+        ]);
+
+        $client->save();
+
+
+        return redirect()->route('various-settings');
+    }
+
+    public function updateClientStaff(Request $request)
+    {
+        DB::transaction(function () use ($request) {
+            $user = User::find($request->userID);
+            $staff = ClientStaff::where('user_id', $user->id)->first();
+            if ($request->userPassword != '') {
+                $user->update([
+                    'email' => $request->userEmail,
+                    'password' => Hash::make($request->userPassword)
+                ]);
+            } else {
+                $user->update([
+                    'email' => $request->userEmail
+                ]);
+            }
+            $user->save();
+
+            $staff->update([
+                'name' => $request->userName,
+            ]);
+
+            $staff->save();
+        });
+
+        return redirect()->route('various-settings');
+    }
+
+    public function getClientUser(Request $request)
+    {
+        $user_id = $request->id;
+
+        $staff = ClientStaff::where('user_id', $user_id)->first();
+        $user = User::find($user_id);
+
+        $data = array(
+            'name' => $staff->name,
+            'email' => $user->email,
+            'token' => $user->remember_token,
+            'login_id' => $user->login_id,
+            'id' => $user->id
+        );
+        return $data;
+    }
+
+    public function delete_staff(Request $request)
+    {
+        $staff_id = $request->id;
+
+        DB::transaction(function () use ($staff_id) {
+            $staff = ClientStaff::findOrFail($staff_id);
+            $user = User::findOrFail($staff->user_id);
+            $client = Client::findOrFail($staff->client_id);
+            $login_id = $user->login_id;
+
+
+            $staff->delete();
+            $user->delete();
+
+            Mail::to($client->contact_email)->send(new DeletedUserMail($login_id));
+
+            if (Mail::failures()) {
+                abort(403);
+            }
+        });
+
+        return true;
     }
 }

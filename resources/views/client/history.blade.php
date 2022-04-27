@@ -67,11 +67,7 @@
                     axios.post(url, {
                         record_id: id,
                         table: 'taxation_histories'
-                    }).then(function(response) {
-
-                    }).catch(function(error) {
-
-                    });
+                    })
                 },
                 allowOutsideClick: () => !Swal.isLoading()
             }).then((result) => {

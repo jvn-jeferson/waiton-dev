@@ -5,16 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="{{ asset('toppage_data/favicon.ico') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('toppage_data/apple-touch-icon.png') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name') }}</title>
+    <link rel="icon" href="<?php echo e(asset('toppage_data/favicon.ico')); ?>">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo e(asset('toppage_data/apple-touch-icon.png')); ?>">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <title><?php echo e(config('app.name')); ?></title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>">
     <script>
         (function(w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -31,7 +31,7 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-WV7L6QS');
     </script>
-    @yield('extra-css')
+    <?php echo $__env->yieldContent('extra-css'); ?>
 </head>
 
 <body class="hold-transition sidebar-mini dark-mode">
@@ -48,7 +48,7 @@
                             class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item ml-3">
-                    <a href="#" class="nav-link text-bold">{{ $page_title }}</a>
+                    <a href="#" class="nav-link text-bold"><?php echo e($page_title); ?></a>
                 </li>
             </ul>
 
@@ -56,31 +56,34 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        {{ Auth::user()->accountingOffice->name ?? '' }}
+                        <?php echo e(Auth::user()->accountingOffice->name ?? ''); ?>
+
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="card card-primary card-outline">
                             <div class="card-body box-profile">
                                 <div class="text-center">
                                     <img class="profile-user-img img-fluid img-circle"
-                                        src="{{ asset('img/user-icon.png') }}" alt="User profile picture">
+                                        src="<?php echo e(asset('img/user-icon.png')); ?>" alt="User profile picture">
                                 </div>
 
                                 <h3 class="profile-username text-center">
-                                    {{ Auth::user()->accountingOfficeStaff->name ?? '' }}
+                                    <?php echo e(Auth::user()->accountingOfficeStaff->name ?? ''); ?>
+
                                 </h3>
 
                                 <p class="text-muted text-center text-bold">
-                                    {{ Auth::user()->role->display_name ?? '' }}
+                                    <?php echo e(Auth::user()->role->display_name ?? ''); ?>
+
                                 </p>
 
                                 <ul class="list-group list-group-unbordered mb-3">
 
                                 </ul>
 
-                                <a href="{{ route('account') }}" class="btn btn-primary btn-block"><b>顧客情報</b></a>
+                                <a href="<?php echo e(route('account')); ?>" class="btn btn-primary btn-block"><b>顧客情報</b></a>
 
-                                <a href="{{ url('/logout') }}" class="btn btn-danger btn-block"><b>ログアウト</b></a>
+                                <a href="<?php echo e(url('/logout')); ?>" class="btn btn-danger btn-block"><b>ログアウト</b></a>
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -93,10 +96,10 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="{{route('home') }}" class="brand-link logo-switch text-center">
-                <img src="{{ asset('img/upfiling_logo_xl.png') }}" alt="UPF Logo"
-                    class="brand-image-xs logo-xl my-auto mx-auto" > <span class="brand-text font-weight-light">{{ config('app.name') }}</span>
-                <img src="{{ asset('img/upfiling_logo_xs.png') }}" alt="UPF Logo"
+            <a href="<?php echo e(route('home')); ?>" class="brand-link logo-switch text-center">
+                <img src="<?php echo e(asset('img/upfiling_logo_xl.png')); ?>" alt="UPF Logo"
+                    class="brand-image-xs logo-xl my-auto mx-auto" > <span class="brand-text font-weight-light"><?php echo e(config('app.name')); ?></span>
+                <img src="<?php echo e(asset('img/upfiling_logo_xs.png')); ?>" alt="UPF Logo"
                     class="brand-image-xl logo-xs my-auto mx-auto" >
             </a>
 
@@ -105,11 +108,11 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="{{ asset('img/user-icon.png') }}" class="img-circle elevation-2" alt="User Image">
+                        <img src="<?php echo e(asset('img/user-icon.png')); ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{{ route('account') }}"
-                            class="d-block">{{ Auth::user()->accountingOffice->name }}</a>
+                        <a href="<?php echo e(route('account')); ?>"
+                            class="d-block"><?php echo e(Auth::user()->accountingOffice->name); ?></a>
                     </div>
                 </div>
 
@@ -120,8 +123,8 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="{{ route('home') }}"
-                                class="nav-link  @if (request()->route()->getName() == 'home') active @endif">
+                            <a href="<?php echo e(route('home')); ?>"
+                                class="nav-link  <?php if(request()->route()->getName() == 'home'): ?> active <?php endif; ?>">
                                 <i class="nav-icon fas fa-home"></i>
                                 <p>
                                     事務所ホーム
@@ -129,8 +132,8 @@
                             </a>
                         </li>
                         <li class="nav-item mt-3">
-                            <a href="{{ route('clients') }}"
-                                class="nav-link @if (request()->route()->getName() == 'clients') active @endif">
+                            <a href="<?php echo e(route('clients')); ?>"
+                                class="nav-link <?php if(request()->route()->getName() == 'clients'): ?> active <?php endif; ?>">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     顧客の選択
@@ -139,8 +142,8 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('outbox') }}"
-                                class="nav-link @if (request()->route()->getName() == 'outbox') active @endif">
+                            <a href="<?php echo e(route('outbox')); ?>"
+                                class="nav-link <?php if(request()->route()->getName() == 'outbox'): ?> active <?php endif; ?>">
                                 <i class="nav-icon fas fa-paper-plane"></i>
                                 <p>
                                     全顧客への連絡
@@ -149,8 +152,8 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('clients-information') }}"
-                                class="nav-link  @if (request()->route()->getName() == 'clients-information') active @endif">
+                            <a href="<?php echo e(route('clients-information')); ?>"
+                                class="nav-link  <?php if(request()->route()->getName() == 'clients-information'): ?> active <?php endif; ?>">
                                 <i class="nav-icon fas fa-address-book"></i>
                                 <p>
                                     顧客の一覧
@@ -163,8 +166,8 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('account') }}"
-                                class="nav-link @if (request()->route()->getName() == 'account') active @endif">
+                            <a href="<?php echo e(route('account')); ?>"
+                                class="nav-link <?php if(request()->route()->getName() == 'account'): ?> active <?php endif; ?>">
                                 <i class="nav-icon fa fa-cog"></i>
                                 <p>
                                     メンバー管理
@@ -173,8 +176,8 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('account') }}"
-                                class="nav-link @if (request()->route()->getName() == 'accounting-profile') active @endif">
+                            <a href="<?php echo e(route('account')); ?>"
+                                class="nav-link <?php if(request()->route()->getName() == 'accounting-profile'): ?> active <?php endif; ?>">
                                 <i class="nav-icon fas fa-calendar"></i>
                                 <p>
                                     プラン確認・変更
@@ -183,7 +186,7 @@
                         </li>
 
                         <li class="nav-item mt-5">
-                            <a href="{{route('host-faq')}}" class="nav-link">
+                            <a href="<?php echo e(route('host-faq')); ?>" class="nav-link">
                                 <i class="nav-icon far fa-question-circle"></i>
                                 <p>
                                     FAQ
@@ -207,7 +210,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         <main class="py-4">
-            @yield('content')
+            <?php echo $__env->yieldContent('content'); ?>
         </main>
         <!-- /.content-wrapper -->
     </div>
@@ -215,11 +218,11 @@
 
 
 
-    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript" src="<?php echo e(asset('js/app.js')); ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    @yield('extra-scripts')
+    <?php echo $__env->yieldContent('extra-scripts'); ?>
 
     <script>
         $('#inquiryBtn').click(async () => {
@@ -237,7 +240,7 @@
             })
 
             if (text) {
-                var url = "{{ route('send-host-inquiry') }}"
+                var url = "<?php echo e(route('send-host-inquiry')); ?>"
 
                 axios.post(url, {
                     content: text,
@@ -256,3 +259,4 @@
 </body>
 
 </html>
+<?php /**PATH C:\xampp\htdocs\waiton-dev\resources\views/layouts/host.blade.php ENDPATH**/ ?>

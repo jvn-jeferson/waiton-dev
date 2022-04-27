@@ -94,6 +94,12 @@ class HostController extends Controller
         return View::make('host.dashboard')->with(['page_title' => '事業所ホーム', 'subscription' => $this->subscription, 'account' => $this->accounting_office, 'staff' => $this->staff]);
     }
 
+    public function host_faq()
+    {
+        $this->set_globals();
+        return View::make('host.faq')->with(['page_title' => 'FAQ']);
+    }
+
     public function customer_selection()
     {
         $this->set_globals();
@@ -834,7 +840,7 @@ class HostController extends Controller
             $file = $request->file('file');
 
             $name = $file->getClientOriginalName();
-            $path = '/notification-archive/' . Auth::user()->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $name);
+            $path = 'notification-archive/' . Auth::user()->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $name);
             Storage::disk('gcs')->put($path, file_get_contents($file));
 
             $file_id = Files::insertGetId([

@@ -73,6 +73,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('new-user', [ClientController::class, 'register_new_access'])->name('new-user');
         Route::post('download-host-file', [ClientController::class, 'download_host_file'])->name('download-host-file');
         Route::post('download-client-files', [ClientController::class, 'downloadDocumentFiles'])->name('download-client-files');
+        Route::post('update-contact-email-client', [ClientController::class, 'updateContactEmail'])->name('update-contact-email-client');
+        Route::post('update-staff-client', [ClientController::class, 'updateClientStaff'])->name('update-staff-client');
+        Route::post('get-user-client', [ClientController::class, 'getClientUser'])->name('get-user-client');
+        Route::post('delete-ca-staff', [ClientController::class, 'delete_staff'])->name('delete-ca-staff');
 
         //DataTables routes
         // Route::get('messages-data', [ClientDatatablesController::class, 'messages_data'])->name('messages-data');
@@ -90,6 +94,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('account', [HostController::class, 'account_management'])->name('account');
         Route::get('subscription', [HostController::class, 'plan_update'])->name('subscription');
         Route::get('accounting-profile', [HostController::class, 'accounting_profile'])->name('accounting-profile');
+        Route::get('host-faq', [HostController::class, 'host_faq'])->name('host-faq');
 
         //POST HEAD
         Route::post('register-new-client', [HostController::class, 'register_new_client'])->name('register-new-client');

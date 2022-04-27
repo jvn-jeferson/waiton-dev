@@ -1,6 +1,6 @@
-@extends('layouts.client')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
     <div class="content-wrapper">
         <section class="content">
             <div class="card card-primary card-outline">
@@ -15,78 +15,87 @@
                             <tr>
                                 <td class="text-bold bg-lightblue w-25">会社名</td>
                                 <td class="text-bold">
-                                    {{$account->name}}
+                                    <?php echo e($account->name); ?>
+
                                 </td>
                             </tr>
                             <tr>
                                 <td class="text-bold bg-lightblue w-25">当店の場所</td>
                                 <td>
-                                    {{$account->address}}
+                                    <?php echo e($account->address); ?>
+
                                 </td>
                             </tr>
                             <tr>
                                 <td class="text-bold bg-lightblue w-25">代表</td>
                                 <td>
-                                    {{$account->representative}}
+                                    <?php echo e($account->representative); ?>
+
                                 </td>
                             </tr>
                             <tr>
                                 <td class="text-bold bg-lightblue w-25">代表住宅</td>
                                 <td>
-                                    {{$account->representative_address}}
+                                    <?php echo e($account->representative_address); ?>
+
                                 </td>
                             </tr>
                             <tr>
                                 <td class="text-bold bg-lightblue w-25">連絡先メールアドレス</td>
                                 <td class="text-primary">
-                                    {{$account->contact_email}}
+                                    <?php echo e($account->contact_email); ?>
+
                                 </td>
                             </tr>
 
-                            @if (Auth::user()->role_id == 4)
+                            <?php if(Auth::user()->role_id == 4): ?>
                                 <tr>
                                     <td class="text-bold bg-lightblue w-25">NTA識別番号</td>
                                     <td>
-                                        @if($account->credentials)
-                                        {{$account->credentials->nta_id}}
-                                        @endif
+                                        <?php if($account->credentials): ?>
+                                        <?php echo e($account->credentials->nta_id); ?>
+
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="text-bold bg-lightblue w-25">パスワード</td>
                                     <td class="text-encrypted">
 
-                                        @if($account->credentials)
-                                        {{$account->credentials->nta_password}}
-                                        @endif
+                                        <?php if($account->credentials): ?>
+                                        <?php echo e($account->credentials->nta_password); ?>
+
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="text-bold bg-lightblue w-25">E-tax納税者番号</td>
                                     <td>
 
-                                        @if($account->credentials)
-                                        {{$account->credentials->el_tax_id}}
-                                        @endif
+                                        <?php if($account->credentials): ?>
+                                        <?php echo e($account->credentials->el_tax_id); ?>
+
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="text-bold bg-lightblue w-25">パスワード</td>
                                     <td class="text-encrypted">
 
-                                        @if($account->credentials)
-                                        {{$account->credentials->el_tax_password}}
-                                        @endif
+                                        <?php if($account->credentials): ?>
+                                        <?php echo e($account->credentials->el_tax_password); ?>
+
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
-                            @endif
+                            <?php endif; ?>
 
                         </tbody>
                     </table>
                 </div>
             </div>
 
-@if(Auth::user()->role_id == 4)
+<?php if(Auth::user()->role_id == 4): ?>
             <div class="card card-danger card-outline collapsed-card">
                 <div class="card-header">
                     <h3 class="card-title text-bold">
@@ -99,20 +108,28 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('new-user')}}" method="POST">
-                        @csrf
-                        <input type="hidden" name="client_id" value="{{$account->id}}">
+                    <form action="<?php echo e(route('new-user')); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden" name="client_id" value="<?php echo e($account->id); ?>">
 
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tr>
                                 <td class="bg-gray w-25">
                                     <label class="h4">ユーザータイプ</label>
-                                    @error('staff_role')
+                                    <?php $__errorArgs = ['staff_role'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                         <span class="text-danger">
-                                            {{$message}}
+                                            <?php echo e($message); ?>
+
                                         </span>
-                                    @enderror
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </td>
                                 <td>
                                     <label for="staff_role" class="h4">
@@ -128,11 +145,19 @@
                             <tr>
                                 <td class="text-bold bg-gray w-25">
                                     名前
-                                    @error('staff_name')
+                                    <?php $__errorArgs = ['staff_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                         <span class="text-danger">
-                                            {{$message}}
+                                            <?php echo e($message); ?>
+
                                         </span>
-                                    @enderror
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </td>
                                 <td colspan="2">
                                     <input type="text" name="staff_name" id="staff_name" class="form-control flat">
@@ -141,11 +166,19 @@
                             <tr>
                                 <td class="bg-gray w-25 text-bold">
                                     メールアドレス
-                                    @error('staff_email')
+                                    <?php $__errorArgs = ['staff_email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                         <span class="text-danger">
-                                            {{$message}}
+                                            <?php echo e($message); ?>
+
                                         </span>
-                                    @enderror
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </td>
                                 <td colspan="2">
                                     <input type="email" name="staff_email" id="staff_email" class="form-control flat">
@@ -177,66 +210,68 @@
                             </tr>
                             <tr>
                                 <td class="text-center">
-                                    @if(auth()->user()->role_id == 4)<button class="btn btn-warning" data-toggle="modal" data-target="#contactEmailModal">編集</button>@endif
+                                    <?php if(auth()->user()->role_id == 4): ?><button class="btn btn-warning" data-toggle="modal" data-target="#contactEmailModal">編集</button><?php endif; ?>
                                 </td>
                                 <td class="w-25 text-bold">
                                     ワンタイムパスワードの • 送付先メールアドレス
                                 </td>
                                 <td class="bg-gray">
-                                    {{$account->contact_email}}
+                                    <?php echo e($account->contact_email); ?>
+
                                 </td>
                             </tr>
-                            @forelse($staffs as $staff)
+                            <?php $__empty_1 = true; $__currentLoopData = $staffs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <tr>
                                     <td colspan="3" class="bg-teal disabled"></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center text-bold rowspan="2">
-                                        @if($staff->is_admin == 1)
+                                        <?php if($staff->is_admin == 1): ?>
                                             管理者
-                                        @else
+                                        <?php else: ?>
                                             利用者
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         ID
                                     </td>
                                     <td>
-                                        {{$staff->user->login_id}}
+                                        <?php echo e($staff->user->login_id); ?>
+
                                     </td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td>名前</td>
-                                    <td>{{$staff->name}}</td>
+                                    <td><?php echo e($staff->name); ?></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center">
-                                        @if(auth()->user()->role_id == 4)
-                                            <button class="btn btn-warning" role="button" onclick="editUser({{$staff->user->id}})">編集</button>
-                                        @endif
+                                        <?php if(auth()->user()->role_id == 4): ?>
+                                            <button class="btn btn-warning" role="button" onclick="editUser(<?php echo e($staff->user->id); ?>)">編集</button>
+                                        <?php endif; ?>
                                     </td>
                                     <td>パスワード</td>
                                     <td class="bg-gray">**********</td>
                                 </tr>
                                 <tr>
                                     <td class="text-center">
-                                        @if(auth()->user()->role_id == 4)
-                                            <button class="btn btn-danger" role="button" onclick="deleteStaff({{$staff->id}})">削除</button>
-                                        @endif
+                                        <?php if(auth()->user()->role_id == 4): ?>
+                                            <button class="btn btn-danger" role="button" onclick="deleteStaff(<?php echo e($staff->id); ?>)">削除</button>
+                                        <?php endif; ?>
                                     </td>
                                     <td>メールアドレス</td>
-                                    <td class="bg-gray">{{$staff->user->email}}</td>
+                                    <td class="bg-gray"><?php echo e($staff->user->email); ?></td>
                                 </tr>
-                            @empty
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
 
-                            @endforelse
+                            <?php endif; ?>
                         </table>
                     </div>
                 </div>
             </div>
 
-            @endif
+            <?php endif; ?>
         </section>
     </div>
 
@@ -251,13 +286,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <form action="{{route('update-contact-email-client')}}" method="post">
-                            @csrf
-                            <input type="hidden" name="id" value="{{$account->id}}">
+                        <form action="<?php echo e(route('update-contact-email-client')); ?>" method="post">
+                            <?php echo csrf_field(); ?>
+                            <input type="hidden" name="id" value="<?php echo e($account->id); ?>">
                             <table class="table table-bordered">
                                 <thead>
                                     <th>
-                                        <input type="email" name="contact_email" id="contact_email" class="form-control" value="{{$account->contact_email}}">
+                                        <input type="email" name="contact_email" id="contact_email" class="form-control" value="<?php echo e($account->contact_email); ?>">
                                     </th>
                                     <th>
                                         <button class="btn btn-block btn-warning" type="submit">編集</button>
@@ -280,9 +315,9 @@
                     </h4>
                     <button class="close" type="button" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="{{route('update-staff-client')}}" method="post">
+                <form action="<?php echo e(route('update-staff-client')); ?>" method="post">
                     <input type="hidden" name="userID" id="userID">
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <div class="modal-body">
                         <div class="table-responsive">
                             <table class="table table-bordered">
@@ -329,11 +364,11 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
 
 
-@section('extra-scripts')
+<?php $__env->startSection('extra-scripts'); ?>
 
 <script>
     $(function() {
@@ -344,7 +379,7 @@
 
     function editUser(user_id)
         {
-            var url = "{{route('get-user-client')}}";
+            var url = "<?php echo e(route('get-user-client')); ?>";
             var name, email;
             var userModal = $('#userModal');
             axios.post(url, {
@@ -377,7 +412,7 @@
                 confirmButtonText: 'はい',
                 cancelButtonText: 'キャンセル',
                 preConfirm: function() {
-                    var url = "{{route('delete-ca-staff')}}"
+                    var url = "<?php echo e(route('delete-ca-staff')); ?>"
 
                     return axios.post(url, {
                         id : staff_id
@@ -408,4 +443,6 @@
         }
     
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.client', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\waiton-dev\resources\views/client/settings.blade.php ENDPATH**/ ?>
