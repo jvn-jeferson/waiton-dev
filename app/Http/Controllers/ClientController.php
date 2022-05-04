@@ -258,7 +258,7 @@ class ClientController extends Controller
 
         Mail::to('support@upfiling.jp')->send(new InquiryMail($user, $staff, $client, $request->content));
 
-        if (Mail::fails()) {
+        if (Mail::failures()) {
             return 'failure';
         } else {
             return 'success';
