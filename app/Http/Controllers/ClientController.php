@@ -252,7 +252,11 @@ class ClientController extends Controller
 
     public function send_inquiry(Request $request)
     {
-        Mail::to('jvncgs.info@gmail.com')->send(new InquiryMail(Auth::user()->email, $request->content));
+        $user = Auth::user();
+        $staff = $user->clientStaff;
+        $client = $staff->client;
+
+        Mail::to('support@upfiling.jp')->send(new InquiryMail($user, $staff, $client, $request->content));
 
         if (Mail::fails()) {
             return 'failure';

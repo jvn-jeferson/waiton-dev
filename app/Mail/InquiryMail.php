@@ -11,17 +11,19 @@ class InquiryMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $sender, $inquiry;
+    public $user, $staff, $affiliation, $content;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($sender, $inquiry)
+    public function __construct($user, $staff, $affiliation, $content)
     {
-        $this->sender = $sender;
-        $this->inquiry = $inquiry;
+        $this->user = $user;
+        $this->staff = $staff;
+        $this->affiliation = $affiliation;
+        $this->content = $content;
     }
 
     /**
@@ -32,7 +34,7 @@ class InquiryMail extends Mailable
     public function build()
     {
         return $this->from(config('mail.from.address'), config('mail.from.name'))
-                    ->subject('A user has sent you an inquiry')
+                    ->subject('【UpFiling】問い合わせあり')
                     ->markdown('email.inquiry-mail');
     }
 }

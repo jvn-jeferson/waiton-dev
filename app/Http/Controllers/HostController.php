@@ -914,7 +914,11 @@ class HostController extends Controller
 
     public function send_inquiry(Request $request)
     {
-        Mail::to('support@upfiling.jp')->send(new InquiryMail(Auth::user()->email, $request->content));
+        $user = Auth::user();
+        $staff = $user->accountingOfficeStaff;
+        $client = $staff->accountingOffice;
+
+        Mail::to('support@upfiling.jp')->send(new InquiryMail($user, $staff, $ao, $request->content));
 
         if (Mail::failures()) {
             return 'failure';

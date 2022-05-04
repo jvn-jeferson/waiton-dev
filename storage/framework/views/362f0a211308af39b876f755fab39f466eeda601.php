@@ -563,4 +563,4 @@
 </body>
 
 </html>
-<?php /**PATH C:\xampp\htdocs\waiton-dev\resources\views/main/landing_page.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\waiton-dev\resources\views/main/landing_page.blade.php ENDPATH**/ ?>

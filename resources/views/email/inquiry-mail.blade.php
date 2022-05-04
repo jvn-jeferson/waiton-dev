@@ -1,11 +1,18 @@
 @component('mail::message')
-# Inquiry
-
-A user has asked this question.
-@component('mail::panel')
-{{$inquiry}}
-@endcomponent
-
+# {{$staff->name}}　様より問い合わせありました。
 <br>
-Reply to: {{$sender}}
+<hr>
+<span class="text-bold">所属：</span>{{$affiliation->name}}
+<br>
+<span class="text-bold">所属：</span>{{$user->email}}
+<br>
+<br>
+<hr>
+問合わせ内容
+<br>
+{!!nl2br($content)!!}
+<hr>
+<br>
+このメールは送信専用です。
+直接メールアドレスに返答してください。
 @endcomponent

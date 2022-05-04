@@ -136,4 +136,4 @@
 </body>
 
 </html>
-<?php /**PATH C:\xampp\htdocs\waiton-dev\resources\views/layouts/app.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\waiton-dev\resources\views/layouts/app.blade.php ENDPATH**/ ?>
