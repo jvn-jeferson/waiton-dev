@@ -62,7 +62,7 @@
                                                     @endswitch
                                                     {{ date_format($material->response_completed_at, 'Y年m月d日H:i') }}
                                                 </td>
-                                                <td>{{ $material->viewer->name }}</td>
+                                                <td>{{ $material->viewer->name ?? ''}}</td>
                                             </tr>
                                             @empty
                                             @endforelse

@@ -22,12 +22,12 @@
                                 <tbody>
                                     @forelse($materials as $material)
                                         <tr>
-                                            <td>{{ date_format($material->request_sent_at, 'Y年m月d日H:i') }}</td>
+                                            <td>{{ date_format($material->request_sent_at, 'Y年m月d日H:i') ?? ''}}</td>
                                             <td> <a href="#" onclick="downloadDocumentFiles({{ $material->pdf->id }}, this)"
                                                     role="button">{{ $material->pdf->name }}</a></td>
                                             <td> <a href="#"
                                                     onclick="downloadDocumentFiles({{ $material->document->id }}, this)"
-                                                    role="button">{{ $material->document->name }}</a>
+                                                    role="button">{{ $material->document->name ?? ''}}</a>
                                             </td>
                                             <td>
                                                 @switch($material->is_approved)
@@ -49,9 +49,9 @@
                                                         <span class="text-gray"><i class="fa fas fa-circle"></i>承認不要データ
                                                             •</span>
                                                 @endswitch
-                                                {{ date_format($material->response_completed_at, 'Y年m月d日H:i') }}
+                                                {{ date_format($material->response_completed_at, 'Y年m月d日H:i') ?? ''}}
                                             </td>
-                                            <td>{{ $material->viewer->name }}</td>
+                                            <td>{{ $material->viewer->name ?? ''}}</td>
                                         </tr>
                                         @empty
                                         @endforelse
