@@ -714,7 +714,7 @@ class HostController extends Controller
 
         $user_id = Auth::user()->id;
         $staff = ClientStaff::where('user_id', $user_id)->first();
-        $path = "host-uploads/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . str_replace(' ', '%20', $name);
+        $path = "host-uploads/" . Auth::user()->accountingOfficeStaff->accountingOffice->id . "/" . str_replace(' ', '_', $name);
         Storage::disk('gcs')->put($path,  file_get_contents($url->getRealPath()));
 
         $url = Storage::disk('gcs')->url($path);
