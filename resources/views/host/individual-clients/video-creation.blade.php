@@ -508,7 +508,9 @@
                         }, 500);
                         $("#file_url").val(response.data);
                     })
-                    .catch(err => console.log(err));
+                    .catch((error) => {
+                        console.log(error.response.data);
+                    });
             }, 100);
         })
 
