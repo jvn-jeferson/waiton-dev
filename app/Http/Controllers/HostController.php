@@ -77,7 +77,7 @@ class HostController extends Controller
     private function set_globals()
     {
         $this->user = Auth::user();
-        $this->accounting_office = AccountingOffice::firstWhere('user_id', $this->user->id);
+        $this->accounting_office = $this->user->accountingOfficeStaff->accountingOffice;
         $this->staff = AccountingOfficeStaff::firstWhere('user_id', $this->user->id);
         $this->subscription = null;
         $this->subscription_plan = null;
