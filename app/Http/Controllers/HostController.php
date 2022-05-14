@@ -79,13 +79,9 @@ class HostController extends Controller
         $this->user = Auth::user();
         $this->accounting_office = AccountingOffice::firstWhere('user_id', $this->user->id);
         $this->staff = AccountingOfficeStaff::firstWhere('user_id', $this->user->id);
-        $this->subscription = Subscription::firstWhere('accounting_office_id', $this->accounting_office->id);
-        if ($this->subscription) {
-            $this->subscription_plan = SubscriptionPlan::findorFail($this->subscription->subscription_plan_id);
-        } else {
-            $this->subscription_plan = null;
-        }
-        $this->clients = Client::where('accounting_office_id', $this->accounting_office->id)->orderBy('tax_filing_month', 'asc')->get();
+        $this->subscription = null;
+        $this->subscription_plan = null;
+        $this->clients = Client::where('accounting_office_id', $this->user->accountingOfficeStaff->accounting_office_id)->orderBy('tax_filing_month', 'asc')->get();
     }
 
     public function index()
