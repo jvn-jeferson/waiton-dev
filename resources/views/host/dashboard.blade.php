@@ -45,7 +45,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">Clients</span>
                 <span class="info-box-number">
-                  {{Auth::user()->accountingOffice->clients->count()}} / @if(Auth::user()->accountingOffice->subscription) {{ Auth::user()->accountingOffice->subscription->subscription_plan->max_clients}} @else 1 @endif
+                  {{Auth::user()->accountingOfficeStaff->accountingOffice->clients->count()}} / @if(Auth::user()->accountingOfficeStaff->accountingOffice->subscription) {{ Auth::user()->accountingOfficeStaff->accountingOffice->subscription->subscription_plan->max_clients}} @else 1 @endif
                 </span>
               </div>
             </div>
@@ -85,7 +85,7 @@
                     <tbody>
                       {{-- @foreach($companies as $company) --}}
 
-                      @forelse(Auth::user()->accountingOffice->clients as $client)
+                      @forelse(Auth::user()->accountingOfficeStaff->accountingOffice->clients as $client)
                         @if($client->tax_filing_month == date('m'))
                           <tr>
                             <td>{{$client->name}}</td>
@@ -119,39 +119,39 @@
                   <tbody>
                     <tr>
                       <td class="w-25 text-bold">事務所名</td>
-                      <td class="w-75">{{Auth::user()->accountingOffice->name ?? ''}}</td>
+                      <td class="w-75">{{Auth::user()->accountingOfficeStaff->accountingOffice->name ?? ''}}</td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">所在地</td>
-                      <td class="w-75">{{Auth::user()->accountingOffice->address ?? ''}}</td>
+                      <td class="w-75">{{Auth::user()->accountingOfficeStaff->accountingOffice->address ?? ''}}</td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">代表者
                       </td>
-                      <td class="w-75">{{Auth::user()->accountingOffice->representative ?? ''}}</td>
+                      <td class="w-75">{{Auth::user()->accountingOfficeStaff->accountingOffice->representative ?? ''}}</td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">ご利用スタッフ
                       </td>
-                      <td class="w-75">@if(Auth::user()->accountingOffice->subscription) {{
-                        Auth::user()->accountingOffice->subscription->status ?? ''
+                      <td class="w-75">@if(Auth::user()->accountingOfficeStaff->accountingOffice->subscription) {{
+                        Auth::user()->accountingOfficeStaff->accountingOffice->subscription->status ?? ''
                       }} @else FREE USER @endif</td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">ご利用期日
                       </td>
-                      <td class="w-75">{{date_format(Auth::user()->accountingOffice->created_at, 'j F Y') ?? ''}}</td>
+                      <td class="w-75">{{date_format(Auth::user()->accountingOfficeStaff->accountingOffice->created_at, 'j F Y') ?? ''}}</td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">利用メンバー数
                       </td>
-                      <td class="w-75">{{Auth::user()->accountingOffice->staff->count()}}名
+                      <td class="w-75">{{Auth::user()->accountingOfficeStaff->accountingOffice->staff->count()}}名
                       </td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">登録顧客数
                       </td>
-                      <td class="w-75">{{Auth::user()->accountingOffice->clients->count()}}社</td>
+                      <td class="w-75">{{Auth::user()->accountingOfficeStaff->accountingOffice->clients->count()}}社</td>
                     </tr>
                   </tbody>
                 </table>
