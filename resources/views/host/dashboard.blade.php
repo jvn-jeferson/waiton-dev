@@ -13,8 +13,8 @@
               <div class="info-box-content">
                 <span class="info-box-text">Current Plan</span>
                 <span class="info-box-number">
-                  @if(Auth::user()->accountingOffice->subscription)
-                  {{Auth::user()->accountingOffice->subscription->subscription_plan->name}}
+                  @if(Auth::user()->accountingOfficeStaff->accountingOffice->subscription)
+                  {{Auth::user()->accountingOfficeStaff->accountingOffice->subscription->subscription_plan->name}}
                   @else
                     FREE USER
                   @endif
