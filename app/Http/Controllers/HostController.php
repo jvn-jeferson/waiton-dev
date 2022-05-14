@@ -222,7 +222,7 @@ class HostController extends Controller
             'email' => 'required|email:rfc,dns'
         ]);
 
-        $accounting_office_id = $this->accounting_office->id;
+        $accounting_office_id = Auth::user()->accountingOfficeStaff->accountingOffice->id;
         $result = '';
 
         DB::transaction(function () use ($request, $accounting_office_id, $result) {
