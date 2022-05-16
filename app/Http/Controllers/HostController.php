@@ -288,7 +288,7 @@ class HostController extends Controller
         ]);
 
         $host_id = Auth::user()->id;
-        $accounting_office_id = Auth::user()->accountingOfficeStaff->accountingOffice;
+        $accounting_office_id = Auth::user()->accountingOfficeStaff->accountingOffice->id;
         $token = Str::random(60);
 
         DB::transaction(function () use ($request, $accounting_office_id, $token) {
