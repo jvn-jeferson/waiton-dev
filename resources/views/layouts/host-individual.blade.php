@@ -54,7 +54,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        {{ Auth::user()->accountingOffice->name }}
+                        {{ Auth::user()->accountingOfficeStaff->accountingOffice->name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="card card-primary card-outline">
