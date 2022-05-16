@@ -13,8 +13,8 @@
               <div class="info-box-content">
                 <span class="info-box-text">Current Plan</span>
                 <span class="info-box-number">
-                  <?php if(Auth::user()->accountingOffice->subscription): ?>
-                  <?php echo e(Auth::user()->accountingOffice->subscription->subscription_plan->name); ?>
+                  <?php if(Auth::user()->accountingOfficeStaff->accountingOffice->subscription): ?>
+                  <?php echo e(Auth::user()->accountingOfficeStaff->accountingOffice->subscription->subscription_plan->name); ?>
 
                   <?php else: ?>
                     FREE USER
@@ -46,7 +46,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">Clients</span>
                 <span class="info-box-number">
-                  <?php echo e(Auth::user()->accountingOffice->clients->count()); ?> / <?php if(Auth::user()->accountingOffice->subscription): ?> <?php echo e(Auth::user()->accountingOffice->subscription->subscription_plan->max_clients); ?> <?php else: ?> 1 <?php endif; ?>
+                  <?php echo e(Auth::user()->accountingOfficeStaff->accountingOffice->clients->count()); ?> / <?php if(Auth::user()->accountingOfficeStaff->accountingOffice->subscription): ?> <?php echo e(Auth::user()->accountingOfficeStaff->accountingOffice->subscription->subscription_plan->max_clients); ?> <?php else: ?> 1 <?php endif; ?>
                 </span>
               </div>
             </div>
@@ -84,9 +84,9 @@
                       <th>種類</th>
                     </thead>
                     <tbody>
-                      
 
-                      <?php $__empty_1 = true; $__currentLoopData = Auth::user()->accountingOffice->clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+
+                      <?php $__empty_1 = true; $__currentLoopData = Auth::user()->accountingOfficeStaff->accountingOffice->clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <?php if($client->tax_filing_month == date('m')): ?>
                           <tr>
                             <td><?php echo e($client->name); ?></td>
@@ -120,37 +120,37 @@
                   <tbody>
                     <tr>
                       <td class="w-25 text-bold">事務所名</td>
-                      <td class="w-75"><?php echo e(Auth::user()->accountingOffice->name ?? ''); ?></td>
+                      <td class="w-75"><?php echo e(Auth::user()->accountingOfficeStaff->accountingOffice->name ?? ''); ?></td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">所在地</td>
-                      <td class="w-75"><?php echo e(Auth::user()->accountingOffice->address ?? ''); ?></td>
+                      <td class="w-75"><?php echo e(Auth::user()->accountingOfficeStaff->accountingOffice->address ?? ''); ?></td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">代表者
                       </td>
-                      <td class="w-75"><?php echo e(Auth::user()->accountingOffice->representative ?? ''); ?></td>
+                      <td class="w-75"><?php echo e(Auth::user()->accountingOfficeStaff->accountingOffice->representative ?? ''); ?></td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">ご利用スタッフ
                       </td>
-                      <td class="w-75"><?php if(Auth::user()->accountingOffice->subscription): ?> <?php echo e(Auth::user()->accountingOffice->subscription->status ?? ''); ?> <?php else: ?> FREE USER <?php endif; ?></td>
+                      <td class="w-75"><?php if(Auth::user()->accountingOfficeStaff->accountingOffice->subscription): ?> <?php echo e(Auth::user()->accountingOfficeStaff->accountingOffice->subscription->status ?? ''); ?> <?php else: ?> FREE USER <?php endif; ?></td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">ご利用期日
                       </td>
-                      <td class="w-75"><?php echo e(date_format(Auth::user()->accountingOffice->created_at, 'j F Y') ?? ''); ?></td>
+                      <td class="w-75"><?php echo e(date_format(Auth::user()->accountingOfficeStaff->accountingOffice->created_at, 'j F Y') ?? ''); ?></td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">利用メンバー数
                       </td>
-                      <td class="w-75"><?php echo e(Auth::user()->accountingOffice->staff->count()); ?>名
+                      <td class="w-75"><?php echo e(Auth::user()->accountingOfficeStaff->accountingOffice->staff->count()); ?>名
                       </td>
                     </tr>
                     <tr>
                       <td class="w-25 text-bold">登録顧客数
                       </td>
-                      <td class="w-75"><?php echo e(Auth::user()->accountingOffice->clients->count()); ?>社</td>
+                      <td class="w-75"><?php echo e(Auth::user()->accountingOfficeStaff->accountingOffice->clients->count()); ?>社</td>
                     </tr>
                   </tbody>
                 </table>

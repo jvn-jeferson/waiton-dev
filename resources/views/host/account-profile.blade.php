@@ -20,7 +20,7 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-9">
-                                                    <h2>{{Auth::user()->accountingOffice->name ?? ''}}</h2>
+                                                    <h2>{{Auth::user()->accountingOfficeStaff->accountingOffice->name ?? ''}}</h2>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <i class="@if($customer['brand'] == 'visa') fab fa-cc-visa @else fab fa-cc-mastercard @endif" style="font-size:70px;"></i>

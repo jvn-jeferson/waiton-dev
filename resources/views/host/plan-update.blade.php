@@ -18,15 +18,15 @@
                                         <tbody>
                                             <tr>
                                                 <th>選択プラン</th>
-                                                <th>{{Auth::user()->accountingOffice->subscription->subscription_plan->name}}</th>
+                                                <th>{{Auth::user()->accountingOfficeStaff->accountingOffice->subscription->subscription_plan->name}}</th>
                                             </tr>
                                             <tr>
                                                 <td>利用者数</td>
-                                                <td>{{Auth::user()->accountingOffice->staff->count()}} 社</td>
+                                                <td>{{Auth::user()->accountingOfficeStaff->accountingOffice->staff->count()}} 社</td>
                                             </tr>
                                             <tr>
                                                 <td>ご利用期日</td>
-                                                <td>{{date_format(Auth::user()->accountingOffice->subscription->created_at, 'F j, Y')}} ~ </td>
+                                                <td>{{date_format(Auth::user()->accountingOfficeStaff->accountingOffice->subscription->created_at, 'F j, Y')}} ~ </td>
                                             </tr>
                                         </tbody>
                                     </table>

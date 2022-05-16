@@ -56,7 +56,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <?php echo e(Auth::user()->accountingOffice->name ?? ''); ?>
+                        <?php echo e(Auth::user()->accountingOfficeStaff->accountingOffice->name ?? ''); ?>
 
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -112,7 +112,7 @@
                     </div>
                     <div class="info">
                         <a href="<?php echo e(route('account')); ?>"
-                            class="d-block"><?php echo e(Auth::user()->accountingOffice->name); ?></a>
+                            class="d-block"><?php echo e(Auth::user()->accountingOfficeStaff->accountingOffice->name); ?></a>
                     </div>
                 </div>
 

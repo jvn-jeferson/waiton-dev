@@ -105,7 +105,7 @@ class HostController extends Controller
     public function accounting_profile()
     {
         \Stripe\Stripe::setApiKey(env("STRIPE_SECRET"));
-        $account_office_id = Auth::user()->accountingOffice->id;
+        $account_office_id = Auth::user()->accountingOfficeStaff->accountingOffice->id;
         $customer = Subscription::where('accounting_office_id', $account_office_id)->orderBy('created_at', 'desc')->first();
         $invoice_details = ClientInvoice::where('accounting_office_id', $account_office_id)->get();
         $cards = \Stripe\PaymentMethod::all([
@@ -836,7 +836,7 @@ class HostController extends Controller
             $file = $request->file('file');
 
             $name = $file->getClientOriginalName();
-            $path = 'notification-archive/' . Auth::user()->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $name);
+            $path = 'notification-archive/' . Auth::user()->accountingOfficeStaff->accountingOffice->id . '/' . $request->client_id . str_replace(' ', '%20', $name);
             Storage::disk('gcs')->put($path, file_get_contents($file));
 
             $file_id = Files::insertGetId([
