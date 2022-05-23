@@ -75,62 +75,63 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-auto col-sm-12 col-md-12">
-                        <div class="card card-danger card-outline collapsed-card">
-                            <div class="card-header">
-                                <h3 class="card-title text-bold">
-                                    新規登録
-                                </h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                        <i class="fas fa-bars"></i>
-                                    </button>
+                @if(Auth::user()->role_id == 2)
+                    <div class="row">
+                        <div class="col-auto col-sm-12 col-md-12">
+                            <div class="card card-danger card-outline collapsed-card">
+                                <div class="card-header">
+                                    <h3 class="card-title text-bold">
+                                        新規登録
+                                    </h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                            <i class="fas fa-bars"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <form method="post" id="newUserForm">
-                                    @csrf
-                                    <div class="table-responsive">
-                                        <table class="mb-2 table table-bordered">
-                                            <tbody class="text-center align-items-center">
-                                                <tr>
-                                                    <td class="text-bold">
-                                                        ユーザータイプ
-                                                    </td>
-                                                    <td>
-                                                        <label for="" class="h3">
-                                                            <input type="radio" name="is_admin" id="is_admin" value="1">管理者
-                                                        </label>
-                                                    </td>
-                                                    <td class="text-bold">
-                                                        <label for="" class="h3">
-                                                            <input type="radio" name="is_admin" id="is_admin" value="0">利用者
-                                                        </label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-bold">名前</td>
-                                                    <td class="bg-light" colspan="2"><input type="text" name="name" id="name" class="form-control bg-light"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>メールアドレス</td>
-                                                    <td class="bg-light" colspan="2"><input type="email" name="email" id="email" class="form-control bg-light"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="row mt-1">
-                                        <div class="col-9"></div>
-                                        <div class="col-3">
-                                            <input type="submit" value="新規登録" class="btn btn-warning btn-block text-bold">
+                                <div class="card-body">
+                                    <form method="post" id="newUserForm">
+                                        @csrf
+                                        <div class="table-responsive">
+                                            <table class="mb-2 table table-bordered">
+                                                <tbody class="text-center align-items-center">
+                                                    <tr>
+                                                        <td class="text-bold">
+                                                            ユーザータイプ
+                                                        </td>
+                                                        <td>
+                                                            <label for="" class="h3">
+                                                                <input type="radio" name="is_admin" id="is_admin" value="1">管理者
+                                                            </label>
+                                                        </td>
+                                                        <td class="text-bold">
+                                                            <label for="" class="h3">
+                                                                <input type="radio" name="is_admin" id="is_admin" value="0">利用者
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-bold">名前</td>
+                                                        <td class="bg-light" colspan="2"><input type="text" name="name" id="name" class="form-control bg-light"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>メールアドレス</td>
+                                                        <td class="bg-light" colspan="2"><input type="email" name="email" id="email" class="form-control bg-light"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
-                                    </div>
-                                </form>
+                                        <div class="row mt-1">
+                                            <div class="col-9"></div>
+                                            <div class="col-3">
+                                                <input type="submit" value="新規登録" class="btn btn-warning btn-block text-bold">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <div class="row">
                     <div class="col-auto col-md-12 col-sm-12">
                         <div class="card card-danger card-outline collapsed-card">
@@ -214,6 +215,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
         </section>
     </div>
