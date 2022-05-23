@@ -43,7 +43,7 @@ return [
 
     'image' => [
         'enabled' => true,
-        'binary'  => '/usr/local/bin/wkhtmltopdf',
+        'binary'  => '/opt/bitnami/projects/waiton-dev/vendor/bin/wkhtmltoimage-i386',
         'timeout' => false,
         'options' => [],
         'env'     => [],
