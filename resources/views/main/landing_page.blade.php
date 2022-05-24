@@ -61,6 +61,9 @@
               <a class="nav-link" href="#q_a">サポート/Q&A</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="#infomation">お知らせ</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="#contact">お問い合わせ</a>
             </li>
           </ul>
@@ -77,9 +80,9 @@
                 <li><a class="dropdown-item"
                     href="https://upfiling.jp/signin?user_type=%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88">クライアント</a>
                 </li>
-                {{-- <li><a class="dropdown-item"
+                <li><a class="dropdown-item"
                     href="https://upfiling.jp/signin?user_type=%E3%83%A2%E3%82%A2%E3%82%B8%E3%83%A7%E3%83%96">モアジョブ</a>
-                </li> --}}
+                </li>
               </ul>
             </div>
             <button class="btn btn-warning my-2 mt-sm-2" type="submit"
@@ -523,6 +526,35 @@
 
     </section>
 
+    <a id="infomation"></a>
+    <section>
+      <div style="background-color: #eee;;">
+        <div class="container-lg  py-5 px-5 px-lg-5">
+          <h1 class="my-lg-5 mb-4 bluebg mx-auto">お知らせ</h1>
+          <div class="row featurette">
+            <div class="col-md-12 order-md-2">
+              <h2 class="featurette-heading text-center">運営からのお知らせ</h2>
+
+              <div class="accordion accordion-flush max-w960" id="accordionFlushExample">
+                
+                <dl class="infomation">
+                <dt>2022/04/11</dt>
+                <dd>サービスを開始しました。</dd>
+                </dl>
+
+                <p class="lead">　</p>
+              
+              <div class="col-md-8 text-center mx-auto mt-5" style="clear:both;">
+          <button type="button" class="btn-lg btn-primary w-100 support-btn"
+              onclick="location.href='{{asset('toppage_data/infomation/index.html')}}'" style="background-color: #0ae;border-color: #0ae;"><span>すべてのお知らせについてはこちら</span><br>をご覧ください</button>
+          </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
 
 
     <a id="contact"></a>
