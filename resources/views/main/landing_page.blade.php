@@ -526,7 +526,7 @@
 
     </section>
 
-    <a id="infomation"></a>
+  <a id="infomation"></a>
     <section>
       <div style="background-color: #eee;;">
         <div class="container-lg  py-5 px-5 px-lg-5">
@@ -559,8 +559,7 @@
 
     <a id="contact"></a>
     <section>
-
-      <div style="background-color: #eef;">
+      <div style = "background-color: #eef; border-top: solid 3px #fff;">
         <div class="container-lg  py-5 px-5 px-lg-5">
           <h1 class="my-lg-5 mb-4 bluebg mx-auto">お問い合わせ</h1>
           <div class="row featurette text-center">
@@ -580,8 +579,8 @@
 
     <!-- FOOTER -->
     <footer class="container text-center  py-3 px-4">
-      <p>&middot; <a href="toppage_data/privacypolicy.html">プライバシーポリシー</a> &middot; <a href="toppage_data/policy.html">利用規約</a>&middot; <a
-          href="toppage_data/security.html">情報セキュリティ基本方針</a> &middot; <a href="toppage_data/transaction_law.html">特定商取引に関する法律に基づく表記</a></p>
+      <p>&middot; <a href="{{asset('toppage_data/privacypolicy.html')}}">プライバシーポリシー</a> &middot; <a href="{{asset('toppage_data/policy.html')}}">利用規約</a>&middot; <a
+          href="{{asset('toppage_data/security.html')}}">情報セキュリティ基本方針</a> &middot; <a href="{{asset('toppage_data/transaction_law.html')}}">特定商取引に関する法律に基づく表記</a></p>
       <p>&copy; 2022 MOREJOB, Inc.</p>
     </footer>
   </main>
