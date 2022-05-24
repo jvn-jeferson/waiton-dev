@@ -58,7 +58,7 @@
               <a class="nav-link" href="#price">ご利用料金</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#q_a">サポート/Q&A</a>
+              <a class="nav-link" href="#q_a">Q&A</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#infomation">お知らせ</a>
