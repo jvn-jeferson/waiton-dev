@@ -359,7 +359,7 @@
                 <tr>
                   <td style="background-color:#cef">月額利用料金</td>
                   <td class="L-border2"><span style="font-size:1.6rem">無料</span></td>
-                  <td class="L-border2">追加 : １社あたり<span style="font-size:1.6rem">880</span>円/月(税込)</td>
+                  <td class="L-border2">追加 : １社あたり<span style="font-size:1.6rem">880</span>円/月(税込)<br>［800円/月(税別)］</td>
                 </tr>
               </table><br>
               <p style="max-width:960px;margin:10px auto;">
