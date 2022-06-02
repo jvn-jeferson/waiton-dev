@@ -527,7 +527,11 @@
     </section>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     <a id="infomation"></a>
+=======
+  <a id="infomation"></a>
+>>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
 =======
   <a id="infomation"></a>
 >>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
@@ -541,6 +545,10 @@
 
               <div class="accordion accordion-flush max-w960" id="accordionFlushExample">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                
+>>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
 =======
                 
 >>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
@@ -551,6 +559,10 @@
 
                 <p class="lead">　</p>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+              
+>>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
 =======
               
 >>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
@@ -559,6 +571,10 @@
               onclick="location.href='{{asset('toppage_data/infomation/index.html')}}'" style="background-color: #0ae;border-color: #0ae;"><span>すべてのお知らせについてはこちら</span><br>をご覧ください</button>
           </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+              
+>>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
 =======
               
 >>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
