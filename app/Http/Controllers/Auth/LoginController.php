@@ -33,7 +33,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    public function redirectTo() 
+    public function redirectTo()
     {
         $role = auth()->user()->role_id;
 

@@ -523,6 +523,36 @@
 
     </section>
 
+    <a id="infomation"></a>
+    <section>
+      <div style="background-color: #eee;;">
+        <div class="container-lg  py-5 px-5 px-lg-5">
+          <h1 class="my-lg-5 mb-4 bluebg mx-auto">お知らせ</h1>
+          <div class="row featurette">
+            <div class="col-md-12 order-md-2">
+              <h2 class="featurette-heading text-center">運営からのお知らせ</h2>
+
+              <div class="accordion accordion-flush max-w960" id="accordionFlushExample">
+
+                <dl class="infomation">
+                <dt>2022/04/11</dt>
+                <dd>サービスを開始しました。</dd>
+                </dl>
+
+                <p class="lead">　</p>
+
+              <div class="col-md-8 text-center mx-auto mt-5" style="clear:both;">
+          <button type="button" class="btn-lg btn-primary w-100 support-btn"
+              onclick="location.href='{{asset('toppage_data/infomation/index.html')}}'" style="background-color: #0ae;border-color: #0ae;"><span>すべてのお知らせについてはこちら</span><br>をご覧ください</button>
+          </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
 
 
     <a id="contact"></a>
