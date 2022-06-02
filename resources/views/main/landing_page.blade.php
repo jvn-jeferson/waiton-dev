@@ -526,15 +526,7 @@
 
     </section>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     <a id="infomation"></a>
-=======
-  <a id="infomation"></a>
->>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
-=======
-  <a id="infomation"></a>
->>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
     <section>
       <div style="background-color: #eee;;">
         <div class="container-lg  py-5 px-5 px-lg-5">
@@ -544,40 +536,16 @@
               <h2 class="featurette-heading text-center">運営からのお知らせ</h2>
 
               <div class="accordion accordion-flush max-w960" id="accordionFlushExample">
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-                
->>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
-=======
-                
->>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
                 <dl class="infomation">
                 <dt>2022/04/11</dt>
                 <dd>サービスを開始しました。</dd>
                 </dl>
 
                 <p class="lead">　</p>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-              
->>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
-=======
-              
->>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
               <div class="col-md-8 text-center mx-auto mt-5" style="clear:both;">
           <button type="button" class="btn-lg btn-primary w-100 support-btn"
               onclick="location.href='{{asset('toppage_data/infomation/index.html')}}'" style="background-color: #0ae;border-color: #0ae;"><span>すべてのお知らせについてはこちら</span><br>をご覧ください</button>
           </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-              
->>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
-=======
-              
->>>>>>> b6c28b3779173aa4262a17618b4c19728dac49a2
             </div>
           </div>
         </div>
