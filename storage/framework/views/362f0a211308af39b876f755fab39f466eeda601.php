@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="format-detection" content="telephone=no">
-  <link rel="icon" href="{{asset('toppage_data/favicon.ico')}}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{asset('toppage_data/apple-touch-icon.png')}}">
+  <link rel="icon" href="<?php echo e(asset('toppage_data/favicon.ico')); ?>">
+  <link rel="apple-touch-icon" sizes="180x180" href="<?php echo e(asset('toppage_data/apple-touch-icon.png')); ?>">
   <title>クラウド経理文書管理サービス_アップファイリング</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
@@ -24,9 +24,9 @@
 
 
   <!-- Bootstrap core CSS -->
-  <link href="{{asset('toppage_data/assets/dist/css/bootstrap.min.css')}}" rel="stylesheet">
+  <link href="<?php echo e(asset('toppage_data/assets/dist/css/bootstrap.min.css')); ?>" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="{{asset('toppage_data/css/new-style.css')}}" rel="stylesheet">
+  <link href="<?php echo e(asset('toppage_data/css/new-style.css')); ?>" rel="stylesheet">
 
 </head>
 
@@ -40,7 +40,7 @@
   <header>
     <nav class="navbar navbar-expand-lg  navbar-light fixed-top bg-white" style="border-bottom:solid 1px #ddd;">
       <div class="container-lg">
-        <a href="#"><img src="{{asset('toppage_data/images/UPF_logo.svg')}}" class="navbar-brand" style="width:160px;"
+        <a href="#"><img src="<?php echo e(asset('toppage_data/images/UPF_logo.svg')); ?>" class="navbar-brand" style="width:160px;"
             alt="クラウド経理文書管理サービス_アップファイリング"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
           aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,9 +80,9 @@
                 <li><a class="dropdown-item"
                     href="https://upfiling.jp/signin?user_type=%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88">クライアント</a>
                 </li>
-                {{-- <li><a class="dropdown-item"
+                <li><a class="dropdown-item"
                     href="https://upfiling.jp/signin?user_type=%E3%83%A2%E3%82%A2%E3%82%B8%E3%83%A7%E3%83%96">モアジョブ</a>
-                </li> --}}
+                </li>
               </ul>
             </div>
             <button class="btn btn-warning my-2 mt-sm-2" type="submit"
@@ -98,10 +98,10 @@
     <div style="background-color:#f8e695;">
       <div class="container-lg g-0">
         <div class="row g-0">
-          <div class="col-md-6"><img src="{{asset('toppage_data/images/main_image01a.svg')}}" class="d-none d-lg-block" style="width:100%;"
-              alt="会計事務所のみなさまへ 安全、簡単データ受け渡しクラウド経理文書管理サービス"><img src="{{asset('toppage_data/images/main_image01a_S.svg')}}"
+          <div class="col-md-6"><img src="<?php echo e(asset('toppage_data/images/main_image01a.svg')); ?>" class="d-none d-lg-block" style="width:100%;"
+              alt="会計事務所のみなさまへ 安全、簡単データ受け渡しクラウド経理文書管理サービス"><img src="<?php echo e(asset('toppage_data/images/main_image01a_S.svg')); ?>"
               class="d-block d-lg-none" style="width:100%;" alt="会計事務所のみなさまへ 安全、簡単データ受け渡しクラウド経理文書管理サービス"></div>
-          <div class="col-md-6"><img src="{{asset('toppage_data/images/main_image01b.svg')}}" style="width:100%;"
+          <div class="col-md-6"><img src="<?php echo e(asset('toppage_data/images/main_image01b.svg')); ?>" style="width:100%;"
               alt="クラウド経理文書管理サービス_アップファイリング"></div>
         </div><!-- /.row -->
       </div>
@@ -122,7 +122,7 @@
           クラウド経理文書管理サービス「アップ・ファイリング」は、クライアント様の機密データを<br class="d-none d-lg-block">
           クラウドストレージサーバ上で、より安全に、かつ簡単にやり取りができる<br class="d-none d-md-block">
           経理業務専門のサービスです。</p>
-        <img src="{{asset('toppage_data/images/main_image02.png')}}" style="width:100%;max-width:760px;" alt="クラウド経理文書管理サービス_アップファイリングの概要">
+        <img src="<?php echo e(asset('toppage_data/images/main_image02.png')); ?>" style="width:100%;max-width:760px;" alt="クラウド経理文書管理サービス_アップファイリングの概要">
 
         <div class="col-md-8 text-center mx-auto mt-5" style="clear:both;">
           <h4 class="freeTry">UPFilingは、2022年12月まで<br class="d-block d-lg-none">無料でお試しできます。</h4><button type="button"
@@ -140,7 +140,7 @@
 
           <div class="col-md-10 p-3 mb-3" style="background-color:#ffc;border-radius:20px;">
             <div class="row">
-              <div class="col-md-3 text-center"><img src="{{asset('toppage_data/images/onayami01.svg')}}" class="koma01" alt="お悩み"></div>
+              <div class="col-md-3 text-center"><img src="<?php echo e(asset('toppage_data/images/onayami01.svg')); ?>" class="koma01" alt="お悩み"></div>
               <div class="col-md-9 p-3">
                 <p class="m-0 top_copy" style="font-weight:bold">メールのやり取りだと、 担当者の変更時の対応が煩雑になる。</p>
               </div>
@@ -149,7 +149,7 @@
 
           <div class="col-md-10 p-3 mb-5 float-end" style="background-color:#fff;border-radius:20px;">
             <div class="row">
-              <div class="col-md-2 text-center"><img src="{{asset('toppage_data/images/onayami02.svg')}}" class="koma02" alt="お答え"></div>
+              <div class="col-md-2 text-center"><img src="<?php echo e(asset('toppage_data/images/onayami02.svg')); ?>" class="koma02" alt="お答え"></div>
               <div class="col-md-10 p-3">
                 <p class="m-0 top_copy">クラウド上のプラットフォームでやり取りするので、担当者が変わっても<span
                     class="marker-y">プラットフォーム内のやり取りはそのまま引き継げます。</span></p>
@@ -161,7 +161,7 @@
 
           <div class="col-md-10 p-3 mb-3 float-start" style="background-color:#ffc;border-radius:20px;">
             <div class="row">
-              <div class="col-md-3 text-center"><img src="{{asset('toppage_data/images/onayami01.svg')}}" class="koma01" alt="お悩み"></div>
+              <div class="col-md-3 text-center"><img src="<?php echo e(asset('toppage_data/images/onayami01.svg')); ?>" class="koma01" alt="お悩み"></div>
               <div class="col-md-9 p-3">
                 <p class="m-0 top_copy" style="font-weight:bold">クライアントからの承認をもらいたいがなかなか返答が無い。</p>
               </div>
@@ -170,7 +170,7 @@
 
           <div class="col-md-10 p-3 mb-5 float-end" style="background-color:#fff;border-radius:20px;">
             <div class="row">
-              <div class="col-md-2 text-center"><img src="{{asset('toppage_data/images/onayami02.svg')}}" class="koma02" alt="お答え"></div>
+              <div class="col-md-2 text-center"><img src="<?php echo e(asset('toppage_data/images/onayami02.svg')); ?>" class="koma02" alt="お答え"></div>
               <div class="col-md-10 p-3">
                 <p class="m-0 top_copy"><span class="marker-y">クライアント側の承認はボタンを押すだけ。</span>簡単に承認がおこなえ、双方の やり取りを明確にします。
                 </p>
@@ -181,7 +181,7 @@
 
           <div class="col-md-10 p-3 mb-3 float-start" style="background-color:#ffc;border-radius:20px;">
             <div class="row">
-              <div class="col-md-3 text-center"><img src="{{asset('toppage_data/images/onayami01.svg')}}" class="koma01" alt="お悩み"></div>
+              <div class="col-md-3 text-center"><img src="<?php echo e(asset('toppage_data/images/onayami01.svg')); ?>" class="koma01" alt="お悩み"></div>
               <div class="col-md-9 p-3">
                 <p class="m-0 top_copy" style="font-weight:bold">メールでファイルのやり取りをしていると、他のメールと混同したり見忘れが生じる。</p>
               </div>
@@ -190,7 +190,7 @@
 
           <div class="col-md-10 p-3 mb-5 float-end" style="background-color:#fff;border-radius:20px;">
             <div class="row">
-              <div class="col-md-2 text-center"><img src="{{asset('toppage_data/images/onayami02.svg')}}" class="koma02" alt="お答え"></div>
+              <div class="col-md-2 text-center"><img src="<?php echo e(asset('toppage_data/images/onayami02.svg')); ?>" class="koma02" alt="お答え"></div>
               <div class="col-md-10 p-3">
                 <p class="m-0 top_copy">会計事務所とクライアント間の<span
                     class="marker-y">ファイルのやり取りは、すべてクラウドサーバーに保管され</span>いつでも閲覧できます。 </p>
@@ -222,7 +222,7 @@
               <p class="featurette">機密データを取り扱いますのでセキュリティが大切です。当サービスは安全性に定評のある「Googleクラウドストレージ」サービスを選択しています。</p>
             </div>
             <div class="col-md-6 order-md-1 text-center">
-              <img src="{{asset('toppage_data/images/5merit01.svg')}}" style="width:100%;max-width:340px;" alt="データは信頼性の高いGoogleクラウドストレージを使用">
+              <img src="<?php echo e(asset('toppage_data/images/5merit01.svg')); ?>" style="width:100%;max-width:340px;" alt="データは信頼性の高いGoogleクラウドストレージを使用">
             </div>
           </div>
         </div>
@@ -236,7 +236,7 @@
               <p class="featurette">クライアントが保存する機密文書をダウンロードする場合ワンタイムパスワードを発行します。これにより閲覧権限が設定できます。</p>
             </div>
             <div class="col-md-6 text-center">
-              <img src="{{asset('toppage_data/images/5merit02.svg')}}" style="width:100%;max-width:340px;" alt="ワンタイムパスワードを採用">
+              <img src="<?php echo e(asset('toppage_data/images/5merit02.svg')); ?>" style="width:100%;max-width:340px;" alt="ワンタイムパスワードを採用">
             </div>
           </div>
         </div>
@@ -256,7 +256,7 @@
               <p class="featurette2">動画以外の資料を保存するストレージです。保存期限はなく、閲覧にはメール申請・ワンタイムパスワードが必要になります。</p>
             </div>
             <div class="col-md-6 order-md-1 text-center">
-              <img src="{{asset('toppage_data/images/5merit_screen01.png')}}" style="width:100%;max-width:480px;" alt="短期ストレージと長期ストレージをご用意">
+              <img src="<?php echo e(asset('toppage_data/images/5merit_screen01.png')); ?>" style="width:100%;max-width:480px;" alt="短期ストレージと長期ストレージをご用意">
             </div>
           </div>
         </div>
@@ -270,7 +270,7 @@
               <p class="featurette">経理文書などをアップロードすると相手の登録したメールアドレスに「アップ通知」が届きます。やり取りの見落とし防止に役立ちます。</p>
             </div>
             <div class="col-md-6 text-center">
-              <img src="{{asset('toppage_data/images/5merit03.svg')}}" style="width:100%;max-width:340px;" alt="文書をアップロードすると相手に通知が届きます">
+              <img src="<?php echo e(asset('toppage_data/images/5merit03.svg')); ?>" style="width:100%;max-width:340px;" alt="文書をアップロードすると相手に通知が届きます">
             </div>
           </div>
         </div>
@@ -284,7 +284,7 @@
               <p class="featurette">資料の説明・修正依頼を行う際に便利な「動画の作成機能」をご用意。オンラインで画面を共有する感覚で相手に説明や指示がおこなえます。</p>
             </div>
             <div class="col-md-6 order-md-1 text-center">
-              <img src="{{asset('toppage_data/images/5merit_screen02.png')}}" style="width:100%;max-width:480px;" alt="動画が簡単に作成・共有できます">
+              <img src="<?php echo e(asset('toppage_data/images/5merit_screen02.png')); ?>" style="width:100%;max-width:480px;" alt="動画が簡単に作成・共有できます">
             </div>
           </div>
 
@@ -544,7 +544,7 @@
                 <p class="lead">　</p>
               <div class="col-md-8 text-center mx-auto mt-5" style="clear:both;">
           <button type="button" class="btn-lg btn-primary w-100 support-btn"
-              onclick="location.href='{{asset('toppage_data/infomation/index.html')}}'" style="background-color: #0ae;border-color: #0ae;"><span>すべてのお知らせについてはこちら</span><br>をご覧ください</button>
+              onclick="location.href='<?php echo e(asset('toppage_data/infomation/index.html')); ?>'" style="background-color: #0ae;border-color: #0ae;"><span>すべてのお知らせについてはこちら</span><br>をご覧ください</button>
           </div>
             </div>
           </div>
@@ -576,8 +576,8 @@
 
     <!-- FOOTER -->
     <footer class="container text-center  py-3 px-4">
-      <p>&middot; <a href="{{asset('toppage_data/privacypolicy.html')}}">プライバシーポリシー</a> &middot; <a href="{{asset('toppage_data/policy.html')}}">利用規約</a>&middot; <a
-          href="{{asset('toppage_data/security.html')}}">情報セキュリティ基本方針</a> &middot; <a href="{{asset('toppage_data/transaction_law.html')}}">特定商取引に関する法律に基づく表記</a></p>
+      <p>&middot; <a href="<?php echo e(asset('toppage_data/privacypolicy.html')); ?>">プライバシーポリシー</a> &middot; <a href="<?php echo e(asset('toppage_data/policy.html')); ?>">利用規約</a>&middot; <a
+          href="<?php echo e(asset('toppage_data/security.html')); ?>">情報セキュリティ基本方針</a> &middot; <a href="<?php echo e(asset('toppage_data/transaction_law.html')); ?>">特定商取引に関する法律に基づく表記</a></p>
       <p>&copy; 2022 MOREJOB, Inc.</p>
     </footer>
   </main>
@@ -586,10 +586,11 @@
     <a href="#"><i class="fa fa-angle-up"></i></a>
   </p>
 
-  <script src="{{asset('assets/dist/js/bootstrap.bundle.min.js')}}"></script>
-  <script src="{{asset('assets/dist/js/popper.min.js')}}"></script>
-  <script src="{{asset('js/jquery-3.5.0.js')}}"></script>
-  <script src="{{asset('toppage_data/js/style.js')}}"></script>
+  <script src="<?php echo e(asset('assets/dist/js/bootstrap.bundle.min.js')); ?>"></script>
+  <script src="<?php echo e(asset('assets/dist/js/popper.min.js')); ?>"></script>
+  <script src="<?php echo e(asset('js/jquery-3.5.0.js')); ?>"></script>
+  <script src="<?php echo e(asset('toppage_data/js/style.js')); ?>"></script>
 </body>
 
 </html>
+<?php /**PATH C:\laragon\www\waiton-dev\resources\views/main/landing_page.blade.php ENDPATH**/ ?>
