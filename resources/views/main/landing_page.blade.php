@@ -80,9 +80,9 @@
                 <li><a class="dropdown-item"
                     href="https://upfiling.jp/signin?user_type=%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88">クライアント</a>
                 </li>
-                {{-- <li><a class="dropdown-item"
+                <li><a class="dropdown-item"
                     href="https://upfiling.jp/signin?user_type=%E3%83%A2%E3%82%A2%E3%82%B8%E3%83%A7%E3%83%96">モアジョブ</a>
-                </li> --}}
+                </li>
               </ul>
             </div>
             <button class="btn btn-warning my-2 mt-sm-2" type="submit"
