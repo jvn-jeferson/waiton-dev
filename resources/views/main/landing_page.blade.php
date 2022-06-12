@@ -536,10 +536,6 @@
               <h2 class="featurette-heading text-center">運営からのお知らせ</h2>
 
               <div class="accordion accordion-flush max-w960" id="accordionFlushExample">
-                <dl class="infomation">
-                <dt>2022年04月11日</dt>
-                <dd>サービスを開始しました。</dd>
-                </dl>
 
                 <dl class="infomation">
                     <dt>2022年06月12日</dt>
@@ -547,6 +543,10 @@
                         大変ご不便をおかけいたしますが、今しばらくお待ちください。
                         【メンテナンス作業予定日時】2022年06月12日（日）00：30 ※メンテナンス作業が終了次第公開いたします。
                     </dd>
+                </dl>
+                <dl class="infomation">
+                    <dt>2022年04月11日</dt>
+                    <dd>サービスを開始しました。</dd>
                 </dl>
                 <dl class="information">
                     <dt>
