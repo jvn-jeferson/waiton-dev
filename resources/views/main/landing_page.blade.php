@@ -537,23 +537,32 @@
 
               <div class="accordion accordion-flush max-w960" id="accordionFlushExample">
                 <dl class="infomation">
-                <dt>2022/04/11</dt>
+                <dt>2022年04月11日</dt>
                 <dd>サービスを開始しました。</dd>
+                </dl>
+
+                <dl class="infomation">
+                    <dt>2022年06月11日</dt>
+                    <dd>ただいまメンテナンスのため一時サービスを停止しております。
+                        大変ご不便をおかけいたしますが、今しばらくお待ちください。</dd>
+                </dl>
+
+                <dl class="infomation">
+                    <dt>2022年6月12日（日）00：30</dt>
+                    <dd>【メンテナンス作業予定日時】※メンテナンス作業が終了次第公開いたします。</dd>
+                </dl>
+
+                <dl class="information">
+                    <dt>
+
+                    </dt>
+                    <dd>
+
+                    </dd>
                 </dl>
 
                 <p class="lead">　</p>
               <div class="col-md-8 text-center mx-auto mt-5" style="clear:both;">
-
-            <div class="accordion accordion-flush max-w960" id="accordionFlushExample">
-                <dl class="infomation">
-                <dt>2022/06/11</dt>
-                <dd>ただいまメンテナンスのため一時サービスを停止しております。
-                    大変ご不便をおかけいたしますが、今しばらくお待ちください。</dd>
-                </dl>
-
-                <p class="lead">　</p>
-                <div class="col-md-8 text-center mx-auto mt-5" style="clear:both;">
-
 
           <button type="button" class="btn-lg btn-primary w-100 support-btn"
               onclick="location.href='{{asset('toppage_data/infomation/index.html')}}'" style="background-color: #0ae;border-color: #0ae;"><span>すべてのお知らせについてはこちら</span><br>をご覧ください</button>
