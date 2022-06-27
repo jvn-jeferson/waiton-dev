@@ -11,7 +11,7 @@
         <section class="content">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">過去の決算</h3>
+                    <h3 class="card-title">保管資料（動画あり）</h3>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover table-striped table-bordered text-center">

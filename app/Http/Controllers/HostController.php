@@ -919,7 +919,7 @@ class HostController extends Controller
         $staff = $user->accountingOfficeStaff;
         $client = $staff->accountingOffice;
 
-        Mail::to('support@upfiling.jp')->send(new InquiryMail($user, $staff, $ao, $request->content));
+        Mail::to('ichikawa@upfiling.jp')->send(new InquiryMail($user, $staff, $ao, $request->content));
 
         if (Mail::failures()) {
             return 'failure';

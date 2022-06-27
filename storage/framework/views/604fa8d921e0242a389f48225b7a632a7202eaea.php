@@ -90,7 +90,26 @@
                             <td><?php echo e($client->name); ?></td>
                             <td><?php echo e($client->tax_filing_month.'月'); ?></td>
                             <td></td>
-                            <td><?php if($client->business_type_id == 1): ?> 個人 <?php else: ?> 法人 <?php endif; ?></td>
+                            <td><?php if($client->obligation): ?>
+                                 <?php if($client->obligation->is_taxable == 1): ?>
+                                 課税事業者 •
+                                    <?php if($client->obligation->calculation_method == 1): ?>
+                                        原則 •
+                                        <?php if($client->obligation->taxable_type == 1): ?>
+                                        全額控除
+                                        <?php elseif($client->obligation->taxable_type == 2): ?>
+                                        個別
+                                        <?php elseif($client->obligation->taxable_type == 3): ?>
+                                        一括
+                                        <?php else: ?>
+                                            ~~
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        簡易課税
+                                    <?php endif; ?>
+                                 <?php else: ?> 免税事業者
+                                 <?php endif; ?>
+                                <?php endif; ?></td>
                           </tr>
                         <?php endif; ?>
                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
