@@ -271,8 +271,10 @@ class HostController extends Controller
         return View::make('host.blank-tempo')->with(['page_title' => 'プラン確認・変更']);
     }
 
+    //function for registering a new client.
     public function register_new_client(Request $request)
     {
+        //check if all needed information are entered properly
         $request->validate([
             'name' => 'required',
             'business_type_id' => 'required',
@@ -287,10 +289,12 @@ class HostController extends Controller
             'manager_email' => 'required',
         ]);
 
+        //get init data
         $host_id = Auth::user()->id;
         $accounting_office_id = Auth::user()->accountingOfficeStaff->accountingOffice->id;
         $token = Str::random(60);
 
+        //try for Database Insertion
         DB::transaction(function () use ($request, $accounting_office_id, $token) {
 
             $hashids = new Hashids(config('hashids.login_salt'), 8);
@@ -334,68 +338,69 @@ class HostController extends Controller
 
                     $this->sendClientRegistrationEmail($manager->remember_token, $manager, $manager_pw);
 
-                    if ($request->user1_name != '' && $request->user1_email != '') {
-                        $user1_pw = Str::random(8);
-                        $user1_id = User::insertGetId([
-                            'email' => $request->user1_email,
-                            'password' => Hash::make($user1_pw),
-                            'role_id' => 5,
-                            'is_online' => 0,
-                            'remember_token' => $token,
-                            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+
+                }
+
+                if ($request->user1_name && $request->user1_email) {
+                    $user1_pw = Str::random(8);
+                    $user1_id = User::insertGetId([
+                        'email' => $request->user1_email,
+                        'password' => Hash::make($user1_pw),
+                        'role_id' => 5,
+                        'is_online' => 0,
+                        'remember_token' => $token,
+                        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                    ]);
+
+                    if ($user1_id) {
+                        $user1 = User::findOrFail($user1_id);
+                        $user1_login_id = "C" . date('Y') . $user1->role_id . $user1->id . "";
+                        $user1->update([
+                            'login_id' => $user1_login_id
                         ]);
 
-                        if ($user1_id) {
-                            $user1 = User::findOrFail($user1_id);
-                            $user1_login_id = "C" . date('Y') . $user1->role_id . $user1->id . "";
-                            $user1->update([
-                                'login_id' => $user1_login_id
-                            ]);
-
-                            ClientStaff::create([
-                                'client_id' => $client->id,
-                                'user_id' => $user1_id,
-                                'name' => $request->user1_name,
-                                'is_admin' => 0
-                            ]);
-
-                            $this->sendClientRegistrationEmail($user1->remember_token, $user1, $user1_pw);
-                        }
-                    }
-                    if ($request->user2_name != '' && $request->user2_email != '') {
-                        $user2_pw = Str::random(8);
-                        $user2_id = User::insertGetId([
-                            'email' => $request->user2_email,
-                            'password' => Hash::make($user2_pw),
-                            'role_id' => 5,
-                            'is_online' => 0,
-                            'remember_token' => $token,
-                            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                        ClientStaff::create([
+                            'client_id' => $client->id,
+                            'user_id' => $user1_id,
+                            'name' => $request->user1_name,
+                            'is_admin' => 0
                         ]);
 
-                        if ($user2_id) {
-                            $user2 = User::findOrFail($user2_id);
-                            $user2_login_id = "C" . date('Y') . $user2->role_id . $user2->id . "";
-                            $user2->update([
-                                'login_id' => $user2_login_id
-                            ]);
-
-                            ClientStaff::create([
-                                'client_id' => $client->id,
-                                'user_id' => $user2_id,
-                                'name' => $request->user2_name,
-                                'is_admin' => 0
-                            ]);
-
-                            $this->sendClientRegistrationEmail($user2->remember_token, $user2, $user2_pw);
-                        }
-
-                        return 'Client creation success.';
+                        $this->sendClientRegistrationEmail($user1->remember_token, $user1, $user1_pw);
                     }
-                } else {
-                    return "Client creation successfull but failed to add new user.";
+                }
+
+                if ($request->user2_name != '' && $request->user2_email != '') {
+                    $user2_pw = Str::random(8);
+                    $user2_id = User::insertGetId([
+                        'email' => $request->user2_email,
+                        'password' => Hash::make($user2_pw),
+                        'role_id' => 5,
+                        'is_online' => 0,
+                        'remember_token' => $token,
+                        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                    ]);
+
+                    if ($user2_id) {
+                        $user2 = User::findOrFail($user2_id);
+                        $user2_login_id = "C" . date('Y') . $user2->role_id . $user2->id . "";
+                        $user2->update([
+                            'login_id' => $user2_login_id
+                        ]);
+
+                        ClientStaff::create([
+                            'client_id' => $client->id,
+                            'user_id' => $user2_id,
+                            'name' => $request->user2_name,
+                            'is_admin' => 0
+                        ]);
+
+                        $this->sendClientRegistrationEmail($user2->remember_token, $user2, $user2_pw);
+                    }
+
+                    return 'Client creation success.';
                 }
             } else {
                 return "Failed to create a new client";
