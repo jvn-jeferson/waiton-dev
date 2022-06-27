@@ -11853,3 +11853,699 @@ Stack trace:
 [stacktrace]
 #0 {main}
 "} 
+[2022-06-27 11:22:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:23:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:24:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:25:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:26:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:27:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:28:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:29:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:30:18] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:31:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:32:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:33:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:34:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:35:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:36:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:37:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:38:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:39:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:40:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:41:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:42:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:43:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:44:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:45:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:46:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:47:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:48:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:49:18] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 
+[2022-06-27 11:50:17] local.ERROR: Uncaught Error: Class 'Laratrust\Models\LaratrustPermission' not found in C:\laragon\www\waiton-dev\app\Models\Permission.php:7
+Stack trace:
+#0 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(571): include()
+#1 C:\laragon\www\waiton-dev\vendor\composer\ClassLoader.php(428): Composer\Autoload\includeFile('C:\\laragon\\www\\...')
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Models\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\Models\\Perm...')
+#4 Command line code(1): class_exists('App\\Models\\Perm...')
+#5 [internal function]: {closure}('App\\Models\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Error: Class 'Laratrust\\Models\\LaratrustPermission' not found in C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7
+Stack trace:
+#0 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(571): include()
+#1 C:\\laragon\\www\\waiton-dev\\vendor\\composer\\ClassLoader.php(428): Composer\\Autoload\\includeFile('C:\\\\laragon\\\\www\\\\...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Models\\\\Perm...')
+#3 [internal function]: spl_autoload_call('App\\\\Models\\\\Perm...')
+#4 Command line code(1): class_exists('App\\\\Models\\\\Perm...')
+#5 [internal function]: {closure}('App\\\\Models\\\\Perm...')
+#6 Command line code(1): array_filter(Array, Object(Closure))
+#7 {main}
+  thrown at C:\\laragon\\www\\waiton-dev\\app\\Models\\Permission.php:7)
+[stacktrace]
+#0 {main}
+"} 

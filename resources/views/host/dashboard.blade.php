@@ -91,7 +91,21 @@
                             <td>{{$client->name}}</td>
                             <td>{{$client->tax_filing_month.'月'}}</td>
                             <td></td>
-                            <td>@if($client->business_type_id == 1) 個人 @else 法人 @endif</td>
+                            <td>@if($client->obligation)
+                                 @if($client->obligation->is_taxable == 1)
+                                 課税事業者 •
+                                    @switch($client->obligation->calculation_type)
+                                        @case(1) 全額控除
+                                        @break
+                                        @case(2) 個別
+                                        @break
+                                        @case(3) 一括
+                                        @break
+                                        @default ~~
+                                    @endswitch
+                                 @else 免税事業者
+                                 @endif
+                                @endif</td>
                           </tr>
                         @endif
                       @empty
