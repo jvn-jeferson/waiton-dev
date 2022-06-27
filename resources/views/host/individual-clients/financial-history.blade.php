@@ -8,7 +8,7 @@
                     <div class="card card-primary card-outline">
                         <div class="card-header">
                             <h3 class="card-title text-dark text-bold">
-                                過去の決算
+                                保管資料（動画あり）
                             </h3>
                             <a class="btn btn-primary col-2 float-right"
                                 href="{{ route('create-video', ['client_id' => $hashids->encode($client->id)]) }}">
