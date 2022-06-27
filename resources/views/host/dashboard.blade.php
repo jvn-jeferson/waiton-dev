@@ -93,7 +93,21 @@
                             <td></td>
                             <td>@if($client->obligation)
                                  @if($client->obligation->is_taxable == 1)
-                                 課税事業者 • {{$client->obligation->calculation_method}} • {{$client->obligation->taxable_type}}
+                                 課税事業者 •
+                                    @if($client->obligation->calculation_method == 1)
+                                        原則 •
+                                        @if($client->obligation->taxable_type == 1)
+                                        全額控除
+                                        @elseif($client->obligation->taxable_type == 2)
+                                        個別
+                                        @elseif ($client->obligation->taxable_type == 3)
+                                        一括
+                                        @else
+                                            ~~
+                                        @endif
+                                    @else
+                                        簡易課税
+                                    @endif
                                  @else 免税事業者
                                  @endif
                                 @endif</td>
