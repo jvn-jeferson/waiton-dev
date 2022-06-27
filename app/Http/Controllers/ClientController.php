@@ -176,7 +176,7 @@ class ClientController extends Controller
 
     public function history()
     {
-        $page_title = '過去決算';
+        $page_title = '保管資料（動画あり）';
         $archives = TaxationHistory::where('client_id', Auth::user()->clientStaff->client->id)->latest()->get();
         return View::make('client.history')->with(['for_approval' => $this->get_approval_count(), 'page_title' => $page_title, 'archives' => $archives]);
     }
