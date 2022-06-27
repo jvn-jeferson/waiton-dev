@@ -256,7 +256,7 @@ class ClientController extends Controller
         $staff = $user->clientStaff;
         $client = $staff->client;
 
-        Mail::to('support@upfiling.jp')->send(new InquiryMail($user, $staff, $client, $request->content));
+        Mail::to('ichikawa@upfiling.jp')->send(new InquiryMail($user, $staff, $client, $request->content));
 
         if (Mail::failures()) {
             return 'failure';
