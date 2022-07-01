@@ -1,6 +1,4 @@
-@extends('layouts.blank-nav')
-
-@section('extra-css')
+<?php $__env->startSection('extra-css'); ?>
     <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.10.377/build/pdf.min.js"></script>
 
     <style>
@@ -47,7 +45,7 @@
             animation: sp-anime 0.8s infinite linear;
         }
 
-        @keyframes sp-anime {
+        @keyframes  sp-anime {
             100% {
                 transform: rotate(360deg);
             }
@@ -57,7 +55,7 @@
             display: none;
         }
 
-        @keyframes spin {
+        @keyframes  spin {
             0% {
                 transform: rotate(0deg);
             }
@@ -68,7 +66,7 @@
         }
 
         .change-cursor {
-            cursor: url("{{ asset('img/pointer.cur') }}"), auto;
+            cursor: url("<?php echo e(asset('img/pointer.cur')); ?>"), auto;
         }
 
         .upfiling-cursor {
@@ -76,9 +74,9 @@
         }
 
     </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="content-wrapper">
         <section class="content">
             <div class="row">
@@ -102,7 +100,7 @@
                         </div>
                         <div class="card-body">
                             <form action="" id="form" method="post" enctype="multipart/form-data">
-                                @csrf
+                                <?php echo csrf_field(); ?>
                                 <label for="pdfSource" class="btn btn-primary d-block">PDFファイルを選択</label>
                                 <span id="pdf-name" class="text-bold"></span>
                                 <input type="file" name="pdfSource" id="pdfSource" accept=".pdf" style="visibility: hidden">
@@ -171,17 +169,14 @@
                                 収録終了</button>
                             <button class="btn btn-block btn-warning mt-5" id="preview" data-toggle="modal"
                                 data-target=".bd-example-modal-lg">プレビュー</button>
-                            {{-- <div class="form-group">
-                                <button class="btn btn-block btn-warning mt-5" id="copy_url">URLをコピー</button>
-
-                            </div> --}}
+                            
                             <input type="hidden" id="file_url" name="file_url" class="form-control" placeholder="動画のURLを表示"
                                 readonly>
                             <button class="btn btn-block btn-warning mt-5" id="completion">完了</button>
-                            @php
+                            <?php
                                 $client_id = $hashids->encode($client->id);
-                            @endphp
-                            <button class="btn btn-danger btn-block" onclick='cancelButton("{{ $client_id }}")'>キャンセル
+                            ?>
+                            <button class="btn btn-danger btn-block" onclick='cancelButton("<?php echo e($client_id); ?>")'>キャンセル
                             </button>
                             <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
                                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -202,31 +197,33 @@
                                                         <table class="table table-striped">
                                                             <tr>
                                                                 <th>種類</th>
-                                                                <td>{{ $record->kind ?? '' }}</td>
+                                                                <td><?php echo e($record->kind ?? ''); ?></td>
                                                             </tr>
                                                             <tr>
                                                                 <th>提出済み申告書一式</th>
                                                                 <td>
-                                                                    @if ($record)
-                                                                        {{ $record->file->name }}
-                                                                    @endif
+                                                                    <?php if($record): ?>
+                                                                        <?php echo e($record->file->name); ?>
+
+                                                                    <?php endif; ?>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>動画投稿者</th>
-                                                                <td>{{ $record->video_contributor ?? '' }}</td>
+                                                                <td><?php echo e($record->video_contributor ?? ''); ?></td>
                                                             </tr>
                                                             <tr>
                                                                 <th>閲覧期限</th>
                                                                 <td>
-                                                                    @if ($record)
-                                                                        {{ $record->created_at->modify('+7 years')->format('Y-m-d') }}
-                                                                    @endif
+                                                                    <?php if($record): ?>
+                                                                        <?php echo e($record->created_at->modify('+7 years')->format('Y-m-d')); ?>
+
+                                                                    <?php endif; ?>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>コメント</th>
-                                                                <td>{{ $record->comment ?? '' }}</td>
+                                                                <td><?php echo e($record->comment ?? ''); ?></td>
                                                             </tr>
                                                         </table>
                                                     </div>
@@ -236,15 +233,15 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- <button class="" id="preview">完了</button> --}}
+                            
                         </div>
                     </div>
                 </div>
         </section>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('extra-scripts')
+<?php $__env->startSection('extra-scripts'); ?>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -457,10 +454,10 @@
 
         completion.addEventListener('click', () => {
             var vid_url = $('#file_url').val();
-            var client_id = "{{ $client->id }}"
+            var client_id = "<?php echo e($client->id); ?>"
             var video_title = $("#video_title").val();
             if (vid_url != '') {
-                var url = "{{ route('save-url-to-database') }}"
+                var url = "<?php echo e(route('save-url-to-database')); ?>"
                 axios.post(url, {
                     video_url: vid_url,
                     client: client_id,
@@ -497,7 +494,7 @@
                         const fd = new FormData(form);
                         fd.append("file", blobs); // where `.ext` matches file `MIME` type
                         fd.append('fileName', name);
-                        var url = "{{ route('save-video') }}"
+                        var url = "<?php echo e(route('save-video')); ?>"
                         return axios.post(url, fd, {
                             headers: {
                                 "Content-Type": "application/json"
@@ -591,7 +588,7 @@
                 icon: 'info',
                 title: '録画をキャンセルしてよろしいですか？',
             }).then((result) => {
-                var current_url = "{{ dirname(url()->current()) }}";
+                var current_url = "<?php echo e(dirname(url()->current())); ?>";
                 var url = current_url + "/dashboard?client_id=" + id;
                 window.location = url;
             })
@@ -691,7 +688,7 @@
             filename = fileInput.files[0];
             $('#pdf-name').innerHTML = filename
             formData.append('file', fileInput.files[0])
-            var url = "{{ route('get-pdf-source') }}"
+            var url = "<?php echo e(route('get-pdf-source')); ?>"
             axios.post(url, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
@@ -716,4 +713,6 @@
                 })
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.blank-nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\waiton-dev\resources\views/host/individual-clients/video-creation.blade.php ENDPATH**/ ?>
