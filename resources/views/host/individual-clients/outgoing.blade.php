@@ -27,7 +27,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2" rowspan="2"><input type="file" name="file" id="file"
-                                                            class="form-control d-block" accept=".doc,.docx,.pdf,.csv"></td>
+                                                            class="form-control d-block"></td>
                                                     <td><input type="radio" name="require_action" id="on" value="0">承認要求あり
                                                     </td>
                                                 </tr>
