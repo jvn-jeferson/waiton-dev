@@ -84,9 +84,9 @@
 
                                 </ul>
 
-                                <a href="various-settings" class="btn btn-primary btn-block"><b>Profile</b></a>
+                                <a href="<?php echo e(route('account')); ?>" class="btn btn-primary btn-block"><b>Profile</b></a>
 
-                                <a href="#" class="btn btn-danger btn-block"><b>Logout</b></a>
+                                <a href="<?php echo e(route('logout')); ?>" class="btn btn-danger btn-block"><b>Logout</b></a>
                             </div>
                             <!-- /.card-body -->
                         </div>
