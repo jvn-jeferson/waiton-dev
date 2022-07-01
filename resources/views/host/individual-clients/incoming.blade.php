@@ -67,7 +67,7 @@
             var file_id = $('input#select:checked').map(function() {
                 return this.value
             }).get()
-
+            console.log(file_id);
             var url = "{{ route('download-file') }}"
             axios.post(url, {
                 file_id: file_id

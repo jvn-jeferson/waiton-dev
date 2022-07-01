@@ -541,7 +541,7 @@ class HostController extends Controller
 
     public function download_file(Request $request)
     {
-        $data = [];
+        $data = array();
         $client_upload = ClientUpload::whereIn('id', $request->file_id)->get();
 
         foreach ($client_upload as $file) {
@@ -551,10 +551,10 @@ class HostController extends Controller
             $file_db = Files::findOrFail($file->file_id);
             $file_url = urlencode($file_db->path);
             $name = $file_db->name;
-            $data[] = array(
+            array_push($data, array(
                 'file_url' => $file_url,
                 'file_name' => e($name)
-            );
+            ));
         }
         return response()->json($data);
     }
