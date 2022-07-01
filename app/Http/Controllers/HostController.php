@@ -583,7 +583,7 @@ class HostController extends Controller
         $id = $request->client_id;
         $request->validate(
             [
-                'file' => 'required|mimes:doc,docx,pdf,csv',
+                'file' => 'required',
                 'comment' => 'required',
                 'require_action' => 'required'
             ]
